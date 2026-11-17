@@ -449,6 +449,89 @@ All three had an advantage the project's own models did not: they were fitted on
 
 ---
 
+# M4: six labs instead of one
+
+## Why scale up, and why blood from six labs rather than many tissues?
+
+Everything up to M3 used one dataset from one lab. A conclusion from one lab might be about that lab's protocol, not about the methods. M4 asks whether the findings hold across labs, and adds the two harder tests from the plan: a whole lab held out, and a cell type held out.
+
+**The choice:** six healthy adult blood datasets from Census 2025-01-30, chosen for different labs and 10x chemistries (3' v2, 3' v3, 5' v1, 5' v2): Schulte-Schrepping, Hao, Stephenson, COMBAT, AIDA (30 of 508 donors) and OneK1K (30 of 981 donors). At most 500 cells per donor. 63,100 cells and 128 donors after quality control (`results/m4/m4_blood/summary.json`).
+
+**Why one tissue:** the held-out-lab test only works if the held-out lab's cell types also exist in the training labs. Across tissues, most cell types would exist in only one dataset. Recorded as a change from the plan's "multi-tissue".
+
+**Why cap cells per donor:** two of the datasets have hundreds of donors and one donor in Hao has 20,000 cells. Without a cap they would dominate training and the scores.
+
+---
+
+## How do you compare labels across labs that name cells differently?
+
+Each lab labels at its own level of detail. COMBAT says "CD4-positive T cell" where Hao distinguishes naive, central memory and effector memory. Some labels are catch-alls ("T cell", "blood cell").
+
+**The choice:** a hand-written table (`cellmap.labels.LINEAGE`) maps all 75 names to 12 lineages every lab resolves: CD4 T, CD8 T, other T, NK, innate lymphoid, B, plasma, monocyte, dendritic, platelet, erythrocyte, progenitor. Names that fit no single lineage are dropped (541 cells, listed in the summary). Any label not in the table raises an error, so a new dataset cannot slip in unchecked.
+
+**What you lose:** fine subtypes. M4 scores are at lineage level and are not comparable with M1 to M3's 19-type scores.
+
+---
+
+## The gene trap, and how it was avoided
+
+The Census pads every dataset to the full gene list. A gene one lab never measured shows up as zero in all of its cells, which looks like "not expressed" and would be learned as a difference between labs. **Only genes measured in all six datasets are kept**, using the Census gene presence matrix: 19,110 genes, 17,982 after the "seen in 10 cells" filter.
+
+---
+
+## The two split schemes
+
+- **Held-out people** (5 seeds): donors pooled across all labs; test donors come from labs that also appear in training.
+- **Held-out lab** (6 folds): every cell of one dataset is test; the model never saw anything from that lab.
+
+---
+
+## M4 result
+
+Means over folds, 12 lineages (`results/m4/m4_blood/metrics_*.csv`).
+
+The transformer row is pending: it is being trained on a Colab GPU, one fold at a time.
+
+| Method | Macro F1, held-out people | Macro F1, held-out lab | scIB aggregate, held-out people | scIB aggregate, held-out lab |
+|---|---|---|---|---|
+| HVG + PCA | 0.776 | 0.765 | 0.621 | 0.713 |
+| PCA + Harmony | 0.749 | 0.761 | 0.702 | 0.719 |
+| VAE (hand-written) | 0.787 | 0.761 | 0.689 | 0.715 |
+| Census scVI | 0.751 | 0.711 | 0.650 | 0.691 |
+| Geneformer (fine-tuned) | 0.699 | 0.677 | 0.560 | 0.699 |
+| TranscriptFormer | 0.730 | 0.732 | 0.509 | 0.665 |
+| Transformer (hand-written) | pending | pending | pending | pending |
+
+**Against the rule (beat both baselines in most folds, on one measure): no method passes in either scheme.**
+
+**What changed with more data, the VAE:** on one dataset it tied PCA and lost to Harmony everywhere. With six labs, on held-out people, it beats PCA on scIB aggregate in 5 of 5 splits and Harmony on macro F1 in 4 of 5. It does not beat both on the same measure, so by the rule it is not better, but it is the closest any method came. A reasonable reading, untested: a model with a donor-aware decoder benefits more from many donors and labs than a linear method does.
+
+**Held-out lab:** PCA, Harmony and the VAE all land around 0.76 macro F1. The pretrained models stay behind (0.68 to 0.73). The hardest held-out lab is Stephenson (0.61 to 0.70 across methods); the easiest is COMBAT (0.83 to 0.89), whose cells cover only 9 of the 12 lineages, which likely makes macro F1 easier there (not checked).
+
+**Why the two schemes are only roughly comparable:** a donor-split test set mixes all labs, a held-out-lab test set is one lab with its own mix of cell types. A score going up or down between schemes is partly that mix. The figure says so.
+
+---
+
+## The held-out cell type
+
+Split seed 0. One lineage at a time is removed from every training cell; methods are refitted; the held-out lineage's test cells are examined (`results/m4/m4_blood/heldout_types.csv`).
+
+| Held out | Method | Still groups together (unseen) | Same, when seen in training | Labelled as |
+|---|---|---|---|---|
+| B cell (956 cells) | PCA / Harmony / VAE | 0.980 / 0.983 / 0.978 | 0.980 / 0.981 / 0.979 | plasma cell, 98 percent |
+| Dendritic cell (174) | PCA / Harmony / VAE | 0.772 / 0.781 / 0.699 | 0.825 / 0.873 / 0.813 | monocyte, 72 to 74 percent |
+
+**"Still groups together"** is the share of a cell's 15 nearest held-out neighbours that are the same lineage. If the type were scattered it would be near its share of the cells (7.5 percent for B cells, 1.4 percent for dendritic cells).
+
+**Reading:**
+- Unseen B cells stay a tight group in every method, and are called plasma cells, their closest relatives (plasma cells develop from B cells).
+- Unseen dendritic cells are called monocytes, their closest myeloid relatives, and lose some grouping. The VAE loses the most (0.81 to 0.70).
+- A possible reading, one split and 174 cells: a model trained without a rare type has less capacity reserved for it. PCA, which learns less from the training cells, is hurt less.
+
+**What to say:** "When I removed B cells from training entirely, every method still kept them together and put them next to plasma cells, which is biologically right. Dendritic cells were harder: they got absorbed toward monocytes, and my VAE lost the most structure for them. That is one split, so I would treat it as a lead."
+
+---
+
 ## What you built so far, file by file
 
 | File | What it does | Key decision |
@@ -472,3 +555,7 @@ All three had an advantage the project's own models did not: they were fitted on
 | `src/cellmap/provenance.py` | Commit hash and versions saved with results | Marks results from uncommitted code as "+dirty" |
 | `scripts/atlas_export.py`, `site/` | The interactive 3D atlas | One self-contained page, works on GitHub Pages |
 | `notebooks/m5_transformer_gpu.ipynb` | Trains the transformer on a Colab GPU | Rebuilds data and checks it matches M0 before training |
+| `configs/m4_blood.yaml`, `scripts/m4_prepare_data.py` | The six-lab dataset | Genes measured in all labs; 500 cells per donor; 12 shared lineages |
+| `scripts/m4_benchmark.py` | Every method under both schemes | One results file per method; resumable, so a GPU machine adds the transformer |
+| `src/cellmap/novelty.py`, `scripts/m4_heldout_type.py` | Held-out cell type test | Grouping measured on test cells; where kNN without the type puts it |
+| `notebooks/m4_transformer_gpu.ipynb` | One-cell Colab run for the M4 transformer | Pushes after every fold, resumes after a disconnect |

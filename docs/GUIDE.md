@@ -318,6 +318,33 @@ Downloaded Census scVI (50 dimensions), the fine-tuned Geneformer (512) and Tran
 - **TranscriptFormer** tied PCA on kNN accuracy and was lower on every scIB score.
 - **Geneformer** was lower than PCA on every metric in all 5 splits, despite having been fine-tuned with cell-type labels.
 
+### M4. Six labs (transformer still training)
+
+**What was built:** six healthy blood datasets from different labs and 10x chemistries, 63,100 cells from 128 donors, at most 500 cells per donor, only genes all six labs measured. Labs name cell types differently, so every label was mapped to one of 12 shared lineages (CD4 T, CD8 T, B, monocyte, and so on), and cells with labels too vague to place were dropped.
+
+**Two tests per method:**
+- **Held-out people:** test donors come from labs also seen in training (5 splits).
+- **Held-out lab:** a whole lab is never seen in training (6 folds, one per lab).
+
+**Result so far, kNN macro F1 over 12 lineages:**
+
+| Method | Held-out people | Held-out lab |
+|---|---|---|
+| HVG + PCA | 0.776 | 0.765 |
+| PCA + Harmony | 0.749 | 0.761 |
+| VAE (hand-written) | 0.787 | 0.761 |
+| Census scVI | 0.751 | 0.711 |
+| Geneformer (fine-tuned) | 0.699 | 0.677 |
+| TranscriptFormer | 0.730 | 0.732 |
+
+- **Still no method beats both baselines** by the rule.
+- **The VAE improved relative to the baselines with more data:** on held-out people it beats PCA on the integration score in 5 of 5 splits and Harmony on macro F1 in 4 of 5, but not both on one measure.
+- **On an unseen lab,** PCA, Harmony and the VAE come out close (about 0.76); the pretrained models stay behind.
+
+**Held-out cell type:** B cells removed from training still form their own group in every method and are called plasma cells, their closest relatives. Dendritic cells are called monocytes, also their closest relatives, and lose some grouping, the VAE the most. One split, so a lead rather than a finding.
+
+Details and caveats: `docs/NOTES.md`, section M4.
+
 ### The explainer page and the interactive atlas
 
 **The explainer, `site/index.html`, is the front page.** A scroll-driven story: the 3D map on the right changes as you read, from plain PCA, to the chemistry batch effect, to Harmony fixing it, to the held-out-people test, to each deep model, then the results charts. Every number on it is read from `results/` when the page is built (`scripts/explainer_export.py`), including the headline verdict, which applies the "4 of 5 splits against both baselines" rule automatically.
@@ -378,7 +405,7 @@ Kept here because "what went wrong and how you caught it" is often the best thin
 
 ## Part 7. What is left
 
-**M4. More data (in progress).** Six healthy blood datasets from different labs and chemistries, at most 500 cells per donor, labels mapped to 12 shared lineages, only genes every lab measured. Every method is rerun under two schemes, plus a held-out cell type test:
+**M4. More data (CPU part done; transformer training on Colab, see Part 4).** Six healthy blood datasets from different labs and chemistries, at most 500 cells per donor, labels mapped to 12 shared lineages, only genes every lab measured. Every method is rerun under two schemes, plus a held-out cell type test:
 - **Donor splits across all six labs** (five seeds).
 - **A held-out dataset:** a whole lab never seen in training (six folds, one per lab).
 - **A held-out cell type:** a type removed from training entirely, to see where each method puts it.
@@ -454,6 +481,7 @@ This answers whether the findings above are specific to one dataset.
 
 ## Update log
 
+- **2026-11-18:** M4 results (all but the transformer) added to Part 4, including the held-out cell type test.
 - **2026-11-17 (night):** Explainer page built as the front page (`site/index.html`); the atlas moved to `site/atlas.html`.
 - **2026-11-17 (night):** M4 design recorded in Part 7; public site choice recorded.
 - **2026-11-17:** Guide created after M0, M1, M2, M3, M5 and M6. The transformer's GPU results are included.
