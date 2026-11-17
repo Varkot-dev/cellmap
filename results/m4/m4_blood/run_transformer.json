@@ -1,6 +1,6 @@
 {
   "method": "transformer",
-  "commit": "6ab357e8ac3bb59cdf34e2763dabb33a01bfb010",
+  "commit": "4b06630866a6becadf5ea65b4b6d529d4eee0668",
   "device": "cuda",
   "torch_threads": 4,
   "timings": [
@@ -8,6 +8,11 @@
       "scheme": "donor",
       "fold": "seed0",
       "seconds": 880.5187982280004
+    },
+    {
+      "scheme": "donor",
+      "fold": "seed1",
+      "seconds": 861.4777570959996
     }
   ],
   "versions": {
