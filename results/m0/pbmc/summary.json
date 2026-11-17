@@ -1,0 +1,124 @@
+{
+  "config": {
+    "name": "pbmc",
+    "census": {
+      "version": "2025-01-30",
+      "uri": "s3://cellxgene-census-public-us-west-2/cell-census/2025-01-30/soma/",
+      "region": "us-west-2",
+      "organism": "Homo sapiens",
+      "dataset_id": "5e717147-0f75-4de1-8bd2-6fda01b8d75f",
+      "obs_filter": "disease == 'normal' and is_primary_data == True"
+    },
+    "subsample_per_donor": null,
+    "qc": {
+      "min_counts": 500,
+      "min_genes": 200,
+      "max_pct_mt": 15.0,
+      "min_cells_per_type": 50,
+      "min_cells_per_gene": 10
+    },
+    "split": {
+      "seed": 0,
+      "val_fraction": 0.2,
+      "test_fraction": 0.2
+    },
+    "normalize": {
+      "target_sum": 10000
+    }
+  },
+  "versions": {
+    "anndata": "0.13.4",
+    "scanpy": "1.13.0",
+    "numpy": "2.5.5",
+    "cellxgene-census": "1.18.0"
+  },
+  "raw": {
+    "cells": 45787,
+    "genes_detected": 20402
+  },
+  "cell_qc": {
+    "cells_before": 45787,
+    "fail_min_counts": 231,
+    "fail_min_genes": 0,
+    "fail_max_pct_mt": 761,
+    "cells_after": 44796
+  },
+  "rare_cell_types_dropped": {
+    "double negative thymocyte": 40
+  },
+  "gene_filter": {
+    "genes_before": 20402,
+    "genes_after": 18002
+  },
+  "final": {
+    "cells": 44756,
+    "genes": 18002,
+    "donors": 21,
+    "cell_types_fine": 19,
+    "cell_types_coarse": 10
+  },
+  "splits": {
+    "train": {
+      "donors": 13,
+      "cells": 33720,
+      "cell_types_fine": 19,
+      "assays": {
+        "10x 3' v2": 11,
+        "10x 3' v3": 2
+      },
+      "donor_ids": [
+        "C2P01H",
+        "C2P05F",
+        "C2P10H",
+        "C2P15H",
+        "C2P19H",
+        "Five",
+        "P02H",
+        "P06F",
+        "P08H",
+        "P09H",
+        "P13H",
+        "P17H",
+        "one_Ten"
+      ]
+    },
+    "val": {
+      "donors": 4,
+      "cells": 5676,
+      "cell_types_fine": 19,
+      "assays": {
+        "10x 3' v2": 4
+      },
+      "donor_ids": [
+        "C2P07H",
+        "C2P16H",
+        "P07H",
+        "P20H"
+      ]
+    },
+    "test": {
+      "donors": 4,
+      "cells": 5360,
+      "cell_types_fine": 19,
+      "assays": {
+        "10x 3' v2": 4
+      },
+      "donor_ids": [
+        "C2P13F",
+        "P04H",
+        "P15F",
+        "P18F"
+      ]
+    }
+  },
+  "donors_shared_between_splits": {
+    "train&val": 0,
+    "train&test": 0,
+    "val&test": 0
+  },
+  "cell_types_missing_from_a_split": {
+    "train": [],
+    "val": [],
+    "test": []
+  }
+}
