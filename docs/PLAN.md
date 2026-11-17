@@ -87,7 +87,7 @@ A check you can do by hand: with the KL weight at 0 the model is a plain autoenc
 
 | # | Milestone | Done when |
 |---|---|---|
-| M0 | Data pipeline on a small blood dataset: load, quality control, normalize, donor-level splits | Counts of cells, donors and cell types reported; split verified to share no donors |
+| M0 (built 2026-11-17, quiz pending) | Data pipeline on a small blood dataset: load, quality control, normalize, donor-level splits | Counts of cells, donors and cell types reported; split verified to share no donors |
 | M1 | Classical baselines (methods 1 and 2) and the full evaluation harness | scIB metrics and kNN accuracy produced by one script |
 | M2 | Hand-written VAE (method 4) with unit tests for the negative binomial likelihood and the KL term | Loss components match a hand-computed example; KL weight sweep shows both failure modes |
 | M3 | Parity with `scvi-tools` (method 5) | Metrics agree within seed-to-seed noise, or the difference is explained |
@@ -127,4 +127,19 @@ scanpy, anndata, cellxgene-census, scvi-tools (parity only), harmonypy, PyTorch,
 10. If your deep model did not beat the baseline, what would you conclude and what would you try next?
 
 ## Decision log
-(empty)
+
+**2026-11-17, M0**
+
+- **Dataset for M0.** Healthy-donor PBMCs from Schulte-Schrepping et al. (Cell 2020), CELLxGENE dataset `5e717147-0f75-4de1-8bd2-6fda01b8d75f`: 45,787 cells, 21 donors, 20 cell types, two 10x chemistries. Why: the classic PBMC 3k tutorial data comes from a single donor, so a donor-level split is impossible on it. This dataset is still small, has enough donors for train / val / test, and has standardized ontology labels. A first candidate (Binvignat et al. 2024 controls) was rejected because its cells have a median of only 388 UMIs.
+- **Census is used from M0, not only from M4.** It is the simplest source that carries donor ids and ontology labels for every cell. Release pinned to `2025-01-30` (long-term support). Verified against the current package: `cellxgene-census` 1.18.0, `tiledbsoma` 2.3.0.
+- **Census opened by S3 location.** The config passes the public S3 URI of the pinned release directly, so a run does not depend on the Census directory web service (which was unreachable from the build machine).
+- **Order of steps, chosen to prevent leakage.** (1) Cell quality control with fixed thresholds, (2) drop cell types with fewer than 50 cells, (3) split by donor, (4) gene filter fitted on training donors only, (5) per-cell normalization with a fixed target sum of 10,000, then log(1 + x). Steps that use fixed constants or only a cell's own values can run before the split; any step that estimates something from many cells runs after it, on training donors.
+- **Fixed target sum (10,000) rather than the median library size.** The median is a statistic of the dataset, so it would differ between splits and would be a small leak if computed on all donors.
+- **QC thresholds:** at least 500 UMIs, at least 200 genes, at most 15% mitochondrial UMIs. They remove 991 of 45,787 cells (231 low counts, 761 high mitochondrial, some both). The data had already been filtered by the original authors, so these are a light safety net.
+- **Dropped cell type:** "double negative thymocyte" (40 cells after QC, below the 50-cell minimum).
+- **Kept but flagged:** the generic label "lymphocyte" (170 cells) is retained at the fine level and mapped to "unresolved lymphocyte" at the coarse level. Open question for M1: exclude it from classification metrics or not.
+- **Coarse labels** are a hand-written mapping of the 20 fine types to 10 lineages in `src/cellmap/labels.py`.
+- **Known limits of split seed 0:** both 10x 3' v3 donors are in train, one donor holds a third of the training cells, and some types are very rare in test (3 platelets). Recorded rather than fixed by picking a nicer seed, because choosing the seed by looking at the outcome is its own form of leakage. Repeating over several donor splits (section 4.3) addresses it.
+- **Python version.** Developed on 3.13; CI runs 3.12. The plan's "3.11+" still holds.
+
+**Working principle (proposed 2026-11-17, owner to confirm): build ahead, understand before it counts.** Code for the next milestone may be built ahead (including by parallel agents), but a milestone is only ticked, and its numbers only enter the README, after its lesson has been taught and its quiz answered.
