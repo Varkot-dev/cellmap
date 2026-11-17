@@ -5,6 +5,8 @@ and standard deviation, the principal axes) is fitted on training cells only and
 unchanged to validation and test cells. Harmony is the one exception, and its docstring says why.
 """
 
+import inspect
+
 import anndata as ad
 import harmonypy
 import numpy as np
@@ -47,15 +49,32 @@ def select_hvg(
         obs["batch"] = adata.obs[batch_key].to_numpy()[train_mask].astype(str)
     train = ad.AnnData(X=adata.X[train_mask], obs=obs, var=pd.DataFrame(index=adata.var_names))
 
-    # `batch` takes an accessor string; the older `batch_key` argument is deprecated in scanpy 1.13.
-    stats = sc.pp.highly_variable_genes(
+    stats = _hvg_stats(train, n_top_genes, batched=batch_key is not None)
+    return stats["highly_variable"].to_numpy(dtype=bool)
+
+
+def _hvg_stats(train: ad.AnnData, n_top_genes: int, batched: bool) -> pd.DataFrame:
+    """scanpy's "seurat" HVG table, on scanpy 1.13+ and on older versions.
+
+    scanpy 1.13 renamed the arguments (`batch_key` became `batch`, `inplace=False` became
+    `out=True`) and needs Python 3.13. Older scanpy still runs on Python 3.11 and 3.12, which is
+    what Colab and the CI runner use, so both spellings are supported. The algorithm is the same.
+    """
+    if "batch" in inspect.signature(sc.pp.highly_variable_genes).parameters:
+        return sc.pp.highly_variable_genes(
+            train,
+            flavor="seurat",
+            n_top_genes=n_top_genes,
+            batch="obs.batch" if batched else None,
+            out=True,
+        )
+    return sc.pp.highly_variable_genes(
         train,
         flavor="seurat",
         n_top_genes=n_top_genes,
-        batch=None if batch_key is None else "obs.batch",
-        out=True,
+        batch_key="batch" if batched else None,
+        inplace=False,
     )
-    return stats["highly_variable"].to_numpy(dtype=bool)
 
 
 def pca_embed(
