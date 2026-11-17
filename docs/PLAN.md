@@ -176,4 +176,9 @@ Written down now, before the VAE has been scored, so the rules cannot be bent to
 - **M5 transformer** written by hand: expressed genes as tokens, per-cell rank bins for the level, no positions, masked gene modeling plus a second head that trains the [CLS] embedding. Training on the full data moved to a Colab GPU notebook because one CPU run would take hours per split.
 - **Interactive atlas** built as one self-contained HTML file with WebGL, so it works on GitHub Pages without a server.
 
+**2026-11-17, CI and Python version**
+
+- CI had been failing at the install step since scanpy was pinned to 1.13 or later: scanpy 1.13 needs Python 3.13, while CI and Colab run 3.12. Gene selection now works with scanpy 1.11 to 1.13. On the PBMC data, scanpy 1.12.6 on Python 3.12 and scanpy 1.13.0 on Python 3.13 select identical genes, for both per-donor and pooled selection.
+- The Colab notebook also failed `ruff check`; its cells were rewritten to pass rather than excluding notebooks from lint.
+
 **Working principle (owner's decision, 2026-11-17): full speed, learn afterwards.** The owner chose to have all milestones built as fast as possible, with parallel agents, and to study the material at the end. This replaces "teach before you build" and the per-milestone quiz in `CLAUDE.md` for the build phase. What makes that safe: every decision is written down as it is made (this log and `docs/NOTES.md`), so the reasoning can be read and defended later. The honesty rules are unchanged: no number enters the README unless a script here produced it. Lessons and quizzes move to the end.
