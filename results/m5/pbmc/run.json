@@ -1,0 +1,52 @@
+{
+  "name": "pbmc",
+  "commit": "ad73357503adfe128a61cf44d1858f5560ef0457",
+  "device": "cuda",
+  "torch_threads": 2,
+  "epochs": 30,
+  "batch_size": 64,
+  "n_top_genes": 2000,
+  "settings": "cellmap.transformer.train_transformer defaults except those listed here",
+  "runs": [
+    {
+      "split_seed": 0,
+      "train_seconds": 686.5878072200001,
+      "n_parameters": 1097834,
+      "final_val_accuracy": 0.7489929963348696,
+      "val_gene_majority_baseline": 0.6820650530415744
+    },
+    {
+      "split_seed": 1,
+      "train_seconds": 398.0584003680001,
+      "n_parameters": 1097834,
+      "final_val_accuracy": 0.7220541401273886,
+      "val_gene_majority_baseline": 0.6657245222929936
+    },
+    {
+      "split_seed": 2,
+      "train_seconds": 679.2774325150001,
+      "n_parameters": 1097834,
+      "final_val_accuracy": 0.738669444221884,
+      "val_gene_majority_baseline": 0.6524584034398954
+    },
+    {
+      "split_seed": 3,
+      "train_seconds": 385.0106980749997,
+      "n_parameters": 1097834,
+      "final_val_accuracy": 0.6389215405687184,
+      "val_gene_majority_baseline": 0.5934491076721794
+    },
+    {
+      "split_seed": 4,
+      "train_seconds": 593.8702363849998,
+      "n_parameters": 1097834,
+      "final_val_accuracy": 0.6700669823993545,
+      "val_gene_majority_baseline": 0.614812233801125
+    }
+  ],
+  "versions": {
+    "torch": "2.14.1+cu130",
+    "scanpy": "1.13.0",
+    "scib-metrics": "0.6.2"
+  }
+}
