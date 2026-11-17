@@ -1,0 +1,130 @@
+# cellmap: plan
+
+Learned representations of single cells from gene-expression data, evaluated honestly.
+
+## 1. The question
+
+Single-cell RNA sequencing measures, for each cell, how many RNA copies of each of roughly 20,000 to 30,000 genes were captured. A dataset is a huge, sparse table: cells by genes. The central computational task is to turn each cell's row into a short vector (an embedding) in which cells of the same type sit together regardless of which donor or lab they came from.
+
+In the last few years large pretrained "foundation models" for cells have been proposed. Careful evaluations have found they often do not beat much simpler methods. This project asks that question directly and from scratch:
+
+**On public data, with splits that prevent leakage, how much do deep models add over simple baselines for representing cells, and where?**
+
+This extends work you have already done (tree-based classifiers on single-cell data with patient-level splits) into representation learning.
+
+## 2. What exists today (verify before building)
+
+**The key paper to anchor on.** Kedzierska, Crawford, Amini and Lu, "Zero-shot evaluation reveals limitations of single-cell foundation models" (Genome Biology, 2025; preprint titled "Assessing the limits of zero-shot foundation models in single-cell biology"). They evaluate two popular pretrained models, Geneformer and scGPT, used without fine-tuning, on cell-type clustering and batch integration across five datasets. Both were unreliable in that setting and were often outperformed by simpler methods: selecting highly variable genes (HVG), Harmony, and scVI. Code: the `microsoft/zero-shot-scfoundation` repository. Read this first; this project follows its evaluation logic.
+
+**Models and tools.**
+- **Scanpy** and **AnnData**: the standard Python stack for single-cell analysis.
+- **scVI** (Lopez and coauthors, 2018), in the `scvi-tools` library: a variational autoencoder with a count-based likelihood. The standard deep baseline. You will write a small version by hand and check it against the library.
+- **Harmony**: a fast, non-deep batch-correction method that works on PCA coordinates.
+- **Geneformer** and **scGPT**: pretrained transformers for cells. Used here only to extract embeddings, as a comparison point.
+
+**Evaluation standard: scIB.** Luecken and coauthors, "Benchmarking atlas-level data integration in single-cell genomics" (Nature Methods, 2022). It defines 14 metrics in two groups: removal of batch effects, and conservation of biological variation. The `scib` Python package implements them (check also for the faster `scib-metrics` package). A 2025 follow-up (scIB-E) argues the original metrics miss variation within a cell type; worth reading before finalizing metrics.
+
+**Data.**
+- **CZ CELLxGENE Census**: a standardized public collection of single-cell data with a Python API (`pip install cellxgene-census`). You can query by tissue and cell type and get an AnnData object, with donor and dataset identifiers for every cell. Pin a census version for reproducibility.
+- **Tabula Sapiens**: a multi-organ human reference atlas, available through CELLxGENE.
+- Start small with a standard blood dataset (PBMC) to build the pipeline, then scale.
+
+## 3. Background (learn first, intuition and math together)
+
+**Why counts need a special model.** The data are counts with many zeros and variance larger than the mean. A Gaussian is a poor fit. The negative binomial distribution has a mean and a separate dispersion parameter, so it can model that extra variance.
+
+**Batch effects.** Two cells of the same type measured in different labs differ for technical reasons. A good embedding removes that difference while keeping real biological differences. These two goals pull against each other: remove too much and distinct cell types merge.
+
+**The VAE objective.** An encoder maps a cell's counts x to a distribution over a short vector z. A decoder maps z (and the batch label) back to the parameters of a count distribution. Training maximizes:
+
+**ELBO = E[ log p(x | z, batch) ] - KL( q(z | x) || p(z) )**
+
+- First term: reconstruct the counts well.
+- Second term: keep the code distribution close to a standard normal, which regularizes the space.
+- Giving the batch label to the decoder lets the decoder explain batch differences, so the code z does not have to. That is the mechanism for batch correction.
+
+A check you can do by hand: with the KL weight at 0 the model is a plain autoencoder; with a very large weight the codes collapse to the prior and all cells look the same. Seeing both failure modes is a useful first experiment.
+
+**Masked modeling for the transformer.** Hide a fraction of genes in each cell and train the model to predict them from the rest, as in masked language modeling. The design question is how to represent a cell as a sequence: which genes, in what order, and how to encode expression level (binning, rank ordering or a continuous embedding). Geneformer and scGPT answer differently; read how each does it.
+
+## 4. Design
+
+### 4.1 Methods compared, in increasing complexity
+1. Highly variable genes, then PCA
+2. PCA plus Harmony
+3. A linear autoencoder
+4. A VAE with negative binomial likelihood, written by hand in PyTorch
+5. The same model from `scvi-tools` (parity check for number 4)
+6. A small transformer trained with masked gene modeling on this project's own data
+7. Embeddings from one or two pretrained models, used without fine-tuning
+
+### 4.2 Splits (the part most projects get wrong)
+- Split by **donor**, never by cell. Cells from one donor are correlated; a random split leaks.
+- Hold out one entire **dataset or lab** as a harder test of generalization.
+- Hold out one or two **cell types** completely to see what each method does with a type it has never seen.
+
+### 4.3 Evaluation
+- scIB biological-conservation metrics (for example NMI, ARI, cell-type silhouette) and batch-correction metrics (for example batch silhouette, graph connectivity), reported separately and as the standard aggregate.
+- A k-nearest-neighbor cell-type classifier on frozen embeddings, with accuracy and macro F1 on held-out donors. Macro F1 matters because rare cell types are the hard ones.
+- Label efficiency: how accuracy changes with 1%, 10% and 100% of labels.
+- Compute cost for each method: training time, memory, parameters.
+- Uncertainty: repeat over several seeds and donor splits; report intervals, and say "no detectable difference" when intervals overlap.
+
+### 4.4 Analyses that show understanding of the biology
+- Which cell types does every method confuse, and are those types biologically close?
+- Do known marker genes line up with directions in the learned space?
+- What does each method do with the held-out cell type: place it near its closest relative, or scatter it?
+- Where batch correction goes too far: find a pair of real cell types that an aggressive setting merges.
+
+### 4.5 Pitfalls to design against
+- Selecting highly variable genes using test donors leaks information. Select on training donors only.
+- Normalization choices change results; fix one pipeline and state it.
+- Cell-type labels come from the original studies and are inconsistent across datasets. Use the standardized ontology labels in CELLxGENE and report at a coarse and a fine level.
+- A pretrained model may have seen the evaluation data during its pretraining. Check each model's training data and note any overlap.
+- Do not claim more than the data show. If the VAE and PCA plus Harmony are indistinguishable, that is the finding.
+
+## 5. Milestones
+
+| # | Milestone | Done when |
+|---|---|---|
+| M0 | Data pipeline on a small blood dataset: load, quality control, normalize, donor-level splits | Counts of cells, donors and cell types reported; split verified to share no donors |
+| M1 | Classical baselines (methods 1 and 2) and the full evaluation harness | scIB metrics and kNN accuracy produced by one script |
+| M2 | Hand-written VAE (method 4) with unit tests for the negative binomial likelihood and the KL term | Loss components match a hand-computed example; KL weight sweep shows both failure modes |
+| M3 | Parity with `scvi-tools` (method 5) | Metrics agree within seed-to-seed noise, or the difference is explained |
+| M4 | Scale up through CELLxGENE Census to a multi-tissue, multi-dataset set; rerun everything | Held-out dataset and held-out cell-type results added |
+| M5 | Small transformer with masked gene modeling (method 6) | Trained on a free GPU; added to the comparison |
+| M6 | Pretrained model embeddings (method 7) | Added to the comparison with training-data overlap noted |
+| M7 | Analyses in 4.4, interactive atlas, write-up | README complete, repo ready to make public |
+
+Stretch: semi-supervised labels (scANVI style); mapping a new dataset onto a trained reference; applying the pipeline to a tumor dataset, which connects to your earlier glioblastoma work.
+
+## 6. Visuals
+
+- **Hero:** an interactive 3D map of the cells (UMAP of the embedding rendered with WebGL, for example deck.gl or Plotly, hosted on GitHub Pages). Rotate it, color by cell type, donor or the expression of any gene, and switch between methods to watch the same cells rearrange.
+- **Before and after batch correction:** the same cells colored by lab, uncorrected vs corrected.
+- **The trade-off plot:** batch-correction score against biological-conservation score, one point per method with error bars.
+- **Cost vs quality:** training time against kNN macro F1.
+- **Confusion matrix** between cell types for the best method.
+- **Held-out cell type:** where each method places a type it never saw.
+- **KL sweep:** the embedding at three KL weights, from no structure to collapse.
+
+## 7. Compute plan
+Baselines and the VAE on a subsample run on a laptop. The full VAE and the small transformer are expected to fit a free Colab or Kaggle GPU; measure and record time and memory. Cache preprocessed data as `.h5ad` files. Keep a `--tiny` config (a few thousand cells) that runs the whole pipeline in minutes.
+
+## 8. Stack
+scanpy, anndata, cellxgene-census, scvi-tools (parity only), harmonypy, PyTorch, scib or scib-metrics, scikit-learn, umap-learn, Plotly or deck.gl, pytest.
+
+## 9. Questions you should be able to answer
+1. Why is a negative binomial likelihood a better fit than a Gaussian for these data?
+2. Write the ELBO and explain each term. What happens at KL weight 0 and at a very large weight?
+3. How does giving the batch label to the decoder remove batch effects from the code?
+4. Why split by donor, and what would a random split have reported instead?
+5. What do batch-correction metrics and biological-conservation metrics each measure, and why can a method score well on one by failing the other?
+6. Why macro F1 instead of accuracy?
+7. How is a cell turned into a sequence for a transformer, and what are the trade-offs between the approaches?
+8. Why can a large pretrained model lose to PCA on this task?
+9. What is the reparameterization trick and why is it needed?
+10. If your deep model did not beat the baseline, what would you conclude and what would you try next?
+
+## Decision log
+(empty)
