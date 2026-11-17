@@ -13,7 +13,8 @@ Varshith owns this repo. He is building it to learn the material deeply and to s
 2. Teach before you build. At the start of each milestone, explain the concepts it needs with intuition and math together and two or three worked examples, using plain text math (no LaTeX). Then build.
 3. After each milestone, quiz him on it one question at a time, waiting for each answer. Use the question list at the end of the plan and add your own.
 4. Keep `docs/PLAN.md` current: tick off milestones, and record changed decisions and why in a "Decision log" section at the bottom.
-5. The plan was written in November 2026. Before using any library API, dataset location or package name from it, check the current documentation. If something changed, follow the current docs and note it in the decision log.
+5. Keep `docs/GUIDE.md` current. It is the owner's single document for getting re-oriented: after every milestone, result, mistake or changed decision, update the relevant part and add a line to its update log, in the same commit as the work.
+6. The plan was written in November 2026. Before using any library API, dataset location or package name from it, check the current documentation. If something changed, follow the current docs and note it in the decision log.
 
 ## Commits
 - Commit as the work actually happens: one commit per logical step (a module, its tests, a figure) with a plain message. Several small commits per milestone, pushed when that milestone's tests pass. Never one giant commit.
