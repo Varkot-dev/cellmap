@@ -208,6 +208,136 @@ A: Both. A deep model that beats PCA on scIB but not Harmony has not earned its 
 
 ---
 
+# M2: the hand-written VAE
+
+## What is the model, in plain words?
+
+An encoder reads a cell's counts (log of 1 + count, over 2,000 genes) and outputs a mean and a variance for a 10-number code z. A decoder takes z plus the donor, and outputs, for every gene, the share of the cell's RNA it expects that gene to have. Multiply the share by the cell's actual total count and you have the expected count. The loss asks how likely the real counts are under a negative binomial with that expected count, and adds a penalty (the KL term) for codes that wander away from a standard normal.
+
+File: `src/cellmap/vae.py`. Every piece has a hand-checked test in `tests/test_vae.py`.
+
+---
+
+## Why a negative binomial and not a Gaussian?
+
+Counts are integers, mostly zero, and their variance grows faster than their mean. A Gaussian assumes constant variance and allows negative values. The negative binomial has a mean mu and an inverse dispersion theta, with variance mu + mu^2 / theta. When theta is large it becomes a Poisson; when theta is small the variance is much larger than the mean, which is what real genes look like.
+
+**Evidence it is implemented right:** `nb_log_likelihood` matches `scipy.stats.nbinom.logpmf` (with n = theta, p = theta / (theta + mu)), sums to 1 over x, and tends to the Poisson as theta grows. All three are tests.
+
+---
+
+## Why does the encoder not see the donor, but the decoder does?
+
+**The decoder gets the donor** so it can explain donor-specific differences itself. Then the code z does not have to carry them. That is the whole batch-correction mechanism of this model.
+
+**The encoder does not get the donor** so that a cell from a donor never seen in training can still be embedded. This is what makes donor-level splits possible for a deep model.
+
+**Unseen donors in the decoder:** only needed to compute a validation loss. They get the average of all training donors' one-hot vectors (1/13 each), meaning "decode as a typical training donor".
+
+**This matches scvi-tools' default** (`encode_covariates=False`), checked in its source.
+
+---
+
+## What does the KL weight do? (the plan's "both failure modes")
+
+Loss = reconstruction + w * KL. Sweep over w, split seed 0, scored on VALIDATION donors because picking w is model selection (`results/m2/pbmc/kl_sweep.csv`, written by `scripts/m2_kl_sweep.py`).
+
+| KL weight w | KL per cell (val) | Reconstruction (val) | Latent dimensions in use | kNN macro F1 (val) |
+|---|---|---|---|---|
+| 0 | 52.3 | 310.6 | 10 of 10 | 0.591 |
+| 0.1 | 22.1 | 312.9 | 10 of 10 | 0.614 |
+| 1 | 7.3 | 323.6 | 10 of 10 | 0.638 |
+| 10 | 1.5 | 351.5 | 4 of 10 | 0.503 |
+| 100 | 0.0 | 397.5 | 0 of 10 | 0.258 |
+
+Both failure modes appear on the real data:
+- **Weight 0, plain autoencoder:** KL is 52 per cell, seven times the value at weight 1, and reconstruction is best (310.6). Nothing ties the codes to the prior.
+- **Weight 100, collapse:** KL is 0.003 and no latent dimension varies across cells. Every cell gets essentially the same code, so kNN macro F1 falls to 0.258.
+- **In between:** at weight 10, six of the ten dimensions are already switched off.
+
+**What to say:** "At weight zero it is a plain autoencoder: the codes drift far from the prior and reconstruction is best. As the weight grows the model trades reconstruction for simpler codes, switches dimensions off, and at weight 100 every cell gets the same code. The standard weight of 1 gave the best validation macro F1, so the benchmark uses it."
+
+**Known weakness:** one split, one training seed per weight, 60 epochs. The differences between weights 0.1 and 1 (macro F1 0.614 versus 0.638) are within what a single seed can move.
+
+---
+
+## M2 result: did the VAE beat the baselines?
+
+Five donor splits, test donors (`results/m2/pbmc/metrics_by_split.csv`, compared with `results/m1/pbmc/`). The bar was fixed in advance: better in at least 4 of 5 splits against both baselines.
+
+| Metric | HVG + PCA (50 dims) | PCA + Harmony | VAE (10 dims) | PCA (10 dims) | Linear AE (10 dims) |
+|---|---|---|---|---|---|
+| kNN accuracy, fine | 0.893 | 0.856 | 0.879 | 0.846 | 0.842 |
+| kNN macro F1, fine | 0.664 | 0.657 | 0.646 | 0.525 | 0.519 |
+| scIB bio | 0.735 | 0.801 | 0.737 | 0.733 | 0.730 |
+| scIB batch | 0.569 | 0.662 | 0.600 | 0.527 | 0.530 |
+| scIB aggregate | 0.669 | 0.746 | 0.682 | 0.651 | 0.650 |
+
+**Against the bar:**
+- versus PCA: no detectable difference on kNN or scIB bio. Higher batch score in 4 of 5 splits (+0.031), so a small, consistent batch-correction gain.
+- versus Harmony: lower on scIB in 5 of 5 splits (aggregate -0.064), higher on fine kNN accuracy in 5 of 5 (+0.023). Same trade-off Harmony showed against PCA.
+- versus PCA with the same 10 dimensions: higher macro F1 in 5 of 5 splits (+0.121). The VAE packs much more cell-type information into 10 numbers.
+
+**The linear autoencoder ties 10-dimension PCA**, as theory says it should (its optimum spans the PCA subspace). That is a check that the comparison is set up correctly, not a finding.
+
+**What to say:** "My VAE did not beat the simple baselines. It matched 50-dimension PCA using 10 dimensions and gave a small batch-correction gain, but Harmony on top of PCA was better on every integration metric. That is the result the plan said to report if it happened."
+
+**Known weaknesses:**
+- Latent size 10 follows scvi-tools defaults. A larger code was not tried, so "the VAE loses to Harmony" is for this size only.
+- Training time (230 to 447 seconds per split) was measured while other jobs shared the CPU.
+
+---
+
+# M6: published pretrained-model embeddings
+
+## Where do these embeddings come from, and why not run the models?
+
+CZ CELLxGENE publishes, for each Census release, an embedding of every cell from several models. For release 2025-01-30 that includes Census scVI (50 dims), a fine-tuned Geneformer (512) and TranscriptFormer TF-Sapiens (2048). `src/cellmap/census_embeddings.py` downloads them for this project's 44,756 cells by their Census id, and `scripts/m6_pretrained.py` scores them on the same five splits.
+
+**Why not run the models:** no GPU here, Hugging Face is blocked from this machine, and the published embeddings are exactly what the model authors produced, so there is no risk of running them wrong.
+
+**How cells were matched:** by `soma_joinid`. The script checks that donor and cell type agree for every cell before using the match, and raises if any cell has no embedding.
+
+---
+
+## What did each model see in training? (state this next to every number)
+
+| Model | Saw these cells? | Used cell-type labels? |
+|---|---|---|
+| Census scVI | Yes: trained on all primary Census cells | No |
+| Geneformer (Census version) | Fine-tuned on Census data | **Yes**: multi-task fine-tuning that includes cell type. Not zero-shot |
+| TranscriptFormer TF-Sapiens | Pretrained on 57 million human cells; overlap not checked | No |
+
+All three had an advantage the project's own models did not: they were fitted on data that includes the test donors.
+
+---
+
+## M6 result
+
+| Method | kNN acc (fine) | Macro F1 (fine) | scIB bio | scIB batch | scIB aggregate |
+|---|---|---|---|---|---|
+| TranscriptFormer (2048) | 0.892 | 0.629 | 0.662 | 0.442 | 0.574 |
+| Geneformer, fine-tuned (512) | 0.719 | 0.367 | 0.643 | 0.484 | 0.580 |
+| Census scVI (50) | 0.841 | 0.533 | 0.746 | 0.550 | 0.668 |
+| HVG + PCA (50) | 0.893 | 0.664 | 0.735 | 0.569 | 0.669 |
+| PCA + Harmony (50) | 0.856 | 0.657 | 0.801 | 0.662 | 0.746 |
+
+**Against the bar, none of the three beats PCA on any metric.**
+- TranscriptFormer ties PCA on kNN accuracy (higher in 2 of 5) and is lower on every scIB group in 5 of 5.
+- Geneformer is lower than PCA on every metric in 5 of 5 splits, despite having been trained with cell-type labels.
+- Census scVI ties PCA on the scIB aggregate and is lower on macro F1 in 5 of 5 (-0.131).
+
+**Why can a huge pretrained model lose to PCA here? (likely reasons, not tested)**
+- Its embedding was not built for this question. TranscriptFormer's 2048 numbers include information that is not cell type (for example the assay, which it was given as an input), and kNN and scIB treat every dimension equally.
+- PCA is fitted on exactly these cells and these genes; the pretrained models are general.
+- Census scVI corrects for assay, dataset, donor and suspension all at once across 100 million cells, which may smooth over the fine T-cell subtypes that drive macro F1 here.
+
+**What to say:** "None of the published foundation-model embeddings beat PCA on my held-out donors, even though they had all seen these cells during training. That agrees with Kedzierska et al."
+
+**Known weaknesses:** different embedding sizes (50 to 2048), and no attempt to reduce or fine-tune them. That is deliberate: the question is how they do used as published.
+
+---
+
 ## What you built so far, file by file
 
 | File | What it does | Key decision |
@@ -223,3 +353,11 @@ A: Both. A deep model that beats PCA on scIB but not Harmony has not earned its 
 | `src/cellmap/plotting.py` | Shared figure style | Same palette as DCMvsACM `figstyle.py` |
 | `scripts/m0_prepare_data.py` | Runs M0 and saves every reported number | Order of steps follows the before/after-split rule |
 | `scripts/m1_baselines.py` | Runs M1 over five donor splits | Paired comparison on identical held-out donors |
+| `src/cellmap/vae.py` | Hand-written negative binomial VAE | Encoder blind to donor; decoder gets donor |
+| `src/cellmap/linear_ae.py` | Linear autoencoder | Same scaling as PCA, to isolate what nonlinearity adds |
+| `src/cellmap/scvi_baseline.py` | scvi-tools with settings matched to `vae.py` | Trained on training donors only; unseen donors handled through the donor-blind encoder |
+| `src/cellmap/transformer.py` | Hand-written transformer, masked gene modeling | Expressed genes as tokens, per-cell expression bins, no positions, no donor input |
+| `src/cellmap/census_embeddings.py` | Downloads published model embeddings | Raises on any missing cell; records what each model saw |
+| `src/cellmap/provenance.py` | Commit hash and versions saved with results | Marks results from uncommitted code as "+dirty" |
+| `scripts/atlas_export.py`, `site/` | The interactive 3D atlas | One self-contained page, works on GitHub Pages |
+| `notebooks/m5_transformer_gpu.ipynb` | Trains the transformer on a Colab GPU | Rebuilds data and checks it matches M0 before training |
