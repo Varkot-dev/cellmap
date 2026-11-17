@@ -1,0 +1,490 @@
+<title>cellmap atlas</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: an instrument, not a document. A fixed control rail on the left, the point cloud
+   filling everything else. On a phone the cloud sits on top and the rail scrolls beneath it. */
+:root {
+  --bg: #FBFAF7;        /* paper, same as the project's static figures */
+  --surface: #F3F1EB;
+  --fg: #1A1A1A;        /* ink */
+  --muted: #6F6C66;
+  --line: #DDD9D0;
+  --accent: #C2703D;    /* terracotta: the thing of interest */
+  --accent-2: #3C5A78;  /* slate */
+  --stage: #F6F4EF;
+  --dim: #DCD8CF;       /* points that are filtered out */
+  --seq-lo: #E4E0D7;    /* gene expression: none */
+  --seq-hi: #8F3A10;    /* gene expression: high */
+  --font-ui: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #131312; --surface: #1C1C1A; --fg: #EFECE6; --muted: #A09C94; --line: #33322F;
+    --accent: #E08A54; --accent-2: #7FA3C7; --stage: #0E0E0D; --dim: #2B2A28;
+    --seq-lo: #2E2D2A; --seq-hi: #FFB07A; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #131312; --surface: #1C1C1A; --fg: #EFECE6; --muted: #A09C94; --line: #33322F;
+  --accent: #E08A54; --accent-2: #7FA3C7; --stage: #0E0E0D; --dim: #2B2A28;
+  --seq-lo: #2E2D2A; --seq-hi: #FFB07A; color-scheme: dark;
+}
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-ui); font-size: 14px; line-height: 1.45; }
+* { box-sizing: border-box; }
+.app {
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+  gap: 16px;
+  padding-block: 16px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.rail { display: flex; flex-direction: column; gap: 18px; min-width: 0; overflow-y: auto; padding-right: 2px; }
+.brand h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+.brand p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+.brand .count { font-family: var(--font-data); color: var(--fg); font-variant-numeric: tabular-nums; }
+.group { display: flex; flex-direction: column; gap: 8px; }
+.label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.methods { display: flex; flex-wrap: wrap; gap: 6px; }
+.methods button {
+  font: inherit; font-size: 13px; padding: 7px 11px; border-radius: 4px; cursor: pointer;
+  background: transparent; color: var(--fg); border: 1px solid var(--line);
+}
+.methods button:hover { border-color: var(--muted); }
+.methods button[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+select, input[type="range"] { font: inherit; width: 100%; }
+select {
+  padding: 7px 9px; border-radius: 4px; border: 1px solid var(--line);
+  background: var(--surface); color: var(--fg);
+}
+button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.note { font-size: 12.5px; color: var(--muted); margin: 0; }
+.legend { display: flex; flex-direction: column; gap: 1px; }
+.legend button {
+  display: grid; grid-template-columns: 12px minmax(0, 1fr) auto; align-items: center; gap: 9px;
+  font: inherit; font-size: 13px; text-align: left; padding: 4px 6px; border-radius: 3px;
+  background: transparent; color: var(--fg); border: 0; cursor: pointer;
+}
+.legend button:hover { background: var(--surface); }
+.legend button.off { color: var(--muted); }
+.legend button.off .swatch { background: var(--dim) !important; }
+.legend .swatch { width: 12px; height: 12px; border-radius: 50%; }
+.legend .name { overflow-wrap: anywhere; }
+.legend .n { font-family: var(--font-data); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.legend-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.linkish { font: inherit; font-size: 12.5px; background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+.ramp { height: 10px; border-radius: 2px; background: linear-gradient(to right, var(--seq-lo), var(--seq-hi)); }
+.ramp-ends { display: flex; justify-content: space-between; font-family: var(--font-data); font-size: 12px; color: var(--muted); }
+.row { display: flex; align-items: center; gap: 10px; }
+.row label { font-size: 13px; white-space: nowrap; }
+.foot { margin-top: auto; font-size: 12px; color: var(--muted); }
+.foot p { margin: 0 0 4px; }
+.stage {
+  position: relative; min-width: 0; min-height: 0; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--stage); overflow: hidden;
+}
+canvas { display: block; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+canvas.dragging { cursor: grabbing; }
+.hud {
+  position: absolute; left: 14px; top: 12px; pointer-events: none;
+  font-size: 13px; color: var(--muted);
+}
+.hud strong { display: block; color: var(--fg); font-size: 16px; font-weight: 600; }
+.hint { position: absolute; right: 14px; bottom: 10px; font-size: 12px; color: var(--muted); pointer-events: none; }
+.tip {
+  position: absolute; pointer-events: none; max-width: 260px; padding: 8px 10px; border-radius: 4px;
+  background: var(--fg); color: var(--bg); font-size: 12.5px; line-height: 1.4;
+}
+.tip b { font-weight: 600; display: block; }
+.tip span { font-family: var(--font-data); font-size: 11.5px; opacity: 0.8; display: block; }
+.fallback { padding: 24px; color: var(--muted); }
+@media (max-width: 760px) {
+  html, body { height: auto; }
+  .app { height: auto; grid-template-columns: minmax(0, 1fr); }
+  .stage { order: -1; height: 58vh; min-height: 300px; }
+  .rail { overflow: visible; }
+  .hint { display: none; }
+}
+</style>
+
+<div class="app">
+  <aside class="rail">
+    <div class="brand">
+      <h1>cellmap atlas</h1>
+      <p><span class="count" id="count"></span> blood cells from <span class="count" id="donors"></span> donors. Every dot is one cell.</p>
+    </div>
+
+    <div class="group">
+      <span class="label" id="method-label">Embedding method</span>
+      <div class="methods" id="methods" role="group" aria-labelledby="method-label"></div>
+      <p class="note">Switch methods to watch the same cells rearrange.</p>
+    </div>
+
+    <div class="group">
+      <label class="label" for="color-by">Color by</label>
+      <select id="color-by"></select>
+      <select id="gene" aria-label="Gene" hidden></select>
+    </div>
+
+    <div class="group" id="legend-group">
+      <div class="legend-head">
+        <span class="label" id="legend-title">Legend</span>
+        <button class="linkish" id="show-all" type="button" hidden>Show all</button>
+      </div>
+      <div class="legend" id="legend"></div>
+      <div id="ramp-box" hidden>
+        <div class="ramp"></div>
+        <div class="ramp-ends"><span>0</span><span id="ramp-max"></span></div>
+        <p class="note" id="gene-note"></p>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="row">
+        <label for="size">Dot size</label>
+        <input id="size" type="range" min="1" max="8" step="0.5" value="3">
+      </div>
+      <div class="row">
+        <label for="spin"><input id="spin" type="checkbox"> Rotate slowly</label>
+      </div>
+    </div>
+
+    <div class="foot">
+      <p id="dataset"></p>
+      <p>A 3D UMAP is a picture of an embedding, not a measurement. Distances between far-apart groups do not mean much. The scores are in the repository under results/.</p>
+      <p id="build"></p>
+    </div>
+  </aside>
+
+  <div class="stage" id="stage">
+    <canvas id="gl" aria-label="3D point cloud of cells"></canvas>
+    <div class="hud"><strong id="hud-method"></strong><span id="hud-color"></span></div>
+    <div class="hint">Drag to rotate. Scroll or pinch to zoom. Click a legend row to isolate it.</div>
+    <div class="tip" id="tip" hidden></div>
+  </div>
+</div>
+
+<script>
+const DATA = /*__ATLAS_DATA__*/null;
+
+(function () {
+  const stage = document.getElementById('stage');
+  const canvas = document.getElementById('gl');
+  if (!DATA) { stage.innerHTML = '<p class="fallback">No data was built into this page. Run scripts/atlas_export.py.</p>'; return; }
+  const gl = canvas.getContext('webgl', { antialias: true, alpha: false });
+  if (!gl) { stage.innerHTML = '<p class="fallback">This browser cannot draw WebGL, so the 3D view is unavailable.</p>'; return; }
+
+  // ---------- data ----------
+  const N = DATA.n;
+  function bytes(b64) {
+    const s = atob(b64), out = new Uint8Array(s.length);
+    for (let i = 0; i < s.length; i++) out[i] = s.charCodeAt(i);
+    return out;
+  }
+  const methods = DATA.methods.map(m => ({ key: m.key, label: m.label, xyz: new Int16Array(bytes(m.xyz).buffer) }));
+  const fields = DATA.fields.map(f => {
+    const codes = bytes(f.codes), counts = new Array(f.names.length).fill(0);
+    for (let i = 0; i < N; i++) counts[codes[i]]++;
+    return { key: f.key, label: f.label, names: f.names, codes, counts };
+  });
+  const genes = DATA.genes.map(g => ({ name: g.name, max: g.max, pct: g.pct, values: bytes(g.values) }));
+  const fieldByKey = Object.fromEntries(fields.map(f => [f.key, f]));
+
+  document.getElementById('count').textContent = N.toLocaleString('en-US');
+  document.getElementById('donors').textContent = DATA.donors;
+  document.getElementById('dataset').textContent = DATA.dataset + '.';
+  document.getElementById('build').textContent = 'Built from commit ' + DATA.commit + '.';
+
+  // ---------- state ----------
+  const state = { method: 0, colorBy: fields[0].key, gene: 0, hidden: new Set(), size: 3, spin: false };
+  let yaw = 0.6, pitch = 0.35, dist = 3.4;
+  let tween = 1, tweenStart = 0;
+  const TWEEN_MS = 1400;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---------- colors ----------
+  const BASE = ['#3C5A78', '#C2703D', '#4E9A8E', '#B8963E', '#8E5A94', '#6E8B3D', '#C4586A', '#5B7FBF', '#8A6F5A', '#2F8F5B'];
+  function hexToRgb(hex) {
+    const v = parseInt(hex.replace('#', ''), 16);
+    return [(v >> 16) & 255, (v >> 8) & 255, v & 255];
+  }
+  function hslToRgb(h, s, l) {
+    const f = n => { const k = (n + h / 30) % 12, a = s * Math.min(l, 1 - l); return Math.round(255 * (l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1)))); };
+    return [f(0), f(8), f(4)];
+  }
+  function palette(n) {
+    const out = [];
+    for (let i = 0; i < n; i++) out.push(i < BASE.length ? hexToRgb(BASE[i]) : hslToRgb((i * 137.5 + 20) % 360, 0.42, i % 2 ? 0.62 : 0.46));
+    return out;
+  }
+  function token(name) { return hexToRgb(getComputedStyle(document.documentElement).getPropertyValue(name).trim()); }
+  const splitColors = () => ({ train: token('--fg'), val: token('--accent-2'), test: token('--accent') });
+  function colorsFor(field) {
+    if (field.key === 'split') { const c = splitColors(); return field.names.map(n => c[n] || token('--muted')); }
+    if (field.key === 'chemistry') return field.names.map((_, i) => i === 0 ? token('--accent-2') : token('--accent'));
+    return palette(field.names.length);
+  }
+
+  // ---------- WebGL ----------
+  const VS = `
+    attribute vec3 a_from; attribute vec3 a_to; attribute vec3 a_color;
+    uniform float u_t; uniform mat4 u_mvp; uniform float u_size;
+    varying vec3 v_color;
+    void main() {
+      vec3 p = mix(a_from, a_to, u_t);
+      gl_Position = u_mvp * vec4(p, 1.0);
+      gl_PointSize = max(1.0, u_size / gl_Position.w);
+      v_color = a_color;
+    }`;
+  const FS = `
+    precision mediump float; varying vec3 v_color;
+    void main() {
+      vec2 d = gl_PointCoord - 0.5;
+      if (dot(d, d) > 0.25) discard;
+      gl_FragColor = vec4(v_color, 1.0);
+    }`;
+  function shader(type, src) { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, shader(gl.VERTEX_SHADER, VS));
+  gl.attachShader(prog, shader(gl.FRAGMENT_SHADER, FS));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const loc = {
+    from: gl.getAttribLocation(prog, 'a_from'), to: gl.getAttribLocation(prog, 'a_to'),
+    color: gl.getAttribLocation(prog, 'a_color'), t: gl.getUniformLocation(prog, 'u_t'),
+    mvp: gl.getUniformLocation(prog, 'u_mvp'), size: gl.getUniformLocation(prog, 'u_size'),
+  };
+  const bufFrom = gl.createBuffer(), bufTo = gl.createBuffer(), bufColor = gl.createBuffer();
+  function setPositions(buffer, location, xyz) {
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, xyz, gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(location);
+    gl.vertexAttribPointer(location, 3, gl.SHORT, true, 0, 0);
+  }
+  setPositions(bufFrom, loc.from, methods[0].xyz);
+  setPositions(bufTo, loc.to, methods[0].xyz);
+  const colorData = new Uint8Array(N * 3);
+  gl.bindBuffer(gl.ARRAY_BUFFER, bufColor);
+  gl.bufferData(gl.ARRAY_BUFFER, colorData, gl.DYNAMIC_DRAW);
+  gl.enableVertexAttribArray(loc.color);
+  gl.vertexAttribPointer(loc.color, 3, gl.UNSIGNED_BYTE, true, 0, 0);
+  gl.enable(gl.DEPTH_TEST);
+
+  function recolor() {
+    if (state.colorBy === 'gene') {
+      const g = genes[state.gene].values, lo = token('--seq-lo'), hi = token('--seq-hi');
+      for (let i = 0; i < N; i++) {
+        const t = Math.sqrt(g[i] / 255);
+        colorData[i * 3] = lo[0] + (hi[0] - lo[0]) * t;
+        colorData[i * 3 + 1] = lo[1] + (hi[1] - lo[1]) * t;
+        colorData[i * 3 + 2] = lo[2] + (hi[2] - lo[2]) * t;
+      }
+    } else {
+      const f = fieldByKey[state.colorBy], cols = colorsFor(f), dim = token('--dim');
+      for (let i = 0; i < N; i++) {
+        const c = state.hidden.has(f.codes[i]) ? dim : cols[f.codes[i]];
+        colorData[i * 3] = c[0]; colorData[i * 3 + 1] = c[1]; colorData[i * 3 + 2] = c[2];
+      }
+    }
+    gl.bindBuffer(gl.ARRAY_BUFFER, bufColor);
+    gl.bufferSubData(gl.ARRAY_BUFFER, 0, colorData);
+    requestDraw();
+  }
+
+  // ---------- camera ----------
+  function mul(a, b) {
+    const o = new Float32Array(16);
+    for (let c = 0; c < 4; c++) for (let r = 0; r < 4; r++)
+      o[c * 4 + r] = a[r] * b[c * 4] + a[4 + r] * b[c * 4 + 1] + a[8 + r] * b[c * 4 + 2] + a[12 + r] * b[c * 4 + 3];
+    return o;
+  }
+  let mvp = new Float32Array(16), dpr = 1, W = 1, H = 1;
+  function camera() {
+    const f = 1 / Math.tan((35 * Math.PI / 180) / 2), near = 0.1, far = 20, aspect = W / H;
+    const P = new Float32Array([f / aspect, 0, 0, 0, 0, f, 0, 0, 0, 0, (far + near) / (near - far), -1, 0, 0, 2 * far * near / (near - far), 0]);
+    // On a tall, narrow screen pull the camera back so the cloud is not cut off at the sides.
+    const d = dist * Math.max(1, 0.95 / aspect);
+    const T = new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, -d, 1]);
+    const cx = Math.cos(pitch), sx = Math.sin(pitch), cy = Math.cos(yaw), sy = Math.sin(yaw);
+    const RX = new Float32Array([1, 0, 0, 0, 0, cx, sx, 0, 0, -sx, cx, 0, 0, 0, 0, 1]);
+    const RY = new Float32Array([cy, 0, -sy, 0, 0, 1, 0, 0, sy, 0, cy, 0, 0, 0, 0, 1]);
+    mvp = mul(P, mul(T, mul(RX, RY)));
+  }
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const r = canvas.getBoundingClientRect();
+    W = Math.max(1, Math.round(r.width * dpr)); H = Math.max(1, Math.round(r.height * dpr));
+    if (canvas.width !== W || canvas.height !== H) { canvas.width = W; canvas.height = H; }
+    gl.viewport(0, 0, W, H);
+  }
+
+  // ---------- draw loop (only runs while something is changing) ----------
+  let pending = false, lastTime = 0;
+  function requestDraw() { if (!pending) { pending = true; requestAnimationFrame(draw); } }
+  function draw(now) {
+    pending = false;
+    resize();
+    if (tween < 1) {
+      const p = Math.min(1, (now - tweenStart) / TWEEN_MS);
+      tween = p * p * (3 - 2 * p);
+      if (p >= 1) tween = 1;
+    }
+    if (state.spin && !dragging) yaw += Math.min(50, now - lastTime) * 0.00018;
+    lastTime = now;
+    camera();
+    const bg = token('--stage');
+    gl.clearColor(bg[0] / 255, bg[1] / 255, bg[2] / 255, 1);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.uniform1f(loc.t, tween);
+    gl.uniformMatrix4fv(loc.mvp, false, mvp);
+    gl.uniform1f(loc.size, state.size * dpr * 3.4);
+    gl.drawArrays(gl.POINTS, 0, N);
+    if (tween < 1 || (state.spin && !dragging)) requestDraw();
+  }
+
+  // ---------- method switch ----------
+  let fromIndex = 0;
+  function setMethod(i) {
+    if (i === state.method) return;
+    fromIndex = state.method; state.method = i;
+    setPositions(bufFrom, loc.from, methods[fromIndex].xyz);
+    setPositions(bufTo, loc.to, methods[i].xyz);
+    tween = reduceMotion ? 1 : 0; tweenStart = performance.now();
+    renderMethods(); hideTip(); requestDraw();
+  }
+  function renderMethods() {
+    const box = document.getElementById('methods');
+    box.textContent = '';
+    methods.forEach((m, i) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.textContent = m.label; b.setAttribute('aria-pressed', String(i === state.method));
+      b.addEventListener('click', () => setMethod(i));
+      box.appendChild(b);
+    });
+    document.getElementById('hud-method').textContent = methods[state.method].label;
+  }
+
+  // ---------- color controls and legend ----------
+  const colorSelect = document.getElementById('color-by'), geneSelect = document.getElementById('gene');
+  fields.forEach(f => colorSelect.add(new Option(f.label, f.key)));
+  if (genes.length) colorSelect.add(new Option('Gene expression', 'gene'));
+  genes.forEach((g, i) => geneSelect.add(new Option(g.name, String(i))));
+  function rgbCss(c) { return 'rgb(' + c[0] + ',' + c[1] + ',' + c[2] + ')'; }
+  function renderLegend() {
+    const legend = document.getElementById('legend'), rampBox = document.getElementById('ramp-box');
+    const showAll = document.getElementById('show-all');
+    legend.textContent = '';
+    const isGene = state.colorBy === 'gene';
+    geneSelect.hidden = !isGene; rampBox.hidden = !isGene; legend.hidden = isGene;
+    showAll.hidden = isGene || state.hidden.size === 0;
+    if (isGene) {
+      const g = genes[state.gene];
+      document.getElementById('legend-title').textContent = g.name + ' expression';
+      document.getElementById('ramp-max').textContent = g.max.toFixed(1) + ' (log scale)';
+      document.getElementById('gene-note').textContent = 'Detected in ' + g.pct + '% of cells. Color saturates at the 99th percentile of expressing cells.';
+      document.getElementById('hud-color').textContent = 'Colored by ' + g.name;
+      return;
+    }
+    const f = fieldByKey[state.colorBy], cols = colorsFor(f);
+    document.getElementById('legend-title').textContent = f.label;
+    document.getElementById('hud-color').textContent = 'Colored by ' + f.label.toLowerCase();
+    f.names.forEach((name, code) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = state.hidden.has(code) ? 'off' : '';
+      b.setAttribute('aria-pressed', String(!state.hidden.has(code)));
+      const sw = document.createElement('span'); sw.className = 'swatch'; sw.style.background = rgbCss(cols[code]);
+      const nm = document.createElement('span'); nm.className = 'name'; nm.textContent = name;
+      const n = document.createElement('span'); n.className = 'n'; n.textContent = f.counts[code].toLocaleString('en-US');
+      b.append(sw, nm, n);
+      b.addEventListener('click', () => toggleCategory(f, code));
+      legend.appendChild(b);
+    });
+  }
+  // First click isolates one category; further clicks add or remove categories.
+  function toggleCategory(f, code) {
+    const all = f.names.length;
+    if (state.hidden.size === 0) { for (let c = 0; c < all; c++) if (c !== code) state.hidden.add(c); }
+    else if (state.hidden.has(code)) state.hidden.delete(code);
+    else { state.hidden.add(code); if (state.hidden.size === all) state.hidden.clear(); }
+    renderLegend(); recolor();
+  }
+  colorSelect.addEventListener('change', () => { state.colorBy = colorSelect.value; state.hidden.clear(); renderLegend(); recolor(); });
+  geneSelect.addEventListener('change', () => { state.gene = Number(geneSelect.value); renderLegend(); recolor(); });
+  document.getElementById('show-all').addEventListener('click', () => { state.hidden.clear(); renderLegend(); recolor(); });
+  document.getElementById('size').addEventListener('input', e => { state.size = Number(e.target.value); requestDraw(); });
+  const spinBox = document.getElementById('spin');
+  spinBox.addEventListener('change', () => { state.spin = spinBox.checked; lastTime = performance.now(); requestDraw(); });
+
+  // ---------- pointer: rotate, zoom, hover ----------
+  let dragging = false, lastX = 0, lastY = 0, pinch = 0;
+  const pointers = new Map();
+  canvas.addEventListener('pointerdown', e => {
+    canvas.setPointerCapture(e.pointerId); pointers.set(e.pointerId, e);
+    dragging = true; lastX = e.clientX; lastY = e.clientY; canvas.classList.add('dragging'); hideTip();
+  });
+  canvas.addEventListener('pointermove', e => {
+    if (pointers.has(e.pointerId)) pointers.set(e.pointerId, e);
+    if (pointers.size === 2) {
+      const [a, b] = [...pointers.values()], d = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+      if (pinch) { dist = Math.min(9, Math.max(1.2, dist * pinch / d)); requestDraw(); }
+      pinch = d; return;
+    }
+    if (dragging) {
+      yaw += (e.clientX - lastX) * 0.008;
+      pitch = Math.max(-1.5, Math.min(1.5, pitch + (e.clientY - lastY) * 0.008));
+      lastX = e.clientX; lastY = e.clientY; requestDraw();
+    } else if (e.pointerType === 'mouse') { hover(e); }
+  });
+  function release(e) { pointers.delete(e.pointerId); pinch = 0; if (pointers.size === 0) { dragging = false; canvas.classList.remove('dragging'); lastTime = performance.now(); requestDraw(); } }
+  canvas.addEventListener('pointerup', release);
+  canvas.addEventListener('pointercancel', release);
+  canvas.addEventListener('pointerleave', hideTip);
+  canvas.addEventListener('wheel', e => { e.preventDefault(); dist = Math.min(9, Math.max(1.2, dist * Math.exp(e.deltaY * 0.0012))); requestDraw(); }, { passive: false });
+
+  const tip = document.getElementById('tip');
+  function hideTip() { tip.hidden = true; }
+  let hoverQueued = null;
+  function hover(e) { hoverQueued = e; requestAnimationFrame(runHover); }
+  function runHover() {
+    const e = hoverQueued; hoverQueued = null;
+    if (!e || tween < 1) return;
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+    const xyz = methods[state.method].xyz, m = mvp, s = 1 / 32767;
+    const f = state.colorBy === 'gene' ? null : fieldByKey[state.colorBy];
+    let best = -1, bestD = 100;  // within 10 CSS pixels
+    for (let i = 0; i < N; i++) {
+      if (f && state.hidden.has(f.codes[i])) continue;
+      const x = xyz[i * 3] * s, y = xyz[i * 3 + 1] * s, z = xyz[i * 3 + 2] * s;
+      const w = m[3] * x + m[7] * y + m[11] * z + m[15];
+      if (w <= 0) continue;
+      const px = ((m[0] * x + m[4] * y + m[8] * z + m[12]) / w * 0.5 + 0.5) * rect.width - mx;
+      const py = (1 - ((m[1] * x + m[5] * y + m[9] * z + m[13]) / w * 0.5 + 0.5)) * rect.height - my;
+      const d = px * px + py * py;
+      if (d < bestD) { bestD = d; best = i; }
+    }
+    if (best < 0) { hideTip(); return; }
+    const get = key => { const fl = fieldByKey[key]; return fl ? fl.names[fl.codes[best]] : ''; };
+    tip.textContent = '';
+    const b = document.createElement('b'); b.textContent = get('fine'); tip.appendChild(b);
+    const lines = ['donor ' + get('donor') + ' · ' + get('chemistry'), 'split: ' + get('split')];
+    if (state.colorBy === 'gene') { const g = genes[state.gene]; lines.push(g.name + ': ' + (g.values[best] / 255 * g.max).toFixed(2)); }
+    lines.forEach(t => { const sp = document.createElement('span'); sp.textContent = t; tip.appendChild(sp); });
+    tip.hidden = false;
+    const tw = tip.offsetWidth, th = tip.offsetHeight;
+    tip.style.left = Math.max(6, Math.min(rect.width - tw - 6, mx + 14)) + 'px';
+    tip.style.top = Math.max(6, Math.min(rect.height - th - 6, my + 14)) + 'px';
+  }
+
+  // ---------- theme changes and resize ----------
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { renderLegend(); recolor(); });
+  new MutationObserver(() => { renderLegend(); recolor(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  new ResizeObserver(requestDraw).observe(stage);
+
+  renderMethods(); renderLegend(); recolor();
+})();
+</script>
