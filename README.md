@@ -21,7 +21,7 @@ The plan is in [docs/PLAN.md](docs/PLAN.md), the reasoning behind every decision
 | M5 hand-written transformer with masked gene modeling | built; trained on a Colab GPU; results below |
 | M6 published pretrained-model embeddings (Census scVI, Geneformer, TranscriptFormer) | built, results below |
 | M4 scale-up, M7 analyses and write-up | not started |
-| Interactive 3D atlas | first version built (`site/index.html`) |
+| Public site | scroll-driven explainer (`site/index.html`) and 3D atlas of every method (`site/atlas.html`) |
 
 ## Results so far: every method on the same five donor splits
 
@@ -140,7 +140,8 @@ python scripts/m2_kl_sweep.py --name pbmc
 python scripts/m2_figures.py --name pbmc
 python scripts/m3_scvi_parity.py --name pbmc                   # about 30 minutes
 python scripts/m6_pretrained.py --name pbmc                    # downloads about 4 GB of embeddings
-python scripts/atlas_export.py --name pbmc
+python scripts/atlas_export.py --name pbmc                      # site/atlas.html
+python scripts/explainer_export.py --name pbmc                  # site/index.html
 pytest -q
 ```
 

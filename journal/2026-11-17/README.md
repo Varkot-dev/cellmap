@@ -116,7 +116,7 @@ Validation loss had levelled off by the end, so this is not obviously a matter o
 
 ### The interactive atlas
 
-`site/index.html`: a 3D point cloud of all cells that can be rotated, recoloured by cell type, donor, chemistry, split or 20 marker genes, and switched between methods with the cells animating to their new positions.
+`site/index.html` (moved to `site/atlas.html` later that night, when the explainer became the front page): a 3D point cloud of all cells that can be rotated, recoloured by cell type, donor, chemistry, split or 20 marker genes, and switched between methods with the cells animating to their new positions.
 
 ## Next
 

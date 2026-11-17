@@ -318,9 +318,11 @@ Downloaded Census scVI (50 dimensions), the fine-tuned Geneformer (512) and Tran
 - **TranscriptFormer** tied PCA on kNN accuracy and was lower on every scIB score.
 - **Geneformer** was lower than PCA on every metric in all 5 splits, despite having been fine-tuned with cell-type labels.
 
-### The interactive atlas
+### The explainer page and the interactive atlas
 
-`site/index.html`, also at https://claude.ai/artifact/Xyki85zGs4NfqMrVcKTRBA.
+**The explainer, `site/index.html`, is the front page.** A scroll-driven story: the 3D map on the right changes as you read, from plain PCA, to the chemistry batch effect, to Harmony fixing it, to the held-out-people test, to each deep model, then the results charts. Every number on it is read from `results/` when the page is built (`scripts/explainer_export.py`), including the headline verdict, which applies the "4 of 5 splits against both baselines" rule automatically.
+
+**The atlas, `site/atlas.html`,** also at https://claude.ai/artifact/Xyki85zGs4NfqMrVcKTRBA.
 - A 3D map of all cells that you can rotate.
 - Recolour by cell type, donor, chemistry, split or 20 marker genes.
 - Switch between nine methods and watch the same cells move.
@@ -418,7 +420,7 @@ This answers whether the findings above are specific to one dataset.
 | `src/cellmap/plotting.py`, `provenance.py` | Figure style; commit stamping of results |
 | `scripts/m0_...` to `scripts/m6_...` | One script per milestone step; each writes to `results/` |
 | `scripts/*_figures.py`, `assets/` | Figures |
-| `scripts/atlas_export.py`, `site/` | The interactive atlas |
+| `src/cellmap/atlas.py`, `scripts/atlas_export.py`, `scripts/explainer_export.py`, `site/` | The explainer front page and the atlas |
 | `notebooks/m5_transformer_gpu.ipynb` | GPU training on Colab |
 | `results/` | Every number reported anywhere, with the commit that made it |
 | `tests/` | 123 tests; run `pytest -q` |
@@ -452,5 +454,6 @@ This answers whether the findings above are specific to one dataset.
 
 ## Update log
 
+- **2026-11-17 (night):** Explainer page built as the front page (`site/index.html`); the atlas moved to `site/atlas.html`.
 - **2026-11-17 (night):** M4 design recorded in Part 7; public site choice recorded.
 - **2026-11-17:** Guide created after M0, M1, M2, M3, M5 and M6. The transformer's GPU results are included.
