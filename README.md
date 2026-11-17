@@ -16,7 +16,7 @@ The plan is in [docs/PLAN.md](docs/PLAN.md), the reasoning behind every decision
 | M0 data pipeline: load, quality control, donor-level split, normalize | built, tests pass |
 | M1 classical baselines (HVG + PCA, PCA + Harmony) and evaluation harness | built, results below |
 | M2 hand-written negative binomial VAE, linear autoencoder, KL sweep | built, results below |
-| M3 parity check against scvi-tools | built, full run in progress |
+| M3 parity check against scvi-tools | built; parity holds on all five splits |
 | M5 hand-written transformer with masked gene modeling | built and tested; not yet trained on the full data (needs a GPU) |
 | M6 published pretrained-model embeddings (Census scVI, Geneformer, TranscriptFormer) | built, results below |
 | M4 scale-up, M7 analyses and write-up | not started |
@@ -26,12 +26,13 @@ The plan is in [docs/PLAN.md](docs/PLAN.md), the reasoning behind every decision
 
 One dataset (healthy PBMCs, 21 donors), five donor-level splits with 4 held-out donors each,
 all scores on held-out donors, means over the five splits. Written by `scripts/m1_baselines.py`,
-`scripts/m2_vae.py` and `scripts/m6_pretrained.py` to `results/m1/`, `results/m2/` and
-`results/m6/`.
+`scripts/m2_vae.py`, `scripts/m3_scvi_parity.py` and `scripts/m6_pretrained.py` to
+`results/m1/`, `results/m2/`, `results/m3/` and `results/m6/`.
 
 | Method (dimensions) | kNN accuracy, fine | kNN macro F1, fine | scIB bio | scIB batch | scIB aggregate |
 |---|---|---|---|---|---|
 | PCA + Harmony (50) | 0.856 | 0.657 | 0.801 | 0.662 | 0.746 |
+| scvi-tools, settings matched to the VAE (10) | 0.884 | 0.646 | 0.744 | 0.599 | 0.686 |
 | VAE, hand-written (10) | 0.879 | 0.646 | 0.737 | 0.600 | 0.682 |
 | HVG + PCA (50) | 0.893 | 0.664 | 0.735 | 0.569 | 0.669 |
 | Census scVI (50) | 0.841 | 0.533 | 0.746 | 0.550 | 0.668 |
@@ -46,13 +47,18 @@ at least 4 of 5 splits. By that rule:
 - No method beat both HVG + PCA and PCA + Harmony.
 - The hand-written VAE matched 50-dimensional PCA with 10 dimensions and was higher on batch
   correction in 4 of 5 splits, but lower than Harmony on every scIB score in 5 of 5.
+- The hand-written VAE and scvi-tools with matched settings agree on every metric within
+  noise (no difference larger than 0.01 on average, none consistent across splits). This is the
+  check that the hand-written model is correct.
 - None of the three published pretrained embeddings beat plain PCA on any metric, although all
   three were trained on Census data that includes these cells, and the Census Geneformer was
   fine-tuned with cell-type labels.
 
 Limits: one dataset; five splits give a direction, not a precise size; embedding sizes differ
 (10 to 2048); Harmony is transductive (it sees held-out donors' expression, never their labels);
-scIB metrics are computed without the cross-method scaling used in the scIB paper.
+scIB metrics are computed without the cross-method scaling used in the scIB paper;
+the scIB biological-conservation score moved by up to 0.07 between two runs of the same model that
+differed only in CPU thread count, so small differences in that column are noise.
 
 ![The VAE at three KL weights](assets/m2_kl_sweep_pbmc.png)
 
@@ -127,6 +133,7 @@ python scripts/m1_figures.py --name pbmc
 python scripts/m2_vae.py --name pbmc                           # about 30 minutes on 4 CPU cores
 python scripts/m2_kl_sweep.py --name pbmc
 python scripts/m2_figures.py --name pbmc
+python scripts/m3_scvi_parity.py --name pbmc                   # about 30 minutes
 python scripts/m6_pretrained.py --name pbmc                    # downloads about 4 GB of embeddings
 python scripts/atlas_export.py --name pbmc
 pytest -q

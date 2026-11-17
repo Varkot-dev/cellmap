@@ -89,11 +89,11 @@ A check you can do by hand: with the KL weight at 0 the model is a plain autoenc
 |---|---|---|
 | M0 (built 2026-11-17) | Data pipeline on a small blood dataset: load, quality control, normalize, donor-level splits | Counts of cells, donors and cell types reported; split verified to share no donors |
 | M1 (built 2026-11-17) | Classical baselines (methods 1 and 2) and the full evaluation harness | scIB metrics and kNN accuracy produced by one script |
-| M2 | Hand-written VAE (method 4) with unit tests for the negative binomial likelihood and the KL term | Loss components match a hand-computed example; KL weight sweep shows both failure modes |
-| M3 | Parity with `scvi-tools` (method 5) | Metrics agree within seed-to-seed noise, or the difference is explained |
+| M2 (built 2026-11-17) | Hand-written VAE (method 4) with unit tests for the negative binomial likelihood and the KL term | Loss components match a hand-computed example; KL weight sweep shows both failure modes |
+| M3 (built 2026-11-17) | Parity with `scvi-tools` (method 5) | Metrics agree within seed-to-seed noise, or the difference is explained |
 | M4 | Scale up through CELLxGENE Census to a multi-tissue, multi-dataset set; rerun everything | Held-out dataset and held-out cell-type results added |
-| M5 | Small transformer with masked gene modeling (method 6) | Trained on a free GPU; added to the comparison |
-| M6 | Pretrained model embeddings (method 7) | Added to the comparison with training-data overlap noted |
+| M5 (built and tested 2026-11-17; GPU training pending) | Small transformer with masked gene modeling (method 6) | Trained on a free GPU; added to the comparison |
+| M6 (built 2026-11-17) | Pretrained model embeddings (method 7) | Added to the comparison with training-data overlap noted |
 | M7 | Analyses in 4.4, interactive atlas, write-up | README complete, repo ready to make public |
 
 Stretch: semi-supervised labels (scANVI style); mapping a new dataset onto a trained reference; applying the pipeline to a tumor dataset, which connects to your earlier glioblastoma work.
@@ -164,5 +164,16 @@ Written down now, before the VAE has been scored, so the rules cannot be bent to
 - **Model selection uses validation donors only.** Hyperparameters, epochs and the KL weight are chosen on val donors. Test donors are scored once per configuration that is reported.
 - **Every reported number carries its provenance:** the script, the config, the seed, and the commit that produced it, saved next to the number under `results/`.
 - **Tool configuration is not edited to make a check pass.** A failing lint rule or test is fixed in the code, not in `pyproject.toml` or the CI file.
+
+**2026-11-17, M2, M3, M5, M6**
+
+- **VAE design matches scvi-tools defaults** (negative binomial, observed library size, per-gene dispersion, 1 hidden layer of 128, 10 latent dimensions, encoder blind to the donor, decoder given the donor), checked in the scvi-tools 1.5.2 source. KL warm-up over 10 epochs instead of scvi-tools' 400, applied identically to both models in M3.
+- **KL weight 1** kept for the benchmark: best validation macro F1 in the sweep (0, 0.1, 1, 10, 100), chosen on validation donors only.
+- **10-dimensional PCA added** as a comparison at equal size, because the VAE has 10 latent dimensions and the M1 baseline 50.
+- **M3 unseen-donor check** relaxed from exact equality to float32 rounding after a run stopped on a 4.8e-7 difference. The partial results committed before the fix were replaced by a full rerun.
+- **Run-to-run noise measured:** the same scvi-tools run with 1 and 4 CPU threads differed by 0.074 in scIB bio on one split and by about 0.001 in kNN and batch scores. Recorded as a limit on reading small scIB bio differences.
+- **M6 uses published Census embeddings** instead of running the models: release 2025-01-30 has Census scVI, a Geneformer fine-tuned on Census with cell-type supervision, and TranscriptFormer TF-Sapiens. The plan expected zero-shot Geneformer and scGPT; the Census Geneformer is not zero-shot, and scGPT is only published for older Census releases. Both facts are reported with the results.
+- **M5 transformer** written by hand: expressed genes as tokens, per-cell rank bins for the level, no positions, masked gene modeling plus a second head that trains the [CLS] embedding. Training on the full data moved to a Colab GPU notebook because one CPU run would take hours per split.
+- **Interactive atlas** built as one self-contained HTML file with WebGL, so it works on GitHub Pages without a server.
 
 **Working principle (owner's decision, 2026-11-17): full speed, learn afterwards.** The owner chose to have all milestones built as fast as possible, with parallel agents, and to study the material at the end. This replaces "teach before you build" and the per-milestone quiz in `CLAUDE.md` for the build phase. What makes that safe: every decision is written down as it is made (this log and `docs/NOTES.md`), so the reasoning can be read and defended later. The honesty rules are unchanged: no number enters the README unless a script here produced it. Lessons and quizzes move to the end.

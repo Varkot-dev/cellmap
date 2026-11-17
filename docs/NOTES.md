@@ -322,7 +322,22 @@ scvi-tools refuses to embed cells whose donor it was not set up with. But with `
 
 ## M3 result on the full data
 
-M3_RESULT_PLACEHOLDER
+Five donor splits, test donors (`results/m3/pbmc/` against the `vae` rows of `results/m2/pbmc/`):
+
+| Metric | Hand-written VAE | scvi-tools | Paired difference (VAE minus scvi) | Splits where VAE is higher |
+|---|---|---|---|---|
+| kNN accuracy, fine | 0.879 | 0.884 | -0.005 | 2 of 5 |
+| kNN macro F1, fine | 0.646 | 0.646 | 0.000 | 3 of 5 |
+| kNN macro F1, coarse | 0.712 | 0.710 | +0.002 | 3 of 5 |
+| scIB bio | 0.737 | 0.744 | -0.008 | 2 of 5 |
+| scIB batch | 0.600 | 0.599 | +0.001 | 3 of 5 |
+| scIB aggregate | 0.682 | 0.686 | -0.004 | 2 of 5 |
+
+**Parity holds.** No metric moves the same way in more than 3 of 5 splits, and every mean difference is under 0.01.
+
+**How big is run-to-run noise?** The first scvi-tools run used one CPU thread and the rerun used four. Same code, seed and cells. On split seed 0, kNN accuracy moved 0.001 and the batch score 0.001, but scIB bio moved from 0.815 to 0.741. Changing the thread count changes floating-point rounding, which changes training slightly. The bio score rests on Leiden clustering, which amplifies small changes.
+
+**What this means for every comparison in the project:** a difference in scIB bio smaller than about 0.07 between two methods on one split is not evidence of anything here. kNN scores and the batch score are far more stable. This is one more reason the comparison rules count splits rather than trusting one mean.
 
 ---
 

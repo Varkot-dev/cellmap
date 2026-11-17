@@ -88,7 +88,13 @@ Both failure modes from the plan show up on the real data. At weight 0 the KL te
 
 ### Parity with scvi-tools (M3), on tiny data so far
 
-Copying a trained scvi-tools model's weights into the hand-written model gives identical embeddings for every cell. Starting both from the same weights, single training steps agree to all printed digits. Over 8 seeds kNN agrees within noise. The hand-written model reaches a 0.5 percent lower reconstruction loss; that traced to how the per-gene dispersion is initialized, and giving it scvi-tools' initialization closes the gap. The full five-split run on PBMC is in progress.
+Copying a trained scvi-tools model's weights into the hand-written model gives identical embeddings for every cell. Starting both from the same weights, single training steps agree to all printed digits. Over 8 seeds kNN agrees within noise. The hand-written model reaches a 0.5 percent lower reconstruction loss; that traced to how the per-gene dispersion is initialized, and giving it scvi-tools' initialization closes the gap.
+
+On the full data, five splits: **no metric differs by more than 0.01 on average, and none moves the same way in more than 3 of 5 splits. Parity holds.**
+
+A mistake worth naming: the first full run stopped on split 3, because a check demanded that the stand-in donor label change the embedding by exactly zero and it changed by 0.0000005, float32 rounding. I committed the three finished splits under a message that said five. The check now allows rounding, the next commit says the earlier one was partial, and the whole run was repeated.
+
+The repeat used 4 CPU threads instead of 1, which exposed the size of run-to-run noise: on split seed 0 the scIB bio score went from 0.815 to 0.741 with nothing changed but the thread count, while kNN and the batch score moved by 0.001. Small scIB bio differences between methods are not evidence on this dataset.
 
 ### Published pretrained embeddings (M6)
 
@@ -108,7 +114,6 @@ Built and tested (30 tests), but not trained on the full data: on this CPU it wo
 
 ## Next
 
-- Finish the M3 parity run on all five splits.
 - Train the transformer on a GPU (owner, with the notebook).
 - Add scvi-tools, the pretrained models and the transformer to the atlas.
 - Open check: does switching HVG flavor to seurat_v3 change the scores? In DCMvsACM that choice mattered.
