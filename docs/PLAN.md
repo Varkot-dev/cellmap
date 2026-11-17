@@ -154,4 +154,15 @@ scanpy, anndata, cellxgene-census, scvi-tools (parity only), harmonypy, PyTorch,
 - **Figure style** follows the owner's DCMvsACM `figstyle.py` (same palette and conventions), replacing the first palette used for the M0 figure.
 - **Notes and journal** follow the DCMvsACM formats: `docs/NOTES.md` (question, choice, why, alternatives, evidence, weakness, what to say) and `journal/YYYY-MM-DD/README.md`.
 
+**2026-11-17, comparison rules fixed before any deep model result exists**
+
+Written down now, before the VAE has been scored, so the rules cannot be bent toward a result.
+
+- **Same harness for every method:** `cellmap.benchmark.score_embedding`, unchanged, on the same five donor splits (seeds 0 to 4).
+- **Metrics that count:** scIB biological conservation and batch correction (the default metric set in `cellmap.evaluate`), and kNN accuracy and macro F1 at the fine and coarse level. No metric is added or dropped after seeing a deep model's score without a dated entry here saying why.
+- **What "better" means:** a paired difference against both baselines (HVG + PCA and PCA + Harmony) with the same sign in at least 4 of 5 splits. Anything less is reported as "no detectable difference".
+- **Model selection uses validation donors only.** Hyperparameters, epochs and the KL weight are chosen on val donors. Test donors are scored once per configuration that is reported.
+- **Every reported number carries its provenance:** the script, the config, the seed, and the commit that produced it, saved next to the number under `results/`.
+- **Tool configuration is not edited to make a check pass.** A failing lint rule or test is fixed in the code, not in `pyproject.toml` or the CI file.
+
 **Working principle (owner's decision, 2026-11-17): full speed, learn afterwards.** The owner chose to have all milestones built as fast as possible, with parallel agents, and to study the material at the end. This replaces "teach before you build" and the per-milestone quiz in `CLAUDE.md` for the build phase. What makes that safe: every decision is written down as it is made (this log and `docs/NOTES.md`), so the reasoning can be read and defended later. The honesty rules are unchanged: no number enters the README unless a script here produced it. Lessons and quizzes move to the end.
