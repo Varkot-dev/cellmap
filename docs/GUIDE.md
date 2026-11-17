@@ -376,8 +376,9 @@ Kept here because "what went wrong and how you caught it" is often the best thin
 
 ## Part 7. What is left
 
-**M4. More data.** Pull several datasets (other labs, other tissues) from Census, rerun everything, and add two harder tests:
-- **A held-out dataset:** a whole lab never seen in training.
+**M4. More data (in progress).** Six healthy blood datasets from different labs and chemistries, at most 500 cells per donor, labels mapped to 12 shared lineages, only genes every lab measured. Every method is rerun under two schemes, plus a held-out cell type test:
+- **Donor splits across all six labs** (five seeds).
+- **A held-out dataset:** a whole lab never seen in training (six folds, one per lab).
 - **A held-out cell type:** a type removed from training entirely, to see where each method puts it.
 
 This answers whether the findings above are specific to one dataset.
@@ -389,6 +390,8 @@ This answers whether the findings above are specific to one dataset.
 - A cost-versus-quality figure.
 - The final README, which opens with one strong visual and three sentences.
 - The checklist before making the repo public. One item: `harmonypy` is GPL-licensed, which affects the license choice.
+
+**The public site.** You chose one scroll-driven explainer page as the front of the project: the 3D map changes as the reader scrolls from raw data through each method, ending on the results, with the atlas linked. It comes after M4.
 
 **Open checks worth doing first:**
 - Does the "seurat_v3" gene-selection method change the scores? In DCMvsACM it mattered.
@@ -449,4 +452,5 @@ This answers whether the findings above are specific to one dataset.
 
 ## Update log
 
+- **2026-11-17 (night):** M4 design recorded in Part 7; public site choice recorded.
 - **2026-11-17:** Guide created after M0, M1, M2, M3, M5 and M6. The transformer's GPU results are included.

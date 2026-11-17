@@ -187,4 +187,15 @@ Written down now, before the VAE has been scored, so the rules cannot be bent to
 - The first split's weights are saved (`results/m5/pbmc/model_seed0.pt`, 4 MB) so the embedding can be rebuilt without retraining; the rebuilt embedding reproduced the GPU run's kNN scores exactly.
 - Added `docs/GUIDE.md` at the owner's request: one walkthrough of the whole project, kept current after every milestone (rule added to `CLAUDE.md`).
 
+**2026-11-17, M4 design**
+
+- **Six healthy adult blood datasets** from Census 2025-01-30, chosen for different labs and 10x chemistries: Schulte-Schrepping (3' v2 and v3, the M0 dataset), Hao (3' v3), Stephenson (3'), COMBAT (5' v1), AIDA (5' v2, 30 of 508 donors drawn at random) and OneK1K (3' v2, 30 of 981 donors). At most 500 cells per donor, so no dataset or donor dominates. Children excluded, so age does not become a second batch variable.
+- **Same tissue, not several tissues** (a change from the plan's "multi-tissue"). The held-out-dataset test needs cell types that every dataset shares; across tissues most types would exist in only one dataset.
+- **Shared lineage labels.** The labs label at different levels of detail ("naive B cell" versus "B cell"), so all 75 names are mapped by hand to 12 lineages in `cellmap.labels.LINEAGE`. Names that fit no single lineage ("T cell", "blood cell", "unknown") are dropped. Fine-label scores are not compared across datasets.
+- **Genes measured in every dataset only**, from the Census presence matrix. A gene one lab did not measure would otherwise look like zero expression in all of its cells.
+- **Two split schemes:** donor splits pooled over all datasets (seeds 0 to 4), and leave one dataset out (six folds; the other datasets' donors split into train and val).
+- **scvi-tools is not rerun in M4;** M3 showed it matches the hand-written VAE.
+
+**2026-11-17, public site:** the owner chose one scroll-driven explainer page as the front of the project (the 3D map changes as the reader scrolls from raw data to each method, ending on the results), linking to the existing atlas. Built after M4.
+
 **Working principle (owner's decision, 2026-11-17): full speed, learn afterwards.** The owner chose to have all milestones built as fast as possible, with parallel agents, and to study the material at the end. This replaces "teach before you build" and the per-milestone quiz in `CLAUDE.md` for the build phase. What makes that safe: every decision is written down as it is made (this log and `docs/NOTES.md`), so the reasoning can be read and defended later. The honesty rules are unchanged: no number enters the README unless a script here produced it. Lessons and quizzes move to the end.
