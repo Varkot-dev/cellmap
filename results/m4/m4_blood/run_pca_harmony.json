@@ -1,0 +1,68 @@
+{
+  "method": "pca_harmony",
+  "commit": "0ac52a7ea049a3ceb8595c71fc90d010a03700e5",
+  "device": "cpu",
+  "torch_threads": 4,
+  "timings": [
+    {
+      "scheme": "donor",
+      "fold": "seed0",
+      "seconds": 7.968116822999946
+    },
+    {
+      "scheme": "donor",
+      "fold": "seed1",
+      "seconds": 7.377249372000051
+    },
+    {
+      "scheme": "donor",
+      "fold": "seed2",
+      "seconds": 7.995454615999961
+    },
+    {
+      "scheme": "donor",
+      "fold": "seed3",
+      "seconds": 7.270068042000048
+    },
+    {
+      "scheme": "donor",
+      "fold": "seed4",
+      "seconds": 18.314095447
+    },
+    {
+      "scheme": "dataset",
+      "fold": "aida",
+      "seconds": 17.209468760999926
+    },
+    {
+      "scheme": "dataset",
+      "fold": "combat",
+      "seconds": 26.267488147999984
+    },
+    {
+      "scheme": "dataset",
+      "fold": "hao",
+      "seconds": 8.844854153000142
+    },
+    {
+      "scheme": "dataset",
+      "fold": "onek1k",
+      "seconds": 7.583179215999962
+    },
+    {
+      "scheme": "dataset",
+      "fold": "schulte",
+      "seconds": 8.443968008000184
+    },
+    {
+      "scheme": "dataset",
+      "fold": "stephenson",
+      "seconds": 7.562468823000017
+    }
+  ],
+  "versions": {
+    "torch": "2.15.0",
+    "scanpy": "1.13.0",
+    "scib-metrics": "0.6.2"
+  }
+}
