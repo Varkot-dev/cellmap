@@ -12,6 +12,9 @@ Writes:
     results/m5/<name>/metrics_by_split.csv  one row per split seed, method "transformer"
     results/m5/<name>/history_seed<k>.csv   masked-token loss and accuracy per epoch
     results/m5/<name>/run.json              settings, timings, parameter count, commit
+    results/m5/<name>/model_seed<k>.pt      weights of the first split's model (about 4 MB), so
+                                            the embedding can be rebuilt on another machine with
+                                            scripts/m5_embed_from_weights.py
     data/embeddings/<name>/transformer.npy  split seed 0 embedding (not committed)
 """
 
@@ -91,6 +94,11 @@ def main() -> None:
         )
         if seed == args.split_seeds[0]:
             np.save(emb_dir / "transformer.npy", emb)
+            weights = {k: v.detach().cpu() for k, v in model.state_dict().items()}
+            torch.save(
+                {"n_genes": int(counts.shape[1]), "split_seed": seed, "state_dict": weights},
+                out / f"model_seed{seed}.pt",
+            )
         pd.DataFrame(rows).to_csv(out / "metrics_by_split.csv", index=False)
 
     run = {
