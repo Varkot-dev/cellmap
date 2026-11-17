@@ -32,6 +32,9 @@ METHODS = {
     "vae": "VAE (hand-written)",
     "scvi": "scvi-tools",
     "transformer": "Transformer",
+    "census_scvi": "Census scVI",
+    "geneformer_ft": "Geneformer (fine-tuned)",
+    "tf_sapiens": "TranscriptFormer",
 }
 MARKER_GENES = [
     "CD3E", "CD4", "CD8A", "CCR7", "IL7R", "FOXP3", "TRDC", "KLRB1", "NKG7", "GNLY",
