@@ -84,6 +84,10 @@ def main() -> None:
     default_methods = ["pca", "pca_harmony", "vae", *PRETRAINED]
     parser.add_argument("--methods", nargs="+", default=default_methods)
     parser.add_argument("--schemes", nargs="+", default=["donor", "dataset"])
+    parser.add_argument("--folds", nargs="+", help="run only these folds (e.g. seed0 hao)")
+    parser.add_argument(
+        "--resume", action="store_true", help="keep rows already saved and skip their folds"
+    )
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--threads", type=int, default=4)
     args = parser.parse_args()
@@ -96,9 +100,18 @@ def main() -> None:
     emb_dir = ROOT / "data" / "embeddings" / args.name
     emb_dir.mkdir(parents=True, exist_ok=True)
     all_folds = folds(obs, args.schemes)
+    if args.folds:
+        all_folds = [f for f in all_folds if f[1] in args.folds]
 
     for method in args.methods:
         rows, timings = [], []
+        saved = out / f"metrics_{method}.csv"
+        if args.resume and saved.exists():
+            rows = pd.read_csv(saved).to_dict("records")
+        done = {(r["scheme"], r["fold"]) for r in rows}
+        run_path = out / f"run_{method}.json"
+        if args.resume and run_path.exists():
+            timings = json.loads(run_path.read_text())["timings"]
         pretrained = None
         if method in PRETRAINED:
             cache = emb_dir / f"{method}.npy"
@@ -111,6 +124,8 @@ def main() -> None:
             raise ValueError(f"unknown method {method!r}")
 
         for scheme, fold, split in all_folds:
+            if (scheme, fold) in done:
+                continue
             seed = int(fold.removeprefix("seed")) if scheme == "donor" else 0
             t0 = time.perf_counter()
             emb = pretrained if pretrained is not None else embed_trained(
@@ -129,17 +144,17 @@ def main() -> None:
                                  ("bio", "scib_bio_mean"), ("batch", "scib_batch_mean"))
             )  # fmt: skip
             print(f"{method} {scheme} {fold}: {summary} ({seconds:.0f}s)", flush=True)
-            pd.DataFrame(rows).to_csv(out / f"metrics_{method}.csv", index=False)
-
-        run = {
-            "method": method,
-            "commit": git_commit(ROOT),
-            "device": args.device,
-            "torch_threads": args.threads,
-            "timings": timings,
-            "versions": versions("torch", "scanpy", "scib-metrics"),
-        }
-        (out / f"run_{method}.json").write_text(json.dumps(run, indent=2) + "\n")
+            pd.DataFrame(rows).to_csv(saved, index=False)
+            # Rewritten after every fold, so an interrupted run keeps everything it finished.
+            run = {
+                "method": method,
+                "commit": git_commit(ROOT),
+                "device": args.device,
+                "torch_threads": args.threads,
+                "timings": timings,
+                "versions": versions("torch", "scanpy", "scib-metrics"),
+            }
+            run_path.write_text(json.dumps(run, indent=2) + "\n")
 
 
 if __name__ == "__main__":
