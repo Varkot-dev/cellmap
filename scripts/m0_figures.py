@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.patches import Patch
 
-from cellmap.plotting import INK_SECONDARY, SPLIT_COLORS, set_style
+from cellmap.plotting import GRID, PAPER, SPLIT_COLORS, apply, figure_caption, title
 from cellmap.splits import SPLITS
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -31,9 +31,9 @@ def main() -> None:
     donors = pd.read_csv(results / "donors.csv", index_col=0)
     types = pd.read_csv(results / "cell_types.csv", index_col=0)
 
-    set_style()
+    apply()
     fig, (ax1, ax2) = plt.subplots(
-        1, 2, figsize=(13, 6.5), gridspec_kw={"width_ratios": [1, 1.25], "wspace": 0.75}
+        1, 2, figsize=(13.5, 6.5), gridspec_kw={"width_ratios": [1, 1.25], "wspace": 0.85}
     )
 
     # Left: cells per donor, grouped by split.
@@ -42,36 +42,27 @@ def main() -> None:
         f"{d}  (v3)" if "v3" in a else d for d, a in zip(order.index, order["assay"], strict=True)
     ]
     ax1.barh(labels, order["cells"], color=order["split"].map(SPLIT_COLORS), height=0.72)
-    ax1.grid(axis="y", visible=False)
     ax1.set_xlabel("cells after quality control")
-    ax1.set_title("Every donor belongs to exactly one split")
+    title(ax1, "Every donor belongs to exactly one split", "Cells per donor after quality control")
     handles = []
     for s in SPLITS:
         sub = donors[donors["split"] == s]
         label = f"{s}: {len(sub)} donors, {sub['cells'].sum():,} cells"
         handles.append(Patch(color=SPLIT_COLORS[s], label=label))
     ax1.legend(handles=handles, loc="center right")
-    ax1.text(
-        0,
-        -0.16,
-        "(v3) marks the two donors run on 10x 3' v3; all others are 10x 3' v2.",
-        transform=ax1.transAxes,
-        color=INK_SECONDARY,
-        fontsize=9,
-    )
 
     # Right: share of each split made up by each cell type.
     share = 100 * types[list(SPLITS)] / types[list(SPLITS)].sum()
     share = share.iloc[::-1]
     y = range(len(share))
-    ax2.hlines(y, share.min(axis=1), share.max(axis=1), color="#c3c2b7", linewidth=1.5, zorder=1)
+    ax2.hlines(y, share.min(axis=1), share.max(axis=1), color=GRID, linewidth=2, zorder=1)
     for s in SPLITS:
         ax2.scatter(
             share[s],
             y,
             s=46,
             color=SPLIT_COLORS[s],
-            edgecolor="#fcfcfb",
+            edgecolor=PAPER,
             linewidth=1.2,
             label=s,
             zorder=2,
@@ -83,9 +74,19 @@ def main() -> None:
     ax2.set_xticks([0, 1, 3, 10, 30, 60], ["0", "1", "3", "10", "30", "60"])
     ax2.set_xlim(-0.1, 70)
     ax2.set_xlabel("percent of the split's cells (log scale above 1%)")
-    ax2.set_title("Cell-type make-up differs between splits")
+    title(
+        ax2,
+        "Cell-type make-up differs between splits",
+        "Share of each split's cells, one dot per split",
+    )
+    ax2.tick_params(axis="y", length=0)
     ax2.legend(loc="upper right", bbox_to_anchor=(1.0, -0.11), ncol=3, handletextpad=0.2)
 
+    figure_caption(
+        fig,
+        "(v3) marks the two donors run on 10x 3' v3 chemistry; all others are 10x 3' v2. "
+        "Both v3 donors fell in train for split seed 0.",
+    )
     out = ROOT / "assets" / f"m0_split_{args.name}.png"
     out.parent.mkdir(exist_ok=True)
     fig.savefig(out)
