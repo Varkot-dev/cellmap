@@ -288,6 +288,86 @@ Five donor splits, test donors (`results/m2/pbmc/metrics_by_split.csv`, compared
 
 ---
 
+# M3: parity with scvi-tools
+
+## Why check the hand-written VAE against a library at all?
+
+A hand-written model can be wrong in ways that still train: a sign error in the KL term, a library size computed over the wrong genes, a likelihood that is off by a constant. Each still gives a loss that goes down. The only way to know the VAE is the model you think it is, is to compare it with an independent implementation of the same model under the same conditions.
+
+**The choice:** `src/cellmap/scvi_baseline.py` trains scvi-tools 1.5.2 with every setting matched to `cellmap.vae` (negative binomial likelihood, observed library size, one dispersion per gene, the same layer sizes, optimizer, learning rate, batch size, KL warm-up over 10 epochs, no internal validation split), on the training donors only, then `scripts/m3_scvi_parity.py` scores it on the same five donor splits as M2.
+
+---
+
+## How do you know the two are the same computation?
+
+Three levels of evidence, from strongest to weakest (all on the tiny development data):
+
+1. **Weight transplant.** Copying a trained scvi-tools model's weights into `cellmap.vae.VAE` gives identical embeddings for all 3,087 cells (difference 0.0), in 8 of 8 seeds. Same architecture, same forward pass.
+2. **Single training steps.** From the same starting weights and the same 128 cells, the reconstruction and KL terms agree to every printed digit, gradients agree to about 1 part in a million, and the weights after an Adam step agree to 1e-7. Same loss, same optimizer.
+3. **Trained from scratch, 8 seeds.** kNN accuracy 0.840 for both; macro F1 0.400 versus 0.408. Same result within noise.
+
+**The one real difference:** the hand-written model reached a reconstruction loss about 0.5 percent lower (215.9 versus 217.0 per cell), consistently. It traced to one thing: scvi-tools starts each gene's log dispersion at a random normal draw, the hand-written model at 0. Giving the hand-written model scvi-tools' start closed the gap.
+
+**What to say:** "I checked my VAE three ways against scvi-tools: copying weights gives identical embeddings, single gradient steps match to a millionth, and trained from scratch they agree within seed noise. The one difference I found was the dispersion initialization, and swapping it in removed the gap."
+
+---
+
+## How do held-out donors get embedded by scvi-tools?
+
+scvi-tools refuses to embed cells whose donor it was not set up with. But with `encode_covariates=False` the encoder never reads the donor label, so any training donor's label can stand in. The code checks this on every call: it embeds the held-out cells under a second training donor's label and raises if the embeddings differ by more than float32 rounding.
+
+**A mistake worth naming:** the first version of that check demanded an exact zero difference. On split 3 the difference was 0.0000005, because the second pass runs on a differently sized block of cells and the matrix products round differently in the last bit. The run stopped, and I committed the three finished splits under a message that said five. The check now allows float32 rounding, the commit after it says the earlier one was partial, and the full run was repeated.
+
+---
+
+## M3 result on the full data
+
+M3_RESULT_PLACEHOLDER
+
+---
+
+# M5: the hand-written transformer
+
+## How is a cell turned into a sequence? (plan question 7)
+
+A sentence is a sequence of words; a cell is not naturally a sequence of anything. Three choices define the answer:
+
+**1. Which genes become tokens.** Only the genes the cell expresses (count above 0), among the 2,000 selected genes. A cell has about 60 to 300 such genes. The alternative, one token per gene including zeros, makes "this gene is off" explicit but costs far more computation, because attention scales with the square of the sequence length. Cells with more than 256 expressed genes are cut to 256: a random subset each time in training, the most expressed ones when embedding.
+
+**2. How the expression level is encoded.** Each token is a learned vector for the gene plus a learned vector for its level. The level is one of 10 bins, computed inside each cell from the rank of the gene's value among that cell's expressed genes. So the bins do not change if a cell was sequenced twice as deeply. This is close to scGPT's approach. Alternatives:
+- a continuous value through a small network: keeps exact values, but is sensitive to depth and outliers;
+- Geneformer's approach: no value at all, the genes are ordered by expression and the order itself carries the level.
+
+**3. Order.** None. Genes have no natural order, so there is no positional encoding, and a test checks that shuffling a cell's tokens does not change its embedding.
+
+**Worked example:** a cell expresses gene 7 (count 1), gene 2 (count 5) and gene 9 (count 1). Ranks: gene 7 and gene 9 tie at the bottom, gene 2 is above both. With 10 bins and 3 genes, the two tied genes go in bin 0 and gene 2 in bin floor(10 * 2/3) = 6. Tokens: (gene 2, bin 6), (gene 7, bin 0), (gene 9, bin 0), in any order.
+
+**Known weakness of this binning:** about 60 percent of nonzero counts in this data are exactly 1, and all of them land in bin 0, so the bins are very unequal.
+
+---
+
+## What is the model trained to do?
+
+**Masked gene modeling.** In each cell, 15 percent of the tokens keep their gene identity but have their level replaced by a [MASK] vector. The model must predict the hidden level from the rest of the cell. It is the cell version of BERT's masked words.
+
+**Why keep the gene and hide the level:** the question "how high is CD14 in this cell, given everything else it expresses" can only be answered by learning which genes go together, which is the structure that separates cell types. Hiding the gene identity instead (as Geneformer does) asks "which gene is here", a different task.
+
+**How to tell it learned something:** two guessing baselines are reported next to the accuracy. Always guessing the most common bin, and guessing each gene's most common bin. Beating the second shows the model uses the rest of the cell, not just facts about each gene.
+
+**A second objective for the cell embedding:** the cell's embedding is the final state of a [CLS] vector added at the front. With masked prediction alone, nothing reads that state, so it would never be trained. A second small head therefore has to predict every token's level from the [CLS] state alone, which forces it to summarize the whole cell.
+
+**What the model does not have:** any donor input. It has no batch-correction mechanism, unlike the VAE and Harmony. That is a real limitation to state with its results.
+
+**Size:** 4 layers, 4 attention heads, width 128, about 1 million parameters with 1,000 genes.
+
+---
+
+## Status
+
+Built and tested (30 tests, including exact hand-worked tokenization, invariance to token order and sequencing depth, and padding that does not change an embedding). Not yet trained on the full data: on this CPU it would take one to two hours per split. `notebooks/m5_transformer_gpu.ipynb` does the full run on a Colab GPU. On tiny data after a short run it beat both guessing baselines (masked accuracy 0.72 versus 0.61 and 0.67) but its embedding was well below PCA on kNN. That is an undertrained model on 1,900 cells, not a result.
+
+---
+
 # M6: published pretrained-model embeddings
 
 ## Where do these embeddings come from, and why not run the models?
