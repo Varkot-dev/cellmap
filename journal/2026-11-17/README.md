@@ -68,10 +68,50 @@ A caution worth writing down: chemistry is confounded with donor here. Only two 
 3. Nothing yet about deep models. No VAE or transformer result exists.
 4. The label-efficiency curve (Harmony ahead with 1 percent of labels, behind with all of them) comes from one split. It is a lead.
 
+## Later the same day: the deep models
+
+The owner switched the working rule to "full speed, learn afterwards", so the remaining milestones were built in parallel by subagents. Before any deep model was scored, the comparison rules were written into the plan: same harness, same five donor splits, and "better" means higher than both baselines in at least 4 of 5 splits.
+
+### The hand-written VAE (M2)
+
+A negative binomial VAE, 10 latent dimensions, encoder blind to the donor, decoder given the donor. Trained on training donors only, 100 epochs, five splits.
+
+**Against 50-dimensional PCA: no detectable difference on kNN, batch score higher in 4 of 5 splits (+0.031). Against Harmony: lower on every scIB score in 5 of 5 splits (-0.064 aggregate). Against 10-dimensional PCA: macro F1 higher in 5 of 5 (+0.121).**
+
+The linear autoencoder tied 10-dimensional PCA, which is what theory predicts. That is the check that the comparison is wired correctly.
+
+### The KL sweep
+
+Both failure modes from the plan show up on the real data. At weight 0 the KL term is 52 per cell. At weight 100 it is 0.003 and every cell gets the same code: no latent dimension varies, and macro F1 falls from 0.64 to 0.26.
+
+![KL sweep](m2_kl_sweep_pbmc.png)
+
+### Parity with scvi-tools (M3), on tiny data so far
+
+Copying a trained scvi-tools model's weights into the hand-written model gives identical embeddings for every cell. Starting both from the same weights, single training steps agree to all printed digits. Over 8 seeds kNN agrees within noise. The hand-written model reaches a 0.5 percent lower reconstruction loss; that traced to how the per-gene dispersion is initialized, and giving it scvi-tools' initialization closes the gap. The full five-split run on PBMC is in progress.
+
+### Published pretrained embeddings (M6)
+
+CZ CELLxGENE publishes embeddings of every Census cell from several models. Downloaded for these 44,756 cells: Census scVI, a Geneformer fine-tuned on Census with cell-type supervision, and TranscriptFormer.
+
+**None beat plain PCA on any metric by the pre-declared rule. Geneformer was lower than PCA on every metric in all 5 splits, even with label supervision.**
+
+All three had seen these cells during training, so the comparison favours them, and they still lost. This agrees with Kedzierska et al.
+
+### The transformer (M5)
+
+Built and tested (30 tests), but not trained on the full data: on this CPU it would take one to two hours per split. A Colab notebook (`notebooks/m5_transformer_gpu.ipynb`) rebuilds the data, checks it against M0, trains on all five splits and pushes the results. On tiny data after a short run it learned (masked accuracy 0.72 against a per-gene guessing baseline of 0.67) but its embedding was well below PCA. That is an undertrained model on 1,900 cells, not a result.
+
+### The interactive atlas
+
+`site/index.html`: a 3D point cloud of all cells that can be rotated, recoloured by cell type, donor, chemistry, split or 20 marker genes, and switched between methods with the cells animating to their new positions.
+
 ## Next
 
-- M2: the hand-written VAE (in progress), KL weight sweep.
-- M3: parity against `scvi-tools`.
+- Finish the M3 parity run on all five splits.
+- Train the transformer on a GPU (owner, with the notebook).
+- Add scvi-tools, the pretrained models and the transformer to the atlas.
 - Open check: does switching HVG flavor to seurat_v3 change the scores? In DCMvsACM that choice mattered.
+- Open check: does a larger VAE latent space change the comparison with Harmony?
 
 Scripts: `scripts/m1_baselines.py`, `scripts/m1_figures.py`. Results: `results/m1/pbmc/`.
