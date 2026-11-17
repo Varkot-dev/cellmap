@@ -1,8 +1,11 @@
 """Score any embedding the same way, so every method in the comparison is treated alike."""
 
+import anndata as ad
 import numpy as np
 import pandas as pd
 
+from cellmap import vae
+from cellmap.baselines import harmony_correct, pca_embed, select_hvg
 from cellmap.evaluate import knn_classification, scib_scores
 from cellmap.splits import split_donors
 
@@ -75,3 +78,35 @@ def score_embedding(
     out["scib_batch_mean"] = scib["batch_mean"]
     out["scib_total"] = scib["total"]
     return out
+
+
+def fit_and_embed(
+    method: str, adata: ad.AnnData, split: np.ndarray, seed: int, device: str
+) -> np.ndarray:
+    """Fit one of the project's own methods on the cells marked "train" and embed every cell.
+
+    Genes are selected on the training cells, every model is fitted on them only, and the
+    embedding covers all cells. Harmony is the exception: it corrects all cells together.
+    """
+    train, val = split == "train", split == "val"
+    genes = select_hvg(adata, train, n_top_genes=2000)
+    donors = adata.obs["donor_id"].astype(str).to_numpy()
+    if method in ("pca", "pca_harmony"):
+        pcs = pca_embed(adata, genes, train, n_comps=50)
+        return pcs if method == "pca" else harmony_correct(pcs, donors, seed=seed)
+    counts = adata.layers["counts"][:, genes].tocsr()
+    if method == "vae":
+        known = sorted(set(donors[train]))
+        codes = vae.batch_codes(donors, known)
+        model, _ = vae.train_vae(
+            counts[train], codes[train], n_batches=len(known), n_epochs=100, seed=seed
+        )
+        return vae.embed(model, counts)
+    if method == "transformer":
+        from cellmap import transformer
+
+        model, _ = transformer.train_transformer(
+            counts[train], n_epochs=30, seed=seed, device=device, counts_val=counts[val]
+        )
+        return transformer.embed(model, counts, device=device)
+    raise ValueError(method)

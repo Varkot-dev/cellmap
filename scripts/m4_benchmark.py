@@ -27,9 +27,7 @@ import numpy as np
 import pandas as pd
 import torch
 
-from cellmap import vae
-from cellmap.baselines import harmony_correct, pca_embed, select_hvg
-from cellmap.benchmark import dataset_out_split, donor_split, score_embedding
+from cellmap.benchmark import dataset_out_split, donor_split, fit_and_embed, score_embedding
 from cellmap.census_embeddings import PRETRAINED, fetch_embedding
 from cellmap.config import load_config
 from cellmap.provenance import git_commit, versions
@@ -48,34 +46,6 @@ def folds(obs: pd.DataFrame, schemes: list[str]) -> list[tuple[str, str, np.ndar
         for ds in sorted(obs["dataset"].astype(str).unique()):
             out.append(("dataset", ds, dataset_out_split(obs, ds)))
     return out
-
-
-def embed_trained(
-    method: str, adata: ad.AnnData, split: np.ndarray, seed: int, device: str
-) -> np.ndarray:
-    """Fit one of the project's own methods on training donors and embed every cell."""
-    train, val = split == "train", split == "val"
-    genes = select_hvg(adata, train, n_top_genes=2000)
-    donors = adata.obs["donor_id"].astype(str).to_numpy()
-    if method in ("pca", "pca_harmony"):
-        pcs = pca_embed(adata, genes, train, n_comps=50)
-        return pcs if method == "pca" else harmony_correct(pcs, donors, seed=seed)
-    counts = adata.layers["counts"][:, genes].tocsr()
-    if method == "vae":
-        known = sorted(set(donors[train]))
-        codes = vae.batch_codes(donors, known)
-        model, _ = vae.train_vae(
-            counts[train], codes[train], n_batches=len(known), n_epochs=100, seed=seed
-        )
-        return vae.embed(model, counts)
-    if method == "transformer":
-        from cellmap import transformer
-
-        model, _ = transformer.train_transformer(
-            counts[train], n_epochs=30, seed=seed, device=device, counts_val=counts[val]
-        )
-        return transformer.embed(model, counts, device=device)
-    raise ValueError(method)
 
 
 def main() -> None:
@@ -128,7 +98,7 @@ def main() -> None:
                 continue
             seed = int(fold.removeprefix("seed")) if scheme == "donor" else 0
             t0 = time.perf_counter()
-            emb = pretrained if pretrained is not None else embed_trained(
+            emb = pretrained if pretrained is not None else fit_and_embed(
                 method, adata, split, seed, args.device
             )  # fmt: skip
             seconds = time.perf_counter() - t0
