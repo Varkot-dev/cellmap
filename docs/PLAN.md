@@ -92,7 +92,7 @@ A check you can do by hand: with the KL weight at 0 the model is a plain autoenc
 | M2 (built 2026-11-17) | Hand-written VAE (method 4) with unit tests for the negative binomial likelihood and the KL term | Loss components match a hand-computed example; KL weight sweep shows both failure modes |
 | M3 (built 2026-11-17) | Parity with `scvi-tools` (method 5) | Metrics agree within seed-to-seed noise, or the difference is explained |
 | M4 | Scale up through CELLxGENE Census to a multi-tissue, multi-dataset set; rerun everything | Held-out dataset and held-out cell-type results added |
-| M5 (built and tested 2026-11-17; GPU training pending) | Small transformer with masked gene modeling (method 6) | Trained on a free GPU; added to the comparison |
+| M5 (built 2026-11-17; trained on GPU 2026-11-17) | Small transformer with masked gene modeling (method 6) | Trained on a free GPU; added to the comparison |
 | M6 (built 2026-11-17) | Pretrained model embeddings (method 7) | Added to the comparison with training-data overlap noted |
 | M7 | Analyses in 4.4, interactive atlas, write-up | README complete, repo ready to make public |
 
@@ -180,5 +180,11 @@ Written down now, before the VAE has been scored, so the rules cannot be bent to
 
 - CI had been failing at the install step since scanpy was pinned to 1.13 or later: scanpy 1.13 needs Python 3.13, while CI and Colab run 3.12. Gene selection now works with scanpy 1.11 to 1.13. On the PBMC data, scanpy 1.12.6 on Python 3.12 and scanpy 1.13.0 on Python 3.13 select identical genes, for both per-donor and pooled selection.
 - The Colab notebook also failed `ruff check`; its cells were rewritten to pass rather than excluding notebooks from lint.
+
+**2026-11-17, M5 results and the guide**
+
+- The transformer was trained on a Colab T4 GPU (torch 2.14.1, scanpy 1.13.0), 30 epochs, batch size 64, 2,000 genes, five splits. The notebook rebuilt the M0 data from Census and checked it matched before training. Results were pushed to branch `colab/m5-results` and merged.
+- The first split's weights are saved (`results/m5/pbmc/model_seed0.pt`, 4 MB) so the embedding can be rebuilt without retraining; the rebuilt embedding reproduced the GPU run's kNN scores exactly.
+- Added `docs/GUIDE.md` at the owner's request: one walkthrough of the whole project, kept current after every milestone (rule added to `CLAUDE.md`).
 
 **Working principle (owner's decision, 2026-11-17): full speed, learn afterwards.** The owner chose to have all milestones built as fast as possible, with parallel agents, and to study the material at the end. This replaces "teach before you build" and the per-milestone quiz in `CLAUDE.md` for the build phase. What makes that safe: every decision is written down as it is made (this log and `docs/NOTES.md`), so the reasoning can be read and defended later. The honesty rules are unchanged: no number enters the README unless a script here produced it. Lessons and quizzes move to the end.

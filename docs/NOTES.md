@@ -377,9 +377,25 @@ A sentence is a sequence of words; a cell is not naturally a sequence of anythin
 
 ---
 
-## Status
+## M5 result
 
-Built and tested (30 tests, including exact hand-worked tokenization, invariance to token order and sequencing depth, and padding that does not change an embedding). Not yet trained on the full data: on this CPU it would take one to two hours per split. `notebooks/m5_transformer_gpu.ipynb` does the full run on a Colab GPU. On tiny data after a short run it beat both guessing baselines (masked accuracy 0.72 versus 0.61 and 0.67) but its embedding was well below PCA on kNN. That is an undertrained model on 1,900 cells, not a result.
+Trained on a Colab T4 GPU, 30 epochs per split, 6 to 11 minutes per split, on training donors only (`results/m5/pbmc/`). The notebook first rebuilt the data from Census and confirmed it matched M0 exactly.
+
+| | kNN accuracy | kNN macro F1 | scIB bio | scIB batch | scIB aggregate |
+|---|---|---|---|---|---|
+| Transformer | 0.745 | 0.371 | 0.554 | 0.481 | 0.525 |
+| HVG + PCA | 0.893 | 0.664 | 0.735 | 0.569 | 0.669 |
+| VAE | 0.879 | 0.646 | 0.737 | 0.600 | 0.682 |
+
+**It learned the task:** at the end of training it predicted hidden levels 4.5 to 8.6 points better than guessing each gene's usual level, on validation donors (`assets/m5_transformer_pbmc.png`).
+
+**But the embedding is weak:** lower than PCA, Harmony and the VAE on every metric in all 5 splits.
+
+**Training had levelled off:** validation loss moved by less than 0.01 over the last 10 epochs (the learning rate also decays to zero by design).
+
+**Possible reasons (untested):** the masked task does not force the [CLS] summary to organise cells by type; no donor correction; most nonzero counts fall in the lowest bin; 34,000 cells is very little data for a transformer.
+
+**What to say:** "My transformer learned to predict hidden genes better than a per-gene baseline, so the training worked, but its cell embedding was the weakest of my own models. Being good at the pretraining task did not make it good at separating cell types, which is the same gap the foundation-model papers report at much larger scale."
 
 ---
 

@@ -106,7 +106,13 @@ All three had seen these cells during training, so the comparison favours them, 
 
 ### The transformer (M5)
 
-Built and tested (30 tests), but not trained on the full data: on this CPU it would take one to two hours per split. A Colab notebook (`notebooks/m5_transformer_gpu.ipynb`) rebuilds the data, checks it against M0, trains on all five splits and pushes the results. On tiny data after a short run it learned (masked accuracy 0.72 against a per-gene guessing baseline of 0.67) but its embedding was well below PCA. That is an undertrained model on 1,900 cells, not a result.
+Built and tested (30 tests). Trained in the evening by the owner on a Colab T4 GPU with `notebooks/m5_transformer_gpu.ipynb`: 6 to 11 minutes per split. Before training, the notebook rebuilt the data from Census and it matched M0 exactly.
+
+**It learned the masked-gene task (4.5 to 8.6 points above guessing each gene's usual level), but its embedding was lower than PCA, Harmony and the VAE on every metric in all 5 splits: kNN accuracy 0.745 against 0.893 for PCA, macro F1 0.371 against 0.664.**
+
+Validation loss had levelled off by the end, so this is not obviously a matter of too few epochs. Being good at the pretraining task did not make the [CLS] summary a good cell map.
+
+![Transformer](m5_transformer_pbmc.png)
 
 ### The interactive atlas
 
@@ -114,8 +120,6 @@ Built and tested (30 tests), but not trained on the full data: on this CPU it wo
 
 ## Next
 
-- Train the transformer on a GPU (owner, with the notebook).
-- Add scvi-tools, the pretrained models and the transformer to the atlas.
 - Open check: does switching HVG flavor to seurat_v3 change the scores? In DCMvsACM that choice mattered.
 - Open check: does a larger VAE latent space change the comparison with Harmony?
 

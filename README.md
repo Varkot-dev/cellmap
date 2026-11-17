@@ -4,8 +4,9 @@
 
 cellmap asks how much deep models add over simple baselines for representing single cells
 from gene-expression data, using public data and splits that prevent leakage.
-It is a work in progress: the data pipeline and the two classical baselines are built and
-scored on one dataset, and no deep model result exists yet.
+It is a work in progress: everything so far is on one dataset; scaling to several datasets (M4)
+and the final analyses (M7) are not done.
+A walkthrough of the whole project from scratch is in [docs/GUIDE.md](docs/GUIDE.md).
 The plan is in [docs/PLAN.md](docs/PLAN.md), the reasoning behind every decision in
 [docs/NOTES.md](docs/NOTES.md), and the day by day log in [journal/](journal/README.md).
 
@@ -17,7 +18,7 @@ The plan is in [docs/PLAN.md](docs/PLAN.md), the reasoning behind every decision
 | M1 classical baselines (HVG + PCA, PCA + Harmony) and evaluation harness | built, results below |
 | M2 hand-written negative binomial VAE, linear autoencoder, KL sweep | built, results below |
 | M3 parity check against scvi-tools | built; parity holds on all five splits |
-| M5 hand-written transformer with masked gene modeling | built and tested; not yet trained on the full data (needs a GPU) |
+| M5 hand-written transformer with masked gene modeling | built; trained on a Colab GPU; results below |
 | M6 published pretrained-model embeddings (Census scVI, Geneformer, TranscriptFormer) | built, results below |
 | M4 scale-up, M7 analyses and write-up | not started |
 | Interactive 3D atlas | first version built (`site/index.html`) |
@@ -26,8 +27,8 @@ The plan is in [docs/PLAN.md](docs/PLAN.md), the reasoning behind every decision
 
 One dataset (healthy PBMCs, 21 donors), five donor-level splits with 4 held-out donors each,
 all scores on held-out donors, means over the five splits. Written by `scripts/m1_baselines.py`,
-`scripts/m2_vae.py`, `scripts/m3_scvi_parity.py` and `scripts/m6_pretrained.py` to
-`results/m1/`, `results/m2/`, `results/m3/` and `results/m6/`.
+`scripts/m2_vae.py`, `scripts/m3_scvi_parity.py`, `scripts/m5_transformer.py` (run on a Colab
+GPU) and `scripts/m6_pretrained.py` to `results/m1/` through `results/m6/`.
 
 | Method (dimensions) | kNN accuracy, fine | kNN macro F1, fine | scIB bio | scIB batch | scIB aggregate |
 |---|---|---|---|---|---|
@@ -40,6 +41,7 @@ all scores on held-out donors, means over the five splits. Written by `scripts/m
 | Linear autoencoder (10) | 0.842 | 0.519 | 0.730 | 0.530 | 0.650 |
 | Geneformer, fine-tuned (512) | 0.719 | 0.367 | 0.643 | 0.484 | 0.580 |
 | TranscriptFormer TF-Sapiens (2048) | 0.892 | 0.629 | 0.662 | 0.442 | 0.574 |
+| Transformer, hand-written (128) | 0.745 | 0.371 | 0.554 | 0.481 | 0.525 |
 
 The rule for "better" was fixed before any deep model was scored: higher than both baselines in
 at least 4 of 5 splits. By that rule:
@@ -50,6 +52,9 @@ at least 4 of 5 splits. By that rule:
 - The hand-written VAE and scvi-tools with matched settings agree on every metric within
   noise (no difference larger than 0.01 on average, none consistent across splits). This is the
   check that the hand-written model is correct.
+- The hand-written transformer learned its masked-gene task (4.5 to 8.6 points above guessing
+  each gene's usual level on validation donors) but its embedding was lower than PCA, Harmony
+  and the VAE on every metric in all 5 splits.
 - None of the three published pretrained embeddings beat plain PCA on any metric, although all
   three were trained on Census data that includes these cells, and the Census Geneformer was
   fine-tuned with cell-type labels.
