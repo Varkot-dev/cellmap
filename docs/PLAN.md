@@ -87,8 +87,8 @@ A check you can do by hand: with the KL weight at 0 the model is a plain autoenc
 
 | # | Milestone | Done when |
 |---|---|---|
-| M0 (built 2026-11-17, quiz pending) | Data pipeline on a small blood dataset: load, quality control, normalize, donor-level splits | Counts of cells, donors and cell types reported; split verified to share no donors |
-| M1 | Classical baselines (methods 1 and 2) and the full evaluation harness | scIB metrics and kNN accuracy produced by one script |
+| M0 (built 2026-11-17) | Data pipeline on a small blood dataset: load, quality control, normalize, donor-level splits | Counts of cells, donors and cell types reported; split verified to share no donors |
+| M1 (built 2026-11-17) | Classical baselines (methods 1 and 2) and the full evaluation harness | scIB metrics and kNN accuracy produced by one script |
 | M2 | Hand-written VAE (method 4) with unit tests for the negative binomial likelihood and the KL term | Loss components match a hand-computed example; KL weight sweep shows both failure modes |
 | M3 | Parity with `scvi-tools` (method 5) | Metrics agree within seed-to-seed noise, or the difference is explained |
 | M4 | Scale up through CELLxGENE Census to a multi-tissue, multi-dataset set; rerun everything | Held-out dataset and held-out cell-type results added |
@@ -141,5 +141,17 @@ scanpy, anndata, cellxgene-census, scvi-tools (parity only), harmonypy, PyTorch,
 - **Coarse labels** are a hand-written mapping of the 20 fine types to 10 lineages in `src/cellmap/labels.py`.
 - **Known limits of split seed 0:** both 10x 3' v3 donors are in train, one donor holds a third of the training cells, and some types are very rare in test (3 platelets). Recorded rather than fixed by picking a nicer seed, because choosing the seed by looking at the outcome is its own form of leakage. Repeating over several donor splits (section 4.3) addresses it.
 - **Python version.** Developed on 3.13; CI runs 3.12. The plan's "3.11+" still holds.
+
+**2026-11-17, M1**
+
+- **HVG selection:** scanpy "seurat" flavor on log-normalized values, 2,000 genes, ranked per training donor. Per-donor and pooled selection share only 688 of 2,000 genes; pooled selects XIST. Open item: compare against "seurat_v3" on raw counts (needs scikit-misc), because in the owner's DCMvsACM project the HVG method changed results.
+- **PCA** is an exact eigendecomposition fitted on training donors (z-score, clip to 10, 50 components), so it has no seed.
+- **Harmony is transductive** and is run on all cells with library defaults. This is stated wherever its numbers appear. Verified against `harmonypy` 2.1.0, whose API differs from 0.x.
+- **scIB metrics:** `scib-metrics` 0.6.2, individual metric functions rather than `Benchmarker`, whose defaults no longer match the metrics named in section 4.3 (it uses KMeans for NMI and ARI, and a different batch silhouette). Default set: NMI, ARI, cell-type silhouette, cLISI (bio); batch silhouette, graph connectivity, iLISI (batch). kBET is opt-in. No min-max scaling across methods. Computed on test donors only.
+- **Macro F1 convention:** averaged over types with at least one test cell; a type in test but not in train scores 0; a type absent from test is excluded.
+- **Uncertainty:** five seeded donor splits, reported as paired differences with the count of splits won, not as a confidence interval. Five splits do not support one.
+- **scanpy pinned to 1.13 or later** because `highly_variable_genes(batch=...)` replaces the deprecated `batch_key`.
+- **Figure style** follows the owner's DCMvsACM `figstyle.py` (same palette and conventions), replacing the first palette used for the M0 figure.
+- **Notes and journal** follow the DCMvsACM formats: `docs/NOTES.md` (question, choice, why, alternatives, evidence, weakness, what to say) and `journal/YYYY-MM-DD/README.md`.
 
 **Working principle (owner's decision, 2026-11-17): full speed, learn afterwards.** The owner chose to have all milestones built as fast as possible, with parallel agents, and to study the material at the end. This replaces "teach before you build" and the per-milestone quiz in `CLAUDE.md` for the build phase. What makes that safe: every decision is written down as it is made (this log and `docs/NOTES.md`), so the reasoning can be read and defended later. The honesty rules are unchanged: no number enters the README unless a script here produced it. Lessons and quizzes move to the end.
