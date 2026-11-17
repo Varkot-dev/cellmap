@@ -265,7 +265,8 @@ def _embed_all_cells(
     a stand-in, because `get_latent_representation` validates labels before it runs the
     encoder, and the encoder then ignores them. The stand-in is the first known donor; the
     check repeats the unknown-donor cells with the last known donor and returns the largest
-    absolute difference between the two embeddings (0.0 when there is nothing to compare).
+    absolute difference between the two embeddings (0.0 when there is nothing to compare). It
+    raises if that difference exceeds float32 rounding.
 
     The module is in evaluation mode here (scvi-tools switches it after training), so dropout
     is off and batch norm uses its running averages: a cell's embedding does not depend on
@@ -286,7 +287,12 @@ def _embed_all_cells(
         other = _private_adata(counts[unseen], np.full(int(unseen.sum()), known[-1]))
         again = model.get_latent_representation(other, give_mean=True)
         diff = float(np.abs(np.asarray(again, dtype=np.float32) - emb[unseen]).max())
-        if diff != 0.0:
+        # The second pass embeds a different set of cells, so the matrix products run on
+        # differently sized blocks and can round differently in the last bits. Allow float32
+        # rounding (about 1e-7 relative) with margin; a real dependence on the batch label
+        # would move embeddings by orders of magnitude more.
+        tolerance = 1e-5 * max(1.0, float(np.abs(emb).max()))
+        if diff > tolerance:
             raise RuntimeError(
                 f"embedding of unseen-donor cells changed by {diff:g} with the stand-in batch "
                 "label; the encoder is expected to ignore the batch"
