@@ -110,6 +110,7 @@ def main() -> None:
     table.to_csv(out / "lineage_by_dataset.csv")
     donors.sort_values(["dataset", "cells"]).to_csv(out / "donors.csv")
     processed = ROOT / "data" / "processed" / f"{name}.h5ad"
+    processed.parent.mkdir(parents=True, exist_ok=True)
     adata.write_h5ad(processed, compression="gzip")
 
     print(json.dumps({k: summary[k] for k in ("downloaded", "cell_qc", "gene_filter", "final")},
