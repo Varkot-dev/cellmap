@@ -1,0 +1,2 @@
+method,scheme,fold,n_test_cells,knn_accuracy_lineage,knn_macro_f1_lineage,scib_nmi,scib_ari,scib_silhouette_label,scib_clisi,scib_silhouette_batch,scib_graph_connectivity,scib_ilisi,scib_bio_mean,scib_batch_mean,scib_total
+transformer,donor,seed0,12792,0.8517041901188243,0.649999739948368,0.4419569913478794,0.2573645060489951,0.5009691119194031,0.9714372158050537,0.8733078837394714,0.5152968243380047,0.12496784329414368,0.5429319562803328,0.50452418379054,0.5275688472844157
