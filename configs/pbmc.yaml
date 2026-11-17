@@ -1,0 +1,32 @@
+# M0 dataset: healthy-donor PBMCs from Schulte-Schrepping et al. (2020), via CZ CELLxGENE Census.
+name: pbmc
+
+census:
+  # Pinned long-term-support release, for reproducibility.
+  version: "2025-01-30"
+  # Public S3 location of that release. Passed directly so the run does not depend on the
+  # Census directory web service.
+  uri: "s3://cellxgene-census-public-us-west-2/cell-census/2025-01-30/soma/"
+  region: "us-west-2"
+  organism: "Homo sapiens"
+  dataset_id: "5e717147-0f75-4de1-8bd2-6fda01b8d75f"
+  # is_primary_data avoids counting a cell twice when it appears in several Census datasets.
+  obs_filter: "disease == 'normal' and is_primary_data == True"
+
+# Optional: keep at most this many cells per donor (null keeps everything).
+subsample_per_donor: null
+
+qc:
+  min_counts: 500      # total UMIs per cell
+  min_genes: 200       # genes detected per cell
+  max_pct_mt: 15.0     # percent of UMIs from mitochondrial genes
+  min_cells_per_type: 50   # cell types rarer than this (after cell QC) are dropped
+  min_cells_per_gene: 10   # counted on TRAINING donors only
+
+split:
+  seed: 0
+  val_fraction: 0.2    # fractions of DONORS, not cells
+  test_fraction: 0.2
+
+normalize:
+  target_sum: 10000    # fixed constant, not estimated from data

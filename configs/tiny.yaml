@@ -1,0 +1,28 @@
+# Same dataset as pbmc.yaml, capped at 150 cells per donor (about 3,000 cells) so the whole
+# pipeline runs in minutes. For checking that code runs, not for results.
+name: tiny
+
+census:
+  version: "2025-01-30"
+  uri: "s3://cellxgene-census-public-us-west-2/cell-census/2025-01-30/soma/"
+  region: "us-west-2"
+  organism: "Homo sapiens"
+  dataset_id: "5e717147-0f75-4de1-8bd2-6fda01b8d75f"
+  obs_filter: "disease == 'normal' and is_primary_data == True"
+
+subsample_per_donor: 150
+
+qc:
+  min_counts: 500
+  min_genes: 200
+  max_pct_mt: 15.0
+  min_cells_per_type: 20
+  min_cells_per_gene: 3
+
+split:
+  seed: 0
+  val_fraction: 0.2
+  test_fraction: 0.2
+
+normalize:
+  target_sum: 10000
