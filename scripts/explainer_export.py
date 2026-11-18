@@ -14,6 +14,7 @@ Writes:
 """
 
 import argparse
+import json
 from pathlib import Path
 
 import pandas as pd
@@ -22,6 +23,17 @@ from cellmap.atlas import build_payload, build_results, write_page
 
 ROOT = Path(__file__).resolve().parents[1]
 BASELINES = ("pca", "pca_harmony")
+RULE_LABELS = {"scvi": "scvi-tools", "vae": "the hand-written VAE", "census_scvi": "Census scVI"}
+RULE_METRICS = {
+    "scib_bio_mean": "biological conservation",
+    "scib_batch_mean": "batch correction",
+    "knn_accuracy_fine": "fine-type accuracy",
+    "knn_macro_f1_fine": "fine-type macro F1",
+    "knn_accuracy_coarse": "coarse accuracy",
+    "knn_macro_f1_coarse": "coarse macro F1",
+    "knn_accuracy_lineage": "lineage accuracy",
+    "knn_macro_f1_lineage": "lineage macro F1",
+}
 MEASURES = ("knn_macro_f1_fine", "scib_total")
 
 
@@ -89,6 +101,15 @@ def main() -> None:
     data["results"] = results
     data["verdict_total"] = len(others)
     data["verdict_wins"] = len(winners)
+    # The full rule, every declared metric on both datasets, from scripts/verify_rule.py.
+    rule = json.loads((ROOT / "results" / "verify" / "rule_summary.json").read_text())
+    data["rule_comparisons"] = rule["comparisons_pre_declared"]
+    data["rule_passes"] = len(rule["passes_pre_declared"])
+    data["rule_detail"] = "; ".join(
+        f"{RULE_LABELS.get(p['method'], p['method'])} on {RULE_METRICS[p['metric']]} "
+        f"({'21 donors' if p['dataset'] == 'pbmc' else 'six labs'})"
+        for p in rule["passes_pre_declared"]
+    )
     data["m4"] = build_m4(ROOT)
     if data["m4"]:
         for key in ("n_labs", "cells", "donors", "lineages"):
