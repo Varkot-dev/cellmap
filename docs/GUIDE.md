@@ -352,6 +352,16 @@ Details and caveats: `docs/NOTES.md`, section M4.
 
 **Which inputs the models use** (`scripts/probe_inputs.py`, `results/probe/pbmc/probe_inputs.csv`). Keep the trained model fixed, damage one part of every cell's input, score again. The transformer scored the same with only "which genes are on" (0.375) as with the real input (0.366): it ignores expression amounts, likely because its binning discarded them. The VAE uses both presence and amounts (0.533 with presence only, 0.614 real). Scrambling gene identities destroys both, so both do use their main input. The idea comes from Bindwell's "The Bitter Lesson for Biology" (2026) and Fang et al. (2026).
 
+### M7. The analyses
+
+**Every method makes the same mistakes.** Eight confusions appear in all nine methods, and each is between close relatives (regulatory T cells called central memory CD4 T cells, transitional B cells called memory B cells, and so on). The hardest boundaries are in the data and labels, not in any model. Figure: `assets/m7_confusions_pbmc.png`.
+
+**Over-correction, measured.** Turning Harmony's strength from 0 to 16 left batch mixing nearly unchanged (0.651 to 0.660) while fine-type F1 fell from 0.601 to 0.536. Past the default, stronger correction only merges real cell types. Figure: `assets/m7_overcorrection_pbmc.png`.
+
+**Marker genes.** PCA's first component is "monocyte versus lymphocyte" (LYZ, Spearman 0.79); the VAE has one equally clean direction and spreads the rest across dimensions. Figure: `assets/m7_markers_pbmc.png`.
+
+**The transformer fix.** See "The transformer with a better level encoding" in Part 5 once its result is in.
+
 ### The explainer page and the interactive atlas
 
 **The explainer, `site/index.html`, is the front page.** A scroll-driven story: the 3D map on the right changes as you read, from plain PCA, to the chemistry batch effect, to Harmony fixing it, to the held-out-people test, to each deep model, then the results charts. Every number on it is read from `results/` when the page is built (`scripts/explainer_export.py`), including the headline verdict, which applies the "4 of 5 splits against both baselines" rule automatically.
@@ -412,31 +422,32 @@ Kept here because "what went wrong and how you caught it" is often the best thin
 
 ## Part 7. What is left
 
-**M4. More data (done, see Part 4).** Six healthy blood datasets from different labs and chemistries, at most 500 cells per donor, labels mapped to 12 shared lineages, only genes every lab measured. Every method is rerun under two schemes, plus a held-out cell type test:
-- **Donor splits across all six labs** (five seeds).
-- **A held-out dataset:** a whole lab never seen in training (six folds, one per lab).
-- **A held-out cell type:** a type removed from training entirely, to see where each method puts it.
+The milestones in the plan are done. What remains is yours to decide, listed in `docs/RELEASE.md`:
 
-This answers whether the findings above are specific to one dataset.
+- **Choose a license** (MIT or GPL-3.0; `harmonypy`, a dependency, is GPL-3.0).
+- **Merge the work branch into `main`,** delete the two Colab branches, make the repository public, and publish the site with the manual Pages workflow.
+- **Revoke the Colab GitHub tokens.**
 
-**M7. Analyses and write-up:**
-- Which cell types every method confuses, and whether those pairs are biologically close.
-- Whether marker genes line up with directions in the embeddings.
-- Where batch correction goes too far.
-- A cost-versus-quality figure.
-- The final README, which opens with one strong visual and three sentences.
-- The checklist before making the repo public. One item: `harmonypy` is GPL-licensed, which affects the license choice.
+Experiments worth doing next, if you continue:
+- A tuned or larger VAE code (only 10 dimensions were tried).
+- "seurat_v3" gene selection, which mattered in DCMvsACM.
+- A tissue other than blood.
+- The transformer with its new level encoding on all splits and on the six-lab data (one split so far).
 
-**The public site.** You chose one scroll-driven explainer page as the front of the project: the 3D map changes as the reader scrolls from raw data through each method, ending on the results, with the atlas linked. It comes after M4.
+### Questions to test yourself (answer out loud, without notes)
 
-**Open checks worth doing first:**
-- Does the "seurat_v3" gene-selection method change the scores? In DCMvsACM it mattered.
-- Does a larger VAE code (more than 10 dimensions) change the comparison with Harmony?
-- Label efficiency (how scores change with 1 percent or 10 percent of labels) for all methods, not just the baselines.
-
-**Learning:** you chose "build at full speed, learn afterwards". The quiz questions are at the end of `docs/PLAN.md`. Part 2 of this guide plus `docs/NOTES.md` cover all ten.
-
----
+1. Why split by donor, and how much would a random split have overstated your result? (Part 2.4; the leakage experiment.)
+2. Why a negative binomial and not a Gaussian? Give the variance formula.
+3. Write the ELBO. What happens at KL weight 0 and at 100, and what did your sweep show?
+4. How does telling the decoder the donor remove donor effects from the code?
+5. What is the reparameterization trick and why is it needed?
+6. How does your transformer turn a cell into tokens, and what did the probe reveal about it?
+7. Why can a pretrained model that saw these exact cells still lose to PCA?
+8. Why macro F1 and not only accuracy? Work the 90 monocytes and 10 platelets example.
+9. What do scIB bio and batch scores each reward, and why can a method win one and lose the other?
+10. Why is Harmony "transductive", and why does that matter for a fair comparison?
+11. Where does batch correction go too far? Quote your Harmony sweep.
+12. Your VAE did not beat the baselines. What do you conclude, and what would you try next?
 
 ## Part 8. Map of the repository
 
@@ -488,6 +499,7 @@ This answers whether the findings above are specific to one dataset.
 
 ## Update log
 
+- **2026-11-18:** M7 analyses added (Part 4); Part 7 rewritten as the closing checklist and self-test questions.
 - **2026-11-18:** M4 finished: transformer results from the Colab GPU run merged; final M4 figure.
 - **2026-11-18:** Added the leaky-split and input-probe experiments to Part 4.
 - **2026-11-18:** M4 results (all but the transformer) added to Part 4, including the held-out cell type test.

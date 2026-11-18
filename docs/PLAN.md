@@ -94,7 +94,7 @@ A check you can do by hand: with the KL weight at 0 the model is a plain autoenc
 | M4 (done 2026-11-18) | Scale up through CELLxGENE Census to a multi-tissue, multi-dataset set; rerun everything | Held-out dataset and held-out cell-type results added |
 | M5 (built 2026-11-17; trained on GPU 2026-11-17) | Small transformer with masked gene modeling (method 6) | Trained on a free GPU; added to the comparison |
 | M6 (built 2026-11-17) | Pretrained model embeddings (method 7) | Added to the comparison with training-data overlap noted |
-| M7 | Analyses in 4.4, interactive atlas, write-up | README complete, repo ready to make public |
+| M7 (analyses done 2026-11-18; public release is the owner's step) | Analyses in 4.4, interactive atlas, write-up | README complete, repo ready to make public |
 
 Stretch: semi-supervised labels (scANVI style); mapping a new dataset onto a trained reference; applying the pipeline to a tumor dataset, which connects to your earlier glioblastoma work.
 
@@ -204,5 +204,14 @@ Written down now, before the VAE has been scored, so the rules cannot be bent to
 - Held-out cell type test (B cells, dendritic cells) added on split seed 0 only.
 - Two experiments beyond the plan, prompted by preparing for an interview: the inflation from a leaky random-cell split (`results/leakage/`), and an input perturbation probe on the VAE and transformer (`results/probe/`), which showed the transformer ignores expression amounts.
 - A data-script bug (missing output folder) only appeared on a fresh clone in Colab. Rule adopted: before handing over a GPU notebook, replay its steps on a fresh clone here.
+
+**2026-11-18, M7**
+
+- Analyses from section 4.4 done on PBMC split seed 0: shared confusions (all nine methods), over-correction (Harmony theta 0 to 16), marker genes versus learned directions. The held-out cell type analysis was done in M4.
+- Harmony's theta is now a parameter of `harmony_correct`; the default (2) reproduces every earlier result exactly (checked).
+- The transformer got a second, depth-normalized level encoding (`level_encoding="value"`), because the input probe showed the original rank encoding carried almost no level information (61 percent of tokens in bin 0). Tested on one split on CPU.
+- README now opens with the atlas (rendered from the real page by `scripts/hero_screenshot.cjs`) and three sentences, as `CLAUDE.md` asks.
+- Release checklist in `docs/RELEASE.md`: credentials scan done (none found); license, merge to main, visibility and Pages are the owner's decisions. Pages deploys only by hand.
+- Not done from the plan: the cost-versus-quality figure. Timings in `results/` were measured on shared machines (CPU jobs overlapping, one GPU), so they would not support a fair comparison.
 
 **Working principle (owner's decision, 2026-11-17): full speed, learn afterwards.** The owner chose to have all milestones built as fast as possible, with parallel agents, and to study the material at the end. This replaces "teach before you build" and the per-milestone quiz in `CLAUDE.md` for the build phase. What makes that safe: every decision is written down as it is made (this log and `docs/NOTES.md`), so the reasoning can be read and defended later. The honesty rules are unchanged: no number enters the README unless a script here produced it. Lessons and quizzes move to the end.
