@@ -129,7 +129,9 @@ def pca_embed(
     return z @ axes.T.astype(np.float32)
 
 
-def harmony_correct(pcs: np.ndarray, batch: np.ndarray, seed: int = 0) -> np.ndarray:
+def harmony_correct(
+    pcs: np.ndarray, batch: np.ndarray, seed: int = 0, theta: float = 2.0
+) -> np.ndarray:
     """Harmony-corrected copy of `pcs`, same shape and row order, with `batch` as the batch.
 
     Harmony soft-clusters the cells in PCA space while penalizing clusters dominated by one
@@ -142,7 +144,10 @@ def harmony_correct(pcs: np.ndarray, batch: np.ndarray, seed: int = 0) -> np.nda
     label, never their cell-type label. Results for this method must be reported with that
     caveat next to them; the PCA it starts from is still fitted on training cells only.
 
-    Library defaults are used for everything except the seed (diversity penalty theta=2, soft
+    `theta` is the diversity penalty: how hard Harmony pushes each cluster to contain every
+    batch. 0 switches the push off; larger values correct harder. The library default is 2.
+
+    Library defaults are used for everything except the seed and theta (theta=2 unless given, soft
     clustering width sigma=0.1, min(n_cells/30, 100) clusters, at most 10 outer iterations).
     """
     pcs = np.asarray(pcs)
@@ -157,7 +162,12 @@ def harmony_correct(pcs: np.ndarray, batch: np.ndarray, seed: int = 0) -> np.nda
         raise ValueError("Harmony needs at least two batches")
 
     result = harmonypy.run_harmony(
-        pcs, pd.DataFrame({"batch": batch}), "batch", random_state=seed, verbose=False
+        pcs,
+        pd.DataFrame({"batch": batch}),
+        "batch",
+        theta=theta,
+        random_state=seed,
+        verbose=False,
     )
     corrected = np.asarray(result.Z_corr)
     if corrected.shape != pcs.shape:
