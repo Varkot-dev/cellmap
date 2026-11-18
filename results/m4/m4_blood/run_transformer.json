@@ -1,6 +1,6 @@
 {
   "method": "transformer",
-  "commit": "b21acf68778255a5157821ffbd51e1b5ae1ccfe2",
+  "commit": "8da1d2b7fac038d10ad041d71948c7fcd904c901",
   "device": "cuda",
   "torch_threads": 4,
   "timings": [
@@ -53,6 +53,11 @@
       "scheme": "dataset",
       "fold": "schulte",
       "seconds": 1049.136188626
+    },
+    {
+      "scheme": "dataset",
+      "fold": "stephenson",
+      "seconds": 953.8063072300001
     }
   ],
   "versions": {
