@@ -218,3 +218,44 @@ def test_bad_inputs_are_rejected(adata):
         scvi_embed(adata, np.flatnonzero(gene_mask), train_mask)
     with pytest.raises(ValueError, match="raw counts"):
         scvi_embed(adata, gene_mask, train_mask, counts_layer="missing")
+
+
+def test_scvi_weights_in_the_hand_written_vae_give_the_same_embedding(adata, fitted):
+    """Weight transplant, the strongest of the three VAE parity checks (docs/NOTES.md, M3).
+
+    Same architecture and forward pass means every layer of the scvi-tools model has a
+    counterpart in cellmap.vae.VAE; copying the trained weights across must reproduce the
+    library's posterior means. First run as a scratch script on the tiny dataset; an
+    independent review found nothing in the repo recorded it, so it is a test now.
+    """
+    from cellmap.vae import VAE, embed
+
+    emb_lib, info = fitted
+    lib = info["model"].module
+    gene_mask, _ = masks(adata)
+    hand = VAE(
+        n_genes=int(gene_mask.sum()),
+        n_batches=info["n_train_batches"],
+        n_latent=FAST["n_latent"],
+        n_hidden=FAST["n_hidden"],
+    )
+
+    def copy(dst: torch.nn.Module, src: torch.nn.Module) -> None:
+        dst.load_state_dict(src.state_dict())
+
+    enc, dec = lib.z_encoder, lib.decoder
+    copy(hand.encoder[0][0], enc.encoder.fc_layers[0][0])
+    copy(hand.encoder[0][1], enc.encoder.fc_layers[0][1])
+    copy(hand.z_mean, enc.mean_encoder)
+    copy(hand.z_raw_var, enc.var_encoder)
+    copy(hand.decoder[0][0], dec.px_decoder.fc_layers[0][0])
+    copy(hand.decoder[0][1], dec.px_decoder.fc_layers[0][1])
+    copy(hand.gene_logits, dec.px_scale_decoder[0])
+    hand.log_theta.data.copy_(lib.px_r.data)
+    for bn in (hand.encoder[0][1], hand.decoder[0][1]):
+        bn.eps = 1e-3  # scvi-tools' batch-norm eps; it matters in evaluation mode
+    hand.eval()
+
+    counts = adata.layers["counts"][:, gene_mask].astype(np.float32)
+    emb_hand = embed(hand, counts)
+    np.testing.assert_allclose(emb_hand, emb_lib, atol=1e-5 * np.abs(emb_lib).max())
