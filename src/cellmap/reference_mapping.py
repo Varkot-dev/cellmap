@@ -19,9 +19,15 @@ Communications 2021), implemented here from the paper on top of harmonypy:
    removed; the intercept stays. So a query batch is pulled toward where the reference has
    that cluster, and the reference itself never moves.
 
-Differences from the paper, stated plainly: the ridge penalty on batch terms is fixed at 1
-(Symphony's default); the cluster centroids are recomputed from the corrected reference
-coordinates as Symphony does; there is no separate reference-compression file format.
+Differences from Symphony, stated plainly:
+- The query ridge penalty on batch terms is fixed (`ridge`, default 1, Symphony's default),
+  while the reference is built with harmonypy 2.1's default, which estimates lambda per cluster
+  (`lamb=None`). So reference and query are corrected with different ridge settings.
+  `scripts/m8_harmony_inductive.py` reports how much the result moves with `ridge`.
+- There is no separate reference-compression file format.
+The cluster centroids follow Symphony's buildReference: cosine-normalise R^T Z_corr, the
+R-weighted sum of the corrected reference coordinates. (Before 2026-11-18 this module
+normalised each cell first; an independent review against the Symphony source caught it.)
 """
 
 import harmonypy
@@ -71,7 +77,7 @@ def harmony_reference_map(
     r_ref = np.asarray(reference.R, dtype=np.float64)  # cells x clusters
     n_k = r_ref.sum(axis=0)  # reference weight per cluster
     c_k = r_ref.T @ z_ref  # clusters x dims
-    centroids = _unit_rows(r_ref.T @ _unit_rows(z_ref))  # clusters x dims
+    centroids = _unit_rows(c_k)  # clusters x dims, as Symphony's buildReference
 
     out = np.empty_like(pcs)
     out[train_mask] = z_ref

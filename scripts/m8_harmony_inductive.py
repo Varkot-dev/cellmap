@@ -15,6 +15,17 @@ labs (labels: 12 lineages).
 Writes:
     results/m8/<dataset>/metrics_by_split.csv   method "pca_harmony_inductive", one row per fold
     results/m8/<dataset>/paired.csv             inductive minus transductive, and minus PCA
+    results/m8/<dataset>/share_by_fold.csv      per fold: transductive lead over PCA, and the
+                                                part of it the inductive version loses, for the
+                                                scIB aggregate, bio and batch scores
+    results/m8/pbmc/ridge_sensitivity.csv       PBMC only: the same with the query ridge at
+                                                0.1, 1 and 10 (the reference is built with
+                                                harmonypy's estimated lambda, so no single
+                                                query ridge matches it exactly)
+
+Read the result as the gap between two procedures (joint Harmony on all cells against a
+Symphony-style mapping onto a reference built from training cells), not as a pure measure of
+what access to test cells is worth: the correction algorithm changes as well as the inputs.
 """
 
 import time
@@ -32,7 +43,11 @@ ROOT = Path(__file__).resolve().parents[1]
 METRICS = ("knn_accuracy", "knn_macro_f1", "scib_bio_mean", "scib_batch_mean", "scib_total")
 
 
-def run_dataset(name: str) -> pd.DataFrame:
+RIDGES = (0.1, 1.0, 10.0)
+SCORES = ("scib_total", "scib_bio_mean", "scib_batch_mean")
+
+
+def run_dataset(name: str, ridges: tuple[float, ...] = (1.0,)) -> pd.DataFrame:
     adata = ad.read_h5ad(ROOT / "data" / "processed" / f"{name}.h5ad")
     obs = adata.obs
     donors = obs["donor_id"].astype(str).to_numpy()
@@ -50,14 +65,16 @@ def run_dataset(name: str) -> pd.DataFrame:
         t0 = time.perf_counter()
         genes = select_hvg(adata, train, n_top_genes=2000)
         pcs = pca_embed(adata, genes, train, n_comps=50)
-        emb = harmony_reference_map(pcs, donors, train, seed=seed)
-        seconds = time.perf_counter() - t0
-        scores = score_embedding(emb, obs, split, **kwargs)
-        rows.append({"method": "pca_harmony_inductive", "scheme": scheme, "fold": fold,
-                     "split_seed": seed, "seconds": seconds, **scores,
-                     "commit": git_commit(ROOT)})  # fmt: skip
-        shown = {k: round(v, 3) for k, v in scores.items() if k.startswith(("knn_macro", "scib_t"))}
-        print(name, scheme, fold, shown, flush=True)
+        for ridge in ridges:
+            emb = harmony_reference_map(pcs, donors, train, seed=seed, ridge=ridge)
+            seconds = time.perf_counter() - t0
+            scores = score_embedding(emb, obs, split, **kwargs)
+            rows.append({"method": "pca_harmony_inductive", "ridge": ridge, "scheme": scheme,
+                         "fold": fold, "split_seed": seed, "seconds": seconds, **scores,
+                         "commit": git_commit(ROOT)})  # fmt: skip
+            shown = {k: round(v, 3) for k, v in scores.items()
+                     if k.startswith(("knn_macro", "scib_t"))}  # fmt: skip
+            print(name, scheme, fold, ridge, shown, flush=True)
     return pd.DataFrame(rows)
 
 
@@ -88,13 +105,33 @@ def paired(new: pd.DataFrame, old: pd.DataFrame, suffix: str) -> pd.DataFrame:
     return pd.DataFrame(out)
 
 
+def share_by_fold(new: pd.DataFrame, old: pd.DataFrame) -> pd.DataFrame:
+    """Per fold and ridge: transductive lead over PCA and the part the inductive map loses."""
+    base = old.set_index(["method", "scheme", "fold"])
+    out = []
+    for _, row in new.iterrows():
+        key = (row["scheme"], row["fold"])
+        entry = {"ridge": row["ridge"], "scheme": row["scheme"], "fold": row["fold"]}
+        for s in SCORES:
+            lead = base.loc[("pca_harmony", *key), s] - base.loc[("pca", *key), s]
+            lost = base.loc[("pca_harmony", *key), s] - row[s]
+            entry |= {f"{s}_lead": lead, f"{s}_lost": lost, f"{s}_share_lost": lost / lead}
+        out.append(entry)
+    return pd.DataFrame(out)
+
+
 def main() -> None:
     for name, suffix in (("pbmc", "fine"), ("m4_blood", "lineage")):
-        new = run_dataset(name)
+        new_all = run_dataset(name, RIDGES if name == "pbmc" else (1.0,))
         out = ROOT / "results" / "m8" / name
         out.mkdir(parents=True, exist_ok=True)
+        shares = share_by_fold(new_all, previous(name))
+        if name == "pbmc":
+            shares.to_csv(out / "ridge_sensitivity.csv", index=False)
+        shares[shares["ridge"] == 1.0].to_csv(out / "share_by_fold.csv", index=False)
+        new = new_all[new_all["ridge"] == 1.0]
         new.to_csv(out / "metrics_by_split.csv", index=False)
-        table = paired(new, previous(name), suffix)
+        table = paired(new.drop(columns="ridge"), previous(name), suffix)
         table.to_csv(out / "paired.csv", index=False)
         print(table.round(3).to_string(index=False), flush=True)
     print(versions("harmonypy", "scanpy", "scib-metrics"))
