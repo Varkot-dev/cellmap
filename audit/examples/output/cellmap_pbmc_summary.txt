@@ -1,0 +1,13 @@
+random row split: mean kNN macro F1 0.776 (sd 0.006 over 5 seeds).
+group split: mean kNN macro F1 0.664 (sd 0.077 over 5 seeds).
+The leaky evaluation overstates kNN macro F1 by 0.112 (standard error 0.034).
+That is more than two standard errors from zero: a clear effect.
+The honest scores also vary more across seeds (sd 0.077 versus 0.006), so the leaky evaluation hides real uncertainty too.
+
+Donor split, seed 0:
+train: 33720 rows (75%), 13 groups, 19 classes
+val: 5676 rows (13%), 4 groups, 19 classes
+test: 5360 rows (12%), 4 groups, 19 classes
+Largest gap in a class's share between splits: 25.0% (0% means every split has the same class mix).
+
+Largest per-seed difference from results/leakage/splits.csv: 0.00e+00 (matches). Runtime 66s.

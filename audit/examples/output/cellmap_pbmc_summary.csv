@@ -1,0 +1,2 @@
+metric,n_seeds,leaky_scheme,leaky_mean,leaky_std,honest_scheme,honest_mean,honest_std,inflation,inflation_se,paired,reference_leaky_mean,reference_honest_mean,reference_inflation,max_abs_diff_per_seed
+kNN macro F1,5,random row split,0.7761986158080021,0.006442571006733605,group split,0.6642133955450978,0.07671941337328134,0.11198522026290425,0.0344307278735644,False,0.7761986158080021,0.6642133955450978,0.11198522026290425,0.0
