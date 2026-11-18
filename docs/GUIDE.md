@@ -362,6 +362,16 @@ Details and caveats: `docs/NOTES.md`, section M4.
 
 **The transformer fix.** See "The transformer with a better level encoding" in Part 5 once its result is in.
 
+### M8. Does Harmony need to see the test cells?
+
+Harmony was the only method that corrected the test cells together with the training cells. To check whether that was an unfair advantage, Harmony was re-run fitted on training donors only, with held-out cells mapped onto the frozen result (the published Symphony method, implemented in `src/cellmap/reference_mapping.py`).
+
+- **21 donors:** about 30 percent of Harmony's integration-score lead over PCA (0.023 of 0.077) came from seeing the test cells.
+- **128 donors, six labs:** none of it did; the fair version matched or beat the original.
+- **Everywhere:** the fair version labelled held-out cells slightly more accurately.
+
+Details: `docs/NOTES.md`, section M8.
+
 ### The explainer page and the interactive atlas
 
 **The explainer, `site/index.html`, is the front page.** A scroll-driven story: the 3D map on the right changes as you read, from plain PCA, to the chemistry batch effect, to Harmony fixing it, to the held-out-people test, to each deep model, then the results charts. Every number on it is read from `results/` when the page is built (`scripts/explainer_export.py`), including the headline verdict, which applies the "4 of 5 splits against both baselines" rule automatically.
@@ -499,6 +509,7 @@ Experiments worth doing next, if you continue:
 
 ## Update log
 
+- **2026-11-18:** M8 (inductive Harmony) added to Part 4.
 - **2026-11-18:** M7 analyses added (Part 4); Part 7 rewritten as the closing checklist and self-test questions.
 - **2026-11-18:** M4 finished: transformer results from the Colab GPU run merged; final M4 figure.
 - **2026-11-18:** Added the leaky-split and input-probe experiments to Part 4.

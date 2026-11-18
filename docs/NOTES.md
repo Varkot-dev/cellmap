@@ -575,6 +575,37 @@ Split seed 0. One lineage at a time is removed from every training cell; methods
 
 ---
 
+# M8: does Harmony need to see the test cells?
+
+## Why this question
+
+Harmony was the strongest baseline, and the only method allowed to see held-out donors' cells (it corrects all cells together). If its lead came from that, the comparison was unfair to every other method.
+
+**The choice:** `src/cellmap/reference_mapping.py` implements the Symphony algorithm (Kang et al., Nature Communications 2021) on top of harmonypy: run Harmony on training donors only, summarize each cluster (how much reference is in it and where it sits), then map each held-out cell onto that frozen reference by soft cluster assignment and a per-cluster ridge correction of its donor's shift. The reference never moves; a test checks that scrambling held-out cells cannot change it.
+
+**Why implement it rather than install a package:** an automatic safety check blocked an agent from installing an unvetted package; the published algorithm is short enough to write and test directly.
+
+## Result
+
+Same genes, PCA, folds and scoring as M1 and M4 (`results/m8/*/paired.csv`). Inductive means fitted on training donors only.
+
+| Data | Inductive minus transductive, scIB aggregate | Inductive minus PCA, scIB aggregate | Inductive minus transductive, kNN accuracy |
+|---|---|---|---|
+| PBMC, 21 donors, 5 splits | -0.023 (lower in 5 of 5) | +0.054 (higher in 5 of 5) | +0.018 (higher in 5 of 5) |
+| Six labs, held-out people | -0.000 (higher in 3 of 5) | +0.081 (5 of 5) | +0.006 (5 of 5) |
+| Six labs, held-out lab | +0.011 (higher in 5 of 6) | +0.017 (4 of 6) | +0.005 (6 of 6) |
+
+**Reading:**
+- On 21 donors, seeing the test cells was worth about 0.023 of Harmony's 0.077 scIB lead over PCA, roughly 30 percent. The rest is real.
+- On 128 donors from six labs, it was worth nothing: the inductive version matched or beat the transductive one.
+- In every setting the inductive version labelled held-out cells slightly more accurately. Correcting test cells together with training cells appears to blur fine differences a little.
+
+**What to say:** "Harmony was the only method allowed to see the test cells, so I re-implemented reference mapping to fit it on training donors only. With 21 donors about 30 percent of its integration-score lead came from seeing the test cells; with 128 donors from six labs, none did. So the comparison was slightly generous to Harmony on the small dataset and fair on the large one."
+
+**Known weaknesses:** blood only; one reference-mapping method; the ridge penalty fixed at Symphony's default of 1.
+
+---
+
 # Extra: two experiments worth talking about
 
 ## How much would a random split have lied?
@@ -644,4 +675,5 @@ Split seed 0. One lineage at a time is removed from every training cell; methods
 | `scripts/probe_inputs.py` | Perturbation probe on the learned models | Damages one input at inference; the model is not retrained |
 | `scripts/m7_analyses.py`, `scripts/m7_figures.py` | Shared confusions, Harmony strength sweep, marker directions | Split seed 0; all nine methods scored by the same code |
 | `scripts/m7_transformer_levels.py` | Transformer with depth-normalized level encoding | Tests the explanation the probe gave |
+| `src/cellmap/reference_mapping.py`, `scripts/m8_harmony_inductive.py` | Harmony fitted on training donors, new donors mapped (Symphony) | Removes the transductive advantage; the reference cannot move |
 | `docs/RELEASE.md`, `.github/workflows/pages.yml` | Checklist and site deployment for going public | Pages workflow runs only by hand |

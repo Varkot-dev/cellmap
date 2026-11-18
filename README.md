@@ -28,6 +28,7 @@ with GitHub Pages once the repository is public (see [docs/RELEASE.md](docs/RELE
 | M6 published pretrained-model embeddings (Census scVI, Geneformer, TranscriptFormer) | built, results below |
 | M4 six labs: held-out people, held-out labs, held-out cell type | done, results below |
 | M7 analyses: shared confusions, over-correction, marker genes, transformer input encoding | done, results below |
+| M8 Harmony fitted without the test cells (reference mapping) | done, results below |
 | Public release | checklist in `docs/RELEASE.md`; license and visibility are the owner's decisions |
 | Public site | scroll-driven explainer (`site/index.html`) and 3D atlas of every method (`site/atlas.html`) |
 
@@ -137,6 +138,15 @@ tracks the monocyte gene LYZ (Spearman 0.79) and its second the NK gene NKG7 (-0
 one similarly clear direction (dimension 8 with LYZ, -0.80); its other dimensions mix markers.
 
 ![Marker genes](assets/m7_markers_pbmc.png)
+
+## M8: was Harmony's lead fair?
+
+Harmony was the only method that corrected held-out cells together with training cells. Fitted
+on training donors only, with held-out cells mapped onto the frozen reference (Symphony algorithm,
+`src/cellmap/reference_mapping.py`), it lost 0.023 of its 0.077 scIB lead over PCA on the 21-donor
+dataset (lower in 5 of 5 splits), and nothing on six labs (-0.000 on held-out people, +0.011 on
+held-out labs). It labelled held-out cells slightly more accurately in every setting
+(`results/m8/`).
 
 ## M1 detail: PCA versus PCA + Harmony
 

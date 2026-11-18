@@ -214,4 +214,9 @@ Written down now, before the VAE has been scored, so the rules cannot be bent to
 - Release checklist in `docs/RELEASE.md`: credentials scan done (none found); license, merge to main, visibility and Pages are the owner's decisions. Pages deploys only by hand.
 - Not done from the plan: the cost-versus-quality figure. Timings in `results/` were measured on shared machines (CPU jobs overlapping, one GPU), so they would not support a fair comparison.
 
+**2026-11-18, M8 (beyond the original plan)**
+
+- Added because Harmony was the only transductive method. Reference mapping (Symphony) implemented in `src/cellmap/reference_mapping.py` instead of installing a third-party package: an agent that was told it could install one was blocked by an automatic safety check, and the algorithm is short enough to implement and test.
+- Result: on 21 donors about 30 percent of Harmony's scIB lead came from seeing test cells; on six labs none did.
+
 **Working principle (owner's decision, 2026-11-17): full speed, learn afterwards.** The owner chose to have all milestones built as fast as possible, with parallel agents, and to study the material at the end. This replaces "teach before you build" and the per-milestone quiz in `CLAUDE.md` for the build phase. What makes that safe: every decision is written down as it is made (this log and `docs/NOTES.md`), so the reasoning can be read and defended later. The honesty rules are unchanged: no number enters the README unless a script here produced it. Lessons and quizzes move to the end.
