@@ -345,6 +345,12 @@ Downloaded Census scVI (50 dimensions), the fine-tuned Geneformer (512) and Tran
 
 Details and caveats: `docs/NOTES.md`, section M4.
 
+### Two extra experiments (2026-11-18)
+
+**How much a leaky split inflates scores** (`scripts/leakage_splits.py`, `results/leakage/splits.csv`). Same method (HVG + PCA + kNN), split three ways. On one dataset with 19 fine types, splitting cells at random gave macro F1 0.776 against 0.664 when whole people were held out: 0.11 too optimistic, mostly on rare types, and it hid how much results vary between splits. On six labs with 12 broad lineages the gap shrank below 0.01. How much a leak misleads you depends on how few independent sources you have and how fine the task is.
+
+**Which inputs the models use** (`scripts/probe_inputs.py`, `results/probe/pbmc/probe_inputs.csv`). Keep the trained model fixed, damage one part of every cell's input, score again. The transformer scored the same with only "which genes are on" (0.375) as with the real input (0.366): it ignores expression amounts, likely because its binning discarded them. The VAE uses both presence and amounts (0.533 with presence only, 0.614 real). Scrambling gene identities destroys both, so both do use their main input. The idea comes from Bindwell's "The Bitter Lesson for Biology" (2026) and Fang et al. (2026).
+
 ### The explainer page and the interactive atlas
 
 **The explainer, `site/index.html`, is the front page.** A scroll-driven story: the 3D map on the right changes as you read, from plain PCA, to the chemistry batch effect, to Harmony fixing it, to the held-out-people test, to each deep model, then the results charts. Every number on it is read from `results/` when the page is built (`scripts/explainer_export.py`), including the headline verdict, which applies the "4 of 5 splits against both baselines" rule automatically.
@@ -481,6 +487,7 @@ This answers whether the findings above are specific to one dataset.
 
 ## Update log
 
+- **2026-11-18:** Added the leaky-split and input-probe experiments to Part 4.
 - **2026-11-18:** M4 results (all but the transformer) added to Part 4, including the held-out cell type test.
 - **2026-11-17 (night):** Explainer page built as the front page (`site/index.html`); the atlas moved to `site/atlas.html`.
 - **2026-11-17 (night):** M4 design recorded in Part 7; public site choice recorded.

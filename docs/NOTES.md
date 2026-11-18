@@ -532,6 +532,44 @@ Split seed 0. One lineage at a time is removed from every training cell; methods
 
 ---
 
+# Extra: two experiments worth talking about
+
+## How much would a random split have lied?
+
+**Setup:** HVG + PCA + kNN, scored with cells split at random (the leaky way), by person, and (six-lab data) by lab. `results/leakage/splits.csv`.
+
+| Data | Random cells | Held-out people | Held-out lab |
+|---|---|---|---|
+| 1 dataset, 19 fine types, macro F1 | 0.776 | 0.664 | n/a |
+| 6 labs, 12 lineages, macro F1 | 0.783 | 0.776 | 0.765 |
+
+**Reading:** with few people and fine labels the leak is large (0.11), mostly on rare types, and random splits make results look more stable than they are (0.77 to 0.78 across random splits, 0.60 to 0.79 across people splits). With many people and coarse labels the leak nearly vanishes.
+
+**What to say:** "I measured my own leakage: a random split would have overstated macro F1 by 0.11 on one dataset. That's the single-cell version of the PDBbind leakage problem."
+
+---
+
+## Do the models use their inputs?
+
+**Setup:** a perturbation probe. Trained models fixed; at inference every cell's input is damaged one way; kNN on held-out people. `results/probe/pbmc/probe_inputs.csv`.
+
+| Probe | VAE macro F1 | Transformer macro F1 |
+|---|---|---|
+| real input | 0.614 | 0.366 |
+| presence only | 0.533 | 0.375 |
+| amounts shuffled within cell | 0.427 | 0.164 |
+| gene identities relabelled | 0.162 | 0.172 |
+
+**Reading:**
+- The transformer ignores expression amounts: presence alone scores the same. Its per-cell rank binning put most nonzero counts in one bin, so the amounts were mostly gone before training. A concrete, testable reason for its weak result; a better level encoding is the obvious next experiment.
+- Wrong amounts still mislead it, so "not needed" and "harmless when corrupted" differ.
+- The VAE uses both presence and amounts.
+- Both collapse when gene identities are scrambled.
+
+**Known weakness:** one split, one seed, PBMC only. The VAE was retrained for this run (same settings as M2), so its "real input" score (0.614) is this run's, close to M2's split-seed-0 value (0.611).
+
+---
+
 ## What you built so far, file by file
 
 | File | What it does | Key decision |
@@ -559,3 +597,5 @@ Split seed 0. One lineage at a time is removed from every training cell; methods
 | `scripts/m4_benchmark.py` | Every method under both schemes | One results file per method; resumable, so a GPU machine adds the transformer |
 | `src/cellmap/novelty.py`, `scripts/m4_heldout_type.py` | Held-out cell type test | Grouping measured on test cells; where kNN without the type puts it |
 | `notebooks/m4_transformer_gpu.ipynb` | One-cell Colab run for the M4 transformer | Pushes after every fold, resumes after a disconnect |
+| `scripts/leakage_splits.py` | Leaky versus honest splits, same method | Measures the inflation instead of asserting it |
+| `scripts/probe_inputs.py` | Perturbation probe on the learned models | Damages one input at inference; the model is not retrained |
