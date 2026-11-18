@@ -209,7 +209,7 @@ Written down now, before the VAE has been scored, so the rules cannot be bent to
 
 - Analyses from section 4.4 done on PBMC split seed 0: shared confusions (all nine methods), over-correction (Harmony theta 0 to 16), marker genes versus learned directions. The held-out cell type analysis was done in M4.
 - Harmony's theta is now a parameter of `harmony_correct`; the default (2) reproduces every earlier result exactly (checked).
-- The transformer got a second, depth-normalized level encoding (`level_encoding="value"`), because the input probe showed the original rank encoding carried almost no level information (61 percent of tokens in bin 0). Tested on one split on CPU.
+- The transformer got a second, depth-normalized level encoding (`level_encoding="value"`), because the input probe showed the original rank encoding carried almost no level information (57 percent of training tokens in bin 0, `results/m7/pbmc/token_bins.csv`; first quoted as 61 percent from an unsaved check). Tested on one split on CPU.
 - README now opens with the atlas (rendered from the real page by `scripts/hero_screenshot.cjs`) and three sentences, as `CLAUDE.md` asks.
 - Release checklist in `docs/RELEASE.md`: credentials scan done (none found); license, merge to main, visibility and Pages are the owner's decisions. Pages deploys only by hand.
 - Not done from the plan: the cost-versus-quality figure. Timings in `results/` were measured on shared machines (CPU jobs overlapping, one GPU), so they would not support a fair comparison.
@@ -218,5 +218,14 @@ Written down now, before the VAE has been scored, so the rules cannot be bent to
 
 - Added because Harmony was the only transductive method. Reference mapping (Symphony) implemented in `src/cellmap/reference_mapping.py` instead of installing a third-party package: an agent that was told it could install one was blocked by an automatic safety check, and the algorithm is short enough to implement and test.
 - Result: on 21 donors about 30 percent of Harmony's scIB lead came from seeing test cells; on six labs none did.
+
+**2026-11-18, independent review of every claim**
+
+- Ten agents that had not written the code reviewed the project: five compared each finding with the literature, four rechecked it (recomputed every README number, reviewed the code for leakage, compared the Symphony implementation with its source, reran from a clean clone), and one hostile reviewer tried to break the conclusions with all their reports in hand. The clean rerun reproduced every rerun result to the last digit and found no leakage in the core pipeline.
+- **The comparison rule had been applied to 2 of its 6 declared metrics.** `scripts/verify_rule.py` now applies it to all of them, in both directions, for every method on both datasets. Result: 3 of 68 comparisons pass. The rule itself is unchanged.
+- **No threshold had been declared for the held-out-lab scheme (6 folds).** It is reported with the same 80 percent bar (5 of 6) and marked as not pre-declared in `results/verify/rule_table.csv`.
+- **The five PBMC splits are not replicates.** Split 3 holds out the v3 chemistry entirely and split 1 tests on a quarter of all cells (`results/verify/pbmc_split_composition.csv`). Kept as they are, since changing splits after seeing results would break the rule above; reported next to every per-split claim. A future dataset should stratify donor splits by assay.
+- **Symphony centroids** now follow Symphony's buildReference (they had normalised each cell first). M8 rerun, with the query ridge at 0.1, 1 and 10 on PBMC because harmonypy estimates lambda for the reference.
+- Wording corrected wherever it outran the data: the transformer probe, the confusion count, pretrained-model training exposure, the leakage caveats, over-correction, the gene filter, and the 61 percent bin figure (57 percent measured).
 
 **Working principle (owner's decision, 2026-11-17): full speed, learn afterwards.** The owner chose to have all milestones built as fast as possible, with parallel agents, and to study the material at the end. This replaces "teach before you build" and the per-milestone quiz in `CLAUDE.md` for the build phase. What makes that safe: every decision is written down as it is made (this log and `docs/NOTES.md`), so the reasoning can be read and defended later. The honesty rules are unchanged: no number enters the README unless a script here produced it. Lessons and quizzes move to the end.
