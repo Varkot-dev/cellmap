@@ -7,6 +7,7 @@ name = "cellmap"
 version = "0.0.1"
 description = "Learned representations of single cells from gene-expression data, evaluated honestly."
 requires-python = ">=3.11"
+license = { text = "MIT" }
 dependencies = [
     "anndata>=0.11",
     "harmonypy>=2.1",

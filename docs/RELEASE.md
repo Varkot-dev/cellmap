@@ -13,7 +13,7 @@
 
 ## Owner decisions
 
-- [ ] **License.** Pick one before going public; without one, others cannot legally reuse the code. Two common choices:
+- [x] **License: MIT** (owner's choice, 2026-11-18). Kept for reference: without one, others cannot legally reuse the code. Two common choices:
   - **MIT:** short and permissive, the most common for portfolio projects.
   - **GPL-3.0:** worth considering because `harmonypy`, a dependency, is GPL-3.0. Whether a GPL dependency that is installed separately (not copied into this repo) constrains your own code's license is a legal question; this is not legal advice.
   - Add the file with GitHub's "Add file > Create new file > LICENSE" template picker, or tell Claude which one to add.
