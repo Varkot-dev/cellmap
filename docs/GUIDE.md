@@ -24,9 +24,9 @@ How this differs from the other documents:
 
 **The answer so far, on one dataset of 44,756 blood cells from 21 people:**
 
-1. **No method beat both simple baselines.** The two baselines are PCA, and PCA followed by a batch-correction step called Harmony.
+1. **Almost nothing beat both simple baselines, and nothing did on preserving biology.** The two baselines are PCA, and PCA followed by a batch-correction step called Harmony. Applied to all six metrics the rule names, 1 of 50 comparisons passed here (scvi-tools on fine kNN accuracy, with a mean still below PCA). An earlier version of this guide said "no method", from a check that covered only two metrics; an independent review caught it (Part 6).
 2. **The VAE written by hand works and matches the reference library** (scvi-tools) within noise. It packs as much cell-type information into 10 numbers as PCA does into 50, but it is worse than Harmony at removing donor differences.
-3. **Three large published models (Census scVI, Geneformer, TranscriptFormer) did not beat PCA**, even though all three had seen these very cells during their training.
+3. **Three large published models (Census scVI, Geneformer, TranscriptFormer) did not pass the rule against PCA.** Census scVI was trained, without labels, on Census cells that include most of these; the Geneformer was fine-tuned with labels on CELLxGENE data that may include them; for TranscriptFormer this was not checked.
 4. **The small transformer written by hand learned its training task but produced the weakest cell embedding of the project's own models.**
 5. **Different metrics disagree.** Harmony wins the integration scores and loses fine-grained cell-type accuracy. So "which method is best" depends on what you measure, and the project reports both.
 
@@ -209,7 +209,7 @@ From the integration benchmark of Luecken et al. (Nature Methods, 2022), in two 
 
 **Aggregate** = 0.6 * bio + 0.4 * batch. Computed on test donors only.
 
-**Caution learned the hard way:** the bio score moved by up to 0.07 between two runs of the identical model that differed only in CPU thread count. The clustering inside it amplifies tiny numerical differences. kNN scores and the batch score moved by about 0.001. So small differences in scIB bio mean nothing here.
+**Caution learned the hard way:** the bio score moved by 0.07 (one comparison, one split) between two runs of the identical model that differed only in CPU thread count. The clustering inside it amplifies tiny numerical differences. kNN scores and the batch score moved by about 0.001. So small differences in scIB bio mean nothing here.
 
 ### 3.4 The rule for "better"
 
@@ -338,8 +338,8 @@ Downloaded Census scVI (50 dimensions), the fine-tuned Geneformer (512) and Tran
 | TranscriptFormer | 0.730 | 0.732 |
 | Transformer (hand-written) | 0.641 | 0.640 |
 
-- **Still no method beats both baselines** by the rule.
-- **The VAE improved relative to the baselines with more data:** on held-out people it beats PCA on the integration score in 5 of 5 splits and Harmony on macro F1 in 4 of 5, but not both on one measure.
+- **By the rule, two comparisons passed, both on batch correction for held-out people:** the hand-written VAE (above PCA and Harmony in 5 of 5 splits) and Census scVI (5 of 5 and 4 of 5). Nothing passed on biology, accuracy or macro F1, and nothing on held-out labs. (`results/verify/rule_table.csv`.)
+- **The VAE improved relative to the baselines with more data:** on held-out people its macro F1 is above PCA in 3 of 5 splits and Harmony in 4 of 5, short of the rule.
 - **On an unseen lab,** PCA, Harmony and the VAE come out close (about 0.76); the pretrained models stay behind; the hand-written transformer is last (0.64), as it was on one dataset.
 
 **Held-out cell type:** B cells removed from training still form their own group in every method and are called plasma cells, their closest relatives. Dendritic cells are called monocytes, also their closest relatives, and lose some grouping, the VAE the most. One split, so a lead rather than a finding.
@@ -348,15 +348,15 @@ Details and caveats: `docs/NOTES.md`, section M4.
 
 ### Two extra experiments (2026-11-18)
 
-**How much a leaky split inflates scores** (`scripts/leakage_splits.py`, `results/leakage/splits.csv`). Same method (HVG + PCA + kNN), split three ways. On one dataset with 19 fine types, splitting cells at random gave macro F1 0.776 against 0.664 when whole people were held out: 0.11 too optimistic, mostly on rare types, and it hid how much results vary between splits. On six labs with 12 broad lineages the gap shrank below 0.01. How much a leak misleads you depends on how few independent sources you have and how fine the task is.
+**How much a leaky split inflates scores** (`scripts/leakage_splits.py`, `results/leakage/splits.csv`). Same method (HVG + PCA + kNN), split three ways. On one dataset with 19 fine types, splitting cells at random gave macro F1 0.776 against 0.664 when whole people were held out: 0.11 too optimistic, mostly on rare types, and it hid how much results vary between splits. On six labs with 12 broad lineages the gap was 0.007 against held-out people (0.018 against a held-out lab). Caveat from the review: most of the 0.11 comes from splits 0 and 3, and split 3 is a chemistry hold-out, so part of it is distribution shift, not leakage; and the two datasets differ in labels, chemistry and donor count at once, so the contrast is descriptive, not proof that donor count is the cause.
 
-**Which inputs the models use** (`scripts/probe_inputs.py`, `results/probe/pbmc/probe_inputs.csv`). Keep the trained model fixed, damage one part of every cell's input, score again. The transformer scored the same with only "which genes are on" (0.375) as with the real input (0.366): it ignores expression amounts, likely because its binning discarded them. The VAE uses both presence and amounts (0.533 with presence only, 0.614 real). Scrambling gene identities destroys both, so both do use their main input. The idea comes from Bindwell's "The Bitter Lesson for Biology" (2026) and Fang et al. (2026).
+**Which inputs the models use** (`scripts/probe_inputs.py`, `results/probe/pbmc/probe_inputs.csv`). Keep the trained model fixed, damage one part of every cell's input, score again. The transformer scored the same with only "which genes are on" (0.375) as with the real input (0.366), but shuffling the amounts within each cell cut it to 0.164. So it does read the amounts; the true amounts just added nothing measurable over presence alone. (An earlier version said it "ignores" them; the shuffle result contradicts that. The binning diagnosis is a hypothesis that M7's re-encoding run tests.) The VAE uses both presence and amounts (0.533 with presence only, 0.614 real). Scrambling gene identities destroys both, so both do use their main input. The idea comes from Bindwell's "The Bitter Lesson for Biology" (2026) and Fang et al. (2026); the Fang et al. reference has not been verified.
 
 ### M7. The analyses
 
-**Every method makes the same mistakes.** Eight confusions appear in all nine methods, and each is between close relatives (regulatory T cells called central memory CD4 T cells, transitional B cells called memory B cells, and so on). The hardest boundaries are in the data and labels, not in any model. Figure: `assets/m7_confusions_pbmc.png`.
+**Every method makes the same mistakes.** 18 confusions appear in all nine methods (the figure shows the 8 largest; an earlier version said "eight", which was the figure's display limit). The largest are between close relatives (regulatory T cells called central memory CD4 T cells, transitional B cells called memory B cells, and so on). The hardest boundaries are in the data and labels, not in any model. Figure: `assets/m7_confusions_pbmc.png`.
 
-**Over-correction, measured.** Turning Harmony's strength from 0 to 16 left batch mixing nearly unchanged (0.651 to 0.660) while fine-type F1 fell from 0.601 to 0.536. Past the default, stronger correction only merges real cell types. Figure: `assets/m7_overcorrection_pbmc.png`.
+**Over-correction, measured.** Turning Harmony's strength from 0 to 16 left batch mixing nearly unchanged (0.651 to 0.660) while fine-type F1 fell steadily from 0.601 to 0.536 (0.590 at the default, theta 2). The aggregate score peaks near the default, so the over-correction is above the default and mostly at theta 16. One split only (seed 0, where Harmony's lead is smallest). Figure: `assets/m7_overcorrection_pbmc.png`.
 
 **Marker genes.** PCA's first component is "monocyte versus lymphocyte" (LYZ, Spearman 0.79); the VAE has one equally clean direction and spreads the rest across dimensions. Figure: `assets/m7_markers_pbmc.png`.
 
@@ -413,14 +413,14 @@ Means over five donor splits, test donors (`results/m1` to `results/m6`). Sorted
 
 **What we learned, in order of importance:**
 
-1. **Simple methods are hard to beat.** Nothing beat both baselines. This agrees with the anchor paper, now under a stricter test: held-out donors, and every learned model fitted on training donors only.
+1. **Simple methods are hard to beat.** 3 of 68 pre-declared comparisons passed, all on one metric, none on preserving biology. This agrees with the anchor paper, now under a stricter test: held-out donors, and every learned model fitted on training donors only.
 2. **"Best" depends on the metric.** Harmony tops integration; plain PCA tops fine-grained kNN. A single combined score would hide that.
 3. **The chemistry batch effect is the biggest structure in the raw data.** Correcting it is what Harmony is good at.
 4. **The hand-written VAE is correct.** It agrees with scvi-tools, so its results are not an implementation bug.
-5. **Pretraining on huge data did not help here,** even with the advantage of having seen these cells.
+5. **Pretraining on huge data did not help here on biology or labels,** though Census scVI beat PCA on integration scores on six labs and passed the rule on batch correction there.
 6. **A transformer trained from scratch on 34,000 cells is not competitive.** Learning to predict hidden genes is not the same as learning a good cell map.
 7. **Noise is real.** scIB bio moved 0.07 from thread count alone. Counting wins across splits is more trustworthy than comparing means.
-8. **Split seed 3 is hard for everyone.** Every method dropped there: PCA kNN accuracy 0.832, Harmony 0.751, VAE 0.754, transformer 0.555. Its test donors include one of the two v3-chemistry donors, but so do split seed 1's, and seed 1 is not hard (PCA 0.903). So chemistry alone does not explain it. The reason is not known yet.
+8. **Split seed 3 is hard for everyone.** Every method dropped there: PCA kNN accuracy 0.832, Harmony 0.751, VAE 0.754, transformer 0.555. Its test donors include one of the two v3-chemistry donors, and so do split seed 1's, which is not hard (PCA 0.903). The difference, found in the review: in seed 1 the other v3 donor is in training, while in seed 3 no v3 cells are left in training at all, so seed 3 is a chemistry hold-out (`results/verify/pbmc_split_composition.csv`).
 
 ---
 
@@ -436,6 +436,14 @@ Kept here because "what went wrong and how you caught it" is often the best thin
 | The Colab notebook failed lint, and would have taken the commit author from the wrong commit | Lint on the whole repo | Rewrote the cells |
 | A claim in chat that the transformer was last on every metric | Rechecked against the numbers while making its figure | It is last on scIB aggregate, second to last on kNN (above Geneformer). Corrected here and in the figure title |
 | The five M1 splits reuse the gene filter fitted on split seed 0's training donors | Noted while writing the notes | Effect judged negligible (a "detected in 10 cells" filter); recorded as a known weakness |
+| Headline "no method beat both baselines" was checked on 2 of the 6 declared metrics; on all six, 3 of 68 comparisons pass | Independent review (2026-11-18) | `scripts/verify_rule.py` applies the rule to every metric; headline rewritten from its output |
+| "The transformer ignores expression amounts" was contradicted by our own shuffle probe (0.366 to 0.164) | Independent review | Reworded: it reads amounts, but the true amounts add nothing over presence |
+| "Eight shared confusions": 8 was the figure's display limit; there are 18 | Independent review | Figure subtitle and text now give both numbers |
+| Symphony centroids built from per-cell normalised coordinates, unlike Symphony; docstring claimed they matched | Independent review against the Symphony source | Code now matches Symphony; M8 rerun |
+| `m4_benchmark.py` without `--resume` replaced a full results file | Independent review | It now refuses unless `--resume` or `--overwrite` is given |
+| Provenance stamps ignored untracked files, so `results/leakage/splits.csv` names a commit without its script | Independent review | Untracked files now count as dirty |
+| The VAE weight-transplant check was cited but only run as a scratch script | Independent review | Now a test in `tests/test_scvi_baseline.py` |
+| The five PBMC splits were treated as replicates; split 3 is in fact a chemistry hold-out and split 1 tests on a quarter of all cells | Hostile reviewer in the independent review | Recorded in `results/verify/pbmc_split_composition.csv` and read alongside every per-split claim |
 
 ---
 
@@ -461,7 +469,7 @@ Experiments worth doing next, if you continue:
 4. How does telling the decoder the donor remove donor effects from the code?
 5. What is the reparameterization trick and why is it needed?
 6. How does your transformer turn a cell into tokens, and what did the probe reveal about it?
-7. Why can a pretrained model that saw these exact cells still lose to PCA?
+7. Why can a pretrained model that was trained on most of these cells still lose to PCA? Which of the three was, and which is unknown?
 8. Why macro F1 and not only accuracy? Work the 90 monocytes and 10 platelets example.
 9. What do scIB bio and batch scores each reward, and why can a method win one and lose the other?
 10. Why is Harmony "transductive", and why does that matter for a fair comparison?
@@ -517,6 +525,7 @@ Experiments worth doing next, if you continue:
 ---
 
 ## Update log
+- **2026-11-18 (late):** Independent review by ten agents that had not written the code (five literature, four verification, one hostile). Corrected the headline rule count, the transformer probe reading, the confusion count, the pretrained-model training claims, the leakage caveats, the over-correction wording and the Symphony centroids. Part 6 lists each.
 
 - **2026-11-18:** leakaudit package added to Part 4.
 - **2026-11-18:** M8 (inductive Harmony) added to Part 4.

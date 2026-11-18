@@ -5,10 +5,12 @@
 cellmap tests whether deep learning makes better representations of single cells than simple
 methods, using public blood data and tests on people and whole labs the models never saw.
 I wrote a variational autoencoder and a transformer from scratch, checked the autoencoder
-against scvi-tools, and compared both with PCA, Harmony and three published foundation models
+against scvi-tools, and compared both with PCA, Harmony and three published pretrained models
 on 44,756 cells from 21 people and then 63,100 cells from six labs.
-Under a rule fixed before any deep model was scored, no method beat both simple baselines; the
-numbers, figures and an interactive 3D atlas are below.
+Under a rule fixed before any deep model was scored, applied to every metric it names, 3 of 68
+comparisons passed, all on a single metric (batch mixing, or accuracy with a mean still below
+PCA), and none on preserving biology; the numbers, figures, an independent review of these
+claims and an interactive 3D atlas are below.
 
 Start with [docs/GUIDE.md](docs/GUIDE.md) for a walkthrough of the whole project. Every
 decision is explained in [docs/NOTES.md](docs/NOTES.md), the plan and decision log are in
@@ -54,9 +56,15 @@ GPU) and `scripts/m6_pretrained.py` to `results/m1/` through `results/m6/`.
 | Transformer, hand-written (128) | 0.745 | 0.371 | 0.554 | 0.481 | 0.525 |
 
 The rule for "better" was fixed before any deep model was scored: higher than both baselines in
-at least 4 of 5 splits. By that rule:
+at least 4 of 5 splits, on any of six metrics (scIB bio, scIB batch, kNN accuracy and macro F1 at
+the fine and coarse level). `scripts/verify_rule.py` applies it to every method and metric
+(`results/verify/rule_table.csv`). By that rule:
 
-- No method beat both HVG + PCA and PCA + Harmony.
+- On this dataset one comparison of 50 passed: scvi-tools on fine kNN accuracy (higher than PCA
+  in 4 of 5 splits and than Harmony in 5 of 5, but its mean is 0.008 below PCA). An earlier
+  version of this README said no method passed; that check had covered only two of the six
+  metrics. With five overlapping splits the rule has little power: a method no better than one
+  baseline would clear 4 of 5 against it about 19 percent of the time by chance.
 - The hand-written VAE matched 50-dimensional PCA with 10 dimensions and was higher on batch
   correction in 4 of 5 splits, but lower than Harmony on every scIB score in 5 of 5.
 - The hand-written VAE and scvi-tools with matched settings agree on every metric within
@@ -64,16 +72,24 @@ at least 4 of 5 splits. By that rule:
   check that the hand-written model is correct.
 - The hand-written transformer learned its masked-gene task (4.5 to 8.6 points above guessing
   each gene's usual level on validation donors) but its embedding was lower than PCA, Harmony
-  and the VAE on every metric in all 5 splits.
-- None of the three published pretrained embeddings beat plain PCA on any metric, although all
-  three were trained on Census data that includes these cells, and the Census Geneformer was
-  fine-tuned with cell-type labels.
+  and the VAE on all five table columns in all 5 splits (not on every scIB sub-metric: its
+  iLISI is above PCA's in 5 of 5).
+- None of the three published pretrained embeddings passed the rule against PCA on any metric
+  here, though Census scVI has a higher mean scIB bio score than PCA (0.746 against 0.735).
+  What they saw in training differs: Census scVI was trained, without labels, on Census cells
+  that include most of these; the Census Geneformer was fine-tuned with cell-type labels on
+  CELLxGENE data that may include them; TranscriptFormer's training set was not checked.
 
 Limits: one dataset; five splits give a direction, not a precise size; embedding sizes differ
 (10 to 2048); Harmony is transductive (it sees held-out donors' expression, never their labels);
 scIB metrics are computed without the cross-method scaling used in the scIB paper;
 the scIB biological-conservation score moved by up to 0.07 between two runs of the same model that
-differed only in CPU thread count, so small differences in that column are noise.
+differed only in CPU thread count (one comparison, recorded in `docs/NOTES.md`, not under
+`results/`), so small differences in that column are noise. The five splits are not
+interchangeable: two of the 21 donors are the only 10x 3' v3 samples, split 1 tests on one of
+them (a quarter of all cells), and split 3 tests on the other with no v3 cells left in training,
+so it is a chemistry hold-out (`results/verify/pbmc_split_composition.csv`). Per-split results
+should be read with that table.
 
 ![The VAE at three KL weights](assets/m2_kl_sweep_pbmc.png)
 
@@ -96,10 +112,14 @@ held-out people (5 donor splits) and on a whole held-out lab (6 folds). Numbers 
 
 ![Held-out lab versus held-out people](assets/m4_lab_holdout_m4_blood.png)
 
-- No method beat both baselines in most folds on either measure, in either scheme.
-- The hand-written VAE gained the most from more data: on held-out people it is higher than PCA
-  on scIB aggregate in 5 of 5 splits and higher than Harmony on macro F1 in 4 of 5, but not
-  higher than both on the same measure.
+- Under the pre-declared rule, two comparisons of 18 passed on held-out people, both on batch
+  correction: the hand-written VAE (higher than PCA and Harmony in 5 of 5 splits, by 0.037 and
+  0.026 on average) and Census scVI (5 of 5 and 4 of 5). None passed on biological
+  conservation, accuracy or macro F1. For held-out labs (6 folds, no threshold declared in
+  advance; 5 of 6 used) none passed.
+- The hand-written VAE gained the most from more data: on held-out people its macro F1 is above
+  PCA in 3 of 5 splits and above Harmony in 4 of 5 (0.787 against 0.776 and 0.749), short of
+  the rule.
 - On a whole unseen lab, PCA, Harmony and the VAE are within 0.004 of each other on macro F1.
 - Held-out cell type (split seed 0 only): B cells removed from training still group together
   and are labelled plasma cells, their closest relatives; dendritic cells are labelled
@@ -107,36 +127,51 @@ held-out people (5 donor splits) and on a whole held-out lab (6 folds). Numbers 
 
 Limits: labels are coarse (12 lineages), so these scores are not comparable with the 19-type
 scores above; a held-out-lab test set has a different cell-type mix from a donor-split test set,
-so the two columns are only roughly comparable; the pretrained models were trained on Census
-data that includes these cells.
+so the two columns are only roughly comparable; all six datasets are in Census, and Census scVI
+was trained with each dataset as a batch covariate, so for it no lab is truly held out; on a
+held-out lab the scIB batch score measures mixing of donors within that one lab, not across
+labs.
 
-Two further checks: a random cell split would have overstated macro F1 by 0.11 on one dataset
-and by under 0.01 on six labs (`results/leakage/splits.csv`); and an input probe shows the
-hand-written transformer ignores expression amounts and uses only which genes are on
-(`results/probe/pbmc/probe_inputs.csv`).
+Two further checks (`results/leakage/splits.csv`, `results/probe/pbmc/probe_inputs.csv`):
+
+- A random cell split gave higher macro F1 than a donor split: by 0.112 on the 21-donor data
+  (random 0.767 to 0.784 across seeds, donor 0.595 to 0.788) and by 0.007 against held-out
+  people on six labs (0.018 against a held-out lab). On the 21-donor data most of the gap comes
+  from splits 0 and 3, and split 3 is a chemistry hold-out, so part of it is distribution shift
+  rather than leakage. Accuracy differs much less (0.017), so the gap is mostly in rare types.
+- For the hand-written transformer, giving only which genes are on, with every amount set to
+  one, scored the same as the real input (macro F1 0.375 against 0.366), while shuffling the
+  amounts within each cell cut it to 0.164. So the model does read expression levels, but the
+  true levels added nothing measurable over presence alone. One model, one split, one seed, and
+  a weak model (PCA scores 0.606 on the same split).
 
 ## M7: what the methods get wrong, and where correction goes too far
 
 On the PBMC data, split seed 0 (`results/m7/pbmc/`, written by `scripts/m7_analyses.py`).
 
-**Every method makes the same mistakes.** Eight confusions appear in all nine methods (each at
-least 5 percent of the true type), and every one is between close relatives: regulatory T cells
-called central memory CD4 T cells (50 to 93 percent of them, depending on the method), CD56-bright
-NK cells called NK cells, transitional B cells called memory B cells, naive CD8 T cells called
-naive CD4 T cells. Harmony reduces several of them; no method removes them.
+**Every method makes the same mistakes.** 18 confusions appear in all nine methods (each at
+least 5 percent of the true type; the figure shows the 8 largest). The largest are between close
+relatives: regulatory T cells called central memory CD4 T cells (50 to 93 percent of them,
+depending on the method), CD56-bright NK cells called NK cells, transitional B cells called
+memory B cells, naive CD8 T cells called naive CD4 T cells. A few smaller ones are not, such as
+plasmablasts called CD4 T cells (at least 7 percent). Harmony reduces several of them; no method
+removes them.
 
 ![Shared confusions](assets/m7_confusions_pbmc.png)
 
-**Turning Harmony up erases biology without mixing donors any further.** From theta 0 to 16 the
-batch score stays between 0.651 and 0.660, while fine-type macro F1 falls from 0.601 to 0.536
-and the scIB biology score falls from 0.827 (theta 2) to 0.720 (theta 16). Plain PCA, with no
-correction, scores 0.606 macro F1 and 0.619 batch on the same split.
+**Turning Harmony up past its default costs biology without mixing donors further.** From theta 0
+to 16 the batch score stays between 0.651 and 0.660, while fine-type macro F1 falls steadily from
+0.601 to 0.536 (0.590 at the default, theta 2) and the scIB biology score falls from 0.827 to
+0.720 between theta 2 and 16. The aggregate score is highest near the default, so this is
+over-correction above the default, mostly at theta 16, not a case against Harmony. Plain PCA, with
+no correction, scores 0.606 macro F1 and 0.619 batch on the same split. One split only (seed 0,
+the split where Harmony's lead is smallest); not repeated on the others.
 
 ![Over-correction](assets/m7_overcorrection_pbmc.png)
 
 **Learned directions match known markers, less cleanly than PCA's.** PCA's first component
 tracks the monocyte gene LYZ (Spearman 0.79) and its second the NK gene NKG7 (-0.58). The VAE has
-one similarly clear direction (dimension 8 with LYZ, -0.80); its other dimensions mix markers.
+one similarly clear direction (dimension 8, counting from 1 as in the figure, with LYZ, -0.80); its other dimensions mix markers.
 
 ![Marker genes](assets/m7_markers_pbmc.png)
 
@@ -208,7 +243,11 @@ Every number below was written by `scripts/m0_prepare_data.py` to
 | test | 5,360 | 4 | 19 |
 
 Donors shared between any two splits: 0 (checked in code on every run, and by unit tests).
-After filtering, 18,002 genes remain; the gene filter is fitted on training donors only.
+After filtering, 18,002 genes remain. The gene filter (expressed in at least 10 training cells)
+uses split seed 0's training donors, and the same gene list is used for all five splits, so for
+seeds 1 to 4 it saw some of their test donors. It is a loose filter that only drops genes almost
+never expressed, but it is not fitted per split. Gene selection (HVG) and PCA are fitted per
+split on training donors only.
 
 Known limits of this split, stated up front:
 

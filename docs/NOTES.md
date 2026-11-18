@@ -443,7 +443,9 @@ All three had an advantage the project's own models did not: they were fitted on
 - PCA is fitted on exactly these cells and these genes; the pretrained models are general.
 - Census scVI corrects for assay, dataset, donor and suspension all at once across 100 million cells, which may smooth over the fine T-cell subtypes that drive macro F1 here.
 
-**What to say:** "None of the published foundation-model embeddings beat PCA on my held-out donors, even though they had all seen these cells during training. That agrees with Kedzierska et al."
+**What to say:** "None of the published pretrained embeddings passed my rule against PCA on held-out donors. Census scVI was trained on most of these cells without labels, so that is not for lack of exposure. The direction agrees with zero-shot benchmarks such as Kedzierska et al., but my comparison is not zero-shot for two of the three: Census scVI is an integration model trained on this data and the Geneformer was fine-tuned with labels."
+
+(Corrected 2026-11-18 after the independent review: the earlier line said all three "had seen these cells", which is established only roughly for Census scVI; for TranscriptFormer it was never checked.)
 
 **Known weaknesses:** different embedding sizes (50 to 2048), and no attempt to reduce or fine-tune them. That is deliberate: the question is how they do used as published.
 
@@ -504,7 +506,7 @@ The transformer was trained on a Colab T4 GPU, one fold at a time (about 14 to 1
 
 **Against the rule (beat both baselines in most folds, on one measure): no method passes in either scheme.**
 
-**What changed with more data, the VAE:** on one dataset it tied PCA and lost to Harmony everywhere. With six labs, on held-out people, it beats PCA on scIB aggregate in 5 of 5 splits and Harmony on macro F1 in 4 of 5. It does not beat both on the same measure, so by the rule it is not better, but it is the closest any method came. A reasonable reading, untested: a model with a donor-aware decoder benefits more from many donors and labs than a linear method does.
+**What changed with more data, the VAE:** on one dataset it tied PCA and lost to Harmony everywhere. With six labs, on held-out people, it beats PCA on scIB aggregate in 5 of 5 splits and Harmony on macro F1 in 4 of 5. On scIB batch correction it beats both in 5 of 5, which passes the rule (`results/verify/rule_table.csv`; an earlier version of this note missed it because the check covered only two measures). On macro F1 it is above PCA in only 3 of 5, so it does not pass there. A reasonable reading, untested: a model with a donor-aware decoder benefits more from many donors and labs than a linear method does.
 
 **Held-out lab:** PCA, Harmony and the VAE all land around 0.76 macro F1. The pretrained models stay behind (0.68 to 0.73), and the hand-written transformer is last (0.64), as on one dataset. Figure: `assets/m4_lab_holdout_m4_blood.png`. The hardest held-out lab is Stephenson (0.61 to 0.70 across methods); the easiest is COMBAT (0.83 to 0.89), whose cells cover only 9 of the 12 lineages, which likely makes macro F1 easier there (not checked).
 
@@ -538,7 +540,7 @@ Split seed 0. One lineage at a time is removed from every training cell; methods
 
 **Setup:** kNN confusion between the 19 fine types for every method's split-seed-0 embedding (`results/m7/pbmc/confusion_pairs.csv`).
 
-**Finding:** eight confusions appear in all nine methods at 5 percent or more of the true type, and all are between close relatives: regulatory T versus central memory CD4 T, CD56-bright NK versus NK, conventional dendritic cells versus classical monocytes, transitional versus memory B, plasmablasts versus memory B, naive CD8 versus naive CD4 T, gamma-delta T versus effector memory CD8 T, MAIT versus central memory CD4 T.
+**Finding:** 18 confusions appear in all nine methods at 5 percent or more of the true type (an earlier version said eight, which was the figure's display limit). The eight largest are all between close relatives: regulatory T versus central memory CD4 T, CD56-bright NK versus NK, conventional dendritic cells versus classical monocytes, transitional versus memory B, plasmablasts versus memory B, naive CD8 versus naive CD4 T, gamma-delta T versus effector memory CD8 T, MAIT versus central memory CD4 T.
 
 **Reading:** the hardest boundaries are in the biology (or in how the original study labelled cells), not in any one method. Regulatory T cells are a subset of CD4 T cells defined largely by a few genes such as FOXP3, which are often not detected at this sequencing depth.
 
@@ -635,7 +637,7 @@ Same genes, PCA, folds and scoring as M1 and M4 (`results/m8/*/paired.csv`). Ind
 | gene identities relabelled | 0.162 | 0.172 |
 
 **Reading:**
-- The transformer ignores expression amounts: presence alone scores the same. Its per-cell rank binning put most nonzero counts in one bin, so the amounts were mostly gone before training. A concrete, testable reason for its weak result; a better level encoding is the obvious next experiment.
+- True amounts add nothing measurable over presence alone for the transformer (0.375 against 0.366), but shuffled amounts hurt it badly (0.164), so it does read them. (Corrected after the independent review; an earlier version said it "ignores" them.) The suspected reason is its per-cell rank binning; that is a hypothesis, tested by the M7 re-encoding run. Caveats: one weak model, one split, one seed; and "presence only" puts every token in bin 0, the most common training bin, so it stays close to the training distribution while shuffling does not.
 - Wrong amounts still mislead it, so "not needed" and "harmless when corrupted" differ.
 - The VAE uses both presence and amounts.
 - Both collapse when gene identities are scrambled.
