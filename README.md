@@ -166,6 +166,24 @@ Known limits of this split, stated up front:
   per-type scores for those types will be noisy.
 - This is one split with one seed. M1 repeats over five donor splits.
 
+## Data and citations
+
+All data come from CZ CELLxGENE Census, release 2025-01-30 (CC BY 4.0), downloaded by the
+scripts in this repository and not stored in it. Please cite the original studies:
+
+| Name in this repository | Study | DOI |
+|---|---|---|
+| `pbmc`, and `schulte` in M4 | Schulte-Schrepping et al. 2020, Cell; hosted on CELLxGENE in the collection of Jin et al. 2021, iScience | 10.1016/j.isci.2021.103115 (collection) |
+| `hao` | Hao et al. 2021, Cell | 10.1016/j.cell.2021.04.048 |
+| `stephenson` | Stephenson et al. 2021, Nature Medicine | 10.1038/s41591-021-01329-2 |
+| `combat` | COMBAT Consortium (Ahern et al.) 2022, Cell | 10.1016/j.cell.2022.01.012 |
+| `aida` | Kock et al. 2024, bioRxiv (Asian Immune Diversity Atlas) | 10.1101/2024.06.30.601119 |
+| `onek1k` | Yazar et al. 2022, Science | 10.1126/science.abf3041 |
+
+Methods compared: Harmony (Korsunsky et al. 2019), scVI / scvi-tools (Lopez et al. 2018),
+Geneformer (Theodoris et al. 2023), TranscriptFormer (CZI, 2025), scIB metrics (Luecken et al.
+2022, via `scib-metrics`). The question follows Kedzierska et al. 2025 (Genome Biology).
+
 ## Reproduce
 
 ```bash
