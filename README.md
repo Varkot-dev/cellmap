@@ -1,14 +1,20 @@
 # cellmap
 
-![The same cells before and after batch correction](assets/m1_batch_umap_pbmc.png)
+![The interactive atlas: 44,756 blood cells, embedded by the hand-written VAE](assets/hero_atlas.png)
 
-cellmap asks how much deep models add over simple baselines for representing single cells
-from gene-expression data, using public data and splits that prevent leakage.
-It is a work in progress: the benchmark runs on one dataset and on six labs; the final analyses
-and write-up (M7) are not done.
-A walkthrough of the whole project from scratch is in [docs/GUIDE.md](docs/GUIDE.md).
-The plan is in [docs/PLAN.md](docs/PLAN.md), the reasoning behind every decision in
-[docs/NOTES.md](docs/NOTES.md), and the day by day log in [journal/](journal/README.md).
+cellmap tests whether deep learning makes better representations of single cells than simple
+methods, using public blood data and tests on people and whole labs the models never saw.
+I wrote a variational autoencoder and a transformer from scratch, checked the autoencoder
+against scvi-tools, and compared both with PCA, Harmony and three published foundation models
+on 44,756 cells from 21 people and then 63,100 cells from six labs.
+Under a rule fixed before any deep model was scored, no method beat both simple baselines; the
+numbers, figures and an interactive 3D atlas are below.
+
+Start with [docs/GUIDE.md](docs/GUIDE.md) for a walkthrough of the whole project. Every
+decision is explained in [docs/NOTES.md](docs/NOTES.md), the plan and decision log are in
+[docs/PLAN.md](docs/PLAN.md), and the day by day log is in [journal/](journal/README.md).
+The site (`site/index.html`, an explainer, and `site/atlas.html`, the atlas) is published
+with GitHub Pages once the repository is public (see [docs/RELEASE.md](docs/RELEASE.md)).
 
 ## Status
 
@@ -21,10 +27,11 @@ The plan is in [docs/PLAN.md](docs/PLAN.md), the reasoning behind every decision
 | M5 hand-written transformer with masked gene modeling | built; trained on a Colab GPU; results below |
 | M6 published pretrained-model embeddings (Census scVI, Geneformer, TranscriptFormer) | built, results below |
 | M4 six labs: held-out people, held-out labs, held-out cell type | done, results below |
-| M7 analyses, write-up, public release | not started |
+| M7 analyses: shared confusions, over-correction, marker genes, transformer input encoding | done, results below |
+| Public release | checklist in `docs/RELEASE.md`; license and visibility are the owner's decisions |
 | Public site | scroll-driven explainer (`site/index.html`) and 3D atlas of every method (`site/atlas.html`) |
 
-## Results so far: every method on the same five donor splits
+## Results: every method on the same five donor splits
 
 One dataset (healthy PBMCs, 21 donors), five donor-level splits with 4 held-out donors each,
 all scores on held-out donors, means over the five splits. Written by `scripts/m1_baselines.py`,
@@ -105,6 +112,31 @@ Two further checks: a random cell split would have overstated macro F1 by 0.11 o
 and by under 0.01 on six labs (`results/leakage/splits.csv`); and an input probe shows the
 hand-written transformer ignores expression amounts and uses only which genes are on
 (`results/probe/pbmc/probe_inputs.csv`).
+
+## M7: what the methods get wrong, and where correction goes too far
+
+On the PBMC data, split seed 0 (`results/m7/pbmc/`, written by `scripts/m7_analyses.py`).
+
+**Every method makes the same mistakes.** Eight confusions appear in all nine methods (each at
+least 5 percent of the true type), and every one is between close relatives: regulatory T cells
+called central memory CD4 T cells (50 to 93 percent of them, depending on the method), CD56-bright
+NK cells called NK cells, transitional B cells called memory B cells, naive CD8 T cells called
+naive CD4 T cells. Harmony reduces several of them; no method removes them.
+
+![Shared confusions](assets/m7_confusions_pbmc.png)
+
+**Turning Harmony up erases biology without mixing donors any further.** From theta 0 to 16 the
+batch score stays between 0.651 and 0.660, while fine-type macro F1 falls from 0.601 to 0.536
+and the scIB biology score falls from 0.827 (theta 2) to 0.720 (theta 16). Plain PCA, with no
+correction, scores 0.606 macro F1 and 0.619 batch on the same split.
+
+![Over-correction](assets/m7_overcorrection_pbmc.png)
+
+**Learned directions match known markers, less cleanly than PCA's.** PCA's first component
+tracks the monocyte gene LYZ (Spearman 0.79) and its second the NK gene NKG7 (-0.58). The VAE has
+one similarly clear direction (dimension 8 with LYZ, -0.80); its other dimensions mix markers.
+
+![Marker genes](assets/m7_markers_pbmc.png)
 
 ## M1 detail: PCA versus PCA + Harmony
 

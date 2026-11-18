@@ -532,6 +532,49 @@ Split seed 0. One lineage at a time is removed from every training cell; methods
 
 ---
 
+# M7: analyses
+
+## Do the methods fail in the same places?
+
+**Setup:** kNN confusion between the 19 fine types for every method's split-seed-0 embedding (`results/m7/pbmc/confusion_pairs.csv`).
+
+**Finding:** eight confusions appear in all nine methods at 5 percent or more of the true type, and all are between close relatives: regulatory T versus central memory CD4 T, CD56-bright NK versus NK, conventional dendritic cells versus classical monocytes, transitional versus memory B, plasmablasts versus memory B, naive CD8 versus naive CD4 T, gamma-delta T versus effector memory CD8 T, MAIT versus central memory CD4 T.
+
+**Reading:** the hardest boundaries are in the biology (or in how the original study labelled cells), not in any one method. Regulatory T cells are a subset of CD4 T cells defined largely by a few genes such as FOXP3, which are often not detected at this sequencing depth.
+
+**What to say:** "All nine methods confuse the same pairs, and every pair is two close relatives. That tells me the limit is the data and the labels, not the model."
+
+---
+
+## Where does batch correction go too far?
+
+**Setup:** Harmony's diversity penalty theta from 0 to 16 on split seed 0 (`results/m7/pbmc/harmony_strength.csv`). Plain PCA (no Harmony) as the reference.
+
+| theta | macro F1 (19 types) | scIB biology | scIB batch |
+|---|---|---|---|
+| PCA, no Harmony | 0.606 | 0.795 | 0.619 |
+| 0 | 0.601 | 0.797 | 0.651 |
+| 2 (default) | 0.590 | 0.827 | 0.657 |
+| 16 | 0.536 | 0.720 | 0.652 |
+
+**Finding:** batch mixing barely moves once Harmony is on (0.651 to 0.660 across all settings), while fine-type F1 falls steadily and the biology score drops sharply at the top. Close pairs lose the most: naive CD4 T F1 falls from 0.45 to 0.31.
+
+**Reading:** with 21 donors, most of the batch effect Harmony can remove is removed at low strength. Pushing harder only merges real cell types. Note theta 0 is not "no correction": Harmony still shifts cells within clusters.
+
+**What to say:** "I swept Harmony's strength: past the default it stopped mixing donors any further and only started merging real cell types. That is over-correction, measured."
+
+---
+
+## Do learned directions line up with known biology?
+
+**Setup:** Spearman correlation of 20 marker genes with PCA's first 10 components and the VAE's 10 latent dimensions (`results/m7/pbmc/marker_correlations.csv`).
+
+**Finding:** PCA component 1 is monocyte versus lymphocyte (LYZ 0.79, CD14), component 2 separates NK and B cells (NKG7 -0.58, MS4A1). The VAE has one equally clean direction (dimension 8: LYZ -0.80, CD3E and IL7R positive); dimension 6 pairs B-cell genes against NK genes; others mix.
+
+**Reading:** both learn the main lineages as directions. The VAE spreads information across dimensions more, which is expected: nothing in its objective asks dimensions to be ordered or independent of each other in meaning.
+
+---
+
 # Extra: two experiments worth talking about
 
 ## How much would a random split have lied?
@@ -599,3 +642,6 @@ Split seed 0. One lineage at a time is removed from every training cell; methods
 | `notebooks/m4_transformer_gpu.ipynb` | One-cell Colab run for the M4 transformer | Pushes after every fold, resumes after a disconnect |
 | `scripts/leakage_splits.py` | Leaky versus honest splits, same method | Measures the inflation instead of asserting it |
 | `scripts/probe_inputs.py` | Perturbation probe on the learned models | Damages one input at inference; the model is not retrained |
+| `scripts/m7_analyses.py`, `scripts/m7_figures.py` | Shared confusions, Harmony strength sweep, marker directions | Split seed 0; all nine methods scored by the same code |
+| `scripts/m7_transformer_levels.py` | Transformer with depth-normalized level encoding | Tests the explanation the probe gave |
+| `docs/RELEASE.md`, `.github/workflows/pages.yml` | Checklist and site deployment for going public | Pages workflow runs only by hand |
