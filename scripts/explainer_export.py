@@ -16,6 +16,8 @@ Writes:
 import argparse
 from pathlib import Path
 
+import pandas as pd
+
 from cellmap.atlas import build_payload, build_results, write_page
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -34,6 +36,48 @@ def beats_both_baselines(results: list[dict], method: str, measure: str) -> bool
     return True
 
 
+M4_LABELS = {
+    "pca": "HVG + PCA",
+    "pca_harmony": "PCA + Harmony",
+    "vae": "VAE (hand-written)",
+    "transformer": "Transformer",
+    "census_scvi": "Census scVI",
+    "geneformer_ft": "Geneformer (fine-tuned)",
+    "tf_sapiens": "TranscriptFormer",
+}
+
+
+def build_m4(root: Path) -> dict | None:
+    """Held-out-lab results from results/m4, in the same shape as the main results."""
+    files = sorted((root / "results" / "m4" / "m4_blood").glob("metrics_*.csv"))
+    if not files:
+        return None
+    data = pd.concat(pd.read_csv(f) for f in files)
+    lab = data[data["scheme"] == "dataset"]
+    rows = []
+    for method, group in lab.groupby("method"):
+        if len(group) != lab["fold"].nunique():
+            continue
+        group = group.sort_values("fold")
+        vals = [round(float(v), 3) for v in group["knn_macro_f1_lineage"]]
+        rows.append(
+            {
+                "key": method,
+                "label": M4_LABELS.get(method, method),
+                "knn_macro_f1_lineage": round(float(group["knn_macro_f1_lineage"].mean()), 3),
+                "knn_macro_f1_lineage_splits": vals,
+            }
+        )
+    summary = pd.read_json(root / "results" / "m4" / "m4_blood" / "summary.json", typ="series")
+    return {
+        "results": rows,
+        "n_labs": int(lab["fold"].nunique()),
+        "cells": int(summary["final"]["cells"]),
+        "donors": int(summary["final"]["donors"]),
+        "lineages": int(summary["final"]["lineages"]),
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--name", default="pbmc")
@@ -45,6 +89,10 @@ def main() -> None:
     data["results"] = results
     data["verdict_total"] = len(others)
     data["verdict_wins"] = len(winners)
+    data["m4"] = build_m4(ROOT)
+    if data["m4"]:
+        for key in ("n_labs", "cells", "donors", "lineages"):
+            data[f"m4_{key}"] = data["m4"][key]
     size = write_page(
         ROOT / "site" / "explainer_template.html",
         data,

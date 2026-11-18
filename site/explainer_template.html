@@ -56,6 +56,9 @@ canvas { display: block; width: 100%; height: 100%; touch-action: pan-y; cursor:
 .chart h3 { font-size: 16px; margin: 0 0 4px; }
 .chart p { font-size: 14px; color: var(--muted); margin: 0 0 12px; }
 .chart svg { width: 100%; height: auto; display: block; overflow: visible; }
+.m4 { margin-top: 64px; max-width: 760px; }
+.m4-head { font-size: 22px; margin: 0 0 8px; }
+.m4 p { color: var(--muted); font-size: 15px; }
 .findings { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; margin-top: 56px; }
 .findings div { border-top: 2px solid var(--fg); padding-top: 12px; }
 .findings h4 { margin: 0 0 6px; font-size: 16px; }
@@ -177,6 +180,12 @@ footer { max-width: 1100px; margin: 0 auto; padding-block: 24px 48px; font-size:
         <svg id="chart-scib" role="img" aria-label="scIB aggregate by method"></svg>
       </div>
     </div>
+    <div class="m4" id="m4" hidden>
+      <span class="kicker">Six labs</span>
+      <h3 class="m4-head">The same result with a whole lab held out</h3>
+      <p>The benchmark was repeated on <span class="num" data-num="m4_n_labs"></span> blood datasets from different labs and sequencing chemistries, <span class="num" data-num="m4_cells"></span> cells from <span class="num" data-num="m4_donors"></span> people, labels mapped to <span class="num" data-num="m4_lineages"></span> lineages every lab shares. Here each method is trained on all labs but one and scored on the one it has never seen. Each dot is one held-out lab.</p>
+      <div class="chart"><svg id="chart-m4" role="img" aria-label="Macro F1 on a held-out lab by method"></svg></div>
+    </div>
     <div class="findings">
       <div><h4>Simple is strong</h4><p>PCA, a method from 1901, was never clearly beaten at telling cell types apart. Harmony on top of it won the integration score.</p></div>
       <div><h4>Metrics disagree</h4><p>The method that mixes people best is not the one that separates close cell types best. A single leaderboard number would hide that.</p></div>
@@ -190,7 +199,7 @@ footer { max-width: 1100px; margin: 0 auto; padding-block: 24px 48px; font-size:
 
   <footer>
     <p id="foot"></p>
-    <p>One dataset so far: healthy blood from Schulte-Schrepping et al. (Cell, 2020) via CZ CELLxGENE Census. A test on six labs is in progress. Maps are 3D UMAP drawings of each embedding; they are pictures, and the scores are the measurements.</p>
+    <p>The maps and the first two charts use one dataset: healthy blood from Schulte-Schrepping et al. (Cell, 2020) via CZ CELLxGENE Census. The six-lab chart uses six Census datasets. Maps are 3D UMAP drawings of each embedding; they are pictures, and the scores are the measurements.</p>
   </footer>
 </div>
 
@@ -340,8 +349,8 @@ const DATA = /*__EXPLAINER_DATA__*/null;
 
   // ---------- results charts ----------
   const HIGHLIGHT = { pca: 'baseline', pca_harmony: 'baseline', vae: 'mine', transformer: 'mine' };
-  function chart(svgId, col) {
-    const svg = document.getElementById(svgId), rows = [...DATA.results].sort((a, b) => b[col] - a[col]);
+  function chart(svgId, col, source) {
+    const svg = document.getElementById(svgId), rows = [...(source || DATA.results)].sort((a, b) => b[col] - a[col]);
     const rowH = 30, left = 180, right = 48, width = 560, top = 6, h = top + rows.length * rowH + 30;
     const vals = rows.flatMap(r => r[col + '_splits']);
     const lo = Math.floor(Math.min(...vals) * 10) / 10, hi = Math.ceil(Math.max(...vals) * 10) / 10;
@@ -365,6 +374,7 @@ const DATA = /*__EXPLAINER_DATA__*/null;
   }
   chart('chart-f1', 'knn_macro_f1_fine');
   chart('chart-scib', 'scib_total');
+  if (DATA.m4) { document.getElementById('m4').hidden = false; chart('chart-m4', 'knn_macro_f1_lineage', DATA.m4.results); }
 
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { curColors = colorArray(state.color); col(buf.c0, L.c0, curColors); col(buf.c1, L.c1, curColors); renderLegend(state.color); request(); });
 })();
