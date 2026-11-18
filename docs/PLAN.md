@@ -91,7 +91,7 @@ A check you can do by hand: with the KL weight at 0 the model is a plain autoenc
 | M1 (built 2026-11-17) | Classical baselines (methods 1 and 2) and the full evaluation harness | scIB metrics and kNN accuracy produced by one script |
 | M2 (built 2026-11-17) | Hand-written VAE (method 4) with unit tests for the negative binomial likelihood and the KL term | Loss components match a hand-computed example; KL weight sweep shows both failure modes |
 | M3 (built 2026-11-17) | Parity with `scvi-tools` (method 5) | Metrics agree within seed-to-seed noise, or the difference is explained |
-| M4 | Scale up through CELLxGENE Census to a multi-tissue, multi-dataset set; rerun everything | Held-out dataset and held-out cell-type results added |
+| M4 (done 2026-11-18) | Scale up through CELLxGENE Census to a multi-tissue, multi-dataset set; rerun everything | Held-out dataset and held-out cell-type results added |
 | M5 (built 2026-11-17; trained on GPU 2026-11-17) | Small transformer with masked gene modeling (method 6) | Trained on a free GPU; added to the comparison |
 | M6 (built 2026-11-17) | Pretrained model embeddings (method 7) | Added to the comparison with training-data overlap noted |
 | M7 | Analyses in 4.4, interactive atlas, write-up | README complete, repo ready to make public |
@@ -197,5 +197,12 @@ Written down now, before the VAE has been scored, so the rules cannot be bent to
 - **scvi-tools is not rerun in M4;** M3 showed it matches the hand-written VAE.
 
 **2026-11-17, public site:** the owner chose one scroll-driven explainer page as the front of the project (the 3D map changes as the reader scrolls from raw data to each method, ending on the results), linking to the existing atlas. Built after M4.
+
+**2026-11-18, M4 results and extras**
+
+- M4 finished. Seven methods on six labs, two schemes (5 donor splits, 6 held-out labs). No method passed the pre-declared rule in either scheme. The transformer was trained on a Colab T4 GPU through the one-cell notebook, which pushed after every fold; a disconnect after 9 folds was resumed without retraining anything.
+- Held-out cell type test (B cells, dendritic cells) added on split seed 0 only.
+- Two experiments beyond the plan, prompted by preparing for an interview: the inflation from a leaky random-cell split (`results/leakage/`), and an input perturbation probe on the VAE and transformer (`results/probe/`), which showed the transformer ignores expression amounts.
+- A data-script bug (missing output folder) only appeared on a fresh clone in Colab. Rule adopted: before handing over a GPU notebook, replay its steps on a fresh clone here.
 
 **Working principle (owner's decision, 2026-11-17): full speed, learn afterwards.** The owner chose to have all milestones built as fast as possible, with parallel agents, and to study the material at the end. This replaces "teach before you build" and the per-milestone quiz in `CLAUDE.md` for the build phase. What makes that safe: every decision is written down as it is made (this log and `docs/NOTES.md`), so the reasoning can be read and defended later. The honesty rules are unchanged: no number enters the README unless a script here produced it. Lessons and quizzes move to the end.

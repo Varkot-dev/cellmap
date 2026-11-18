@@ -490,7 +490,7 @@ The Census pads every dataset to the full gene list. A gene one lab never measur
 
 Means over folds, 12 lineages (`results/m4/m4_blood/metrics_*.csv`).
 
-The transformer row is pending: it is being trained on a Colab GPU, one fold at a time.
+The transformer was trained on a Colab T4 GPU, one fold at a time (about 14 to 19 minutes per fold), pushing each result to GitHub as it finished.
 
 | Method | Macro F1, held-out people | Macro F1, held-out lab | scIB aggregate, held-out people | scIB aggregate, held-out lab |
 |---|---|---|---|---|
@@ -500,13 +500,13 @@ The transformer row is pending: it is being trained on a Colab GPU, one fold at 
 | Census scVI | 0.751 | 0.711 | 0.650 | 0.691 |
 | Geneformer (fine-tuned) | 0.699 | 0.677 | 0.560 | 0.699 |
 | TranscriptFormer | 0.730 | 0.732 | 0.509 | 0.665 |
-| Transformer (hand-written) | pending | pending | pending | pending |
+| Transformer (hand-written) | 0.641 | 0.640 | 0.539 | 0.562 |
 
 **Against the rule (beat both baselines in most folds, on one measure): no method passes in either scheme.**
 
 **What changed with more data, the VAE:** on one dataset it tied PCA and lost to Harmony everywhere. With six labs, on held-out people, it beats PCA on scIB aggregate in 5 of 5 splits and Harmony on macro F1 in 4 of 5. It does not beat both on the same measure, so by the rule it is not better, but it is the closest any method came. A reasonable reading, untested: a model with a donor-aware decoder benefits more from many donors and labs than a linear method does.
 
-**Held-out lab:** PCA, Harmony and the VAE all land around 0.76 macro F1. The pretrained models stay behind (0.68 to 0.73). The hardest held-out lab is Stephenson (0.61 to 0.70 across methods); the easiest is COMBAT (0.83 to 0.89), whose cells cover only 9 of the 12 lineages, which likely makes macro F1 easier there (not checked).
+**Held-out lab:** PCA, Harmony and the VAE all land around 0.76 macro F1. The pretrained models stay behind (0.68 to 0.73), and the hand-written transformer is last (0.64), as on one dataset. Figure: `assets/m4_lab_holdout_m4_blood.png`. The hardest held-out lab is Stephenson (0.61 to 0.70 across methods); the easiest is COMBAT (0.83 to 0.89), whose cells cover only 9 of the 12 lineages, which likely makes macro F1 easier there (not checked).
 
 **Why the two schemes are only roughly comparable:** a donor-split test set mixes all labs, a held-out-lab test set is one lab with its own mix of cell types. A score going up or down between schemes is partly that mix. The figure says so.
 

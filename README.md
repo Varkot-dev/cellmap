@@ -4,8 +4,8 @@
 
 cellmap asks how much deep models add over simple baselines for representing single cells
 from gene-expression data, using public data and splits that prevent leakage.
-It is a work in progress: everything so far is on one dataset; scaling to several datasets (M4)
-and the final analyses (M7) are not done.
+It is a work in progress: the benchmark runs on one dataset and on six labs; the final analyses
+and write-up (M7) are not done.
 A walkthrough of the whole project from scratch is in [docs/GUIDE.md](docs/GUIDE.md).
 The plan is in [docs/PLAN.md](docs/PLAN.md), the reasoning behind every decision in
 [docs/NOTES.md](docs/NOTES.md), and the day by day log in [journal/](journal/README.md).
@@ -20,7 +20,8 @@ The plan is in [docs/PLAN.md](docs/PLAN.md), the reasoning behind every decision
 | M3 parity check against scvi-tools | built; parity holds on all five splits |
 | M5 hand-written transformer with masked gene modeling | built; trained on a Colab GPU; results below |
 | M6 published pretrained-model embeddings (Census scVI, Geneformer, TranscriptFormer) | built, results below |
-| M4 scale-up, M7 analyses and write-up | not started |
+| M4 six labs: held-out people, held-out labs, held-out cell type | done, results below |
+| M7 analyses, write-up, public release | not started |
 | Public site | scroll-driven explainer (`site/index.html`) and 3D atlas of every method (`site/atlas.html`) |
 
 ## Results so far: every method on the same five donor splits
@@ -66,6 +67,44 @@ the scIB biological-conservation score moved by up to 0.07 between two runs of t
 differed only in CPU thread count, so small differences in that column are noise.
 
 ![The VAE at three KL weights](assets/m2_kl_sweep_pbmc.png)
+
+## M4: six labs, whole labs held out
+
+Six healthy blood datasets from different labs and 10x chemistries, 63,100 cells from 128 donors,
+labels mapped to 12 shared lineages, only genes every lab measured. Each method is scored on
+held-out people (5 donor splits) and on a whole held-out lab (6 folds). Numbers from
+`results/m4/m4_blood/`, written by `scripts/m4_benchmark.py` (the transformer on a Colab GPU).
+
+| Method | Macro F1, held-out people | Macro F1, held-out lab | scIB aggregate, held-out people | scIB aggregate, held-out lab |
+|---|---|---|---|---|
+| VAE (hand-written) | 0.787 | 0.761 | 0.689 | 0.715 |
+| HVG + PCA | 0.776 | 0.765 | 0.621 | 0.713 |
+| Census scVI | 0.751 | 0.711 | 0.650 | 0.691 |
+| PCA + Harmony | 0.749 | 0.761 | 0.702 | 0.719 |
+| TranscriptFormer | 0.730 | 0.732 | 0.509 | 0.665 |
+| Geneformer (fine-tuned) | 0.699 | 0.677 | 0.560 | 0.699 |
+| Transformer (hand-written) | 0.641 | 0.640 | 0.539 | 0.562 |
+
+![Held-out lab versus held-out people](assets/m4_lab_holdout_m4_blood.png)
+
+- No method beat both baselines in most folds on either measure, in either scheme.
+- The hand-written VAE gained the most from more data: on held-out people it is higher than PCA
+  on scIB aggregate in 5 of 5 splits and higher than Harmony on macro F1 in 4 of 5, but not
+  higher than both on the same measure.
+- On a whole unseen lab, PCA, Harmony and the VAE are within 0.004 of each other on macro F1.
+- Held-out cell type (split seed 0 only): B cells removed from training still group together
+  and are labelled plasma cells, their closest relatives; dendritic cells are labelled
+  monocytes and lose some grouping (`results/m4/m4_blood/heldout_types.csv`).
+
+Limits: labels are coarse (12 lineages), so these scores are not comparable with the 19-type
+scores above; a held-out-lab test set has a different cell-type mix from a donor-split test set,
+so the two columns are only roughly comparable; the pretrained models were trained on Census
+data that includes these cells.
+
+Two further checks: a random cell split would have overstated macro F1 by 0.11 on one dataset
+and by under 0.01 on six labs (`results/leakage/splits.csv`); and an input probe shows the
+hand-written transformer ignores expression amounts and uses only which genes are on
+(`results/probe/pbmc/probe_inputs.csv`).
 
 ## M1 detail: PCA versus PCA + Harmony
 
@@ -140,6 +179,10 @@ python scripts/m2_kl_sweep.py --name pbmc
 python scripts/m2_figures.py --name pbmc
 python scripts/m3_scvi_parity.py --name pbmc                   # about 30 minutes
 python scripts/m6_pretrained.py --name pbmc                    # downloads about 4 GB of embeddings
+python scripts/m4_prepare_data.py --config configs/m4_blood.yaml
+python scripts/m4_benchmark.py --name m4_blood                 # transformer: notebooks/m4_transformer_gpu.ipynb
+python scripts/m4_heldout_type.py --name m4_blood
+python scripts/m4_figures.py --name m4_blood
 python scripts/atlas_export.py --name pbmc                      # site/atlas.html
 python scripts/explainer_export.py --name pbmc                  # site/index.html
 pytest -q
