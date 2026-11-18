@@ -38,3 +38,21 @@ B cells removed from training still form their own group in every method and are
 - Open: a better level encoding for the transformer (the probe says that is the bottleneck), a larger VAE code, and seurat_v3 gene selection.
 
 Scripts: `scripts/m4_*.py`, `scripts/leakage_splits.py`, `scripts/probe_inputs.py`. Results: `results/m4/`, `results/leakage/`, `results/probe/`.
+
+## Independent review (late)
+
+Asked whether the results were real, I had ten agents that had not written the code check them: five against the literature, four against the repo (every README number recomputed, a leakage-focused code review, the Symphony implementation compared with its source, a rerun from a clean clone), and one hostile reviewer with all their reports.
+
+**What held:** the clean rerun reproduced every rerun result to the last digit; no step is fitted on test donors; the Symphony mapping matches its source apart from one centroid formula; the direction of the main findings agrees with published zero-shot benchmarks.
+
+**What did not, and is now fixed:**
+- The comparison rule had been checked on 2 of its 6 metrics. On all of them, 3 of 68 comparisons pass (VAE and Census scVI on six-lab batch correction, scvi-tools on PBMC accuracy). None on biology. `scripts/verify_rule.py`.
+- "The transformer ignores levels" contradicted our own shuffle probe (0.366 to 0.164).
+- 18 shared confusions, not 8 (8 was the figure's limit).
+- The 61 percent bin figure was never saved; measured, it is 57 percent (`results/m7/pbmc/token_bins.csv`).
+- Split 3 is a chemistry hold-out (no v3 cells in training), which explains why every method drops there (`results/verify/pbmc_split_composition.csv`).
+- Pretrained models: only Census scVI is known to have trained on these cells.
+- Symphony centroids corrected and M8 rerun: on 21 donors the inductive Harmony is still lower in 5 of 5 splits, but the share of the lead lost ranges from 3 to 50 percent by split and 22 to 31 percent by ridge setting; on six labs, none.
+- Code: `m4_benchmark.py` no longer overwrites results; provenance counts untracked files; the VAE weight transplant is a test.
+
+**Lesson:** a headline that was checked against two columns is not checked. Every claim that counts things ("none", "every", "eight") now comes from a script.

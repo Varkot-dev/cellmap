@@ -366,9 +366,9 @@ Details and caveats: `docs/NOTES.md`, section M4.
 
 Harmony was the only method that corrected the test cells together with the training cells. To check whether that was an unfair advantage, Harmony was re-run fitted on training donors only, with held-out cells mapped onto the frozen result (the published Symphony method, implemented in `src/cellmap/reference_mapping.py`).
 
-- **21 donors:** about 30 percent of Harmony's integration-score lead over PCA (0.023 of 0.077) came from seeing the test cells.
-- **128 donors, six labs:** none of it did; the fair version matched or beat the original.
-- **Everywhere:** the fair version labelled held-out cells slightly more accurately.
+- **21 donors:** the fair version scored lower in 5 of 5 splits, losing 0.024 of Harmony's 0.077 integration lead over PCA on average. The share is unstable (3 to 50 percent per split, 22 to 31 percent on average across ridge settings) and mostly in the biology score. Because the algorithm changes too, read it as "part of the lead depends on seeing test cells", not an exact amount. (Corrected after the review; an earlier version said "about 30 percent came from seeing the test cells".)
+- **128 donors, six labs:** on held-out people the fair version was slightly higher (4 of 5), so none of the lead depended on it. On held-out labs Harmony led PCA by only 0.006, so that case says little.
+- **Everywhere:** the fair version had slightly higher kNN accuracy, but not higher macro F1. Weaker correction raises accuracy here, so this is not evidence that it is better.
 
 Details: `docs/NOTES.md`, section M8.
 

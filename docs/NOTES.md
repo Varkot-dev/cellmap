@@ -593,16 +593,19 @@ Same genes, PCA, folds and scoring as M1 and M4 (`results/m8/*/paired.csv`). Ind
 
 | Data | Inductive minus transductive, scIB aggregate | Inductive minus PCA, scIB aggregate | Inductive minus transductive, kNN accuracy |
 |---|---|---|---|
-| PBMC, 21 donors, 5 splits | -0.023 (lower in 5 of 5) | +0.054 (higher in 5 of 5) | +0.018 (higher in 5 of 5) |
-| Six labs, held-out people | -0.000 (higher in 3 of 5) | +0.081 (5 of 5) | +0.006 (5 of 5) |
-| Six labs, held-out lab | +0.011 (higher in 5 of 6) | +0.017 (4 of 6) | +0.005 (6 of 6) |
+| PBMC, 21 donors, 5 splits | -0.024 (lower in 5 of 5) | +0.053 (higher in 5 of 5) | +0.017 (higher in 5 of 5) |
+| Six labs, held-out people | +0.003 (higher in 4 of 5) | +0.084 (5 of 5) | +0.005 (5 of 5) |
+| Six labs, held-out lab | +0.008 (higher in 6 of 6) | +0.014 (3 of 6) | +0.004 (6 of 6) |
+
+(Rerun 2026-11-18 after the independent review corrected the reference centroids to Symphony's formula; the earlier numbers were -0.023, -0.000 and +0.011.)
 
 **Reading:**
-- On 21 donors, seeing the test cells was worth about 0.023 of Harmony's 0.077 scIB lead over PCA, roughly 30 percent. The rest is real.
-- On 128 donors from six labs, it was worth nothing: the inductive version matched or beat the transductive one.
-- In every setting the inductive version labelled held-out cells slightly more accurately. Correcting test cells together with training cells appears to blur fine differences a little.
+- On 21 donors the inductive version is lower in 5 of 5 splits, by 0.024 of Harmony's 0.077 scIB lead over PCA on average. The size is not stable: 3 to 50 percent of the lead per split, and 22 to 31 percent on average across query ridge settings 0.1, 1 and 10 (`results/m8/pbmc/share_by_fold.csv`, `ridge_sensitivity.csv`). Most of it is in the biology score (about half of Harmony's bio lead) rather than batch (about 8 percent).
+- This is a gap between two procedures, not a pure price of seeing test cells: joint iterative Harmony is replaced by a one-shot mapping, with the reference built using harmonypy's estimated lambda and the query a fixed ridge. Read it as evidence that some of Harmony's lead on 21 donors depends on the transductive setup, with an uncertain size.
+- On six labs, held-out people, the inductive version is slightly higher (+0.003, 4 of 5), so none of the 0.081 lead depended on it. On held-out labs Harmony's lead over PCA is only 0.006, so there was almost nothing to lose and that case says little.
+- Kinds of label score: the inductive version had higher kNN accuracy in every setting, but not higher macro F1 (3 of 5 on PBMC). Weaker correction tends to raise accuracy here (see the theta sweep), so this fits a mapping that corrects query cells less, not necessarily a better one.
 
-**What to say:** "Harmony was the only method allowed to see the test cells, so I re-implemented reference mapping to fit it on training donors only. With 21 donors about 30 percent of its integration-score lead came from seeing the test cells; with 128 donors from six labs, none did. So the comparison was slightly generous to Harmony on the small dataset and fair on the large one."
+**What to say:** "Harmony was the only method allowed to see the test cells, so I re-implemented reference mapping to fit it on training donors only. With 21 donors it lost part of its integration lead in every split, somewhere between a fifth and a third on average depending on settings, mostly on the biology side; with 128 people from six labs it lost none. So the standard comparison was somewhat generous to Harmony on the small dataset and fair on the large one."
 
 **Known weaknesses:** blood only; one reference-mapping method; the ridge penalty fixed at Symphony's default of 1.
 

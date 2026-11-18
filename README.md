@@ -179,10 +179,14 @@ one similarly clear direction (dimension 8, counting from 1 as in the figure, wi
 
 Harmony was the only method that corrected held-out cells together with training cells. Fitted
 on training donors only, with held-out cells mapped onto the frozen reference (Symphony algorithm,
-`src/cellmap/reference_mapping.py`), it lost 0.023 of its 0.077 scIB lead over PCA on the 21-donor
-dataset (lower in 5 of 5 splits), and nothing on six labs (-0.000 on held-out people, +0.011 on
-held-out labs). It labelled held-out cells slightly more accurately in every setting
-(`results/m8/`).
+`src/cellmap/reference_mapping.py`), it scored lower than the usual Harmony in 5 of 5 splits on the
+21-donor dataset: 0.024 of its 0.077 scIB lead over PCA on average, but 3 to 50 percent of the
+lead depending on the split, and 22 to 31 percent on average depending on the query ridge
+(`results/m8/pbmc/`). The loss is mostly in the biology score. On six labs it lost nothing on
+held-out people (+0.003, higher in 4 of 5); on held-out labs Harmony led PCA by only 0.006, so
+there was little to lose. This compares two procedures (joint Harmony against a reference
+mapping), so it shows that part of Harmony's lead on small data depends on seeing the test cells,
+not exactly how much.
 
 ## leakaudit: the checks, as a reusable package
 
