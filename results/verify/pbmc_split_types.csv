@@ -1,0 +1,96 @@
+split_seed,cell_type,n_test
+0,classical monocyte,3061
+0,non-classical monocyte,514
+0,"central memory CD4-positive, alpha-beta T cell",448
+0,"effector memory CD8-positive, alpha-beta T cell",344
+0,natural killer cell,263
+0,memory B cell,188
+0,mucosal invariant T cell,69
+0,naive B cell,64
+0,transitional stage B cell,63
+0,"plasmacytoid dendritic cell, human",62
+0,"naive thymus-derived CD4-positive, alpha-beta T cell",55
+0,conventional dendritic cell,54
+0,gamma-delta T cell,53
+0,plasmablast,44
+0,regulatory T cell,28
+0,"naive thymus-derived CD8-positive, alpha-beta T cell",25
+0,lymphocyte,17
+0,"CD16-negative, CD56-bright natural killer cell, human",5
+0,platelet,3
+1,classical monocyte,5817
+1,"central memory CD4-positive, alpha-beta T cell",2099
+1,naive B cell,1161
+1,"naive thymus-derived CD4-positive, alpha-beta T cell",1143
+1,natural killer cell,740
+1,non-classical monocyte,639
+1,"effector memory CD8-positive, alpha-beta T cell",630
+1,mucosal invariant T cell,567
+1,"naive thymus-derived CD8-positive, alpha-beta T cell",396
+1,memory B cell,342
+1,conventional dendritic cell,274
+1,transitional stage B cell,261
+1,platelet,236
+1,gamma-delta T cell,223
+1,regulatory T cell,183
+1,"plasmacytoid dendritic cell, human",106
+1,lymphocyte,55
+1,plasmablast,45
+1,"CD16-negative, CD56-bright natural killer cell, human",44
+2,classical monocyte,2632
+2,"central memory CD4-positive, alpha-beta T cell",987
+2,"effector memory CD8-positive, alpha-beta T cell",456
+2,natural killer cell,426
+2,non-classical monocyte,322
+2,"naive thymus-derived CD4-positive, alpha-beta T cell",283
+2,memory B cell,184
+2,naive B cell,92
+2,mucosal invariant T cell,66
+2,conventional dendritic cell,55
+2,transitional stage B cell,55
+2,regulatory T cell,49
+2,"plasmacytoid dendritic cell, human",35
+2,gamma-delta T cell,35
+2,plasmablast,32
+2,"naive thymus-derived CD8-positive, alpha-beta T cell",31
+2,lymphocyte,18
+2,"CD16-negative, CD56-bright natural killer cell, human",8
+2,platelet,6
+3,classical monocyte,3111
+3,"naive thymus-derived CD4-positive, alpha-beta T cell",1818
+3,"central memory CD4-positive, alpha-beta T cell",933
+3,natural killer cell,674
+3,naive B cell,410
+3,non-classical monocyte,369
+3,"effector memory CD8-positive, alpha-beta T cell",364
+3,memory B cell,262
+3,gamma-delta T cell,233
+3,transitional stage B cell,224
+3,"naive thymus-derived CD8-positive, alpha-beta T cell",199
+3,regulatory T cell,110
+3,conventional dendritic cell,109
+3,mucosal invariant T cell,106
+3,"plasmacytoid dendritic cell, human",80
+3,lymphocyte,37
+3,plasmablast,34
+3,"CD16-negative, CD56-bright natural killer cell, human",33
+3,platelet,24
+4,classical monocyte,2813
+4,"naive thymus-derived CD4-positive, alpha-beta T cell",1039
+4,"central memory CD4-positive, alpha-beta T cell",754
+4,natural killer cell,530
+4,non-classical monocyte,383
+4,"effector memory CD8-positive, alpha-beta T cell",186
+4,memory B cell,178
+4,naive B cell,164
+4,"naive thymus-derived CD8-positive, alpha-beta T cell",96
+4,mucosal invariant T cell,87
+4,regulatory T cell,86
+4,transitional stage B cell,68
+4,"plasmacytoid dendritic cell, human",57
+4,conventional dendritic cell,57
+4,gamma-delta T cell,24
+4,lymphocyte,23
+4,"CD16-negative, CD56-bright natural killer cell, human",19
+4,plasmablast,13
+4,platelet,2
