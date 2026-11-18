@@ -5,3 +5,6 @@ __pycache__/
 .ruff_cache/
 # Data is downloaded and cached locally, never committed.
 data/
+.ruff_cache/
+.pytest_cache/
+*.egg-info/

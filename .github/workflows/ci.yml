@@ -19,3 +19,5 @@ jobs:
       - run: ruff check .
       - run: ruff format --check .
       - run: pytest -q
+      # The leakage audit kit is its own package, tested separately.
+      - run: pip install -e audit && pytest -q audit/tests
