@@ -58,6 +58,9 @@ def main() -> None:
     parser.add_argument(
         "--resume", action="store_true", help="keep rows already saved and skip their folds"
     )
+    parser.add_argument(
+        "--overwrite", action="store_true", help="replace saved results instead of refusing"
+    )
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--threads", type=int, default=4)
     args = parser.parse_args()
@@ -72,6 +75,13 @@ def main() -> None:
     all_folds = folds(obs, args.schemes)
     if args.folds:
         all_folds = [f for f in all_folds if f[1] in args.folds]
+
+    if args.resume and args.overwrite:
+        parser.error("--resume and --overwrite contradict each other")
+    clash = [m for m in args.methods if (out / f"metrics_{m}.csv").exists()]
+    if clash and not (args.resume or args.overwrite):
+        # Without this, a run limited to one fold would replace a complete file with one row.
+        parser.error(f"results exist for {clash}; pass --resume to add to them or --overwrite")
 
     for method in args.methods:
         rows, timings = [], []
