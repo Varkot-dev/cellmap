@@ -360,7 +360,7 @@ Details and caveats: `docs/NOTES.md`, section M4.
 
 **Marker genes.** PCA's first component is "monocyte versus lymphocyte" (LYZ, Spearman 0.79); the VAE has one equally clean direction and spreads the rest across dimensions. Figure: `assets/m7_markers_pbmc.png`.
 
-**The transformer fix.** See "The transformer with a better level encoding" in Part 5 once its result is in.
+**The transformer fix, tested: it did not help.** Retrained with value bins (each bin 10 percent of tokens, against 57 percent in one bin before), the transformer got much better at its own training task (validation accuracy 0.780 against a 0.270 guess-the-usual-level baseline; before, 0.749 against 0.682) but its cell embedding did not improve (fine macro F1 0.348 against 0.366), and presence-only input still scored higher (0.418). The hypothesis that the encoding was the bottleneck is not supported: getting levels right is not the same as learning cell types. One split, one seed. `results/m7/pbmc/transformer_levels.csv`.
 
 ### M8. Does Harmony need to see the test cells?
 
@@ -459,7 +459,7 @@ Experiments worth doing next, if you continue:
 - A tuned or larger VAE code (only 10 dimensions were tried).
 - "seurat_v3" gene selection, which mattered in DCMvsACM.
 - A tissue other than blood.
-- The transformer with its new level encoding on all splits and on the six-lab data (one split so far).
+- The transformer: the level-encoding fix did not help on one split (Part 4, M7), so repeating it on all splits has low priority. A different training objective, or a cell-level one, is the more promising next step.
 
 ### Questions to test yourself (answer out loud, without notes)
 
@@ -525,6 +525,7 @@ Experiments worth doing next, if you continue:
 ---
 
 ## Update log
+- **2026-11-18 (late):** Transformer level-encoding result added (it did not help); M8 rewritten from the corrected rerun.
 - **2026-11-18 (late):** Independent review by ten agents that had not written the code (five literature, four verification, one hostile). Corrected the headline rule count, the transformer probe reading, the confusion count, the pretrained-model training claims, the leakage caveats, the over-correction wording and the Symphony centroids. Part 6 lists each.
 
 - **2026-11-18:** leakaudit package added to Part 4.

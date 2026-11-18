@@ -56,3 +56,7 @@ Asked whether the results were real, I had ten agents that had not written the c
 - Code: `m4_benchmark.py` no longer overwrites results; provenance counts untracked files; the VAE weight transplant is a test.
 
 **Lesson:** a headline that was checked against two columns is not checked. Every claim that counts things ("none", "every", "eight") now comes from a script.
+
+## The transformer encoding test
+
+Retrained with value bins on split seed 0. It learned the masked-level task far better (0.780 against a 0.270 baseline) but the embedding did not improve (macro F1 0.348 against 0.366), and presence-only input still did better (0.418). The probe's hypothesis was wrong: the encoding was not the bottleneck. One split, one seed.

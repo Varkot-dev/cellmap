@@ -228,4 +228,8 @@ Written down now, before the VAE has been scored, so the rules cannot be bent to
 - **Symphony centroids** now follow Symphony's buildReference (they had normalised each cell first). M8 rerun, with the query ridge at 0.1, 1 and 10 on PBMC because harmonypy estimates lambda for the reference.
 - Wording corrected wherever it outran the data: the transformer probe, the confusion count, pretrained-model training exposure, the leakage caveats, over-correction, the gene filter, and the 61 percent bin figure (57 percent measured).
 
+**2026-11-18, transformer level encoding result**
+
+- Value bins made the masked-level task far easier to learn but did not improve the embedding (fine macro F1 0.348 against 0.366, one split). The encoding hypothesis is recorded as not supported; repeating it on all splits is deprioritised.
+
 **Working principle (owner's decision, 2026-11-17): full speed, learn afterwards.** The owner chose to have all milestones built as fast as possible, with parallel agents, and to study the material at the end. This replaces "teach before you build" and the per-milestone quiz in `CLAUDE.md` for the build phase. What makes that safe: every decision is written down as it is made (this log and `docs/NOTES.md`), so the reasoning can be read and defended later. The honesty rules are unchanged: no number enters the README unless a script here produced it. Lessons and quizzes move to the end.

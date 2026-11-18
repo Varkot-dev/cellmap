@@ -175,6 +175,17 @@ one similarly clear direction (dimension 8, counting from 1 as in the figure, wi
 
 ![Marker genes](assets/m7_markers_pbmc.png)
 
+**A better level encoding did not give a better cell embedding.** The probe suggested the
+transformer's rank encoding was the problem (57 percent of training tokens in one bin,
+`results/m7/pbmc/token_bins.csv`). The same model retrained with depth-normalised value bins
+(10 percent of tokens in each) learned its masked-level task far better (validation accuracy 0.780
+against 0.270 for guessing each gene's usual level, where the rank model had 0.749 against 0.682),
+but its embedding was no better: fine macro F1 0.348 against 0.366, and presence-only input scored
+higher still (0.418). So the encoding was not what held the embedding back; predicting expression
+levels did not teach this model cell types. One split, one seed, trained on CPU where the rank
+model was trained on a GPU (`results/m7/pbmc/transformer_levels.csv`, written by
+`scripts/m7_transformer_levels.py`).
+
 ## M8: was Harmony's lead fair?
 
 Harmony was the only method that corrected held-out cells together with training cells. Fitted

@@ -649,6 +649,28 @@ Same genes, PCA, folds and scoring as M1 and M4 (`results/m8/*/paired.csv`). Ind
 
 ---
 
+## Did a better level encoding fix the transformer?
+
+**Question:** the probe said the transformer gains nothing from expression amounts, and its rank bins put 57 percent of training tokens in bin 0. Is the encoding the bottleneck?
+
+**Test:** same model, same split (seed 0), same 2,000 genes and 30 epochs, with depth-normalised value bins whose cut points are fitted on training cells, so each bin holds 10 percent of tokens (`scripts/m7_transformer_levels.py`).
+
+**Result** (`results/m7/pbmc/transformer_levels.csv`):
+
+| | Rank bins (M5) | Value bins (M7) |
+|---|---|---|
+| Validation masked-level accuracy | 0.749 | 0.780 |
+| Guessing each gene's usual level | 0.682 | 0.270 |
+| Fine macro F1, real input | 0.366 | 0.348 |
+| Fine macro F1, presence only | 0.375 | 0.418 |
+| Fine macro F1, levels shuffled | 0.164 | 0.243 |
+
+**Reading:** with value bins the model learns its own task far better (51 points over the baseline instead of 7), yet the cell embedding does not improve, and presence alone is still at least as good. So the hypothesis is not supported: the encoding was not what held the embedding back. A model can learn to predict expression levels well without organising cells by type.
+
+**Weakness:** one split and one seed; the value model was trained on CPU and the rank model on a GPU; 0.018 of macro F1 is within the split-to-split noise seen elsewhere.
+
+**What to say:** "The probe gave me a hypothesis, so I tested it. Fixing the encoding made the model much better at its pretraining task and no better as a cell embedding. That told me the problem is the objective, not the input format."
+
 ## What you built so far, file by file
 
 | File | What it does | Key decision |
@@ -679,6 +701,6 @@ Same genes, PCA, folds and scoring as M1 and M4 (`results/m8/*/paired.csv`). Ind
 | `scripts/leakage_splits.py` | Leaky versus honest splits, same method | Measures the inflation instead of asserting it |
 | `scripts/probe_inputs.py` | Perturbation probe on the learned models | Damages one input at inference; the model is not retrained |
 | `scripts/m7_analyses.py`, `scripts/m7_figures.py` | Shared confusions, Harmony strength sweep, marker directions | Split seed 0; all nine methods scored by the same code |
-| `scripts/m7_transformer_levels.py` | Transformer with depth-normalized level encoding | Tests the explanation the probe gave |
+| `scripts/m7_transformer_levels.py` | Transformer with depth-normalized level encoding | Tests the explanation the probe gave; it was not supported |
 | `src/cellmap/reference_mapping.py`, `scripts/m8_harmony_inductive.py` | Harmony fitted on training donors, new donors mapped (Symphony) | Removes the transductive advantage; the reference cannot move |
 | `docs/RELEASE.md`, `.github/workflows/pages.yml` | Checklist and site deployment for going public | Pages workflow runs only by hand |
