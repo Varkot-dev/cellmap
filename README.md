@@ -29,6 +29,7 @@ with GitHub Pages once the repository is public (see [docs/RELEASE.md](docs/RELE
 | M4 six labs: held-out people, held-out labs, held-out cell type | done, results below |
 | M7 analyses: shared confusions, over-correction, marker genes, transformer input encoding | done, results below |
 | M8 Harmony fitted without the test cells (reference mapping) | done, results below |
+| leakaudit, the reusable audit package (`audit/`) | built, 43 tests, in CI |
 | Public release | checklist in `docs/RELEASE.md`; license and visibility are the owner's decisions |
 | Public site | scroll-driven explainer (`site/index.html`) and 3D atlas of every method (`site/atlas.html`) |
 
@@ -147,6 +148,16 @@ on training donors only, with held-out cells mapped onto the frozen reference (S
 dataset (lower in 5 of 5 splits), and nothing on six labs (-0.000 on held-out people, +0.011 on
 held-out labs). It labelled held-out cells slightly more accurately in every setting
 (`results/m8/`).
+
+## leakaudit: the checks, as a reusable package
+
+[`audit/`](audit/README.md) is a small standalone package (`leakaudit`, numpy, pandas and
+scikit-learn only) that turns this project's honesty checks into five-line tools for any
+biological ML project: group-aware splits with an overlap guarantee and a balance report,
+measured inflation from a leaky split (row-level, or preprocessing fitted on all data), and
+shortcut probes that shuffle one named input block at a time. Its PBMC example reproduces the
+leakage numbers in `results/leakage/splits.csv` exactly. The README compares it honestly with
+existing tools (scikit-learn's group splitters, DataSAIL, deepchecks and others).
 
 ## M1 detail: PCA versus PCA + Harmony
 

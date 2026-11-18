@@ -372,6 +372,15 @@ Harmony was the only method that corrected the test cells together with the trai
 
 Details: `docs/NOTES.md`, section M8.
 
+### leakaudit, the reusable audit kit
+
+`audit/` is a separate package that turns this project's honesty checks into tools for any project (your cardiomyopathy and glioblastoma work included):
+- **`group_split`, `assert_no_group_overlap`, `split_report`:** split by patient, donor or lab, prove no group crosses splits, and see how unbalanced the splits are.
+- **`measure_inflation`, `measure_preprocessing_leak`:** score the same model with a leaky and an honest split, or with preprocessing fitted on all data versus training data, and report the inflation with its uncertainty.
+- **`shortcut_probe`:** shuffle one named input block at a time and see which inputs the model actually needs.
+
+It reproduces this project's leakage result exactly (0.776 versus 0.664, inflation 0.112). Its README lists what existing tools already do; the new part is measuring how much a leak inflates a score, and probing named input blocks, in one small package.
+
 ### The explainer page and the interactive atlas
 
 **The explainer, `site/index.html`, is the front page.** A scroll-driven story: the 3D map on the right changes as you read, from plain PCA, to the chemistry batch effect, to Harmony fixing it, to the held-out-people test, to each deep model, then the results charts. Every number on it is read from `results/` when the page is built (`scripts/explainer_export.py`), including the headline verdict, which applies the "4 of 5 splits against both baselines" rule automatically.
@@ -509,6 +518,7 @@ Experiments worth doing next, if you continue:
 
 ## Update log
 
+- **2026-11-18:** leakaudit package added to Part 4.
 - **2026-11-18:** M8 (inductive Harmony) added to Part 4.
 - **2026-11-18:** M7 analyses added (Part 4); Part 7 rewritten as the closing checklist and self-test questions.
 - **2026-11-18:** M4 finished: transformer results from the Colab GPU run merged; final M4 figure.
