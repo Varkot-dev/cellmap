@@ -99,6 +99,7 @@ def confusions(res: Path, out: Path) -> pd.DataFrame:
                              fill_value=0.0)[methods]  # fmt: skip
     keep = table[(table >= 0.05).all(axis=1)].copy()
     keep["min"] = keep.min(axis=1)
+    n_shared = len(keep)
     keep = keep.sort_values("min", ascending=False).drop(columns="min").head(8)
     fig, ax = plt.subplots(figsize=(12, 0.55 * len(keep) + 2.2))
     image = ax.imshow(keep.to_numpy(), cmap="Oranges", vmin=0, vmax=max(0.6, keep.to_numpy().max()),
@@ -114,7 +115,8 @@ def confusions(res: Path, out: Path) -> pd.DataFrame:
         spine.set_visible(False)
     ax.tick_params(length=0)
     fig.colorbar(image, ax=ax, fraction=0.025, pad=0.02, label="share of the true type")
-    sub = "Mistakes made by all methods (at least 5% of the true type each), split seed 0"
+    sub = (f"The {len(keep)} largest of {n_shared} mistakes made by all methods "
+           "(at least 5% of the true type each), split seed 0")  # fmt: skip
     title(ax, "Every method confuses the same neighbours", sub)
     fig.savefig(out)
     plt.close(fig)
