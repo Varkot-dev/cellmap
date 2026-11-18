@@ -357,7 +357,7 @@ A sentence is a sequence of words; a cell is not naturally a sequence of anythin
 
 **Worked example:** a cell expresses gene 7 (count 1), gene 2 (count 5) and gene 9 (count 1). Ranks: gene 7 and gene 9 tie at the bottom, gene 2 is above both. With 10 bins and 3 genes, the two tied genes go in bin 0 and gene 2 in bin floor(10 * 2/3) = 6. Tokens: (gene 2, bin 6), (gene 7, bin 0), (gene 9, bin 0), in any order.
 
-**Known weakness of this binning:** about 60 percent of nonzero counts in this data are exactly 1, and all of them land in bin 0, so the bins are very unequal.
+**Known weakness of this binning:** 57 percent of training tokens land in bin 0 (ties at the lowest counts share the bottom rank), so the bins are very unequal: 2.10 bits of information per token against 3.32 for ten even bins (`results/m7/pbmc/token_bins.csv`, written by `scripts/token_bins.py`). An earlier figure of 61 percent came from a check that was not saved and does not reproduce.
 
 ---
 

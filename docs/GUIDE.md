@@ -305,7 +305,7 @@ Built in `src/cellmap/transformer.py` (about 1.1 million parameters). Trained on
 **Possible reasons, untested:**
 - Being good at predicting hidden genes does not force the [CLS] summary to organise cells by type.
 - The model has no donor correction.
-- About 60 percent of nonzero counts fall into the lowest bin, so the levels carry little detail.
+- About 57 percent of training tokens fall into the lowest bin (`results/m7/pbmc/token_bins.csv`; 2.10 bits of the possible 3.32), so the levels carry less detail than ten even bins would.
 - 34,000 training cells is tiny by transformer standards.
 
 Figure: `assets/m5_transformer_pbmc.png`.
