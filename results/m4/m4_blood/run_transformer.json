@@ -1,6 +1,6 @@
 {
   "method": "transformer",
-  "commit": "52474ebc623375c25aa10a133fa87d1578a941f2",
+  "commit": "a35710be6e8648205161b98827874b8a65841574",
   "device": "cuda",
   "torch_threads": 4,
   "timings": [
@@ -43,6 +43,11 @@
       "scheme": "dataset",
       "fold": "hao",
       "seconds": 1114.2451148089986
+    },
+    {
+      "scheme": "dataset",
+      "fold": "onek1k",
+      "seconds": 972.7774982509982
     }
   ],
   "versions": {
