@@ -148,22 +148,67 @@ def bin_values(values: np.ndarray, n_bins: int) -> np.ndarray:
     return (n_bins * n_lower) // max(len(values), 1)
 
 
+def normalized_levels(values: np.ndarray, total: float) -> np.ndarray:
+    """log(1 + 10,000 * value / total): a cell's counts on a depth-independent scale."""
+    return np.log1p(1e4 * np.asarray(values, dtype=np.float64) / max(float(total), 1.0))
+
+
+def fit_value_edges(counts: np.ndarray | sp.spmatrix, n_bins: int) -> np.ndarray:
+    """Cut points (n_bins - 1 of them) for the "value" level encoding, fitted on these cells.
+
+    Every nonzero count is put on the depth-normalized scale of `normalized_levels` (each cell
+    divided by its own total over the selected genes), and the cut points are the quantiles of
+    all those values, so each bin holds about the same number of training tokens. Pass the
+    TRAINING cells only: the cut points are a statistic of the data.
+    """
+    csr = sp.csr_matrix(counts)
+    totals = np.asarray(csr.sum(axis=1)).ravel()
+    per_entry_total = np.repeat(totals, np.diff(csr.indptr))
+    nonzero = csr.data > 0
+    levels = np.log1p(1e4 * csr.data[nonzero] / np.maximum(per_entry_total[nonzero], 1.0))
+    if len(levels) == 0:
+        raise ValueError("no nonzero counts to fit cut points on")
+    return np.quantile(levels, np.arange(1, n_bins) / n_bins)
+
+
 def tokenize_cell(
-    gene_ids: np.ndarray, values: np.ndarray, n_bins: int
+    gene_ids: np.ndarray,
+    values: np.ndarray,
+    n_bins: int,
+    edges: np.ndarray | None = None,
+    total: float | None = None,
 ) -> tuple[np.ndarray, np.ndarray]:
     """(gene ids, bins) of one cell's expressed genes, highest expression first.
 
     Entries with value 0 are dropped: a gene that was not seen is not a token. Ties in
     expression are ordered by gene id so that the result is fully deterministic.
+
+    Two level encodings:
+
+    - `edges` is None ("rank", the default): bins from the cell's own ranking (`bin_values`).
+      Independent of sequencing depth, but in sparse data most nonzero counts are 1 and tie,
+      so most tokens land in bin 0 and the levels carry little information.
+    - `edges` given ("value"): each value is put on the depth-normalized scale of
+      `normalized_levels` (using the cell's `total`) and binned with cut points shared by all
+      cells (`fit_value_edges`). A count of 1 in a shallow cell and in a deep cell now get
+      different bins, because they mean different things.
     """
     gene_ids, values = np.asarray(gene_ids), np.asarray(values)
     expressed = values > 0
     gene_ids, values = gene_ids[expressed], values[expressed]
     order = np.lexsort((gene_ids, -values))  # last key is the primary one
-    return gene_ids[order], bin_values(values, n_bins)[order]
+    if edges is None:
+        bins = bin_values(values, n_bins)
+    else:
+        if total is None:
+            raise ValueError("the value encoding needs the cell's total count")
+        bins = np.searchsorted(edges, normalized_levels(values, total), side="right")
+    return gene_ids[order], np.asarray(bins)[order]
 
 
-def tokenize(counts: np.ndarray | sp.spmatrix, n_bins: int = 10) -> CellTokens:
+def tokenize(
+    counts: np.ndarray | sp.spmatrix, n_bins: int = 10, edges: np.ndarray | None = None
+) -> CellTokens:
     """Tokens of every cell of a (cells x selected genes) matrix of non-negative values.
 
     The matrix is never densified: it is converted to CSR (a no-op if it already is) and read
@@ -178,10 +223,15 @@ def tokenize(counts: np.ndarray | sp.spmatrix, n_bins: int = 10) -> CellTokens:
     if csr.nnz and csr.data.min() < 0:
         raise ValueError("counts must be non-negative")
 
+    if edges is not None and len(edges) != n_bins - 1:
+        raise ValueError(f"expected {n_bins - 1} cut points, got {len(edges)}")
+    totals = np.asarray(csr.sum(axis=1)).ravel()
     genes, bins, lengths = [], [], [0]
     for row in range(csr.shape[0]):
         span = slice(csr.indptr[row], csr.indptr[row + 1])
-        cell_genes, cell_bins = tokenize_cell(csr.indices[span], csr.data[span], n_bins)
+        cell_genes, cell_bins = tokenize_cell(
+            csr.indices[span], csr.data[span], n_bins, edges, totals[row]
+        )
         genes.append(cell_genes)
         bins.append(cell_bins)
         lengths.append(len(cell_genes))
@@ -691,6 +741,7 @@ def train_transformer(
     seed: int = 0,
     device: str | torch.device = "cpu",
     counts_val: np.ndarray | sp.spmatrix | None = None,
+    level_encoding: str = "rank",
 ) -> tuple[CellTransformer, dict[str, list[float]]]:
     """Train a `CellTransformer` with masked gene modeling; return it (eval mode) and its history.
 
@@ -734,13 +785,16 @@ def train_transformer(
     """
     if not 0.0 < mask_fraction < 1.0 or not 0.0 <= warmup < 1.0:
         raise ValueError("mask_fraction must be in (0, 1) and warmup in [0, 1)")
+    if level_encoding not in ("rank", "value"):
+        raise ValueError('level_encoding must be "rank" or "value"')
     device = torch.device(device)
-    train = tokenize(counts_train, n_bins)
+    edges = fit_value_edges(counts_train, n_bins) if level_encoding == "value" else None
+    train = tokenize(counts_train, n_bins, edges)
     val = None
     if counts_val is not None:
         if counts_val.shape[1] != counts_train.shape[1]:
             raise ValueError("validation and training counts have different numbers of genes")
-        val = tokenize(counts_val, n_bins)
+        val = tokenize(counts_val, n_bins, edges)
     baselines = bin_baselines(train)
 
     torch.manual_seed(seed)
@@ -754,6 +808,9 @@ def train_transformer(
         mlp_ratio=mlp_ratio,
         dropout=dropout,
     ).to(device)
+    # Plain attribute, not a buffer, so models saved before this option existed still load.
+    # `embed` reads it to tokenize new cells with the training cut points.
+    model.value_edges = edges
     optimizer = _adamw(model, lr, weight_decay)
     rng = np.random.default_rng(seed)
     mask_generator = torch.Generator().manual_seed(seed)
@@ -837,7 +894,7 @@ def embed(
     if counts.shape[1] != model.n_genes:
         raise ValueError(f"counts has {counts.shape[1]} genes, the model expects {model.n_genes}")
     device = torch.device(device)
-    tokens = tokenize(counts, model.n_bins)
+    tokens = tokenize(counts, model.n_bins, getattr(model, "value_edges", None))
     was_training = model.training
     model.eval().to(device)
     # Cells are processed from shortest to longest so that little padding is needed, and put

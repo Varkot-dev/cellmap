@@ -440,3 +440,45 @@ def test_long_cells_and_bad_arguments():
         train_transformer(counts, mask_fraction=0.0)
     with pytest.raises(ValueError, match="numbers of genes"):
         train_transformer(counts, counts_val=counts[:, :5], n_epochs=1)
+
+
+def test_value_encoding_separates_depths_that_rank_encoding_ties():
+    from cellmap.transformer import fit_value_edges, tokenize
+
+    # Two cells with the same gene pattern; cell 1 is sequenced 10 times deeper.
+    counts = np.array([[1, 1, 2, 0], [10, 10, 20, 0]], dtype=np.float32)
+    rank = tokenize(counts, n_bins=4)
+    assert np.array_equal(rank.bins[:3], rank.bins[3:])  # rank bins ignore depth
+    edges = fit_value_edges(counts, n_bins=4)
+    value = tokenize(counts, n_bins=4, edges=edges)
+    # Normalized by depth the two cells are identical too, so the bins must match...
+    assert np.array_equal(value.bins[:3], value.bins[3:])
+    # ...but a lone count of 1 in a shallow cell and in a deep cell now differ.
+    shallow_deep = np.array([[1, 1, 1, 1], [1, 30, 30, 30]], dtype=np.float32)
+    tok = tokenize(shallow_deep, n_bins=4, edges=fit_value_edges(shallow_deep, 4))
+    gene0_shallow = tok.bins[: tok.indptr[1]][tok.genes[: tok.indptr[1]] == 0][0]
+    gene0_deep = tok.bins[tok.indptr[1] :][tok.genes[tok.indptr[1] :] == 0][0]
+    assert gene0_shallow > gene0_deep
+
+
+def test_value_edges_are_quantiles_of_training_values():
+    from cellmap.transformer import fit_value_edges
+
+    counts = np.array([[1, 2, 3, 4]], dtype=np.float32)
+    edges = fit_value_edges(counts, n_bins=2)
+    levels = np.log1p(1e4 * np.array([1, 2, 3, 4]) / 10)
+    assert np.isclose(edges[0], np.median(levels))
+
+
+def test_value_encoding_trains_and_embeds():
+    from cellmap.transformer import embed, train_transformer
+
+    rng = np.random.default_rng(0)
+    counts = rng.poisson(2.0, size=(60, 30)).astype(np.float32)
+    model, history = train_transformer(
+        counts, n_epochs=1, batch_size=16, d_model=16, n_layers=1, n_heads=2,
+        level_encoding="value",
+    )  # fmt: skip
+    assert model.value_edges is not None and len(model.value_edges) == 9
+    emb = embed(model, counts)
+    assert emb.shape == (60, 16) and np.isfinite(emb).all()
