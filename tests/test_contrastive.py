@@ -6,7 +6,15 @@ import scipy.sparse as sp
 import torch
 from sklearn.neighbors import KNeighborsClassifier
 
-from cellmap.contrastive import make_view, nt_xent, train_contrastive
+from cellmap.contrastive import (
+    alignment_uniformity,
+    debiased_nt_xent,
+    group_batches,
+    make_view,
+    nt_xent,
+    project,
+    train_contrastive,
+)
 from cellmap.transformer import embed, tokenize
 
 torch.set_num_threads(1)
@@ -110,3 +118,43 @@ def test_combined_objective_runs_and_records_both_losses():
         mgm_weight=1.0, seed=0,
     )  # fmt: skip
     assert "train_mgm_loss" in history and np.isfinite(history["train_mgm_loss"]).all()
+
+
+def test_debiased_loss_equals_nt_xent_when_no_negative_shares_the_type():
+    torch.manual_seed(1)
+    z1, z2 = torch.randn(32, 8), torch.randn(32, 8)
+    # tau+ = 0 means no correction; a high temperature keeps the floor inactive
+    assert debiased_nt_xent(z1, z2, 1.0, 0.0).item() == pytest.approx(
+        nt_xent(z1, z2, 1.0).item(), rel=1e-5
+    )
+    # a positive tau+ removes part of the negative mass, so the loss falls
+    assert debiased_nt_xent(z1, z2, 1.0, 0.2) < nt_xent(z1, z2, 1.0)
+
+
+def test_group_batches_keep_one_group_per_batch_and_use_every_cell_once():
+    groups = np.repeat(["a", "b", "c"], [70, 25, 5])
+    batches = group_batches(groups, 32, np.random.default_rng(0))
+    assert all(len(set(groups[b])) == 1 for b in batches)
+    assert sorted(np.concatenate(batches).tolist()) == list(range(100))
+
+
+def test_alignment_is_zero_for_identical_views_and_uniformity_falls_with_spread():
+    torch.manual_seed(0)
+    z = torch.randn(64, 16)
+    assert alignment_uniformity(z, z.clone())["alignment"] == pytest.approx(0.0, abs=1e-6)
+    tight = torch.randn(64, 16) * 0.01 + 5.0  # all near one direction
+    assert (
+        alignment_uniformity(z, z)["uniformity"] < alignment_uniformity(tight, tight)["uniformity"]
+    )
+
+
+def test_ablation_options_run_and_return_the_head():
+    counts, cell_type = planted_counts(128, seed=5)
+    model, history, head = train_contrastive(
+        counts, n_bins=5, d_model=16, n_layers=1, n_heads=2, n_epochs=2, batch_size=32,
+        loss="debiased", batch_groups=cell_type, return_head=True, counts_val=counts, seed=0,
+    )  # fmt: skip
+    assert {"val_alignment", "val_uniformity"} <= set(history)
+    assert project(model, head, counts).shape == (128, 64)
+    with pytest.raises(ValueError):
+        train_contrastive(counts, n_epochs=1, batch_groups=cell_type[:10])

@@ -57,6 +57,7 @@ from cellmap.transformer import (
     _masked_step,
     bin_baselines,
     choose_mask,
+    embed,
     fit_value_edges,
     length_batches,
     lr_at,
@@ -124,6 +125,67 @@ def nt_xent(z1: torch.Tensor, z2: torch.Tensor, temperature: float = 0.1) -> tor
     return F.cross_entropy(sim, partner)
 
 
+def debiased_nt_xent(
+    z1: torch.Tensor, z2: torch.Tensor, temperature: float = 0.1, tau_plus: float = 0.1
+) -> torch.Tensor:
+    """Debiased contrastive loss (Chuang, Robinson, Lin, Torralba and Jegelka, NeurIPS 2020).
+
+    Some "negatives" are cells of the anchor's own type. If a share `tau_plus` of random cells
+    has the anchor's type, the sum over negatives overstates the true-negative sum by about
+    tau_plus x (number of negatives) x (the partner term). The loss subtracts that estimate:
+
+        Ng = max( (sum_k neg_k - M * tau_plus * pos) / (1 - tau_plus),  M * exp(-1 / tau) )
+        l  = -log( pos / (pos + Ng) )
+
+    with pos = exp(z_i . z_j(i) / tau), neg_k = exp(z_i . z_k / tau) over the M = 2N - 2 other
+    views, and the floor keeps Ng at its smallest possible value (every similarity -1).
+    """
+    z = F.normalize(torch.cat([z1, z2]), dim=1)
+    n = len(z1)
+    sim = torch.exp(z @ z.T / temperature)
+    partner = torch.cat([torch.arange(n, 2 * n), torch.arange(0, n)]).to(z.device)
+    pos = sim[torch.arange(2 * n, device=z.device), partner]
+    others = ~torch.eye(2 * n, dtype=torch.bool, device=z.device)
+    others[torch.arange(2 * n, device=z.device), partner] = False
+    m = 2 * n - 2
+    neg = (sim * others).sum(1)
+    ng = (neg - m * tau_plus * pos) / (1 - tau_plus)
+    ng = torch.clamp(ng, min=m * math.exp(-1 / temperature))
+    return -torch.log(pos / (pos + ng)).mean()
+
+
+def group_batches(
+    groups: np.ndarray, batch_size: int, rng: np.random.Generator
+) -> list[np.ndarray]:
+    """One epoch of mini-batches in which every batch holds cells of a single group (donor).
+
+    Cells are shuffled within each group and cut into batches; the order of all batches is
+    then shuffled. With one donor per batch, donor-specific signal cannot help tell a cell's
+    partner from its negatives, so the loss cannot use donor identity as a shortcut.
+    """
+    groups = np.asarray(groups)
+    batches: list[np.ndarray] = []
+    for g in np.unique(groups):
+        cells = rng.permutation(np.flatnonzero(groups == g))
+        batches += [cells[i : i + batch_size] for i in range(0, len(cells), batch_size)]
+    return [batches[i] for i in rng.permutation(len(batches))]
+
+
+def alignment_uniformity(z1: torch.Tensor, z2: torch.Tensor) -> dict[str, float]:
+    """Wang and Isola (ICML 2020) diagnostics on unit-length projections of two views.
+
+    alignment  = mean ||z1_i - z2_i||^2 over cells (lower: partners closer, range 0 to 4)
+    uniformity = log mean over pairs i != j of exp(-2 ||z_i - z_j||^2) (lower: more spread)
+    """
+    z1, z2 = F.normalize(z1, dim=1), F.normalize(z2, dim=1)
+    align = (z1 - z2).pow(2).sum(1).mean()
+    z = torch.cat([z1, z2])
+    d2 = torch.cdist(z, z).pow(2)
+    off = ~torch.eye(len(z), dtype=torch.bool, device=z.device)
+    uniform = torch.log(torch.exp(-2 * d2[off]).mean())
+    return {"alignment": float(align), "uniformity": float(uniform)}
+
+
 class ProjectionHead(nn.Module):
     """h -> z: Linear, ReLU, Linear, as in SimCLR."""
 
@@ -153,6 +215,7 @@ def contrastive_validation(
     model.eval()
     head.eval()
     losses, correct, total = [], 0, 0
+    au = {"alignment": [], "uniformity": []}
     with torch.no_grad():
         for start in range(0, tokens.n_cells - 1, batch_size):
             rows = np.arange(start, min(start + batch_size, tokens.n_cells))
@@ -167,6 +230,8 @@ def contrastive_validation(
                 for _ in range(2)
             ]
             losses.append(nt_xent(z[0], z[1], temperature).item() * len(rows))
+            for key, value in alignment_uniformity(z[0], z[1]).items():
+                au[key].append(value)
             zn = F.normalize(torch.cat(z), dim=1)
             sim = (zn @ zn.T).fill_diagonal_(-2.0)
             n = len(rows)
@@ -175,7 +240,12 @@ def contrastive_validation(
             total += 2 * n
     model.train()
     head.train()
-    return {"loss": float(np.sum(losses) / max(total / 2, 1)), "accuracy": correct / max(total, 1)}
+    return {
+        "loss": float(np.sum(losses) / max(total / 2, 1)),
+        "accuracy": correct / max(total, 1),
+        "alignment": float(np.mean(au["alignment"])) if au["alignment"] else float("nan"),
+        "uniformity": float(np.mean(au["uniformity"])) if au["uniformity"] else float("nan"),
+    }
 
 
 def train_contrastive(
@@ -203,17 +273,35 @@ def train_contrastive(
     device: str | torch.device = "cpu",
     counts_val: np.ndarray | sp.spmatrix | None = None,
     level_encoding: str = "rank",
-) -> tuple[CellTransformer, dict[str, list[float]]]:
+    loss: str = "nt_xent",
+    tau_plus: float = 0.1,
+    batch_groups: np.ndarray | None = None,
+    return_head: bool = False,
+) -> (
+    tuple[CellTransformer, dict[str, list[float]]]
+    | tuple[CellTransformer, dict[str, list[float]], ProjectionHead]
+):
     """Train a `CellTransformer` with the SimCLR loss (plus `mgm_weight` x masked-gene loss).
 
     Same inputs and conventions as `cellmap.transformer.train_transformer`: counts of the
     selected genes for TRAINING donors only, validation cells only scored, the same optimizer,
     learning-rate schedule, gradient clipping and seeding. Returns the model in eval mode and a
     history with `train_contrastive_loss`, `val_contrastive_loss`, `val_partner_accuracy`
-    (chance is 1 / (2 * batch - 1)), and, with `mgm_weight` > 0, `train_mgm_loss`.
+    (chance is 1 / (2 * batch - 1)), `val_alignment`, `val_uniformity`, and, with
+    `mgm_weight` > 0, `train_mgm_loss`.
+
+    Options used by the ablations (`scripts/contrastive_ablations.py`): `loss="debiased"`
+    (`debiased_nt_xent` with `tau_plus`); `batch_groups`, one group label per training cell,
+    to draw every mini-batch from a single group (`group_batches`); `return_head` to also
+    return the projection head, so the projection z can be scored as an embedding.
     """
+    if loss not in ("nt_xent", "debiased"):
+        raise ValueError('loss must be "nt_xent" or "debiased"')
     if level_encoding not in ("rank", "value"):
         raise ValueError('level_encoding must be "rank" or "value"')
+    loss_name = loss
+    if batch_groups is not None and len(batch_groups) != counts_train.shape[0]:
+        raise ValueError("batch_groups needs one label per training cell")
     device = torch.device(device)
     edges = fit_value_edges(counts_train, n_bins) if level_encoding == "value" else None
     train = tokenize(counts_train, n_bins, edges)
@@ -252,7 +340,11 @@ def train_contrastive(
         n_batches = 0
         # Plain random batches: grouping by length would put similar cells together and make
         # the negatives too easy or too hard in a way that depends on depth.
-        for rows in length_batches(lengths, batch_size, rng, bucket_batches=1):
+        if batch_groups is None:
+            epoch_batches = length_batches(lengths, batch_size, rng, bucket_batches=1)
+        else:
+            epoch_batches = group_batches(batch_groups, batch_size, rng)
+        for rows in epoch_batches:
             for group in optimizer.param_groups:
                 group["lr"] = lr_at(step, total_steps, warmup_steps, lr)
             step += 1
@@ -260,18 +352,21 @@ def train_contrastive(
                 continue
             views = [make_view(train, rows, rng, max_len, keep_range, jitter) for _ in range(2)]
             z = [head(model(*(t.to(device) for t in v))[:, 0]) for v in views]
-            loss = nt_xent(z[0], z[1], temperature)
-            sums["contrastive"] += loss.item()
+            if loss_name == "debiased":
+                step_loss = debiased_nt_xent(z[0], z[1], temperature, tau_plus)
+            else:
+                step_loss = nt_xent(z[0], z[1], temperature)
+            sums["contrastive"] += step_loss.item()
             if mgm_weight > 0:
                 batch = make_batch(train, rows, max_len, rng)
                 mask = choose_mask(batch.pad, mask_fraction, mask_generator)
                 if mask.any():
                     token_loss, cls_loss, _ = _masked_step(model, batch, mask, baselines, device)
                     mgm = token_loss + cls_loss
-                    loss = loss + mgm_weight * mgm
+                    step_loss = step_loss + mgm_weight * mgm
                     sums["mgm"] += mgm.item()
             optimizer.zero_grad()
-            loss.backward()
+            step_loss.backward()
             nn.utils.clip_grad_norm_(params.parameters(), grad_clip)
             optimizer.step()
             n_batches += 1
@@ -282,9 +377,27 @@ def train_contrastive(
             scores = contrastive_validation(model, head, val, temperature, batch_size, seed, device)
             row["val_contrastive_loss"] = scores["loss"]
             row["val_partner_accuracy"] = scores["accuracy"]
+            row["val_alignment"] = scores["alignment"]
+            row["val_uniformity"] = scores["uniformity"]
         row["lr"] = optimizer.param_groups[0]["lr"]
         row["seconds"] = time.perf_counter() - started
         for key, value in row.items():
             history.setdefault(key, []).append(float(value))
     model.eval()
+    head.eval()
+    if return_head:
+        return model, history, head
     return model, history
+
+
+def project(
+    model: CellTransformer,
+    head: ProjectionHead,
+    counts: np.ndarray | sp.spmatrix,
+    device: str | torch.device = "cpu",
+) -> np.ndarray:
+    """The projection z = head(h) of every cell, from the deterministic [CLS] embedding h."""
+    h = torch.from_numpy(embed(model, counts, device=device)).to(device)
+    head.eval()
+    with torch.no_grad():
+        return head(h).cpu().numpy()
