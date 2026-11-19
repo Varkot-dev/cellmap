@@ -22,11 +22,11 @@ with GitHub Pages once the repository is public (see [docs/RELEASE.md](docs/RELE
 
 The data pipeline, the two baselines, a VAE and a transformer written from scratch, a parity
 check against scvi-tools, published pretrained embeddings, a six-lab benchmark with whole labs
-held out, follow-up analyses, an inductive version of Harmony, a small audit package
-([`audit/`](audit/README.md)), and the site. Everything below is finished and has tests unless
-it says otherwise. In progress: whether a classifier on these embeddings can say how sure it is
-(conformal prediction, `src/cellmap/conformal.py`); its design is fixed in `docs/PLAN.md`, and
-no results are reported yet.
+held out, follow-up analyses, an inductive version of Harmony, conformal prediction sets that
+say how sure a classifier is, a small audit package ([`audit/`](audit/README.md)), and the site.
+Everything below is finished and has tests unless it says otherwise. In progress: the same
+transformer retrained with a contrastive objective on a Colab GPU; no result is reported until
+all five splits are in.
 
 ## Results: every method on the same five donor splits
 
@@ -191,6 +191,43 @@ held-out people (+0.003, higher in 4 of 5); on held-out labs Harmony led PCA by 
 there was little to lose. This compares two procedures (joint Harmony against a reference
 mapping), so it shows that part of Harmony's lead on small data depends on seeing the test cells,
 not exactly how much.
+
+## Can a classifier say how sure it is, on a new lab?
+
+Conformal prediction turns a classifier's probabilities into a set of cell types per cell, with
+a promise: the true type is in the set for 90 percent of cells, provided the calibration cells
+and the new cells are exchangeable (`src/cellmap/conformal.py`, `scripts/m9_conformal.py`).
+Seven hypotheses were fixed in `docs/PLAN.md` before the results; each is checked by
+`scripts/m9_evaluate.py` (`results/m9/hypotheses.json`).
+
+![Conformal prediction](assets/m9_conformal_m4_blood.png)
+
+- **The promise holds for new people, and erodes for a new lab.** Calibrated on held-out donors
+  and tested on other held-out donors, mean coverage is 0.901 (range 0.885 to 0.918). Calibrated
+  on cells from the training people and tested on a lab never seen, it is 0.876, and 0.829 on
+  the Stephenson lab.
+- **Treating labs, not cells, as the units restores it, at a price.** Hierarchical calibration
+  (Lee, Barber and Willett 2023; Dunn, Wasserman and Ramdas 2023) reached at least 0.89 coverage
+  on every held-out lab at the 80 percent target, with sets of 1.76 types on average instead of
+  0.94. At the 90 percent target it needs at least 9 calibration labs; with 5 it returns every
+  label, so the data cannot support that promise for a new lab.
+- **Calibrating on other labs (a heuristic, with no exact guarantee) improved the worst lab in
+  7 of 12 embedding and classifier pairs, not all.**
+- **Uncertainty lands where the methods are confused.** On the 21-donor data, the types involved
+  in the 18 shared confusions get larger sets than the other types for all 10 methods.
+- **Empty sets flag unseen types only when they are distinct.** With one type removed from the
+  classifier's labels, unseen dendritic cells get an empty set in 16 percent of cases against 6
+  percent for known cells; regulatory T and CD56-bright NK cells, close siblings of known types,
+  are not flagged. Supported in 22 of 48 cases. This replicates a published result
+  (López-De-Castro et al., Bioinformatics 2025, among others); see `docs/M9_LITERATURE.md`.
+- **The classifier changes the ranking.** With a linear probe instead of kNN, TranscriptFormer
+  has the highest fine macro F1 on the 21-donor data (0.693, against 0.668 for PCA), while with
+  kNN it is fifth (0.540). TranscriptFormer may have seen these donors in pretraining, so this is
+  not a claim that it generalises better.
+
+Weaknesses: six labs is few for lab-level statements; the PBMC part uses one split and four
+calibration donors, so it is used for set sizes, not coverage claims; the H4 test was written
+after a first look at one method's per-type table (recorded in the decision log).
 
 ## leakaudit: the checks, as a reusable package
 

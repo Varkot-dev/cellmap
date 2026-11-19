@@ -30,7 +30,7 @@ How this differs from the other documents:
 4. **The small transformer written by hand learned its training task but produced the weakest cell embedding of the project's own models.**
 5. **Different metrics disagree.** Harmony wins the integration scores and loses fine-grained cell-type accuracy. So "which method is best" depends on what you measure, and the project reports both.
 
-**Where things stand.** The benchmark, the follow-up analyses, the inductive Harmony comparison and an independent review of every claim are done and merged into `main`. In progress: whether a classifier on these embeddings can say how sure it is (conformal prediction, section 2.12); its design is fixed in `docs/PLAN.md` and its results are not in yet. Making the repository public is the owner's step (`docs/RELEASE.md`).
+**Where things stand.** The benchmark, the follow-up analyses, the inductive Harmony comparison and an independent review of every claim are done and merged into `main`. Conformal prediction (section 2.12) is done: the coverage promise holds for new donors and erodes for a new lab (0.876, worst lab 0.829), and lab-level hierarchical calibration restores it at the cost of sets about twice as big. In progress: the transformer retrained with a contrastive objective on Colab; split 0 is in, the result waits for all five. Making the repository public is the owner's step (`docs/RELEASE.md`).
 
 ---
 
@@ -203,6 +203,8 @@ Large transformers (Geneformer, scGPT, TranscriptFormer) are pretrained on tens 
 **Two kinds of score.** LAC (1 - p) gives the smallest sets on average but can give an empty set when no label is probable enough, which is a useful "looks like nothing I know" signal. APS adds labels in order of probability until their total reaches q, so uncertain cells get bigger sets; a random tie-breaker makes coverage exact rather than conservative.
 
 **Per class.** The basic promise is on average over cells, so common types can be over-covered while a rare type is under-covered. Class-conditional ("Mondrian") conformal computes q separately for each type, at the cost of needing enough calibration cells of each.
+
+**What we found** (`results/m9/hypotheses.json`, figure `assets/m9_conformal_m4_blood.png`). Calibrated on held-out donors, coverage on new donors is 0.901. Calibrated on cells from the training people, coverage on a new lab is 0.876 on average and 0.829 on the worst lab (Stephenson). Lab-level hierarchical calibration at 80 percent covers every lab at 0.89 or more, with sets of 1.76 types instead of 0.94; at 90 percent it returns every label, as worked example 3 predicts. Types involved in the shared confusions get larger sets for all 10 methods. An empty LAC set flags an unseen type when it is distinct (dendritic cells: 16 percent empty against 6 percent for known cells) but not when it is a close sibling of a known type (regulatory T, CD56-bright NK). Five of the seven pre-registered hypotheses were supported, two partly; `docs/NOTES.md` has the table.
 
 ## Part 3. How methods are scored
 
@@ -553,6 +555,7 @@ Experiments worth doing next, if you continue:
 ---
 
 ## Update log
+- **2026-11-19 (later):** Conformal results added to section 2.12 and the status line: five of seven hypotheses supported, two partly; new figure.
 - **2026-11-19:** Section 2.12 added: conformal prediction, from intuition to the hierarchical version, with three worked examples.
 - **2026-11-18 (late):** Transformer level-encoding result added (it did not help); the inductive Harmony section rewritten from the corrected rerun.
 - **2026-11-18 (late):** Independent review by ten agents that had not written the code (five literature, four verification, one hostile). Corrected the headline rule count, the transformer probe reading, the confusion count, the pretrained-model training claims, the leakage caveats, the over-correction wording and the Symphony centroids. Part 6 lists each.

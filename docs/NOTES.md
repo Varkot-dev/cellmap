@@ -671,6 +671,30 @@ Same genes, PCA, folds and scoring as the baseline and six-lab runs (`results/m8
 
 **What to say:** "The probe gave me a hypothesis, so I tested it. Fixing the encoding made the model much better at its pretraining task and no better as a cell embedding. That told me the problem is the objective, not the input format."
 
+## Can a classifier say how sure it is? (conformal prediction)
+
+**Question:** every number so far is one label per cell. Can a classifier on these embeddings give a set of labels with a coverage promise, and does the promise survive new people and new labs?
+
+**Method:** a linear probe (logistic regression, C = 1, on the standardized embedding) and kNN (k = 15) give class probabilities. Split conformal turns them into sets: score each calibration cell by how badly the classifier did on its true label, take the ceil((n + 1)(1 - alpha))-th smallest score as the threshold, and put every label scoring under it in the set. Calibration cells come from five places: random training cells, held-out donors, other training labs (a heuristic), and hierarchical versions where donors or labs are the units. Seven hypotheses were written down first (`docs/PLAN.md`); `scripts/m9_evaluate.py` checks them (`results/m9/hypotheses.json`).
+
+**Result** (six-lab blood unless stated; APS scores, alpha 0.1 unless stated):
+
+| Hypothesis | Verdict | Numbers |
+|---|---|---|
+| H1 random-cell calibration under-covers a new lab (below 0.88) | Supported | 0.876; worst lab Stephenson 0.829 |
+| H2 donor calibration is within 0.02 on new donors | Supported | 0.901 (0.885 to 0.918) |
+| H3 lab calibration has a higher worst-lab coverage than donor calibration | Partly | 7 of 12 pairs; mean worst lab 0.836 vs 0.818 |
+| H4 types in the shared confusions get the largest sets (PBMC) | Supported | larger for 10 of 10 methods |
+| H5 a removed type gets larger APS sets and more empty LAC sets | Partly | APS larger 41 of 48, LAC emptier 23 of 48, both 22 of 48 |
+| H6 kNN and probe rank methods differently | Supported | e.g. TranscriptFormer: 5th with kNN, 1st with the probe on PBMC |
+| H7 lab-level hierarchical calibration reaches 0.80 on at least 5 of 6 labs (alpha 0.2) | Supported | every lab at least 0.893; sets 1.76 vs 0.94 |
+
+**Reading:** the guarantee is only as good as the match between calibration and test. Donors stand in for new donors, but cells from the same people do not stand in for a new lab. Treating labs as the units fixes this honestly, and the price is visible: bigger sets, and at 90 percent with five labs no finite promise at all. For unseen types, an empty LAC set is a usable flag when the type is unlike anything known (dendritic, plasma cells) and useless when it is a close sibling (regulatory T looks like other CD4 T cells, so the classifier is confidently wrong). H4 is the conformal version of the shared-confusions finding: the methods are not only wrong in the same places, they are also unsure in the same places.
+
+**Weakness:** six labs is few; the lab heuristic has no exact guarantee; the PBMC part rests on one split and four calibration donors; the operational test for H4 was written after a first look at one method's per-type table; the novel-type result repeats published work (`docs/M9_LITERATURE.md`).
+
+**What to say:** "Coverage guarantees depend on exchangeability, so I tested what you calibrate on. Same-donor cells overstate coverage on a new lab, from 0.90 to 0.83 in the worst case. Making labs the exchangeable unit restores coverage, but sets get almost twice as big, and with five labs you cannot honestly promise 90 percent at all."
+
 ## What you built so far, file by file
 
 | File | What it does | Key decision |

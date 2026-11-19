@@ -272,4 +272,11 @@ Why: with value bins the masked-gene transformer learned its own task far better
 - **C2:** neither variant passes the comparison rule against both baselines on any declared metric.
 - **Reported without a prediction:** the input probes on split seed 0 (does the new objective make the model use expression levels?).
 
+**2026-11-19, M9 results against the hypotheses**
+
+Checked by `scripts/m9_evaluate.py` (`results/m9/hypotheses.json`). H1 supported (0.876), H2 supported (0.901), H3 partly (lab calibration has the higher worst-lab coverage in 7 of 12 embedding and classifier pairs; the test required all 12), H4 supported (10 of 10 methods), H5 partly (22 of 48 cases; empty LAC sets fail for close siblings), H6 supported, H7 supported (every lab at least 0.893).
+
+- **H4 operational test chosen after a first look.** The plan named three types but no test. Before writing the test, one per-type table (linear probe, APS, all methods, with PCA sorted) had been seen. The test chosen compares the mean set size of every type that is the true type in a shared confusion with the other types, rather than a top-k cut, because CD56-bright NK has 5 test cells and regulatory T sits mid-table for PCA. Reported with this caveat.
+- **H3 and H5 strictness** was fixed when the evaluation script was written: "every case" for supported, otherwise "partly (k of n)".
+
 **Working principle (owner's decision, 2026-11-17): full speed, learn afterwards.** The owner chose to have all milestones built as fast as possible, with parallel agents, and to study the material at the end. This replaces "teach before you build" and the per-milestone quiz in `CLAUDE.md` for the build phase. What makes that safe: every decision is written down as it is made (this log and `docs/NOTES.md`), so the reasoning can be read and defended later. The honesty rules are unchanged: no number enters the README unless a script here produced it. Lessons and quizzes move to the end.
