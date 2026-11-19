@@ -251,4 +251,15 @@ Why: every result so far uses one classifier (kNN, k = 15) and reports a single 
   - H6: method rankings by kNN macro F1 and by linear-probe macro F1 differ for at least one pair of methods.
 - **Not claimed in advance:** which method calibrates best.
 
+**2026-11-19, M9 changes after the literature review (before any lab-fold result)**
+
+Seen before this entry: the first PBMC rows (split seed 0, PCA and Harmony) and one smoke-test fold (Hao held out, PCA). No other M9 result.
+
+- **Added hierarchical calibration** (`donor_hier`, `lab_hier`; Lee, Barber and Willett 2023, and Dunn, Wasserman and Ramdas 2023): donors or labs, not cells, are the exchangeable units, which gives a coverage guarantee for a new donor or lab. It needs at least 9 groups at alpha 0.1 and 4 at alpha 0.2, so with 5 training labs it can only be used at alpha 0.2.
+- **The lab calibration in the original design is a heuristic** (cross-conformal at the lab level, at best a 1 minus 2 alpha guarantee), and is reported as one.
+- **PBMC donor calibration rests on 4 validation donors**, too few for a donor-level guarantee; the PBMC part is used for set sizes, not coverage claims.
+- **Novel-type detection has been published** (Lopez-De-Castro et al., Bioinformatics 2025); ours is reported as a replication.
+- **H7 (added):** on held-out labs at alpha 0.2, `lab_hier` reaches at least 0.80 coverage in at least 5 of 6 labs for every method.
+- The full review, with which sources were read in full and which only as abstracts, is in `docs/M9_LITERATURE.md`.
+
 **Working principle (owner's decision, 2026-11-17): full speed, learn afterwards.** The owner chose to have all milestones built as fast as possible, with parallel agents, and to study the material at the end. This replaces "teach before you build" and the per-milestone quiz in `CLAUDE.md` for the build phase. What makes that safe: every decision is written down as it is made (this log and `docs/NOTES.md`), so the reasoning can be read and defended later. The honesty rules are unchanged: no number enters the README unless a script here produced it. Lessons and quizzes move to the end.
