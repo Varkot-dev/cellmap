@@ -4,8 +4,8 @@ The rank encoding (M5) bins each expressed gene by its rank within the cell; the
 (M7) bins depth-normalised values with cut points fitted on training cells. This records the
 share of training tokens in each bin under both, and the entropy in bits (log2 10 = 3.32 is the
 most a 10-bin code can carry), on PBMC split seed 0 with the 2,000 genes the models use. It is
-the saved source for the share of tokens in bin 0 (57 percent; first quoted as 61 percent from an unsaved check), which an independent
-review found had no file under results/.
+the saved source for the share of tokens in bin 0 (57 percent; first quoted as 61 percent from
+an unsaved check), which an independent review found had no file under results/.
 
 Writes results/m7/<name>/token_bins.csv.
 """
