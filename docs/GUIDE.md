@@ -176,6 +176,34 @@ Large transformers (Geneformer, scGPT, TranscriptFormer) are pretrained on tens 
 
 ---
 
+### 2.12 Conformal prediction: a classifier that says how sure it is (M9)
+
+**The problem.** A classifier gives one label per cell. When it is wrong, nothing tells you. A doctor or a lab annotating new data wants something better: "this cell is a monocyte" when the model is sure, "regulatory T or memory CD4 T, check by hand" when it is not, and a promise about how often the true answer is in what it says.
+
+**The idea.** Instead of one label, return a *set* of labels, built so that the true label is in the set at least 90 percent of the time (or any rate you pick, written 1 - alpha; alpha = 0.1 means 90 percent). Easy cells get a set of one label; hard cells get two or three. The promise holds whatever the classifier is: a bad classifier gets big sets, not broken promises.
+
+**The recipe (split conformal), in four steps.**
+1. Train any classifier that outputs probabilities p(y | x) on training cells.
+2. Take a separate set of n *calibration* cells with known labels. For each, compute a "strangeness" score of its true label. The simplest (LAC): s = 1 - p(true label | cell). A confident correct prediction gives s near 0; a confident wrong one gives s near 1.
+3. Sort the n scores and take q = the ceil((n + 1)(1 - alpha))-th smallest. That is roughly the 90th percentile, nudged up by the "+ 1".
+4. For a new cell, include every label y whose score 1 - p(y | cell) is at most q, that is, every label with probability at least 1 - q.
+
+**Worked example 1 (the arithmetic).** n = 9 calibration cells, alpha = 0.1. Their scores, sorted: 0.02, 0.05, 0.05, 0.10, 0.12, 0.20, 0.31, 0.45, 0.70. Rank = ceil(10 x 0.9) = 9, so q = the 9th smallest = 0.70. A new cell with probabilities monocyte 0.80, dendritic 0.15, B 0.05: include labels with p >= 1 - 0.70 = 0.30, so the set is {monocyte}. Another cell with CD4 T 0.55, regulatory T 0.40, CD8 T 0.05: the set is {CD4 T, regulatory T}. The model has told you which cell it is unsure about, and between which two types.
+
+**Why it works (the one-line proof).** If the calibration cells and the new cell are *exchangeable* (shuffling them changes nothing, as with independent draws from the same population), the new cell's score is equally likely to land in any of the n + 1 positions in the sorted list. So the chance it lands at or below position ceil((n + 1)(1 - alpha)) is at least 1 - alpha. Nothing about the classifier was used, which is why the promise holds for any classifier.
+
+**The catch, and the whole point of M9.** "Exchangeable" is the assumption that does all the work. Cells from the same person or lab are more alike than cells from different ones. If the calibration cells come from the same people the classifier was trained on, but the test cells come from new people or a new lab, the new cells look stranger than anything in calibration and the promise quietly breaks. This is the same structure that made random cell splits leak (Part 4, two extra experiments).
+
+**Worked example 2 (groups break pooling).** Suppose each lab shifts every score by its own amount: lab A's cells score around 0.1, lab B's around 0.3, and a new lab could be anywhere. Pool 1,000 cells from 5 labs and take the 90th percentile: it is set by those 5 labs, but it is computed as if you had 1,000 independent draws. A simulation in `tests/test_conformal.py` shows the cost: with 10 labs, pooled calibration covers a new lab about 88 percent of the time instead of 90; with 5 labs, about 84.
+
+**The fix: treat groups, not cells, as the units (hierarchical conformal).** Give each calibration lab the same total weight, 1/(K + 1) for K labs, split across its cells, and put the remaining 1/(K + 1) at "infinity" for the new lab you have never seen. Take the 90th percentile of that weighted list. Now the promise is about a new cell from a new lab. The price is that you need enough labs: the threshold is finite only if K/(K + 1) >= 1 - alpha, so at least 9 labs for 90 percent and 4 for 80 percent. With 5 training labs, an honest 90 percent promise for a new lab is impossible from this data, which is itself a finding.
+
+**Worked example 3 (the group rule in numbers).** K = 5 labs, alpha = 0.2. Each lab carries weight 1/6. The new lab's 1/6 sits at infinity, so the real labs carry 5/6 = 0.83 >= 0.80, and the threshold is finite: walk up the scores from smallest to largest, adding each cell's weight, and stop where the running total first reaches 0.80. At alpha = 0.1, 0.83 < 0.90, so the threshold is infinite and the set is every label: the method refuses to promise what the data cannot support.
+
+**Two kinds of score.** LAC (1 - p) gives the smallest sets on average but can give an empty set when no label is probable enough, which is a useful "looks like nothing I know" signal. APS adds labels in order of probability until their total reaches q, so uncertain cells get bigger sets; a random tie-breaker makes coverage exact rather than conservative.
+
+**Per class.** The basic promise is on average over cells, so common types can be over-covered while a rare type is under-covered. Class-conditional ("Mondrian") conformal computes q separately for each type, at the cost of needing enough calibration cells of each.
+
 ## Part 3. How methods are scored
 
 All scoring lives in `src/cellmap/evaluate.py` and `src/cellmap/benchmark.py`. The code only ever sees an array of numbers per cell, so every method goes through exactly the same path.
@@ -525,6 +553,7 @@ Experiments worth doing next, if you continue:
 ---
 
 ## Update log
+- **2026-11-19:** Section 2.12 added: conformal prediction, from intuition to the hierarchical version, with three worked examples (M9).
 - **2026-11-18 (late):** Transformer level-encoding result added (it did not help); M8 rewritten from the corrected rerun.
 - **2026-11-18 (late):** Independent review by ten agents that had not written the code (five literature, four verification, one hostile). Corrected the headline rule count, the transformer probe reading, the confusion count, the pretrained-model training claims, the leakage caveats, the over-correction wording and the Symphony centroids. Part 6 lists each.
 
