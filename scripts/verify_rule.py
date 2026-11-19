@@ -11,7 +11,7 @@ checked on two measures only (fine macro F1 and scIB aggregate). This script che
 metric the rule names, in both directions, and writes every comparison so the count of passes
 can be read next to the count of comparisons made.
 
-For the six-lab data (M4) the labels are 12 lineages, so the fine/coarse kNN metrics become the
+For the six-lab data the labels are 12 lineages, so the fine/coarse kNN metrics become the
 lineage ones. The donor scheme has 5 splits and uses the same 4-of-5 threshold. The held-out-lab
 scheme has 6 folds; no threshold was declared for it in advance, so it is reported with the
 same 80 percent bar (5 of 6) and marked as not pre-declared.

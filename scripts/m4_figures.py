@@ -1,4 +1,4 @@
-"""M4 figure: how much each method loses when a whole lab is held out.
+"""Figure: how much each method loses when a whole lab is held out.
 
 Usage:
     python scripts/m4_figures.py --name m4_blood

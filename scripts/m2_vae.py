@@ -1,12 +1,12 @@
-"""M2: the hand-written VAE and the linear autoencoder, scored like the baselines.
+"""The hand-written VAE and the linear autoencoder, scored like the baselines.
 
 Usage:
     python scripts/m2_vae.py --name pbmc
 
 For each donor split: select genes on the training donors, train the negative binomial VAE and
 the linear autoencoder on the training donors only, embed every cell, and score on the test
-donors with the same harness as M1. A 10-component PCA is scored too, because the VAE and the
-linear autoencoder have 10 latent dimensions while the M1 PCA baseline has 50.
+donors with the same harness as the baselines. A 10-dim PCA is scored too, because the VAE and the
+linear autoencoder have 10 latent dimensions while the PCA baseline has 50.
 
 Writes:
     results/m2/<name>/metrics_by_split.csv  one row per (method, split seed)

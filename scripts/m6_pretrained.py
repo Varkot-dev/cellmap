@@ -1,4 +1,4 @@
-"""M6: embeddings from pretrained models, scored like every other method.
+"""Embeddings from pretrained models, scored like every other method.
 
 Usage:
     python scripts/m6_pretrained.py --name pbmc

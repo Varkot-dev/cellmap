@@ -1,4 +1,4 @@
-"""M0: download, quality-control, split by donor and normalize one dataset.
+"""Download, quality-control, split by donor and normalize one dataset.
 
 Usage:
     python scripts/m0_prepare_data.py --config configs/pbmc.yaml

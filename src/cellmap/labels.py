@@ -40,9 +40,9 @@ def to_coarse(fine: pd.Series, mapping: dict[str, str] = COARSE_PBMC) -> pd.Seri
     return fine.map(mapping).astype("category")
 
 
-# M4: several datasets label cells at different levels of detail (one lab writes "naive B cell",
+# Six labs: datasets label cells at different levels of detail (one lab writes "naive B cell",
 # another only "B cell"), so fine labels cannot be compared across datasets. Every Cell Ontology
-# name used by the M4 datasets is mapped to one of 12 lineages that all labs resolve. Names that
+# name used by the six labs is mapped to one of 12 lineages that all labs resolve. Names that
 # cannot be placed in one lineage ("T cell" could be CD4 or CD8) map to None and those cells are
 # dropped before any model sees them.
 LINEAGE = {
@@ -134,7 +134,7 @@ LINEAGE = {
 
 
 def to_lineage(cell_type: pd.Series) -> pd.Series:
-    """Map Cell Ontology names to the 12 M4 lineages; unplaceable names become NaN.
+    """Map Cell Ontology names to the 12 six-lab lineages; unplaceable names become NaN.
 
     Raises on a name that is not in the table at all, so a new dataset cannot slip in a label
     nobody has looked at.

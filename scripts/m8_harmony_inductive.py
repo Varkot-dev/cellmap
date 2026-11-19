@@ -1,9 +1,9 @@
-"""M8: how much of Harmony's lead comes from seeing the test cells?
+"""How much of Harmony's lead comes from seeing the test cells?
 
 Usage:
     python scripts/m8_harmony_inductive.py
 
-Harmony as used in M1 and M4 is transductive: it corrects all cells together, so held-out
+Harmony as used in the main benchmarks is transductive: it corrects all cells together, so held-out
 donors take part in the correction. Here Harmony is fitted on training donors only and every
 other cell is mapped onto that frozen reference (cellmap.reference_mapping, the Symphony
 algorithm). Same genes, same PCA, same folds and same scoring as before, so each fold can be

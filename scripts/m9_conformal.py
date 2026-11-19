@@ -1,10 +1,10 @@
-"""M9: can a classifier on these embeddings say how sure it is, on new people and new labs?
+"""Can a classifier on these embeddings say how sure it is, on new people and new labs?
 
 Usage:
     python scripts/m9_conformal.py --name m4_blood     # six labs, 12 lineages, 11 folds
     python scripts/m9_conformal.py --name pbmc         # 21 donors, 19 fine types, split seed 0
 
-Design and hypotheses are fixed in docs/PLAN.md (2026-11-19, M9) before any result. In short:
+Design and hypotheses are fixed in docs/PLAN.md (2026-11-19) before any result. In short:
 a linear probe (logistic regression) and kNN are fitted on the training cells of each saved
 embedding; conformal prediction sets (cellmap.conformal) are calibrated three ways and scored
 on the test cells:
@@ -24,7 +24,7 @@ on the test cells:
 
 Each calibration is crossed with score (LAC, APS), marginal or class-conditional (Mondrian),
 and alpha (0.05, 0.1, 0.2). For PBMC the script also records set size per fine type and how
-often two types share a set, to compare with the shared confusions in M7. A novel-type test
+often two types share a set, to compare with the shared confusions. A novel-type test
 removes one type from the classifier's labels (not from the embedding) and records set sizes.
 
 Writes results/m9/<name>/: conformal.csv, point_metrics.csv, novel.csv, run.json, and for PBMC

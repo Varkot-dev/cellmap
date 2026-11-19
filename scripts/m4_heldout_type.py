@@ -1,4 +1,4 @@
-"""M4: what each method does with a cell type it never saw.
+"""What each method does with a cell type it never saw.
 
 Usage:
     python scripts/m4_heldout_type.py --name m4_blood

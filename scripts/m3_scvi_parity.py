@@ -1,4 +1,4 @@
-"""M3: parity check of the hand-written VAE against scvi-tools.
+"""Parity check of the hand-written VAE against scvi-tools.
 
 Usage:
     python scripts/m3_scvi_parity.py --name pbmc

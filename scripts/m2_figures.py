@@ -1,4 +1,4 @@
-"""M2 figure: the VAE's code at three KL weights, from no constraint to collapse.
+"""Figure: the VAE's code at three KL weights, from no constraint to collapse.
 
 Usage:
     python scripts/m2_figures.py --name pbmc

@@ -1,4 +1,4 @@
-"""M1: classical baselines (HVG + PCA, PCA + Harmony) scored by the evaluation harness.
+"""Classical baselines (HVG + PCA, PCA + Harmony) scored by the evaluation harness.
 
 Usage:
     python scripts/m1_baselines.py --name pbmc

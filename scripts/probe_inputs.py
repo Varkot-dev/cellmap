@@ -7,8 +7,8 @@ Same idea as the shuffle probes in Bindwell's "The Bitter Lesson for Biology" (2
 Fang et al. (2026): keep a trained model fixed, damage one part of every cell's input at
 inference time, and see how much cell-type information survives in the embedding.
 
-Models: the hand-written VAE (retrained here on split seed 0, as in M2) and the hand-written
-transformer (the weights trained on a GPU in M5, results/m5/<name>/model_seed0.pt).
+Models: the hand-written VAE (retrained here on split seed 0, as in m2_vae.py) and the hand-written
+transformer (the weights trained on a GPU, results/m5/<name>/model_seed0.pt).
 
 Probes, applied to every cell's counts over the 2,000 selected genes:
     none             the real input
