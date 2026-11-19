@@ -29,7 +29,7 @@ One thing carried over unchanged: the figure style. `src/cellmap/plotting.py` us
 
 ---
 
-# M0: data pipeline
+# The data pipeline
 
 ## Why this dataset, and not the classic PBMC 3k?
 
@@ -81,7 +81,7 @@ This is the single rule behind the whole pipeline order.
 
 **Evidence:** `test_gene_filter_only_looks_at_selected_cells`, `test_each_cell_is_normalized_independently`, and `test_hvg_ignores_non_training_cells` and `test_pca_fit_ignores_non_training_cells` in `tests/test_baselines.py`.
 
-**Known weakness:** dropping rare cell types uses labels from all donors. It removed one type ("double negative thymocyte", 40 cells). It decides which cells are evaluated, not how any model is fitted, so I judged it acceptable. Also, the five donor splits in M1 all reuse the gene filter fitted on split seed 0's training donors. The filter only asks "is this gene detected in 10 cells", so the effect is negligible, but it is not strictly per-split.
+**Known weakness:** dropping rare cell types uses labels from all donors. It removed one type ("double negative thymocyte", 40 cells). It decides which cells are evaluated, not how any model is fitted, so I judged it acceptable. Also, the five donor splits used for the baselines all reuse the gene filter fitted on split seed 0's training donors. The filter only asks "is this gene detected in 10 cells", so the effect is negligible, but it is not strictly per-split.
 
 ---
 
@@ -93,11 +93,11 @@ This is the single rule behind the whole pipeline order.
 
 **Why:** the median library size is a statistic of the dataset. Computed on all donors it is a small leak, and it would change from split to split. A constant has neither problem. It also matches what you did in the Koenig scripts.
 
-**Known weakness:** log(1 + x) after scaling distorts low counts and makes variance depend on depth. That is the reason the VAE (M2) models raw counts with a negative binomial instead. Raw counts are kept in `adata.layers["counts"]` for that purpose.
+**Known weakness:** log(1 + x) after scaling distorts low counts and makes variance depend on depth. That is the reason the hand-written VAE models raw counts with a negative binomial instead. Raw counts are kept in `adata.layers["counts"]` for that purpose.
 
 ---
 
-# M1: classical baselines and the evaluation harness
+# Classical baselines and the evaluation harness
 
 ## How are highly variable genes chosen?
 
@@ -166,7 +166,7 @@ All scoring code takes a plain array and labels, and knows nothing about the met
 
 ---
 
-## M1 result: what did Harmony change?
+## Baseline result: what did Harmony change?
 
 Five donor splits, each holding out 4 donors. Numbers from `results/m1/pbmc/summary.csv` and `paired_harmony_minus_pca.csv`. Figure: `assets/m1_tradeoff_pbmc.png`.
 
@@ -208,7 +208,7 @@ A: Both. A deep model that beats PCA on scIB but not Harmony has not earned its 
 
 ---
 
-# M2: the hand-written VAE
+# The hand-written VAE
 
 ## What is the model, in plain words?
 
@@ -261,7 +261,7 @@ Both failure modes appear on the real data:
 
 ---
 
-## M2 result: did the VAE beat the baselines?
+## Result: did the VAE beat the baselines?
 
 Five donor splits, test donors (`results/m2/pbmc/metrics_by_split.csv`, compared with `results/m1/pbmc/`). The bar was fixed in advance: better in at least 4 of 5 splits against both baselines.
 
@@ -288,13 +288,13 @@ Five donor splits, test donors (`results/m2/pbmc/metrics_by_split.csv`, compared
 
 ---
 
-# M3: parity with scvi-tools
+# Parity with scvi-tools
 
 ## Why check the hand-written VAE against a library at all?
 
 A hand-written model can be wrong in ways that still train: a sign error in the KL term, a library size computed over the wrong genes, a likelihood that is off by a constant. Each still gives a loss that goes down. The only way to know the VAE is the model you think it is, is to compare it with an independent implementation of the same model under the same conditions.
 
-**The choice:** `src/cellmap/scvi_baseline.py` trains scvi-tools 1.5.2 with every setting matched to `cellmap.vae` (negative binomial likelihood, observed library size, one dispersion per gene, the same layer sizes, optimizer, learning rate, batch size, KL warm-up over 10 epochs, no internal validation split), on the training donors only, then `scripts/m3_scvi_parity.py` scores it on the same five donor splits as M2.
+**The choice:** `src/cellmap/scvi_baseline.py` trains scvi-tools 1.5.2 with every setting matched to `cellmap.vae` (negative binomial likelihood, observed library size, one dispersion per gene, the same layer sizes, optimizer, learning rate, batch size, KL warm-up over 10 epochs, no internal validation split), on the training donors only, then `scripts/m3_scvi_parity.py` scores it on the same five donor splits as the hand-written VAE.
 
 ---
 
@@ -320,7 +320,7 @@ scvi-tools refuses to embed cells whose donor it was not set up with. But with `
 
 ---
 
-## M3 result on the full data
+## Parity result on the full data
 
 Five donor splits, test donors (`results/m3/pbmc/` against the `vae` rows of `results/m2/pbmc/`):
 
@@ -341,7 +341,7 @@ Five donor splits, test donors (`results/m3/pbmc/` against the `vae` rows of `re
 
 ---
 
-# M5: the hand-written transformer
+# The hand-written transformer
 
 ## How is a cell turned into a sequence? (plan question 7)
 
@@ -377,9 +377,9 @@ A sentence is a sequence of words; a cell is not naturally a sequence of anythin
 
 ---
 
-## M5 result
+## Transformer result
 
-Trained on a Colab T4 GPU, 30 epochs per split, 6 to 11 minutes per split, on training donors only (`results/m5/pbmc/`). The notebook first rebuilt the data from Census and confirmed it matched M0 exactly.
+Trained on a Colab T4 GPU, 30 epochs per split, 6 to 11 minutes per split, on training donors only (`results/m5/pbmc/`). The notebook first rebuilt the data from Census and confirmed it matched the original data pipeline's output exactly.
 
 | | kNN accuracy | kNN macro F1 | scIB bio | scIB batch | scIB aggregate |
 |---|---|---|---|---|---|
@@ -399,7 +399,7 @@ Trained on a Colab T4 GPU, 30 epochs per split, 6 to 11 minutes per split, on tr
 
 ---
 
-# M6: published pretrained-model embeddings
+# Published pretrained-model embeddings
 
 ## Where do these embeddings come from, and why not run the models?
 
@@ -423,7 +423,7 @@ All three had an advantage the project's own models did not: they were fitted on
 
 ---
 
-## M6 result
+## Pretrained-embedding result
 
 | Method | kNN acc (fine) | Macro F1 (fine) | scIB bio | scIB batch | scIB aggregate |
 |---|---|---|---|---|---|
@@ -451,11 +451,11 @@ All three had an advantage the project's own models did not: they were fitted on
 
 ---
 
-# M4: six labs instead of one
+# Six labs instead of one
 
 ## Why scale up, and why blood from six labs rather than many tissues?
 
-Everything up to M3 used one dataset from one lab. A conclusion from one lab might be about that lab's protocol, not about the methods. M4 asks whether the findings hold across labs, and adds the two harder tests from the plan: a whole lab held out, and a cell type held out.
+Everything up to the scvi-tools check used one dataset from one lab. A conclusion from one lab might be about that lab's protocol, not about the methods. The six-lab benchmark asks whether the findings hold across labs, and adds the two harder tests from the plan: a whole lab held out, and a cell type held out.
 
 **The choice:** six healthy adult blood datasets from Census 2025-01-30, chosen for different labs and 10x chemistries (3' v2, 3' v3, 5' v1, 5' v2): Schulte-Schrepping, Hao, Stephenson, COMBAT, AIDA (30 of 508 donors) and OneK1K (30 of 981 donors). At most 500 cells per donor. 63,100 cells and 128 donors after quality control (`results/m4/m4_blood/summary.json`).
 
@@ -471,7 +471,7 @@ Each lab labels at its own level of detail. COMBAT says "CD4-positive T cell" wh
 
 **The choice:** a hand-written table (`cellmap.labels.LINEAGE`) maps all 75 names to 12 lineages every lab resolves: CD4 T, CD8 T, other T, NK, innate lymphoid, B, plasma, monocyte, dendritic, platelet, erythrocyte, progenitor. Names that fit no single lineage are dropped (541 cells, listed in the summary). Any label not in the table raises an error, so a new dataset cannot slip in unchecked.
 
-**What you lose:** fine subtypes. M4 scores are at lineage level and are not comparable with M1 to M3's 19-type scores.
+**What you lose:** fine subtypes. Six-lab scores are at lineage level and are not comparable with the 19-type scores from the single-dataset baselines, VAE and scvi-tools runs.
 
 ---
 
@@ -488,7 +488,7 @@ The Census pads every dataset to the full gene list. A gene one lab never measur
 
 ---
 
-## M4 result
+## Six-lab result
 
 Means over folds, 12 lineages (`results/m4/m4_blood/metrics_*.csv`).
 
@@ -534,7 +534,7 @@ Split seed 0. One lineage at a time is removed from every training cell; methods
 
 ---
 
-# M7: analyses
+# Follow-up analyses
 
 ## Do the methods fail in the same places?
 
@@ -577,7 +577,7 @@ Split seed 0. One lineage at a time is removed from every training cell; methods
 
 ---
 
-# M8: does Harmony need to see the test cells?
+# Does Harmony need to see the test cells?
 
 ## Why this question
 
@@ -589,7 +589,7 @@ Harmony was the strongest baseline, and the only method allowed to see held-out 
 
 ## Result
 
-Same genes, PCA, folds and scoring as M1 and M4 (`results/m8/*/paired.csv`). Inductive means fitted on training donors only.
+Same genes, PCA, folds and scoring as the baseline and six-lab runs (`results/m8/*/paired.csv`). Inductive means fitted on training donors only.
 
 | Data | Inductive minus transductive, scIB aggregate | Inductive minus PCA, scIB aggregate | Inductive minus transductive, kNN accuracy |
 |---|---|---|---|
@@ -640,12 +640,12 @@ Same genes, PCA, folds and scoring as M1 and M4 (`results/m8/*/paired.csv`). Ind
 | gene identities relabelled | 0.162 | 0.172 |
 
 **Reading:**
-- True amounts add nothing measurable over presence alone for the transformer (0.375 against 0.366), but shuffled amounts hurt it badly (0.164), so it does read them. (Corrected after the independent review; an earlier version said it "ignores" them.) The suspected reason is its per-cell rank binning; that is a hypothesis, tested by the M7 re-encoding run. Caveats: one weak model, one split, one seed; and "presence only" puts every token in bin 0, the most common training bin, so it stays close to the training distribution while shuffling does not.
+- True amounts add nothing measurable over presence alone for the transformer (0.375 against 0.366), but shuffled amounts hurt it badly (0.164), so it does read them. (Corrected after the independent review; an earlier version said it "ignores" them.) The suspected reason is its per-cell rank binning; that is a hypothesis, tested by the re-encoding run in the next section. Caveats: one weak model, one split, one seed; and "presence only" puts every token in bin 0, the most common training bin, so it stays close to the training distribution while shuffling does not.
 - Wrong amounts still mislead it, so "not needed" and "harmless when corrupted" differ.
 - The VAE uses both presence and amounts.
 - Both collapse when gene identities are scrambled.
 
-**Known weakness:** one split, one seed, PBMC only. The VAE was retrained for this run (same settings as M2), so its "real input" score (0.614) is this run's, close to M2's split-seed-0 value (0.611).
+**Known weakness:** one split, one seed, PBMC only. The VAE was retrained for this run (same settings as the main VAE runs), so its "real input" score (0.614) is this run's, close to the main VAE runs' split-seed-0 value (0.611).
 
 ---
 
@@ -657,7 +657,7 @@ Same genes, PCA, folds and scoring as M1 and M4 (`results/m8/*/paired.csv`). Ind
 
 **Result** (`results/m7/pbmc/transformer_levels.csv`):
 
-| | Rank bins (M5) | Value bins (M7) |
+| | Rank bins (original) | Value bins (retrained) |
 |---|---|---|
 | Validation masked-level accuracy | 0.749 | 0.780 |
 | Guessing each gene's usual level | 0.682 | 0.270 |
@@ -684,8 +684,8 @@ Same genes, PCA, folds and scoring as M1 and M4 (`results/m8/*/paired.csv`). Ind
 | `src/cellmap/evaluate.py` | kNN, label efficiency, scIB metrics | Method-agnostic; explicit macro F1 convention |
 | `src/cellmap/benchmark.py` | One function that scores any embedding | Same code path for every method |
 | `src/cellmap/plotting.py` | Shared figure style | Same palette as DCMvsACM `figstyle.py` |
-| `scripts/m0_prepare_data.py` | Runs M0 and saves every reported number | Order of steps follows the before/after-split rule |
-| `scripts/m1_baselines.py` | Runs M1 over five donor splits | Paired comparison on identical held-out donors |
+| `scripts/m0_prepare_data.py` | Runs the data pipeline and saves every reported number | Order of steps follows the before/after-split rule |
+| `scripts/m1_baselines.py` | Runs the baselines over five donor splits | Paired comparison on identical held-out donors |
 | `src/cellmap/vae.py` | Hand-written negative binomial VAE | Encoder blind to donor; decoder gets donor |
 | `src/cellmap/linear_ae.py` | Linear autoencoder | Same scaling as PCA, to isolate what nonlinearity adds |
 | `src/cellmap/scvi_baseline.py` | scvi-tools with settings matched to `vae.py` | Trained on training donors only; unseen donors handled through the donor-blind encoder |
@@ -693,11 +693,11 @@ Same genes, PCA, folds and scoring as M1 and M4 (`results/m8/*/paired.csv`). Ind
 | `src/cellmap/census_embeddings.py` | Downloads published model embeddings | Raises on any missing cell; records what each model saw |
 | `src/cellmap/provenance.py` | Commit hash and versions saved with results | Marks results from uncommitted code as "+dirty" |
 | `scripts/atlas_export.py`, `site/` | The interactive 3D atlas | One self-contained page, works on GitHub Pages |
-| `notebooks/m5_transformer_gpu.ipynb` | Trains the transformer on a Colab GPU | Rebuilds data and checks it matches M0 before training |
+| `notebooks/m5_transformer_gpu.ipynb` | Trains the transformer on a Colab GPU | Rebuilds data and checks it matches the pipeline's output before training |
 | `configs/m4_blood.yaml`, `scripts/m4_prepare_data.py` | The six-lab dataset | Genes measured in all labs; 500 cells per donor; 12 shared lineages |
 | `scripts/m4_benchmark.py` | Every method under both schemes | One results file per method; resumable, so a GPU machine adds the transformer |
 | `src/cellmap/novelty.py`, `scripts/m4_heldout_type.py` | Held-out cell type test | Grouping measured on test cells; where kNN without the type puts it |
-| `notebooks/m4_transformer_gpu.ipynb` | One-cell Colab run for the M4 transformer | Pushes after every fold, resumes after a disconnect |
+| `notebooks/m4_transformer_gpu.ipynb` | One-cell Colab run for the six-lab transformer run | Pushes after every fold, resumes after a disconnect |
 | `scripts/leakage_splits.py` | Leaky versus honest splits, same method | Measures the inflation instead of asserting it |
 | `scripts/probe_inputs.py` | Perturbation probe on the learned models | Damages one input at inference; the model is not retrained |
 | `scripts/m7_analyses.py`, `scripts/m7_figures.py` | Shared confusions, Harmony strength sweep, marker directions | Split seed 0; all nine methods scored by the same code |
