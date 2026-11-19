@@ -1,0 +1,426 @@
+{
+  "H1": {
+    "claim": "On held-out labs, random-cell calibration under-covers: mean coverage below 0.88 at the 0.90 target.",
+    "test": "Six-lab blood, lab folds, calibration=random, APS, alpha 0.1: mean coverage over 6 labs x 6 methods x 2 classifiers.",
+    "mean_coverage": 0.876,
+    "by_classifier": {
+      "knn": 0.8857,
+      "probe": 0.8663
+    },
+    "by_lab": {
+      "aida": 0.8816,
+      "combat": 0.889,
+      "hao": 0.8837,
+      "onek1k": 0.901,
+      "schulte": 0.8715,
+      "stephenson": 0.8292
+    },
+    "n_rows": 72,
+    "verdict": "supported"
+  },
+  "H2": {
+    "claim": "On held-out donors, donor calibration is within 0.02 of the target.",
+    "test": "Six-lab blood, donor folds, calibration=donor, APS, alpha 0.1: mean coverage over 5 folds x 6 methods x 2 classifiers; range shown for information.",
+    "mean_coverage": 0.9011,
+    "min_coverage": 0.8851,
+    "max_coverage": 0.9177,
+    "n_rows": 60,
+    "verdict": "supported"
+  },
+  "H3": {
+    "claim": "On held-out labs, lab calibration covers better than donor calibration (higher worst-lab coverage).",
+    "test": "Six-lab blood, lab folds, APS, alpha 0.1. For each method and classifier, the lowest coverage over the 6 held-out labs, lab calibration against donor calibration. Supported only if lab is higher in every one of the 12 cases.",
+    "lab_higher_in": "7 of 12",
+    "mean_worst_lab_coverage": {
+      "lab": 0.836,
+      "donor": 0.8175
+    },
+    "mean_set_size": {
+      "donor": 1.155,
+      "lab": 1.265
+    },
+    "table": {
+      "census_scvi/knn": {
+        "donor": 0.8345,
+        "lab": 0.8496
+      },
+      "census_scvi/probe": {
+        "donor": 0.824,
+        "lab": 0.846
+      },
+      "geneformer_ft/knn": {
+        "donor": 0.8433,
+        "lab": 0.8418
+      },
+      "geneformer_ft/probe": {
+        "donor": 0.8258,
+        "lab": 0.8633
+      },
+      "pca/knn": {
+        "donor": 0.8294,
+        "lab": 0.823
+      },
+      "pca/probe": {
+        "donor": 0.8248,
+        "lab": 0.8285
+      },
+      "pca_harmony/knn": {
+        "donor": 0.8348,
+        "lab": 0.8331
+      },
+      "pca_harmony/probe": {
+        "donor": 0.8337,
+        "lab": 0.8346
+      },
+      "tf_sapiens/knn": {
+        "donor": 0.8408,
+        "lab": 0.8473
+      },
+      "tf_sapiens/probe": {
+        "donor": 0.6375,
+        "lab": 0.7864
+      },
+      "vae/knn": {
+        "donor": 0.8398,
+        "lab": 0.8398
+      },
+      "vae/probe": {
+        "donor": 0.8419,
+        "lab": 0.8387
+      }
+    },
+    "verdict": "partly (7 of 12)"
+  },
+  "H4": {
+    "claim": "On PBMC fine types, the classes with the largest mean set size include the ones in the 18 shared confusions.",
+    "test": "PBMC split seed 0, linear probe, APS, donor calibration, alpha 0.1, types with at least 20 test cells. Per method, mean set size of the types that are the true type in a shared confusion against the other types. Supported if larger for every method. This operational test was written after a first look at one method's per-type table; the plan did not fix one.",
+    "n_shared_confusions": 18,
+    "confused_types": [
+      "CD16-negative, CD56-bright natural killer cell, human",
+      "central memory CD4-positive, alpha-beta T cell",
+      "conventional dendritic cell",
+      "effector memory CD8-positive, alpha-beta T cell",
+      "gamma-delta T cell",
+      "lymphocyte",
+      "memory B cell",
+      "mucosal invariant T cell",
+      "naive thymus-derived CD4-positive, alpha-beta T cell",
+      "naive thymus-derived CD8-positive, alpha-beta T cell",
+      "plasmablast",
+      "regulatory T cell",
+      "transitional stage B cell"
+    ],
+    "confused_types_larger_in": "10 of 10",
+    "note": "CD56-bright NK has 5 test cells on split seed 0, so it is excluded.",
+    "per_method": {
+      "census_scvi": {
+        "mean_size_confused_types": 2.137,
+        "mean_size_other_types": 1.341,
+        "rank_of": {
+          "regulatory T cell": 6,
+          "transitional stage B cell": 5
+        },
+        "n_types_ranked": 16
+      },
+      "geneformer_ft": {
+        "mean_size_confused_types": 2.228,
+        "mean_size_other_types": 1.483,
+        "rank_of": {
+          "regulatory T cell": 2,
+          "transitional stage B cell": 6
+        },
+        "n_types_ranked": 16
+      },
+      "linear_ae": {
+        "mean_size_confused_types": 2.346,
+        "mean_size_other_types": 1.302,
+        "rank_of": {
+          "regulatory T cell": 10,
+          "transitional stage B cell": 7
+        },
+        "n_types_ranked": 16
+      },
+      "pca": {
+        "mean_size_confused_types": 1.884,
+        "mean_size_other_types": 1.259,
+        "rank_of": {
+          "regulatory T cell": 11,
+          "transitional stage B cell": 6
+        },
+        "n_types_ranked": 16
+      },
+      "pca_10": {
+        "mean_size_confused_types": 2.333,
+        "mean_size_other_types": 1.293,
+        "rank_of": {
+          "regulatory T cell": 10,
+          "transitional stage B cell": 7
+        },
+        "n_types_ranked": 16
+      },
+      "pca_harmony": {
+        "mean_size_confused_types": 1.856,
+        "mean_size_other_types": 1.062,
+        "rank_of": {
+          "regulatory T cell": 7,
+          "transitional stage B cell": 4
+        },
+        "n_types_ranked": 16
+      },
+      "scvi": {
+        "mean_size_confused_types": 1.865,
+        "mean_size_other_types": 1.197,
+        "rank_of": {
+          "regulatory T cell": 4,
+          "transitional stage B cell": 5
+        },
+        "n_types_ranked": 16
+      },
+      "tf_sapiens": {
+        "mean_size_confused_types": 1.592,
+        "mean_size_other_types": 1.229,
+        "rank_of": {
+          "regulatory T cell": 8,
+          "transitional stage B cell": 2
+        },
+        "n_types_ranked": 16
+      },
+      "transformer": {
+        "mean_size_confused_types": 2.422,
+        "mean_size_other_types": 1.549,
+        "rank_of": {
+          "regulatory T cell": 7,
+          "transitional stage B cell": 4
+        },
+        "n_types_ranked": 16
+      },
+      "vae": {
+        "mean_size_confused_types": 1.923,
+        "mean_size_other_types": 1.188,
+        "rank_of": {
+          "regulatory T cell": 6,
+          "transitional stage B cell": 4
+        },
+        "n_types_ranked": 16
+      }
+    },
+    "verdict": "supported"
+  },
+  "H5": {
+    "claim": "A type removed from the classifier's training labels gets larger APS sets than known cells, and more empty LAC sets.",
+    "test": "Donor split seed 0, linear probe, donor calibration, alpha 0.1. One case per dataset, method and removed type; both conditions must hold.",
+    "aps_larger_in": "41 of 48",
+    "lac_emptier_in": "23 of 48",
+    "both_in": "22 of 48",
+    "share_by_type": {
+      "m4_blood/B cell": {
+        "aps_larger": 0.833,
+        "lac_emptier": 0.833
+      },
+      "m4_blood/dendritic cell": {
+        "aps_larger": 1.0,
+        "lac_emptier": 0.833
+      },
+      "m4_blood/plasma cell": {
+        "aps_larger": 0.833,
+        "lac_emptier": 0.667
+      },
+      "pbmc/CD16-negative, CD56-bright natural killer cell, human": {
+        "aps_larger": 0.6,
+        "lac_emptier": 0.0
+      },
+      "pbmc/plasmablast": {
+        "aps_larger": 1.0,
+        "lac_emptier": 0.7
+      },
+      "pbmc/regulatory T cell": {
+        "aps_larger": 0.9,
+        "lac_emptier": 0.2
+      }
+    },
+    "verdict": "partly (22 of 48)"
+  },
+  "H6": {
+    "claim": "Method rankings by kNN macro F1 and by linear-probe macro F1 differ for at least one pair of methods.",
+    "test": "Macro F1 averaged over folds per method and classifier; count pairs of methods whose order differs between the two classifiers.",
+    "by_setting": {
+      "m4_blood/dataset": {
+        "kendall_tau": 0.6,
+        "pairs_that_flip": [
+          "census_scvi vs tf_sapiens",
+          "geneformer_ft vs tf_sapiens",
+          "pca vs pca_harmony"
+        ],
+        "n_pairs": 15,
+        "macro_f1": {
+          "census_scvi": {
+            "knn": 0.7097,
+            "probe": 0.7222
+          },
+          "geneformer_ft": {
+            "knn": 0.6711,
+            "probe": 0.6974
+          },
+          "pca": {
+            "knn": 0.7638,
+            "probe": 0.7752
+          },
+          "pca_harmony": {
+            "knn": 0.7609,
+            "probe": 0.7772
+          },
+          "tf_sapiens": {
+            "knn": 0.7313,
+            "probe": 0.6906
+          },
+          "vae": {
+            "knn": 0.7608,
+            "probe": 0.7564
+          }
+        }
+      },
+      "m4_blood/donor": {
+        "kendall_tau": 0.333,
+        "pairs_that_flip": [
+          "census_scvi vs tf_sapiens",
+          "pca vs tf_sapiens",
+          "pca vs vae",
+          "pca_harmony vs tf_sapiens",
+          "tf_sapiens vs vae"
+        ],
+        "n_pairs": 15,
+        "macro_f1": {
+          "census_scvi": {
+            "knn": 0.7469,
+            "probe": 0.7671
+          },
+          "geneformer_ft": {
+            "knn": 0.6968,
+            "probe": 0.7648
+          },
+          "pca": {
+            "knn": 0.7758,
+            "probe": 0.81
+          },
+          "pca_harmony": {
+            "knn": 0.7488,
+            "probe": 0.7688
+          },
+          "tf_sapiens": {
+            "knn": 0.7279,
+            "probe": 0.8211
+          },
+          "vae": {
+            "knn": 0.7868,
+            "probe": 0.7774
+          }
+        }
+      },
+      "pbmc/donor": {
+        "kendall_tau": 0.556,
+        "pairs_that_flip": [
+          "geneformer_ft vs linear_ae",
+          "geneformer_ft vs pca_10",
+          "geneformer_ft vs transformer",
+          "linear_ae vs pca_10",
+          "linear_ae vs transformer",
+          "pca vs tf_sapiens",
+          "pca vs vae",
+          "pca_harmony vs tf_sapiens",
+          "scvi vs tf_sapiens",
+          "tf_sapiens vs vae"
+        ],
+        "n_pairs": 45,
+        "macro_f1": {
+          "census_scvi": {
+            "knn": 0.4802,
+            "probe": 0.5608
+          },
+          "geneformer_ft": {
+            "knn": 0.3154,
+            "probe": 0.5076
+          },
+          "linear_ae": {
+            "knn": 0.4785,
+            "probe": 0.491
+          },
+          "pca": {
+            "knn": 0.6024,
+            "probe": 0.6683
+          },
+          "pca_10": {
+            "knn": 0.4735,
+            "probe": 0.4993
+          },
+          "pca_harmony": {
+            "knn": 0.5921,
+            "probe": 0.6198
+          },
+          "scvi": {
+            "knn": 0.5995,
+            "probe": 0.6243
+          },
+          "tf_sapiens": {
+            "knn": 0.54,
+            "probe": 0.6934
+          },
+          "transformer": {
+            "knn": 0.3656,
+            "probe": 0.4931
+          },
+          "vae": {
+            "knn": 0.6089,
+            "probe": 0.6446
+          }
+        }
+      }
+    },
+    "verdict": "supported"
+  },
+  "H7": {
+    "claim": "On held-out labs at alpha 0.2, lab_hier reaches at least 0.80 coverage in at least 5 of 6 labs for every method.",
+    "test": "Six-lab blood, lab folds, calibration=lab_hier, alpha 0.2; checked for APS (primary) and LAC, both classifiers.",
+    "by_score": {
+      "aps": {
+        "labs_at_or_above_0.80": {
+          "census_scvi/knn": 6,
+          "census_scvi/probe": 6,
+          "geneformer_ft/knn": 6,
+          "geneformer_ft/probe": 6,
+          "pca/knn": 6,
+          "pca/probe": 6,
+          "pca_harmony/knn": 6,
+          "pca_harmony/probe": 6,
+          "tf_sapiens/knn": 6,
+          "tf_sapiens/probe": 6,
+          "vae/knn": 6,
+          "vae/probe": 6
+        },
+        "min_coverage": 0.8928,
+        "mean_set_size": 1.755,
+        "all_pass": true
+      },
+      "lac": {
+        "labs_at_or_above_0.80": {
+          "census_scvi/knn": 6,
+          "census_scvi/probe": 6,
+          "geneformer_ft/knn": 6,
+          "geneformer_ft/probe": 6,
+          "pca/knn": 6,
+          "pca/probe": 6,
+          "pca_harmony/knn": 6,
+          "pca_harmony/probe": 6,
+          "tf_sapiens/knn": 6,
+          "tf_sapiens/probe": 6,
+          "vae/knn": 6,
+          "vae/probe": 6
+        },
+        "min_coverage": 0.885,
+        "mean_set_size": 1.587,
+        "all_pass": true
+      }
+    },
+    "random_calibration_mean_set_size_aps": 0.943,
+    "verdict": "supported"
+  }
+}
