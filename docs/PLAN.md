@@ -279,4 +279,28 @@ Checked by `scripts/m9_evaluate.py` (`results/m9/hypotheses.json`). H1 supported
 - **H4 operational test chosen after a first look.** The plan named three types but no test. Before writing the test, one per-type table (linear probe, APS, all methods, with PCA sorted) had been seen. The test chosen compares the mean set size of every type that is the true type in a shared confusion with the other types, rather than a top-k cut, because CD56-bright NK has 5 test cells and regulatory T sits mid-table for PCA. Reported with this caveat.
 - **H3 and H5 strictness** was fixed when the evaluation script was written: "every case" for supported, otherwise "partly (k of n)".
 
+**2026-11-19, contrastive ablations: design and predictions, fixed before any ablation result**
+
+Seen before this entry: split seed 0 of the main contrastive run (both objectives, with input probes). No other split, and no ablation.
+
+Why: the main run asks whether the objective matters. The ablations ask why it works and where it is weak, one question per run. All on split seed 0, objective `contrastive`, every setting as in the main run except the one named (`scripts/contrastive_ablations.py`, results in `results/contrastive_ablations/pbmc/`).
+
+| Variant | Changed | Question |
+|---|---|---|
+| base | nothing (a rerun) | how much does a rerun move the numbers? |
+| tau_0.05, tau_0.2, tau_0.5 | temperature | how hard should the loss focus on the closest negatives? |
+| keep_strong, keep_weak | keep rate 0.3 to 0.6, or 0.8 to 1.0 | how much corruption teaches the right invariance? |
+| no_jitter | no level nudging | does level noise in the views matter? |
+| same_donor | every batch drawn from one donor | is donor identity a shortcut for telling cells apart? |
+| debiased | debiased loss (Chuang et al. 2020), tau+ = 0.1 | does correcting for same-type negatives help? |
+
+Every run is scored twice: on the [CLS] state h (the embedding used everywhere) and on the projection z. Alignment and uniformity (Wang and Isola 2020) are measured on validation cells.
+
+- **Noise rule:** a difference from base counts only if it exceeds both 0.01 and twice the gap between base and the main run's split seed 0 (fine macro F1 0.506).
+- **A1:** h beats z on fine macro F1 in at least 7 of the 9 variants (as SimCLR found for images).
+- **A2:** same_donor raises iLISI (donor mixing) over base by at least 0.03.
+- **A3:** keep_weak has lower fine macro F1 than base.
+- **A4:** tau_0.5 has the lowest fine macro F1 of the four temperatures.
+- **Reported without a prediction:** keep_strong, no_jitter, debiased, and alignment and uniformity.
+
 **Working principle (owner's decision, 2026-11-17): full speed, learn afterwards.** The owner chose to have all milestones built as fast as possible, with parallel agents, and to study the material at the end. This replaces "teach before you build" and the per-milestone quiz in `CLAUDE.md` for the build phase. What makes that safe: every decision is written down as it is made (this log and `docs/NOTES.md`), so the reasoning can be read and defended later. The honesty rules are unchanged: no number enters the README unless a script here produced it. Lessons and quizzes move to the end.
