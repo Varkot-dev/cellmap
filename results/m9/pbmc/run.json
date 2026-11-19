@@ -1,0 +1,15 @@
+{
+ "name": "pbmc",
+ "commit": "5eff2d4da279680bd81043b06aeaf0951f0e53f2",
+ "alphas": [
+  0.05,
+  0.1,
+  0.2
+ ],
+ "seconds": 928.033031257999,
+ "versions": {
+  "scikit-learn": "1.9.1",
+  "numpy": "2.5.5",
+  "scanpy": "1.13.0"
+ }
+}

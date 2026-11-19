@@ -15,7 +15,12 @@ on the test cells:
 - donor: the validation donors, used by neither the embedding nor the classifier.
 - lab (lab folds only): each training lab in turn is left out, a classifier is fitted on the
   other training labs, and the left-out lab's cells are scored; the scores of all training labs
-  are pooled. Test sets still use the classifier fitted on all training cells.
+  are pooled. Test sets still use the classifier fitted on all training cells. This is a
+  heuristic (cross-conformal at the lab level), not a procedure with a guarantee.
+- donor_hier and lab_hier: the same calibration cells, but with the hierarchical quantile
+  (cellmap.conformal.hierarchical_quantile), which treats donors or labs as the exchangeable
+  units and carries a coverage guarantee for a new donor or lab when there are enough of them
+  (at least 9 groups at alpha 0.1, 4 at alpha 0.2; with fewer, the set is every label).
 
 Each calibration is crossed with score (LAC, APS), marginal or class-conditional (Mondrian),
 and alpha (0.05, 0.1, 0.2). For PBMC the script also records set size per fine type and how
@@ -88,9 +93,11 @@ def label_index(labels: np.ndarray, classes: np.ndarray) -> np.ndarray:
     return np.array([index.get(c, -1) for c in labels])
 
 
-def calibration_scores(kind, emb, labels, split, groups, classes, seed, rng):
-    """{scheme: (probabilities on calibration cells, their label indices)}; the classifier
-    used for test cells is fitted on all training cells (except under 'random')."""
+def calibration_scores(kind, emb, labels, split, groups, donors, classes, seed, rng):
+    """{scheme: (classifier for test cells, calibration probabilities, calibration labels,
+    calibration group ids or None)}. The classifier used for test cells is fitted on all
+    training cells, except under 'random'. Group ids (donor or lab) feed the hierarchical
+    variant, which treats groups rather than cells as the exchangeable units."""
     train = split == "train"
     out = {}
     # random cells from training donors
@@ -99,31 +106,32 @@ def calibration_scores(kind, emb, labels, split, groups, classes, seed, rng):
     cal_mask[rng.choice(tr_idx, size=len(tr_idx) // 5, replace=False)] = True
     fit_mask = train & ~cal_mask
     clf_random = Classifier(kind, classes, seed).fit(emb[fit_mask], labels[fit_mask])
-    out["random"] = (clf_random, clf_random.proba(emb[cal_mask]), labels[cal_mask])
+    out["random"] = (clf_random, clf_random.proba(emb[cal_mask]), labels[cal_mask], None)
     # held-out donors (validation split)
     clf_all = Classifier(kind, classes, seed).fit(emb[train], labels[train])
     val = split == "val"
-    out["donor"] = (clf_all, clf_all.proba(emb[val]), labels[val])
+    out["donor"] = (clf_all, clf_all.proba(emb[val]), labels[val], donors[val])
     # held-out labs: only when the test set is a whole lab
     if groups is not None:
-        probs, labs = [], []
+        probs, labs, ids = [], [], []
         for lab in np.unique(groups[split != "test"]):
             left = (groups == lab) & (split != "test")
             fit = train & (groups != lab)
             clf = Classifier(kind, classes, seed).fit(emb[fit], labels[fit])
             probs.append(clf.proba(emb[left]))
             labs.append(labels[left])
-        out["lab"] = (clf_all, np.vstack(probs), np.concatenate(labs))
+            ids.append(groups[left])
+        out["lab"] = (clf_all, np.vstack(probs), np.concatenate(labs), np.concatenate(ids))
     return out
 
 
-def evaluate_fold(emb, labels, split, groups, classes, seed, fold_info, extra):
+def evaluate_fold(emb, labels, split, groups, donors, classes, seed, fold_info, extra):
     rows, points = [], []
     test = split == "test"
     y_test = label_index(labels[test], classes)
     for kind in ("probe", "knn"):
         rng = np.random.default_rng(seed)
-        cal = calibration_scores(kind, emb, labels, split, groups, classes, seed, rng)
+        cal = calibration_scores(kind, emb, labels, split, groups, donors, classes, seed, rng)
         test_probs_all = cal["donor"][0].proba(emb[test])
         pred = classes[test_probs_all.argmax(1)]
         points.append(
@@ -140,30 +148,36 @@ def evaluate_fold(emb, labels, split, groups, classes, seed, fold_info, extra):
                 ),
             }
         )
-        for scheme, (clf, cal_probs, cal_labels) in cal.items():
+        for scheme, (clf, cal_probs, cal_labels, cal_groups) in cal.items():
             test_probs = clf.proba(emb[test]) if scheme == "random" else test_probs_all
             cal_idx = label_index(cal_labels, classes)
             for score_name, score_fn in SCORES.items():
                 s_cal = score_fn(cal_probs, np.random.default_rng(seed + 1))
                 s_test = score_fn(test_probs, np.random.default_rng(seed + 2))
-                for mondrian in (False, True):
+                variants = [(scheme, False, None), (scheme, True, None)]
+                if cal_groups is not None:
+                    variants.append((f"{scheme}_hier", False, cal_groups))
+                for name, mondrian, hier in variants:
                     for alpha in ALPHAS:
-                        q = calibrate(s_cal, cal_idx, alpha, mondrian=mondrian)
+                        q = calibrate(s_cal, cal_idx, alpha, mondrian=mondrian, groups=hier)
                         sets = prediction_sets(s_test, q)
                         m = set_metrics(sets, y_test)
                         rows.append(
                             {
                                 **fold_info,
                                 "classifier": kind,
-                                "calibration": scheme,
+                                "calibration": name,
                                 "score": score_name,
                                 "mondrian": mondrian,
                                 "alpha": alpha,
                                 "n_cal": len(cal_idx),
+                                "n_cal_groups": (
+                                    len(np.unique(cal_groups)) if cal_groups is not None else 0
+                                ),
                                 **{k: v for k, v in m.items() if k != "per_class_coverage"},
                             }
                         )
-                        if extra is not None and scheme == "donor" and alpha == 0.1:
+                        if extra is not None and name == "donor" and alpha == 0.1:
                             extra(kind, score_name, mondrian, sets, y_test)
     return rows, points
 
@@ -206,22 +220,35 @@ def m4_folds(obs):
     return folds
 
 
-def run_m4(name: str, out: Path) -> None:
+def load_saved(out: Path) -> tuple[list, list, list]:
+    """Rows already written by an earlier, interrupted run, with their own commit stamps."""
+    frames = []
+    for fname in ("conformal.csv", "point_metrics.csv", "novel.csv"):
+        path = out / fname
+        frames.append(pd.read_csv(path).to_dict("records") if path.exists() else [])
+    return frames[0], frames[1], frames[2]
+
+
+def run_m4(name: str, out: Path, resume: bool = False) -> None:
     obs = ad.read_h5ad(ROOT / "data" / "processed" / f"{name}.h5ad", backed="r").obs
     labels = obs["lineage"].astype(str).to_numpy()
     groups_all = obs["dataset"].astype(str).to_numpy()
+    donors = obs["donor_id"].astype(str).to_numpy()
     classes = np.unique(labels)
     emb_dir = ROOT / "data" / "embeddings" / name
     pretrained = {m: np.load(emb_dir / f"{m}.npy") for m in M4_PRETRAINED}
-    rows, points, novel = [], [], []
+    rows, points, novel = load_saved(out) if resume else ([], [], [])
+    done = {(p["scheme"], p["fold"], p["method"]) for p in points}
     for scheme, fold, seed, split in m4_folds(obs):
         for method in (*M4_TRAINED, *M4_PRETRAINED):
+            if (scheme, fold, method) in done:
+                continue
             t0 = time.perf_counter()
             emb = pretrained[method] if method in pretrained else np.load(
                 emb_dir / f"{method}_{scheme}_{fold}.npy")  # fmt: skip
             info = {"dataset": name, "scheme": scheme, "fold": fold, "method": method}
             groups = groups_all if scheme == "dataset" else None
-            r, p = evaluate_fold(emb, labels, split, groups, classes, seed, info, None)
+            r, p = evaluate_fold(emb, labels, split, groups, donors, classes, seed, info, None)
             rows += r
             points += p
             if scheme == "donor" and fold == "seed0":
@@ -233,6 +260,7 @@ def run_m4(name: str, out: Path) -> None:
 def run_pbmc(name: str, out: Path) -> None:
     obs = ad.read_h5ad(ROOT / "data" / "processed" / f"{name}.h5ad", backed="r").obs
     labels = obs["cell_type"].astype(str).to_numpy()
+    donors = obs["donor_id"].astype(str).to_numpy()
     classes = np.unique(labels)
     split = donor_split(obs, 0)
     saved = np.load(ROOT / "data" / "embeddings" / name / "split_seed0.npy", allow_pickle=True)
@@ -262,7 +290,7 @@ def run_pbmc(name: str, out: Path) -> None:
                                       "type_a": classes[i], "type_b": classes[j],
                                       "share_of_cells_with_both": float(co[i, j])})  # fmt: skip
 
-        r, p = evaluate_fold(emb, labels, split, None, classes, 0, info, extra)
+        r, p = evaluate_fold(emb, labels, split, None, donors, classes, 0, info, extra)
         rows += r
         points += p
         novel += novel_type_rows(emb, labels, split, classes, 0, info)
@@ -273,22 +301,28 @@ def run_pbmc(name: str, out: Path) -> None:
 
 
 def save(out: Path, rows, points, novel) -> None:
+    """Write all rows; rows from an earlier run keep their commit, new rows get the current one."""
     commit = git_commit(ROOT)
     for fname, data in (("conformal.csv", rows), ("point_metrics.csv", points),
                         ("novel.csv", novel)):  # fmt: skip
-        frame = pd.DataFrame(data)
-        frame["commit"] = commit
-        frame.to_csv(out / fname, index=False)
+        for row in data:
+            if not isinstance(row.get("commit"), str):
+                row["commit"] = commit
+        pd.DataFrame(data).to_csv(out / fname, index=False)
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--name", default="m4_blood", choices=["m4_blood", "pbmc"])
+    parser.add_argument("--resume", action="store_true", help="six labs: skip finished folds")
     args = parser.parse_args()
     out = ROOT / "results" / "m9" / args.name
     out.mkdir(parents=True, exist_ok=True)
     t0 = time.perf_counter()
-    (run_pbmc if args.name == "pbmc" else run_m4)(args.name, out)
+    if args.name == "pbmc":
+        run_pbmc(args.name, out)
+    else:
+        run_m4(args.name, out, resume=args.resume)
     run = {"name": args.name, "commit": git_commit(ROOT), "alphas": ALPHAS,
            "seconds": time.perf_counter() - t0,
            "versions": versions("scikit-learn", "numpy", "scanpy")}  # fmt: skip

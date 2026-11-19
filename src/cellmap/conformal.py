@@ -35,6 +35,19 @@ Class-conditional ("Mondrian") conformal computes q separately from the calibrat
 each class, which guarantees coverage within every class rather than only on average. It needs
 enough calibration cells per class.
 
+Grouped cells (donors, labs). Cells from one donor or lab are not exchangeable with cells from
+another, so pooling calibration cells and taking the usual quantile does not guarantee coverage
+for a cell from a NEW group: with few groups it under-covers. Hierarchical conformal prediction
+(Lee, Barber and Willett, "Distribution-free inference with hierarchical data", arXiv
+2306.06342; see also Dunn, Wasserman and Ramdas, JASA 2023) treats groups as the exchangeable
+units: each of the K calibration groups gets total weight 1/(K + 1), split equally over its
+cells, and the new group gets weight 1/(K + 1) at +infinity. The (1 - alpha) quantile of that
+weighted distribution covers a new cell from a new group with probability at least 1 - alpha,
+if groups are exchangeable. It is finite only when K / (K + 1) >= 1 - alpha: at least 9 groups
+for alpha = 0.1 and 4 for alpha = 0.2. (Weights as stated in the literature review in
+docs/M9_LITERATURE.md; checked here by simulation in tests/test_conformal.py, not against the
+paper's text, which could not be opened from this environment.)
+
 What this module does not do: it does not decide which cells count as exchangeable with the
 test cells. That choice, random cells versus held-out donors versus held-out labs, is the
 experiment in scripts/m9_conformal.py.
@@ -134,6 +147,21 @@ def conformal_quantile(cal_scores: np.ndarray, alpha: float) -> float:
     return float("inf") if rank > n else float(scores[rank - 1])
 
 
+def hierarchical_quantile(cal_scores: np.ndarray, groups: np.ndarray, alpha: float) -> float:
+    """Group-weighted quantile for a new cell from a new group (see the module docstring)."""
+    if not 0 < alpha < 1:
+        raise ValueError("alpha must be in (0, 1)")
+    scores = np.asarray(cal_scores, dtype=float)
+    _, inverse, counts = np.unique(np.asarray(groups), return_inverse=True, return_counts=True)
+    k = len(counts)
+    if k / (k + 1) < 1 - alpha - 1e-12:
+        return float("inf")
+    weights = 1.0 / ((k + 1) * counts[inverse])
+    order = np.argsort(scores, kind="stable")
+    cumulative = np.cumsum(weights[order])
+    return float(scores[order][np.searchsorted(cumulative, 1 - alpha - 1e-12)])
+
+
 def true_label_scores(scores: np.ndarray, label_idx: np.ndarray) -> np.ndarray:
     """Pick s(x_i, y_i) out of an all-labels score matrix."""
     return scores[np.arange(len(label_idx)), label_idx]
@@ -144,14 +172,20 @@ def calibrate(
     cal_label_idx: np.ndarray,
     alpha: float,
     mondrian: bool = False,
+    groups: np.ndarray | None = None,
 ) -> np.ndarray:
     """Per-label thresholds q_y. Marginal conformal: one q for every label.
 
     Mondrian: q_y from the calibration cells whose true label is y; a label with no
     calibration cells gets q = infinity (always included), which is the honest answer.
+    groups: use the hierarchical (group-weighted) quantile instead; marginal only.
     """
     n_labels = cal_scores_all.shape[1]
     true = true_label_scores(cal_scores_all, cal_label_idx)
+    if groups is not None:
+        if mondrian:
+            raise ValueError("hierarchical calibration is implemented for marginal coverage only")
+        return np.full(n_labels, hierarchical_quantile(true, groups, alpha))
     if not mondrian:
         return np.full(n_labels, conformal_quantile(true, alpha))
     return np.array(

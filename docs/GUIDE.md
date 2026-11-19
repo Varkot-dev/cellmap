@@ -30,7 +30,7 @@ How this differs from the other documents:
 4. **The small transformer written by hand learned its training task but produced the weakest cell embedding of the project's own models.**
 5. **Different metrics disagree.** Harmony wins the integration scores and loses fine-grained cell-type accuracy. So "which method is best" depends on what you measure, and the project reports both.
 
-**Where things stand.** Milestones M0 to M6 are done, including M4 (six labs). M7 (final analyses, write-up, making the repo public) is left. Everything is on GitHub on the branch `claude/clever-hamilton-wj375w`, and CI passes.
+**Where things stand.** The benchmark, the follow-up analyses, the inductive Harmony comparison and an independent review of every claim are done and merged into `main`. Conformal prediction (section 2.12) is done: the coverage promise holds for new donors and erodes for a new lab (0.876, worst lab 0.829), and lab-level hierarchical calibration restores it at the cost of sets about twice as big. In progress: the transformer retrained with a contrastive objective on Colab; split 0 is in, the result waits for all five. Making the repository public is the owner's step (`docs/RELEASE.md`).
 
 ---
 
@@ -140,7 +140,7 @@ KL = 0.5 * sum over dimensions of ( m^2 + v - log v - 1 )
 - **w = 0:** a plain autoencoder. Codes drift anywhere.
 - **Very large w:** every code is pushed onto the prior, and every cell gets the same code. This is **posterior collapse**.
 
-The project shows both on the real data (Part 4, M2).
+The project shows both on the real data (Part 4, "The hand-written VAE").
 
 ### 2.10 Transformers and masked modelling, for cells
 
@@ -175,6 +175,36 @@ Large transformers (Geneformer, scGPT, TranscriptFormer) are pretrained on tens 
 - The Geneformer embedding that is published was fine-tuned using cell-type labels, so it is not zero-shot.
 
 ---
+
+### 2.12 Conformal prediction: a classifier that says how sure it is
+
+**The problem.** A classifier gives one label per cell. When it is wrong, nothing tells you. A doctor or a lab annotating new data wants something better: "this cell is a monocyte" when the model is sure, "regulatory T or memory CD4 T, check by hand" when it is not, and a promise about how often the true answer is in what it says.
+
+**The idea.** Instead of one label, return a *set* of labels, built so that the true label is in the set at least 90 percent of the time (or any rate you pick, written 1 - alpha; alpha = 0.1 means 90 percent). Easy cells get a set of one label; hard cells get two or three. The promise holds whatever the classifier is: a bad classifier gets big sets, not broken promises.
+
+**The recipe (split conformal), in four steps.**
+1. Train any classifier that outputs probabilities p(y | x) on training cells.
+2. Take a separate set of n *calibration* cells with known labels. For each, compute a "strangeness" score of its true label. The simplest (LAC): s = 1 - p(true label | cell). A confident correct prediction gives s near 0; a confident wrong one gives s near 1.
+3. Sort the n scores and take q = the ceil((n + 1)(1 - alpha))-th smallest. That is roughly the 90th percentile, nudged up by the "+ 1".
+4. For a new cell, include every label y whose score 1 - p(y | cell) is at most q, that is, every label with probability at least 1 - q.
+
+**Worked example 1 (the arithmetic).** n = 9 calibration cells, alpha = 0.1. Their scores, sorted: 0.02, 0.05, 0.05, 0.10, 0.12, 0.20, 0.31, 0.45, 0.70. Rank = ceil(10 x 0.9) = 9, so q = the 9th smallest = 0.70. A new cell with probabilities monocyte 0.80, dendritic 0.15, B 0.05: include labels with p >= 1 - 0.70 = 0.30, so the set is {monocyte}. Another cell with CD4 T 0.55, regulatory T 0.40, CD8 T 0.05: the set is {CD4 T, regulatory T}. The model has told you which cell it is unsure about, and between which two types.
+
+**Why it works (the one-line proof).** If the calibration cells and the new cell are *exchangeable* (shuffling them changes nothing, as with independent draws from the same population), the new cell's score is equally likely to land in any of the n + 1 positions in the sorted list. So the chance it lands at or below position ceil((n + 1)(1 - alpha)) is at least 1 - alpha. Nothing about the classifier was used, which is why the promise holds for any classifier.
+
+**The catch, and the whole point of the uncertainty work.** "Exchangeable" is the assumption that does all the work. Cells from the same person or lab are more alike than cells from different ones. If the calibration cells come from the same people the classifier was trained on, but the test cells come from new people or a new lab, the new cells look stranger than anything in calibration and the promise quietly breaks. This is the same structure that made random cell splits leak (Part 4, two extra experiments).
+
+**Worked example 2 (groups break pooling).** Suppose each lab shifts every score by its own amount: lab A's cells score around 0.1, lab B's around 0.3, and a new lab could be anywhere. Pool 1,000 cells from 5 labs and take the 90th percentile: it is set by those 5 labs, but it is computed as if you had 1,000 independent draws. A simulation in `tests/test_conformal.py` shows the cost: with 10 labs, pooled calibration covers a new lab about 88 percent of the time instead of 90; with 5 labs, about 84.
+
+**The fix: treat groups, not cells, as the units (hierarchical conformal).** Give each calibration lab the same total weight, 1/(K + 1) for K labs, split across its cells, and put the remaining 1/(K + 1) at "infinity" for the new lab you have never seen. Take the 90th percentile of that weighted list. Now the promise is about a new cell from a new lab. The price is that you need enough labs: the threshold is finite only if K/(K + 1) >= 1 - alpha, so at least 9 labs for 90 percent and 4 for 80 percent. With 5 training labs, an honest 90 percent promise for a new lab is impossible from this data, which is itself a finding.
+
+**Worked example 3 (the group rule in numbers).** K = 5 labs, alpha = 0.2. Each lab carries weight 1/6. The new lab's 1/6 sits at infinity, so the real labs carry 5/6 = 0.83 >= 0.80, and the threshold is finite: walk up the scores from smallest to largest, adding each cell's weight, and stop where the running total first reaches 0.80. At alpha = 0.1, 0.83 < 0.90, so the threshold is infinite and the set is every label: the method refuses to promise what the data cannot support.
+
+**Two kinds of score.** LAC (1 - p) gives the smallest sets on average but can give an empty set when no label is probable enough, which is a useful "looks like nothing I know" signal. APS adds labels in order of probability until their total reaches q, so uncertain cells get bigger sets; a random tie-breaker makes coverage exact rather than conservative.
+
+**Per class.** The basic promise is on average over cells, so common types can be over-covered while a rare type is under-covered. Class-conditional ("Mondrian") conformal computes q separately for each type, at the cost of needing enough calibration cells of each.
+
+**What we found** (`results/m9/hypotheses.json`, figure `assets/m9_conformal_m4_blood.png`). Calibrated on held-out donors, coverage on new donors is 0.901. Calibrated on cells from the training people, coverage on a new lab is 0.876 on average and 0.829 on the worst lab (Stephenson). Lab-level hierarchical calibration at 80 percent covers every lab at 0.89 or more, with sets of 1.76 types instead of 0.94; at 90 percent it returns every label, as worked example 3 predicts. Types involved in the shared confusions get larger sets for all 10 methods. An empty LAC set flags an unseen type when it is distinct (dendritic cells: 16 percent empty against 6 percent for known cells) but not when it is a close sibling of a known type (regulatory T, CD56-bright NK). Five of the seven pre-registered hypotheses were supported, two partly; `docs/NOTES.md` has the table.
 
 ## Part 3. How methods are scored
 
@@ -221,9 +251,9 @@ Written into the plan before any deep model was scored:
 
 ---
 
-## Part 4. What was built, milestone by milestone
+## Part 4. What was built, step by step
 
-### M0. The data pipeline
+### The data pipeline
 
 **Dataset:** healthy-donor blood cells (PBMCs) from Schulte-Schrepping et al. (Cell, 2020), downloaded from CZ CELLxGENE Census release 2025-01-30.
 - **Why this one:** the classic tutorial dataset (PBMC 3k) has one donor, so it cannot be split by donor. This one has 21.
@@ -247,7 +277,7 @@ Written into the plan before any deep model was scored:
 
 Figure: `assets/m0_split_pbmc.png`.
 
-### M1. The baselines and the scoring code
+### The baselines and the scoring code
 
 Built HVG + PCA and PCA + Harmony, plus the kNN and scIB scoring code. Scored on five donor splits.
 
@@ -256,7 +286,7 @@ Built HVG + PCA and PCA + Harmony, plus the kNN and scIB scoring code. Scored on
 
 Figures: `assets/m1_tradeoff_pbmc.png`, `assets/m1_batch_umap_pbmc.png`.
 
-### M2. The hand-written VAE
+### The hand-written VAE
 
 Built a negative binomial VAE (`src/cellmap/vae.py`) with 10 latent dimensions, matching scvi-tools' defaults. Also built a linear autoencoder and a 10-dimensional PCA, for a comparison at equal size.
 
@@ -282,7 +312,7 @@ Figure: `assets/m2_kl_sweep_pbmc.png`.
 - **Versus 10-dimensional PCA:** much better macro F1 (+0.121, 5 of 5).
 - **The linear autoencoder tied 10-dimensional PCA,** as theory predicts. That confirms the comparison is wired correctly.
 
-### M3. Checking the VAE against scvi-tools
+### Checking the VAE against scvi-tools
 
 Trained scvi-tools with every setting matched, on the same splits.
 
@@ -293,9 +323,9 @@ Trained scvi-tools with every setting matched, on the same splits.
 
 **One difference found on small data:** a 0.5 percent reconstruction gap, explained by how the per-gene dispersion is initialised. Swapping in scvi-tools' initialisation removed it.
 
-### M5. The hand-written transformer
+### The hand-written transformer
 
-Built in `src/cellmap/transformer.py` (about 1.1 million parameters). Trained on a Colab T4 GPU through `notebooks/m5_transformer_gpu.ipynb`, 30 epochs per split, 6 to 11 minutes per split. Before training, the notebook rebuilt the data from Census independently and checked it matched M0 exactly.
+Built in `src/cellmap/transformer.py` (about 1.1 million parameters). Trained on a Colab T4 GPU through `notebooks/m5_transformer_gpu.ipynb`, 30 epochs per split, 6 to 11 minutes per split. Before training, the notebook rebuilt the data from Census independently and checked it matched the original data pipeline's output exactly.
 
 **Result:**
 - **It learned its task:** on validation donors it predicted hidden expression levels 4.5 to 8.6 points better than guessing each gene's usual level.
@@ -310,7 +340,7 @@ Built in `src/cellmap/transformer.py` (about 1.1 million parameters). Trained on
 
 Figure: `assets/m5_transformer_pbmc.png`.
 
-### M6. Published pretrained embeddings
+### Published pretrained embeddings
 
 Downloaded Census scVI (50 dimensions), the fine-tuned Geneformer (512) and TranscriptFormer TF-Sapiens (2048) for these exact cells, matched by Census cell id with a check on donor and type.
 
@@ -318,7 +348,7 @@ Downloaded Census scVI (50 dimensions), the fine-tuned Geneformer (512) and Tran
 - **TranscriptFormer** tied PCA on kNN accuracy and was lower on every scIB score.
 - **Geneformer** was lower than PCA on every metric in all 5 splits, despite having been fine-tuned with cell-type labels.
 
-### M4. Six labs
+### Six labs, with whole labs held out
 
 **What was built:** six healthy blood datasets from different labs and 10x chemistries, 63,100 cells from 128 donors, at most 500 cells per donor, only genes all six labs measured. Labs name cell types differently, so every label was mapped to one of 12 shared lineages (CD4 T, CD8 T, B, monocyte, and so on), and cells with labels too vague to place were dropped.
 
@@ -344,15 +374,15 @@ Downloaded Census scVI (50 dimensions), the fine-tuned Geneformer (512) and Tran
 
 **Held-out cell type:** B cells removed from training still form their own group in every method and are called plasma cells, their closest relatives. Dendritic cells are called monocytes, also their closest relatives, and lose some grouping, the VAE the most. One split, so a lead rather than a finding.
 
-Details and caveats: `docs/NOTES.md`, section M4.
+Details and caveats: `docs/NOTES.md`, section "Six labs instead of one".
 
 ### Two extra experiments (2026-11-18)
 
 **How much a leaky split inflates scores** (`scripts/leakage_splits.py`, `results/leakage/splits.csv`). Same method (HVG + PCA + kNN), split three ways. On one dataset with 19 fine types, splitting cells at random gave macro F1 0.776 against 0.664 when whole people were held out: 0.11 too optimistic, mostly on rare types, and it hid how much results vary between splits. On six labs with 12 broad lineages the gap was 0.007 against held-out people (0.018 against a held-out lab). Caveat from the review: most of the 0.11 comes from splits 0 and 3, and split 3 is a chemistry hold-out, so part of it is distribution shift, not leakage; and the two datasets differ in labels, chemistry and donor count at once, so the contrast is descriptive, not proof that donor count is the cause.
 
-**Which inputs the models use** (`scripts/probe_inputs.py`, `results/probe/pbmc/probe_inputs.csv`). Keep the trained model fixed, damage one part of every cell's input, score again. The transformer scored the same with only "which genes are on" (0.375) as with the real input (0.366), but shuffling the amounts within each cell cut it to 0.164. So it does read the amounts; the true amounts just added nothing measurable over presence alone. (An earlier version said it "ignores" them; the shuffle result contradicts that. The binning diagnosis is a hypothesis that M7's re-encoding run tests.) The VAE uses both presence and amounts (0.533 with presence only, 0.614 real). Scrambling gene identities destroys both, so both do use their main input. The idea comes from Bindwell's "The Bitter Lesson for Biology" (2026) and Fang et al. (2026); the Fang et al. reference has not been verified.
+**Which inputs the models use** (`scripts/probe_inputs.py`, `results/probe/pbmc/probe_inputs.csv`). Keep the trained model fixed, damage one part of every cell's input, score again. The transformer scored the same with only "which genes are on" (0.375) as with the real input (0.366), but shuffling the amounts within each cell cut it to 0.164. So it does read the amounts; the true amounts just added nothing measurable over presence alone. (An earlier version said it "ignores" them; the shuffle result contradicts that. The binning diagnosis is a hypothesis that the later re-encoding run tests.) The VAE uses both presence and amounts (0.533 with presence only, 0.614 real). Scrambling gene identities destroys both, so both do use their main input. The idea comes from Bindwell's "The Bitter Lesson for Biology" (2026) and Fang et al. (2026); the Fang et al. reference has not been verified.
 
-### M7. The analyses
+### Follow-up analyses
 
 **Every method makes the same mistakes.** 18 confusions appear in all nine methods (the figure shows the 8 largest; an earlier version said "eight", which was the figure's display limit). The largest are between close relatives (regulatory T cells called central memory CD4 T cells, transitional B cells called memory B cells, and so on). The hardest boundaries are in the data and labels, not in any model. Figure: `assets/m7_confusions_pbmc.png`.
 
@@ -362,7 +392,7 @@ Details and caveats: `docs/NOTES.md`, section M4.
 
 **The transformer fix, tested: it did not help.** Retrained with value bins (each bin 10 percent of tokens, against 57 percent in one bin before), the transformer got much better at its own training task (validation accuracy 0.780 against a 0.270 guess-the-usual-level baseline; before, 0.749 against 0.682) but its cell embedding did not improve (fine macro F1 0.348 against 0.366), and presence-only input still scored higher (0.418). The hypothesis that the encoding was the bottleneck is not supported: getting levels right is not the same as learning cell types. One split, one seed. `results/m7/pbmc/transformer_levels.csv`.
 
-### M8. Does Harmony need to see the test cells?
+### Does Harmony need to see the test cells?
 
 Harmony was the only method that corrected the test cells together with the training cells. To check whether that was an unfair advantage, Harmony was re-run fitted on training donors only, with held-out cells mapped onto the frozen result (the published Symphony method, implemented in `src/cellmap/reference_mapping.py`).
 
@@ -370,7 +400,7 @@ Harmony was the only method that corrected the test cells together with the trai
 - **128 donors, six labs:** on held-out people the fair version was slightly higher (4 of 5), so none of the lead depended on it. On held-out labs Harmony led PCA by only 0.006, so that case says little.
 - **Everywhere:** the fair version had slightly higher kNN accuracy, but not higher macro F1. Weaker correction raises accuracy here, so this is not evidence that it is better.
 
-Details: `docs/NOTES.md`, section M8.
+Details: `docs/NOTES.md`, section "Does Harmony need to see the test cells?".
 
 ### leakaudit, the reusable audit kit
 
@@ -435,11 +465,11 @@ Kept here because "what went wrong and how you caught it" is often the best thin
 | CI had failed at install since early on: scanpy 1.13 needs Python 3.13, CI and Colab use 3.12 | Read the CI logs | Code supports scanpy 1.11 to 1.13; both versions pick identical genes |
 | The Colab notebook failed lint, and would have taken the commit author from the wrong commit | Lint on the whole repo | Rewrote the cells |
 | A claim in chat that the transformer was last on every metric | Rechecked against the numbers while making its figure | It is last on scIB aggregate, second to last on kNN (above Geneformer). Corrected here and in the figure title |
-| The five M1 splits reuse the gene filter fitted on split seed 0's training donors | Noted while writing the notes | Effect judged negligible (a "detected in 10 cells" filter); recorded as a known weakness |
+| The five donor splits used for the baselines reuse the gene filter fitted on split seed 0's training donors | Noted while writing the notes | Effect judged negligible (a "detected in 10 cells" filter); recorded as a known weakness |
 | Headline "no method beat both baselines" was checked on 2 of the 6 declared metrics; on all six, 3 of 68 comparisons pass | Independent review (2026-11-18) | `scripts/verify_rule.py` applies the rule to every metric; headline rewritten from its output |
 | "The transformer ignores expression amounts" was contradicted by our own shuffle probe (0.366 to 0.164) | Independent review | Reworded: it reads amounts, but the true amounts add nothing over presence |
 | "Eight shared confusions": 8 was the figure's display limit; there are 18 | Independent review | Figure subtitle and text now give both numbers |
-| Symphony centroids built from per-cell normalised coordinates, unlike Symphony; docstring claimed they matched | Independent review against the Symphony source | Code now matches Symphony; M8 rerun |
+| Symphony centroids built from per-cell normalised coordinates, unlike Symphony; docstring claimed they matched | Independent review against the Symphony source | Code now matches Symphony; inductive Harmony comparison rerun |
 | `m4_benchmark.py` without `--resume` replaced a full results file | Independent review | It now refuses unless `--resume` or `--overwrite` is given |
 | Provenance stamps ignored untracked files, so `results/leakage/splits.csv` names a commit without its script | Independent review | Untracked files now count as dirty |
 | The VAE weight-transplant check was cited but only run as a scratch script | Independent review | Now a test in `tests/test_scvi_baseline.py` |
@@ -459,7 +489,7 @@ Experiments worth doing next, if you continue:
 - A tuned or larger VAE code (only 10 dimensions were tried).
 - "seurat_v3" gene selection, which mattered in DCMvsACM.
 - A tissue other than blood.
-- The transformer: the level-encoding fix did not help on one split (Part 4, M7), so repeating it on all splits has low priority. A different training objective, or a cell-level one, is the more promising next step.
+- The transformer: the level-encoding fix did not help on one split (Part 4, "Follow-up analyses"), so repeating it on all splits has low priority. A different training objective, or a cell-level one, is the more promising next step.
 
 ### Questions to test yourself (answer out loud, without notes)
 
@@ -482,13 +512,13 @@ Experiments worth doing next, if you continue:
 |---|---|
 | `configs/` | Dataset settings: Census release, filters, split fractions |
 | `src/cellmap/census.py` | Downloads cells from Census |
-| `src/cellmap/qc.py`, `splits.py`, `preprocess.py`, `labels.py` | The M0 pipeline pieces |
+| `src/cellmap/qc.py`, `splits.py`, `preprocess.py`, `labels.py` | The data pipeline pieces |
 | `src/cellmap/baselines.py` | HVG selection, PCA, Harmony |
 | `src/cellmap/evaluate.py`, `benchmark.py` | All scoring |
-| `src/cellmap/vae.py`, `linear_ae.py` | M2 models |
-| `src/cellmap/scvi_baseline.py` | M3 scvi-tools with matched settings |
-| `src/cellmap/transformer.py` | M5 model |
-| `src/cellmap/census_embeddings.py` | M6 downloads |
+| `src/cellmap/vae.py`, `linear_ae.py` | The hand-written VAE and the linear autoencoder |
+| `src/cellmap/scvi_baseline.py` | scvi-tools with matched settings, for the check against the VAE |
+| `src/cellmap/transformer.py` | The hand-written transformer |
+| `src/cellmap/census_embeddings.py` | Downloads of the published pretrained embeddings |
 | `src/cellmap/plotting.py`, `provenance.py` | Figure style; commit stamping of results |
 | `scripts/m0_...` to `scripts/m6_...` | One script per milestone step; each writes to `results/` |
 | `scripts/*_figures.py`, `assets/` | Figures |
@@ -525,15 +555,17 @@ Experiments worth doing next, if you continue:
 ---
 
 ## Update log
-- **2026-11-18 (late):** Transformer level-encoding result added (it did not help); M8 rewritten from the corrected rerun.
+- **2026-11-19 (later):** Conformal results added to section 2.12 and the status line: five of seven hypotheses supported, two partly; new figure.
+- **2026-11-19:** Section 2.12 added: conformal prediction, from intuition to the hierarchical version, with three worked examples.
+- **2026-11-18 (late):** Transformer level-encoding result added (it did not help); the inductive Harmony section rewritten from the corrected rerun.
 - **2026-11-18 (late):** Independent review by ten agents that had not written the code (five literature, four verification, one hostile). Corrected the headline rule count, the transformer probe reading, the confusion count, the pretrained-model training claims, the leakage caveats, the over-correction wording and the Symphony centroids. Part 6 lists each.
 
 - **2026-11-18:** leakaudit package added to Part 4.
-- **2026-11-18:** M8 (inductive Harmony) added to Part 4.
-- **2026-11-18:** M7 analyses added (Part 4); Part 7 rewritten as the closing checklist and self-test questions.
-- **2026-11-18:** M4 finished: transformer results from the Colab GPU run merged; final M4 figure.
+- **2026-11-18:** Inductive Harmony comparison (Harmony fitted without the test cells) added to Part 4.
+- **2026-11-18:** Follow-up analyses added (Part 4); Part 7 rewritten as the closing checklist and self-test questions.
+- **2026-11-18:** Six-lab benchmark finished: transformer results from the Colab GPU run merged; final six-lab figure.
 - **2026-11-18:** Added the leaky-split and input-probe experiments to Part 4.
-- **2026-11-18:** M4 results (all but the transformer) added to Part 4, including the held-out cell type test.
+- **2026-11-18:** Six-lab results (all but the transformer) added to Part 4, including the held-out cell type test.
 - **2026-11-17 (night):** Explainer page built as the front page (`site/index.html`); the atlas moved to `site/atlas.html`.
-- **2026-11-17 (night):** M4 design recorded in Part 7; public site choice recorded.
-- **2026-11-17:** Guide created after M0, M1, M2, M3, M5 and M6. The transformer's GPU results are included.
+- **2026-11-17 (night):** Six-lab benchmark design recorded in Part 7; public site choice recorded.
+- **2026-11-17:** Guide created after the data pipeline, the baselines, the hand-written VAE, the scvi-tools check, the transformer and the pretrained embeddings were done. The transformer's GPU results are included.
