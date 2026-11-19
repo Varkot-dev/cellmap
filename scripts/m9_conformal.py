@@ -220,7 +220,16 @@ def m4_folds(obs):
     return folds
 
 
-def run_m4(name: str, out: Path) -> None:
+def load_saved(out: Path) -> tuple[list, list, list]:
+    """Rows already written by an earlier, interrupted run, with their own commit stamps."""
+    frames = []
+    for fname in ("conformal.csv", "point_metrics.csv", "novel.csv"):
+        path = out / fname
+        frames.append(pd.read_csv(path).to_dict("records") if path.exists() else [])
+    return frames[0], frames[1], frames[2]
+
+
+def run_m4(name: str, out: Path, resume: bool = False) -> None:
     obs = ad.read_h5ad(ROOT / "data" / "processed" / f"{name}.h5ad", backed="r").obs
     labels = obs["lineage"].astype(str).to_numpy()
     groups_all = obs["dataset"].astype(str).to_numpy()
@@ -228,9 +237,12 @@ def run_m4(name: str, out: Path) -> None:
     classes = np.unique(labels)
     emb_dir = ROOT / "data" / "embeddings" / name
     pretrained = {m: np.load(emb_dir / f"{m}.npy") for m in M4_PRETRAINED}
-    rows, points, novel = [], [], []
+    rows, points, novel = load_saved(out) if resume else ([], [], [])
+    done = {(p["scheme"], p["fold"], p["method"]) for p in points}
     for scheme, fold, seed, split in m4_folds(obs):
         for method in (*M4_TRAINED, *M4_PRETRAINED):
+            if (scheme, fold, method) in done:
+                continue
             t0 = time.perf_counter()
             emb = pretrained[method] if method in pretrained else np.load(
                 emb_dir / f"{method}_{scheme}_{fold}.npy")  # fmt: skip
@@ -289,22 +301,28 @@ def run_pbmc(name: str, out: Path) -> None:
 
 
 def save(out: Path, rows, points, novel) -> None:
+    """Write all rows; rows from an earlier run keep their commit, new rows get the current one."""
     commit = git_commit(ROOT)
     for fname, data in (("conformal.csv", rows), ("point_metrics.csv", points),
                         ("novel.csv", novel)):  # fmt: skip
-        frame = pd.DataFrame(data)
-        frame["commit"] = commit
-        frame.to_csv(out / fname, index=False)
+        for row in data:
+            if not isinstance(row.get("commit"), str):
+                row["commit"] = commit
+        pd.DataFrame(data).to_csv(out / fname, index=False)
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--name", default="m4_blood", choices=["m4_blood", "pbmc"])
+    parser.add_argument("--resume", action="store_true", help="six labs: skip finished folds")
     args = parser.parse_args()
     out = ROOT / "results" / "m9" / args.name
     out.mkdir(parents=True, exist_ok=True)
     t0 = time.perf_counter()
-    (run_pbmc if args.name == "pbmc" else run_m4)(args.name, out)
+    if args.name == "pbmc":
+        run_pbmc(args.name, out)
+    else:
+        run_m4(args.name, out, resume=args.resume)
     run = {"name": args.name, "commit": git_commit(ROOT), "alphas": ALPHAS,
            "seconds": time.perf_counter() - t0,
            "versions": versions("scikit-learn", "numpy", "scanpy")}  # fmt: skip
