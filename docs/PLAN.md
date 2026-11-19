@@ -95,6 +95,7 @@ A check you can do by hand: with the KL weight at 0 the model is a plain autoenc
 | M5 (built 2026-11-17; trained on GPU 2026-11-17) | Small transformer with masked gene modeling (method 6) | Trained on a free GPU; added to the comparison |
 | M6 (built 2026-11-17) | Pretrained model embeddings (method 7) | Added to the comparison with training-data overlap noted |
 | M7 (analyses done 2026-11-18; public release is the owner's step) | Analyses in 4.4, interactive atlas, write-up | README complete, repo ready to make public |
+| M9 (started 2026-11-19, beyond the original plan) | Can the classifier be trusted? Linear probe beside kNN; conformal prediction sets calibrated three ways (random cells, held-out donors, held-out labs) and tested on new people and new labs | Coverage, set size and class-conditional coverage reported for every method and fold; the hypotheses below marked supported or not; a figure; a guide section that teaches the method |
 
 Stretch: semi-supervised labels (scANVI style); mapping a new dataset onto a trained reference; applying the pipeline to a tumor dataset, which connects to your earlier glioblastoma work.
 
@@ -231,5 +232,23 @@ Written down now, before the VAE has been scored, so the rules cannot be bent to
 **2026-11-18, transformer level encoding result**
 
 - Value bins made the masked-level task far easier to learn but did not improve the embedding (fine macro F1 0.348 against 0.366, one split). The encoding hypothesis is recorded as not supported; repeating it on all splits is deprioritised.
+
+**2026-11-19, M9 design and hypotheses, fixed before any M9 result exists**
+
+Why: every result so far uses one classifier (kNN, k = 15) and reports a single label per cell. M9 asks whether a classifier on these embeddings can say how sure it is, with a guarantee, and whether that guarantee survives new people and new labs, which is the same structure that made leakage matter.
+
+- **Classifiers:** multinomial logistic regression on the standardized embedding (the "linear probe", scikit-learn, L2, C = 1) and kNN (k = 15, class probabilities = neighbour fractions). Both fitted on training cells only.
+- **Conformal method:** split conformal at miscoverage alpha = 0.1 (target 90 percent), also 0.05 and 0.2. Primary score: APS (adaptive prediction sets, randomized); secondary: LAC (1 minus the probability of the true label). Class-conditional (Mondrian) conformal as a third variant.
+- **Calibration, three ways:** (1) random cells: 20 percent of training-donor cells held out at random, classifier fitted on the rest, so calibration cells share donors with training; (2) held-out donors: the validation donors, never used to fit the embedding or the classifier; (3) held-out labs (lab folds only): each training lab is left out in turn, the classifier refitted on the others, and those scores pooled.
+- **Data:** six labs (12 lineages), 5 donor folds and 6 lab folds, embeddings PCA, PCA + Harmony, VAE, Census scVI, Geneformer, TranscriptFormer; PBMC (19 fine types), split seed 0, all nine methods, for set sizes on fine types.
+- **Metrics:** marginal coverage on test cells, mean set size, share of singleton sets, coverage per class (worst class with at least 20 test cells), coverage per held-out lab.
+- **Hypotheses (each reported as supported or not):**
+  - H1: on held-out labs, random-cell calibration under-covers (mean coverage below 0.88 at the 0.90 target).
+  - H2: on held-out donors, donor calibration is within 0.02 of the target.
+  - H3: on held-out labs, lab calibration covers better than donor calibration (higher worst-lab coverage).
+  - H4: on PBMC fine types, the classes with the largest mean set size include the ones in the 18 shared confusions (regulatory T, CD56-bright NK, transitional B).
+  - H5: when one type is removed from the classifier's training labels only, its cells get larger sets than known cells under APS, and more empty sets under LAC.
+  - H6: method rankings by kNN macro F1 and by linear-probe macro F1 differ for at least one pair of methods.
+- **Not claimed in advance:** which method calibrates best.
 
 **Working principle (owner's decision, 2026-11-17): full speed, learn afterwards.** The owner chose to have all milestones built as fast as possible, with parallel agents, and to study the material at the end. This replaces "teach before you build" and the per-milestone quiz in `CLAUDE.md` for the build phase. What makes that safe: every decision is written down as it is made (this log and `docs/NOTES.md`), so the reasoning can be read and defended later. The honesty rules are unchanged: no number enters the README unless a script here produced it. Lessons and quizzes move to the end.
