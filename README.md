@@ -18,22 +18,15 @@ decision is explained in [docs/NOTES.md](docs/NOTES.md), the plan and decision l
 The site (`site/index.html`, an explainer, and `site/atlas.html`, the atlas) is published
 with GitHub Pages once the repository is public (see [docs/RELEASE.md](docs/RELEASE.md)).
 
-## Status
+## What is here
 
-| Milestone | State |
-|---|---|
-| M0 data pipeline: load, quality control, donor-level split, normalize | built, tests pass |
-| M1 classical baselines (HVG + PCA, PCA + Harmony) and evaluation harness | built, results below |
-| M2 hand-written negative binomial VAE, linear autoencoder, KL sweep | built, results below |
-| M3 parity check against scvi-tools | built; parity holds on all five splits |
-| M5 hand-written transformer with masked gene modeling | built; trained on a Colab GPU; results below |
-| M6 published pretrained-model embeddings (Census scVI, Geneformer, TranscriptFormer) | built, results below |
-| M4 six labs: held-out people, held-out labs, held-out cell type | done, results below |
-| M7 analyses: shared confusions, over-correction, marker genes, transformer input encoding | done, results below |
-| M8 Harmony fitted without the test cells (reference mapping) | done, results below |
-| leakaudit, the reusable audit package (`audit/`) | built, 43 tests, in CI |
-| Public release | checklist in `docs/RELEASE.md`; license and visibility are the owner's decisions |
-| Public site | scroll-driven explainer (`site/index.html`) and 3D atlas of every method (`site/atlas.html`) |
+The data pipeline, the two baselines, a VAE and a transformer written from scratch, a parity
+check against scvi-tools, published pretrained embeddings, a six-lab benchmark with whole labs
+held out, follow-up analyses, an inductive version of Harmony, a small audit package
+([`audit/`](audit/README.md)), and the site. Everything below is finished and has tests unless
+it says otherwise. In progress: whether a classifier on these embeddings can say how sure it is
+(conformal prediction, `src/cellmap/conformal.py`); its design is fixed in `docs/PLAN.md`, and
+no results are reported yet.
 
 ## Results: every method on the same five donor splits
 
@@ -93,7 +86,7 @@ should be read with that table.
 
 ![The VAE at three KL weights](assets/m2_kl_sweep_pbmc.png)
 
-## M4: six labs, whole labs held out
+## Six labs, with whole labs held out
 
 Six healthy blood datasets from different labs and 10x chemistries, 63,100 cells from 128 donors,
 labels mapped to 12 shared lineages, only genes every lab measured. Each method is scored on
@@ -145,7 +138,7 @@ Two further checks (`results/leakage/splits.csv`, `results/probe/pbmc/probe_inpu
   true levels added nothing measurable over presence alone. One model, one split, one seed, and
   a weak model (PCA scores 0.606 on the same split).
 
-## M7: what the methods get wrong, and where correction goes too far
+## What the methods get wrong, and where correction goes too far
 
 On the PBMC data, split seed 0 (`results/m7/pbmc/`, written by `scripts/m7_analyses.py`).
 
@@ -186,7 +179,7 @@ levels did not teach this model cell types. One split, one seed, trained on CPU 
 model was trained on a GPU (`results/m7/pbmc/transformer_levels.csv`, written by
 `scripts/m7_transformer_levels.py`).
 
-## M8: was Harmony's lead fair?
+## Was Harmony's lead fair?
 
 Harmony was the only method that corrected held-out cells together with training cells. Fitted
 on training donors only, with held-out cells mapped onto the frozen reference (Symphony algorithm,
@@ -209,7 +202,7 @@ shortcut probes that shuffle one named input block at a time. Its PBMC example r
 leakage numbers in `results/leakage/splits.csv` exactly. The README compares it honestly with
 existing tools (scikit-learn's group splitters, DataSAIL, deepchecks and others).
 
-## M1 detail: PCA versus PCA + Harmony
+## PCA versus PCA + Harmony in detail
 
 One dataset (healthy PBMCs, 21 donors), five donor-level splits, 4 held-out donors each.
 All scores are on held-out donors. Numbers are from
@@ -240,7 +233,7 @@ Read these numbers with their limits:
   scaling across methods used in the scIB paper, so they are not comparable to published tables.
 - Sequencing chemistry is confounded with donor in this dataset (2 of 21 donors are 10x v3).
 
-## M0 result: the dataset and its split
+## The dataset and its split
 
 ![Donor-level split of the PBMC dataset](assets/m0_split_pbmc.png)
 
@@ -271,7 +264,7 @@ Known limits of this split, stated up front:
 - One donor contributes 11,195 of the 33,720 training cells.
 - Some cell types are very rare in the held-out donors (for example 3 platelets in test), so
   per-type scores for those types will be noisy.
-- This is one split with one seed. M1 repeats over five donor splits.
+- This is one split with one seed. The benchmark above repeats over five donor splits.
 
 ## Data and citations
 
@@ -280,7 +273,7 @@ scripts in this repository and not stored in it. Please cite the original studie
 
 | Name in this repository | Study | DOI |
 |---|---|---|
-| `pbmc`, and `schulte` in M4 | Schulte-Schrepping et al. 2020, Cell; hosted on CELLxGENE in the collection of Jin et al. 2021, iScience | 10.1016/j.isci.2021.103115 (collection) |
+| `pbmc`, and `schulte` in the six-lab benchmark | Schulte-Schrepping et al. 2020, Cell; hosted on CELLxGENE in the collection of Jin et al. 2021, iScience | 10.1016/j.isci.2021.103115 (collection) |
 | `hao` | Hao et al. 2021, Cell | 10.1016/j.cell.2021.04.048 |
 | `stephenson` | Stephenson et al. 2021, Nature Medicine | 10.1038/s41591-021-01329-2 |
 | `combat` | COMBAT Consortium (Ahern et al.) 2022, Cell | 10.1016/j.cell.2022.01.012 |
