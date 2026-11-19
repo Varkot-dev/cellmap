@@ -1,0 +1,23 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      # CPU-only PyTorch: the default Linux wheel bundles GPU libraries the tests do not need.
+      - run: pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - run: pip install -e ".[dev,parity]"
+      - run: ruff check .
+      - run: ruff format --check .
+      - run: pytest -q
+      # The leakage audit kit is its own package, tested separately.
+      - run: pip install -e audit && pytest -q audit/tests

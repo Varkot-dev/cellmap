@@ -1,0 +1,17 @@
+cell_type,coarse,train,val,test,total
+classical monocyte,monocyte,796,252,334,1382
+"central memory CD4-positive, alpha-beta T cell",CD4 T cell,211,58,50,319
+"effector memory CD8-positive, alpha-beta T cell",CD8 T cell,130,95,31,256
+non-classical monocyte,monocyte,128,29,59,216
+natural killer cell,NK cell,156,36,22,214
+"naive thymus-derived CD4-positive, alpha-beta T cell",CD4 T cell,146,29,6,181
+memory B cell,B cell,64,32,27,123
+naive B cell,B cell,83,18,12,113
+transitional stage B cell,B cell,38,6,7,51
+"naive thymus-derived CD8-positive, alpha-beta T cell",CD8 T cell,35,6,3,44
+mucosal invariant T cell,other T cell,23,13,2,38
+gamma-delta T cell,other T cell,27,2,6,35
+regulatory T cell,CD4 T cell,29,2,2,33
+"plasmacytoid dendritic cell, human",dendritic cell,18,2,12,32
+plasmablast,plasmablast,13,3,10,26
+conventional dendritic cell,dendritic cell,11,7,6,24

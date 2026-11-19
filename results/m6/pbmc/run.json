@@ -1,0 +1,39 @@
+{
+  "name": "pbmc",
+  "commit": "08dee562f81930346f5eac6e4f686d2f57206b15",
+  "census_version": "2025-01-30",
+  "n_cells": 44756,
+  "models": {
+    "census_scvi": {
+      "id": "CxG-czi-10",
+      "label": "Census scVI",
+      "n_features": 50,
+      "seen_cells": "trained on all primary Census cells, so on every cell evaluated here",
+      "used_labels": "no cell-type labels; batch covariates: assay, dataset, donor, suspension"
+    },
+    "geneformer_ft": {
+      "id": "CxG-czi-11",
+      "label": "Geneformer (fine-tuned classifier)",
+      "n_features": 512,
+      "seen_cells": "fine-tuned on CELLxGENE Census data",
+      "used_labels": "YES: fine-tuned with multi-task supervision that includes cell type, so this is not a zero-shot embedding"
+    },
+    "tf_sapiens": {
+      "id": "CxG-czi-12",
+      "label": "TranscriptFormer TF-Sapiens",
+      "n_features": 2048,
+      "seen_cells": "pretrained on 57 million human cells; overlap with these cells not checked",
+      "used_labels": "no cell-type labels (generative pretraining); inference used the assay"
+    }
+  },
+  "fetch_seconds": {
+    "census_scvi": 3.443525877999491,
+    "geneformer_ft": 7.864137325000229,
+    "tf_sapiens": 51.29345670699968
+  },
+  "versions": {
+    "cellxgene-census": "1.18.0",
+    "tiledbsoma": "2.3.0",
+    "scib-metrics": "0.6.2"
+  }
+}

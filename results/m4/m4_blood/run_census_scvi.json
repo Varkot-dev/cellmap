@@ -1,0 +1,68 @@
+{
+  "method": "census_scvi",
+  "commit": "a60c4c8c24f17f476476eb2fe294e00ac257bf3f",
+  "device": "cpu",
+  "torch_threads": 4,
+  "timings": [
+    {
+      "scheme": "donor",
+      "fold": "seed0",
+      "seconds": 6.479300009232247e-05
+    },
+    {
+      "scheme": "donor",
+      "fold": "seed1",
+      "seconds": 3.54000121660647e-07
+    },
+    {
+      "scheme": "donor",
+      "fold": "seed2",
+      "seconds": 3.220000053261174e-07
+    },
+    {
+      "scheme": "donor",
+      "fold": "seed3",
+      "seconds": 2.299998413946014e-07
+    },
+    {
+      "scheme": "donor",
+      "fold": "seed4",
+      "seconds": 2.760000370471971e-07
+    },
+    {
+      "scheme": "dataset",
+      "fold": "aida",
+      "seconds": 2.260001110698795e-07
+    },
+    {
+      "scheme": "dataset",
+      "fold": "combat",
+      "seconds": 2.56000021181535e-07
+    },
+    {
+      "scheme": "dataset",
+      "fold": "hao",
+      "seconds": 2.510000740585383e-07
+    },
+    {
+      "scheme": "dataset",
+      "fold": "onek1k",
+      "seconds": 4.999999418942025e-07
+    },
+    {
+      "scheme": "dataset",
+      "fold": "schulte",
+      "seconds": 2.2699987312080339e-07
+    },
+    {
+      "scheme": "dataset",
+      "fold": "stephenson",
+      "seconds": 2.2599988369620405e-07
+    }
+  ],
+  "versions": {
+    "torch": "2.15.0",
+    "scanpy": "1.13.0",
+    "scib-metrics": "0.6.2"
+  }
+}

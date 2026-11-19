@@ -1,0 +1,141 @@
+{
+  "config": {
+    "name": "m4_blood",
+    "census": {
+      "version": "2025-01-30",
+      "uri": "s3://cellxgene-census-public-us-west-2/cell-census/2025-01-30/soma/",
+      "region": "us-west-2",
+      "organism": "Homo sapiens",
+      "obs_filter": "disease == 'normal' and is_primary_data == True and suspension_type == 'cell'"
+    },
+    "datasets": [
+      {
+        "name": "schulte",
+        "dataset_id": "5e717147-0f75-4de1-8bd2-6fda01b8d75f"
+      },
+      {
+        "name": "hao",
+        "dataset_id": "ed5d841d-6346-47d4-ab2f-7119ad7e3a35"
+      },
+      {
+        "name": "stephenson",
+        "dataset_id": "c7775e88-49bf-4ba2-a03b-93f00447c958"
+      },
+      {
+        "name": "combat",
+        "dataset_id": "ebc2e1ff-c8f9-466a-acf4-9d291afaf8b3"
+      },
+      {
+        "name": "aida",
+        "dataset_id": "b0e547f0-462b-4f81-b31b-5b0a5d96f537",
+        "max_donors": 30
+      },
+      {
+        "name": "onek1k",
+        "dataset_id": "3faad104-2ab8-4434-816d-474d8d2641db",
+        "max_donors": 30
+      }
+    ],
+    "max_cells_per_donor": 500,
+    "min_cells_per_donor": 200,
+    "seed": 0,
+    "qc": {
+      "min_counts": 500,
+      "min_genes": 200,
+      "max_pct_mt": 15.0,
+      "min_cells_per_type": 50,
+      "min_cells_per_gene": 10
+    },
+    "normalize": {
+      "target_sum": 10000
+    }
+  },
+  "versions": {
+    "anndata": "0.13.4",
+    "scanpy": "1.13.0",
+    "cellxgene-census": "1.18.0"
+  },
+  "genes_measured_in_all_datasets": 19110,
+  "downloaded": {
+    "cells": 63943,
+    "donors": 128,
+    "cells_per_dataset": {
+      "aida": 15000,
+      "onek1k": 15000,
+      "stephenson": 14443,
+      "schulte": 10500,
+      "combat": 5000,
+      "hao": 4000
+    }
+  },
+  "cell_qc": {
+    "cells_before": 63943,
+    "fail_min_counts": 232,
+    "fail_min_genes": 0,
+    "fail_max_pct_mt": 70,
+    "cells_after": 63641
+  },
+  "dropped_unplaceable_label": {
+    "blood cell": 258,
+    "T cell": 225,
+    "lymphocyte": 39,
+    "unknown": 18,
+    "peripheral blood mononuclear cell": 1
+  },
+  "dropped_rare_lineages": {},
+  "gene_filter": {
+    "genes_before": 19110,
+    "genes_after": 17982
+  },
+  "final": {
+    "cells": 63100,
+    "genes": 17982,
+    "donors": 128,
+    "lineages": 12,
+    "per_dataset": {
+      "aida": {
+        "cells": 14768,
+        "donors": 30,
+        "assays": [
+          "10x 5' v2"
+        ]
+      },
+      "combat": {
+        "cells": 4734,
+        "donors": 10,
+        "assays": [
+          "10x 5' v1"
+        ]
+      },
+      "hao": {
+        "cells": 3946,
+        "donors": 8,
+        "assays": [
+          "10x 3' v3"
+        ]
+      },
+      "onek1k": {
+        "cells": 14999,
+        "donors": 30,
+        "assays": [
+          "10x 3' v2"
+        ]
+      },
+      "schulte": {
+        "cells": 10254,
+        "donors": 21,
+        "assays": [
+          "10x 3' v2",
+          "10x 3' v3"
+        ]
+      },
+      "stephenson": {
+        "cells": 14399,
+        "donors": 29,
+        "assays": [
+          "10x 3' transcription profiling"
+        ]
+      }
+    }
+  }
+}

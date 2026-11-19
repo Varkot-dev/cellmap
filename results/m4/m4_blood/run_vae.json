@@ -1,0 +1,68 @@
+{
+  "method": "vae",
+  "commit": "c806bc8a14e76a38e0e90ea2d8c527e87e48c444",
+  "device": "cpu",
+  "torch_threads": 4,
+  "timings": [
+    {
+      "scheme": "donor",
+      "fold": "seed0",
+      "seconds": 214.6487170360001
+    },
+    {
+      "scheme": "donor",
+      "fold": "seed1",
+      "seconds": 207.21790553900018
+    },
+    {
+      "scheme": "donor",
+      "fold": "seed2",
+      "seconds": 202.27257089400018
+    },
+    {
+      "scheme": "donor",
+      "fold": "seed3",
+      "seconds": 202.1005728720006
+    },
+    {
+      "scheme": "donor",
+      "fold": "seed4",
+      "seconds": 199.13629853900056
+    },
+    {
+      "scheme": "dataset",
+      "fold": "aida",
+      "seconds": 217.23694633700052
+    },
+    {
+      "scheme": "dataset",
+      "fold": "combat",
+      "seconds": 273.3449992329997
+    },
+    {
+      "scheme": "dataset",
+      "fold": "hao",
+      "seconds": 270.55423194599916
+    },
+    {
+      "scheme": "dataset",
+      "fold": "onek1k",
+      "seconds": 214.22142400700068
+    },
+    {
+      "scheme": "dataset",
+      "fold": "schulte",
+      "seconds": 234.50779329099987
+    },
+    {
+      "scheme": "dataset",
+      "fold": "stephenson",
+      "seconds": 212.7044618179998
+    }
+  ],
+  "versions": {
+    "torch": "2.15.0",
+    "scanpy": "1.13.0",
+    "scib-metrics": "0.6.2"
+  }
+}

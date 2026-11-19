@@ -1,0 +1,68 @@
+{
+  "method": "geneformer_ft",
+  "commit": "12232d55098afa59454b9cacd3596cc5d2115633+dirty",
+  "device": "cpu",
+  "torch_threads": 4,
+  "timings": [
+    {
+      "scheme": "donor",
+      "fold": "seed0",
+      "seconds": 2.470299978085677e-05
+    },
+    {
+      "scheme": "donor",
+      "fold": "seed1",
+      "seconds": 1.317999931416125e-06
+    },
+    {
+      "scheme": "donor",
+      "fold": "seed2",
+      "seconds": 4.969999736204045e-07
+    },
+    {
+      "scheme": "donor",
+      "fold": "seed3",
+      "seconds": 2.6200018510280643e-07
+    },
+    {
+      "scheme": "donor",
+      "fold": "seed4",
+      "seconds": 4.6299987843667623e-07
+    },
+    {
+      "scheme": "dataset",
+      "fold": "aida",
+      "seconds": 1.9599997358454857e-07
+    },
+    {
+      "scheme": "dataset",
+      "fold": "combat",
+      "seconds": 3.710001692525111e-07
+    },
+    {
+      "scheme": "dataset",
+      "fold": "hao",
+      "seconds": 6.540001322719036e-07
+    },
+    {
+      "scheme": "dataset",
+      "fold": "onek1k",
+      "seconds": 4.379999154480174e-07
+    },
+    {
+      "scheme": "dataset",
+      "fold": "schulte",
+      "seconds": 4.900000476482091e-07
+    },
+    {
+      "scheme": "dataset",
+      "fold": "stephenson",
+      "seconds": 4.7399998948094435e-07
+    }
+  ],
+  "versions": {
+    "torch": "2.15.0",
+    "scanpy": "1.13.0",
+    "scib-metrics": "0.6.2"
+  }
+}

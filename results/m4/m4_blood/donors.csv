@@ -1,0 +1,129 @@
+donor_id,dataset,assay,cells,median_counts
+KR_SGI_H143,aida,10x 5' v2,471,4941.0
+KR_SGI_H147,aida,10x 5' v2,473,5287.0
+KR_SGI_H079,aida,10x 5' v2,481,4782.0
+KR_SGI_H055,aida,10x 5' v2,483,5666.0
+KR_SGI_H057,aida,10x 5' v2,486,5358.5
+KR_SGI_H036,aida,10x 5' v2,487,5904.0
+KR_SGI_H144,aida,10x 5' v2,489,4754.0
+JP_RIK_H136,aida,10x 5' v2,490,3728.0
+KR_SGI_H120,aida,10x 5' v2,490,4991.5
+JP_RIK_H126,aida,10x 5' v2,491,5716.0
+SG_HEL_H339,aida,10x 5' v2,491,6420.0
+SG_HEL_H379,aida,10x 5' v2,493,5763.0
+SG_HEL_H101,aida,10x 5' v2,494,5155.0
+SG_HEL_H146,aida,10x 5' v2,494,5837.5
+SG_HEL_H371,aida,10x 5' v2,495,5104.0
+JP_RIK_H036,aida,10x 5' v2,496,3989.0
+JP_RIK_H041,aida,10x 5' v2,496,4110.0
+SG_HEL_H052,aida,10x 5' v2,496,5341.5
+SG_HEL_H110,aida,10x 5' v2,496,5546.5
+JP_RIK_H010,aida,10x 5' v2,497,5432.0
+JP_RIK_H114,aida,10x 5' v2,497,5530.0
+SG_HEL_H045,aida,10x 5' v2,497,5929.0
+SG_HEL_H130,aida,10x 5' v2,497,4851.0
+JP_RIK_H099,aida,10x 5' v2,498,5242.0
+JP_RIK_H111,aida,10x 5' v2,498,5283.5
+JP_RIK_H116,aida,10x 5' v2,498,5309.0
+SG_HEL_H10a,aida,10x 5' v2,498,5857.0
+SG_HEL_H139,aida,10x 5' v2,498,5535.5
+JP_RIK_H088,aida,10x 5' v2,499,4623.0
+JP_RIK_H094,aida,10x 5' v2,499,5738.0
+H00085,combat,10x 5' v1,462,3248.0
+H00067,combat,10x 5' v1,467,2786.0
+H00064,combat,10x 5' v1,468,3454.5
+H00058,combat,10x 5' v1,471,3511.0
+H00054,combat,10x 5' v1,472,3163.0
+H00053,combat,10x 5' v1,474,3950.0
+H00070,combat,10x 5' v1,475,3399.0
+H00072,combat,10x 5' v1,479,3488.0
+H00049,combat,10x 5' v1,483,3156.0
+H00052,combat,10x 5' v1,483,3650.0
+P6,hao,10x 3' v3,487,7347.0
+P8,hao,10x 3' v3,488,6957.5
+P5,hao,10x 3' v3,492,7644.0
+P7,hao,10x 3' v3,493,8048.0
+P3,hao,10x 3' v3,495,5028.0
+P1,hao,10x 3' v3,496,5382.0
+P4,hao,10x 3' v3,497,5151.0
+P2,hao,10x 3' v3,498,4971.0
+309_310,onek1k,10x 3' v2,499,3525.0
+1054_1055,onek1k,10x 3' v2,500,3743.5
+119_119,onek1k,10x 3' v2,500,2888.0
+164_165,onek1k,10x 3' v2,500,2443.0
+169_170,onek1k,10x 3' v2,500,2349.0
+183_184,onek1k,10x 3' v2,500,2702.5
+192_193,onek1k,10x 3' v2,500,2352.0
+247_248,onek1k,10x 3' v2,500,2002.5
+292_293,onek1k,10x 3' v2,500,3717.5
+294_295,onek1k,10x 3' v2,500,3719.0
+317_318,onek1k,10x 3' v2,500,3646.0
+365_366,onek1k,10x 3' v2,500,3904.0
+40_40,onek1k,10x 3' v2,500,2058.5
+519_520,onek1k,10x 3' v2,500,2400.0
+531_532,onek1k,10x 3' v2,500,2065.0
+55_55,onek1k,10x 3' v2,500,2557.5
+630_631,onek1k,10x 3' v2,500,2549.0
+638_639,onek1k,10x 3' v2,500,3192.5
+66_66,onek1k,10x 3' v2,500,2452.5
+68_68,onek1k,10x 3' v2,500,2184.0
+694_695,onek1k,10x 3' v2,500,2504.5
+695_696,onek1k,10x 3' v2,500,4021.0
+714_715,onek1k,10x 3' v2,500,3891.5
+721_722,onek1k,10x 3' v2,500,3334.0
+744_745,onek1k,10x 3' v2,500,3536.5
+794_795,onek1k,10x 3' v2,500,3508.0
+816_817,onek1k,10x 3' v2,500,3862.0
+845_846,onek1k,10x 3' v2,500,3098.5
+982_983,onek1k,10x 3' v2,500,3425.0
+985_986,onek1k,10x 3' v2,500,3535.0
+P07H,schulte,10x 3' v2,444,659.0
+P04H,schulte,10x 3' v2,463,744.0
+P08H,schulte,10x 3' v2,469,839.0
+P06F,schulte,10x 3' v2,470,751.0
+one_Ten,schulte,10x 3' v3,475,6359.0
+P13H,schulte,10x 3' v2,484,922.0
+P15F,schulte,10x 3' v2,484,885.5
+Five,schulte,10x 3' v3,490,7389.0
+P18F,schulte,10x 3' v2,495,1328.0
+C2P05F,schulte,10x 3' v2,497,2720.0
+C2P07H,schulte,10x 3' v2,497,3134.0
+C2P16H,schulte,10x 3' v2,497,1509.0
+C2P19H,schulte,10x 3' v2,498,2011.0
+P02H,schulte,10x 3' v2,498,2898.5
+P17H,schulte,10x 3' v2,498,1415.0
+C2P01H,schulte,10x 3' v2,499,1414.0
+C2P10H,schulte,10x 3' v2,499,1664.0
+C2P13F,schulte,10x 3' v2,499,1743.0
+C2P15H,schulte,10x 3' v2,499,1998.0
+P20H,schulte,10x 3' v2,499,1356.0
+P09H,schulte,10x 3' v2,500,2772.5
+IVLPS-1,stephenson,10x 3' transcription profiling,450,2929.5
+IVLPS-3,stephenson,10x 3' transcription profiling,488,2357.0
+IVLPS-2,stephenson,10x 3' transcription profiling,494,2550.0
+C-8914,stephenson,10x 3' transcription profiling,495,4634.0
+C-8943,stephenson,10x 3' transcription profiling,495,1792.0
+IVLPS-12,stephenson,10x 3' transcription profiling,495,2365.0
+IVLPS-4,stephenson,10x 3' transcription profiling,496,2888.0
+C-8939,stephenson,10x 3' transcription profiling,497,4058.0
+C-8930,stephenson,10x 3' transcription profiling,498,4489.5
+C-8936,stephenson,10x 3' transcription profiling,498,3520.0
+IVLPS-6,stephenson,10x 3' transcription profiling,498,2549.5
+C-8928,stephenson,10x 3' transcription profiling,499,4744.0
+C-8937,stephenson,10x 3' transcription profiling,499,4731.0
+C-8940,stephenson,10x 3' transcription profiling,499,2204.0
+C-8941,stephenson,10x 3' transcription profiling,499,4473.0
+C-8942,stephenson,10x 3' transcription profiling,499,4316.0
+C-8938,stephenson,10x 3' transcription profiling,500,4771.0
+C-8946,stephenson,10x 3' transcription profiling,500,3051.0
+CV0902,stephenson,10x 3' transcription profiling,500,3380.0
+CV0904,stephenson,10x 3' transcription profiling,500,4382.0
+CV0911,stephenson,10x 3' transcription profiling,500,3203.0
+CV0915,stephenson,10x 3' transcription profiling,500,4340.5
+CV0917,stephenson,10x 3' transcription profiling,500,3538.5
+CV0926,stephenson,10x 3' transcription profiling,500,4437.0
+CV0929,stephenson,10x 3' transcription profiling,500,3955.5
+CV0934,stephenson,10x 3' transcription profiling,500,4394.5
+CV0939,stephenson,10x 3' transcription profiling,500,4449.5
+CV0940,stephenson,10x 3' transcription profiling,500,3968.5
+CV0944,stephenson,10x 3' transcription profiling,500,5102.5

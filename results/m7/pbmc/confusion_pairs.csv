@@ -1,0 +1,530 @@
+method,label,true,called,n,share_of_true,n_true,commit
+pca,HVG + PCA,"CD16-negative, CD56-bright natural killer cell, human",natural killer cell,2,0.4,5,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,"central memory CD4-positive, alpha-beta T cell","effector memory CD8-positive, alpha-beta T cell",4,0.008928571428571428,448,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,"central memory CD4-positive, alpha-beta T cell",mucosal invariant T cell,2,0.004464285714285714,448,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,"central memory CD4-positive, alpha-beta T cell","naive thymus-derived CD4-positive, alpha-beta T cell",35,0.078125,448,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,"central memory CD4-positive, alpha-beta T cell","naive thymus-derived CD8-positive, alpha-beta T cell",3,0.006696428571428571,448,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,classical monocyte,"central memory CD4-positive, alpha-beta T cell",1,0.0003266906239790918,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,classical monocyte,non-classical monocyte,9,0.0029402156158118264,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,conventional dendritic cell,classical monocyte,33,0.6111111111111112,54,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,"effector memory CD8-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",43,0.125,344,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,"effector memory CD8-positive, alpha-beta T cell",gamma-delta T cell,1,0.0029069767441860465,344,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,"effector memory CD8-positive, alpha-beta T cell",mucosal invariant T cell,12,0.03488372093023256,344,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,"effector memory CD8-positive, alpha-beta T cell",natural killer cell,7,0.020348837209302327,344,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,gamma-delta T cell,"central memory CD4-positive, alpha-beta T cell",2,0.03773584905660377,53,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,gamma-delta T cell,"effector memory CD8-positive, alpha-beta T cell",19,0.3584905660377358,53,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,gamma-delta T cell,mucosal invariant T cell,22,0.41509433962264153,53,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,gamma-delta T cell,natural killer cell,4,0.07547169811320754,53,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,lymphocyte,"central memory CD4-positive, alpha-beta T cell",2,0.11764705882352941,17,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,lymphocyte,"effector memory CD8-positive, alpha-beta T cell",1,0.058823529411764705,17,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,lymphocyte,natural killer cell,5,0.29411764705882354,17,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,memory B cell,naive B cell,12,0.06382978723404255,188,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,memory B cell,plasmablast,1,0.005319148936170213,188,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,memory B cell,transitional stage B cell,18,0.09574468085106383,188,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,mucosal invariant T cell,"central memory CD4-positive, alpha-beta T cell",16,0.2318840579710145,69,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,mucosal invariant T cell,"effector memory CD8-positive, alpha-beta T cell",11,0.15942028985507245,69,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,mucosal invariant T cell,gamma-delta T cell,1,0.014492753623188406,69,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,mucosal invariant T cell,natural killer cell,1,0.014492753623188406,69,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,naive B cell,classical monocyte,1,0.015625,64,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,naive B cell,memory B cell,8,0.125,64,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,naive B cell,transitional stage B cell,3,0.046875,64,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,"naive thymus-derived CD4-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",10,0.18181818181818182,55,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,"naive thymus-derived CD4-positive, alpha-beta T cell","naive thymus-derived CD8-positive, alpha-beta T cell",2,0.03636363636363636,55,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,"naive thymus-derived CD8-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",2,0.08,25,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,"naive thymus-derived CD8-positive, alpha-beta T cell","naive thymus-derived CD4-positive, alpha-beta T cell",15,0.6,25,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,natural killer cell,"CD16-negative, CD56-bright natural killer cell, human",3,0.011406844106463879,263,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,natural killer cell,"central memory CD4-positive, alpha-beta T cell",1,0.0038022813688212928,263,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,natural killer cell,"effector memory CD8-positive, alpha-beta T cell",2,0.0076045627376425855,263,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,natural killer cell,mucosal invariant T cell,3,0.011406844106463879,263,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,non-classical monocyte,classical monocyte,37,0.07198443579766536,514,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,plasmablast,"central memory CD4-positive, alpha-beta T cell",11,0.25,44,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,plasmablast,classical monocyte,1,0.022727272727272728,44,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,plasmablast,"effector memory CD8-positive, alpha-beta T cell",1,0.022727272727272728,44,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,plasmablast,lymphocyte,1,0.022727272727272728,44,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,plasmablast,memory B cell,21,0.4772727272727273,44,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,plasmablast,naive B cell,1,0.022727272727272728,44,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,plasmablast,"naive thymus-derived CD4-positive, alpha-beta T cell",1,0.022727272727272728,44,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,plasmablast,transitional stage B cell,1,0.022727272727272728,44,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,"plasmacytoid dendritic cell, human",conventional dendritic cell,1,0.016129032258064516,62,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,platelet,classical monocyte,1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,platelet,"effector memory CD8-positive, alpha-beta T cell",1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,platelet,"naive thymus-derived CD8-positive, alpha-beta T cell",1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,regulatory T cell,"central memory CD4-positive, alpha-beta T cell",20,0.7142857142857143,28,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,regulatory T cell,"naive thymus-derived CD4-positive, alpha-beta T cell",2,0.07142857142857142,28,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,transitional stage B cell,memory B cell,39,0.6190476190476191,63,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,transitional stage B cell,naive B cell,5,0.07936507936507936,63,9197fb4390c82f9b047821612c7dce29972d54a5
+pca,HVG + PCA,transitional stage B cell,"naive thymus-derived CD4-positive, alpha-beta T cell",1,0.015873015873015872,63,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,"CD16-negative, CD56-bright natural killer cell, human",natural killer cell,2,0.4,5,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,"central memory CD4-positive, alpha-beta T cell","effector memory CD8-positive, alpha-beta T cell",2,0.004464285714285714,448,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,"central memory CD4-positive, alpha-beta T cell",mucosal invariant T cell,1,0.002232142857142857,448,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,"central memory CD4-positive, alpha-beta T cell","naive thymus-derived CD4-positive, alpha-beta T cell",129,0.28794642857142855,448,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,"central memory CD4-positive, alpha-beta T cell","naive thymus-derived CD8-positive, alpha-beta T cell",4,0.008928571428571428,448,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,"central memory CD4-positive, alpha-beta T cell",regulatory T cell,2,0.004464285714285714,448,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,classical monocyte,"central memory CD4-positive, alpha-beta T cell",1,0.0003266906239790918,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,classical monocyte,conventional dendritic cell,13,0.004246978111728194,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,classical monocyte,"naive thymus-derived CD4-positive, alpha-beta T cell",3,0.0009800718719372753,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,classical monocyte,non-classical monocyte,16,0.005227049983665469,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,classical monocyte,"plasmacytoid dendritic cell, human",1,0.0003266906239790918,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,conventional dendritic cell,classical monocyte,13,0.24074074074074073,54,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,"effector memory CD8-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",56,0.16279069767441862,344,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,"effector memory CD8-positive, alpha-beta T cell",gamma-delta T cell,3,0.00872093023255814,344,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,"effector memory CD8-positive, alpha-beta T cell",mucosal invariant T cell,15,0.0436046511627907,344,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,"effector memory CD8-positive, alpha-beta T cell",natural killer cell,14,0.040697674418604654,344,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,gamma-delta T cell,"central memory CD4-positive, alpha-beta T cell",4,0.07547169811320754,53,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,gamma-delta T cell,"effector memory CD8-positive, alpha-beta T cell",15,0.2830188679245283,53,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,gamma-delta T cell,mucosal invariant T cell,17,0.32075471698113206,53,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,gamma-delta T cell,"naive thymus-derived CD4-positive, alpha-beta T cell",1,0.018867924528301886,53,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,gamma-delta T cell,natural killer cell,6,0.11320754716981132,53,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,lymphocyte,"effector memory CD8-positive, alpha-beta T cell",2,0.11764705882352941,17,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,lymphocyte,natural killer cell,3,0.17647058823529413,17,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,memory B cell,naive B cell,52,0.2765957446808511,188,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,memory B cell,"naive thymus-derived CD4-positive, alpha-beta T cell",1,0.005319148936170213,188,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,memory B cell,transitional stage B cell,27,0.14361702127659576,188,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,mucosal invariant T cell,"central memory CD4-positive, alpha-beta T cell",19,0.2753623188405797,69,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,mucosal invariant T cell,"effector memory CD8-positive, alpha-beta T cell",7,0.10144927536231885,69,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,mucosal invariant T cell,"naive thymus-derived CD4-positive, alpha-beta T cell",1,0.014492753623188406,69,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,mucosal invariant T cell,natural killer cell,2,0.028985507246376812,69,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,naive B cell,memory B cell,1,0.015625,64,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,naive B cell,"naive thymus-derived CD4-positive, alpha-beta T cell",1,0.015625,64,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,"naive thymus-derived CD4-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",4,0.07272727272727272,55,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,"naive thymus-derived CD4-positive, alpha-beta T cell","naive thymus-derived CD8-positive, alpha-beta T cell",1,0.01818181818181818,55,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,"naive thymus-derived CD8-positive, alpha-beta T cell","naive thymus-derived CD4-positive, alpha-beta T cell",14,0.56,25,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,natural killer cell,"CD16-negative, CD56-bright natural killer cell, human",8,0.030418250950570342,263,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,natural killer cell,"central memory CD4-positive, alpha-beta T cell",1,0.0038022813688212928,263,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,natural killer cell,"effector memory CD8-positive, alpha-beta T cell",10,0.03802281368821293,263,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,natural killer cell,lymphocyte,1,0.0038022813688212928,263,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,non-classical monocyte,classical monocyte,39,0.07587548638132295,514,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,plasmablast,"central memory CD4-positive, alpha-beta T cell",10,0.22727272727272727,44,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,plasmablast,"effector memory CD8-positive, alpha-beta T cell",1,0.022727272727272728,44,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,plasmablast,memory B cell,10,0.22727272727272727,44,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,plasmablast,naive B cell,5,0.11363636363636363,44,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,plasmablast,"naive thymus-derived CD4-positive, alpha-beta T cell",8,0.18181818181818182,44,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,plasmablast,transitional stage B cell,7,0.1590909090909091,44,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,platelet,classical monocyte,1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,platelet,"effector memory CD8-positive, alpha-beta T cell",1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,platelet,"naive thymus-derived CD4-positive, alpha-beta T cell",1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,regulatory T cell,"central memory CD4-positive, alpha-beta T cell",14,0.5,28,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,regulatory T cell,"naive thymus-derived CD4-positive, alpha-beta T cell",4,0.14285714285714285,28,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,transitional stage B cell,memory B cell,15,0.23809523809523808,63,9197fb4390c82f9b047821612c7dce29972d54a5
+pca_harmony,PCA + Harmony,transitional stage B cell,naive B cell,33,0.5238095238095238,63,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,"CD16-negative, CD56-bright natural killer cell, human","effector memory CD8-positive, alpha-beta T cell",1,0.2,5,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,"CD16-negative, CD56-bright natural killer cell, human",natural killer cell,4,0.8,5,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,"central memory CD4-positive, alpha-beta T cell","effector memory CD8-positive, alpha-beta T cell",14,0.03125,448,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,"central memory CD4-positive, alpha-beta T cell",memory B cell,1,0.002232142857142857,448,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,"central memory CD4-positive, alpha-beta T cell",mucosal invariant T cell,3,0.006696428571428571,448,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,"central memory CD4-positive, alpha-beta T cell","naive thymus-derived CD4-positive, alpha-beta T cell",27,0.060267857142857144,448,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,"central memory CD4-positive, alpha-beta T cell","naive thymus-derived CD8-positive, alpha-beta T cell",1,0.002232142857142857,448,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,classical monocyte,"central memory CD4-positive, alpha-beta T cell",1,0.0003266906239790918,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,classical monocyte,conventional dendritic cell,2,0.0006533812479581836,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,classical monocyte,memory B cell,1,0.0003266906239790918,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,classical monocyte,non-classical monocyte,13,0.004246978111728194,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,conventional dendritic cell,classical monocyte,41,0.7592592592592593,54,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,"effector memory CD8-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",29,0.08430232558139535,344,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,"effector memory CD8-positive, alpha-beta T cell",gamma-delta T cell,2,0.005813953488372093,344,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,"effector memory CD8-positive, alpha-beta T cell",mucosal invariant T cell,16,0.046511627906976744,344,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,"effector memory CD8-positive, alpha-beta T cell",natural killer cell,12,0.03488372093023256,344,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,gamma-delta T cell,"central memory CD4-positive, alpha-beta T cell",2,0.03773584905660377,53,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,gamma-delta T cell,"effector memory CD8-positive, alpha-beta T cell",42,0.7924528301886793,53,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,gamma-delta T cell,mucosal invariant T cell,4,0.07547169811320754,53,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,gamma-delta T cell,natural killer cell,3,0.05660377358490566,53,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,lymphocyte,"central memory CD4-positive, alpha-beta T cell",3,0.17647058823529413,17,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,lymphocyte,"effector memory CD8-positive, alpha-beta T cell",3,0.17647058823529413,17,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,lymphocyte,natural killer cell,10,0.5882352941176471,17,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,memory B cell,naive B cell,14,0.07446808510638298,188,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,memory B cell,plasmablast,6,0.031914893617021274,188,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,memory B cell,transitional stage B cell,21,0.11170212765957446,188,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,mucosal invariant T cell,"central memory CD4-positive, alpha-beta T cell",14,0.2028985507246377,69,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,mucosal invariant T cell,"effector memory CD8-positive, alpha-beta T cell",39,0.5652173913043478,69,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,mucosal invariant T cell,gamma-delta T cell,1,0.014492753623188406,69,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,mucosal invariant T cell,natural killer cell,1,0.014492753623188406,69,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,naive B cell,memory B cell,6,0.09375,64,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,naive B cell,transitional stage B cell,4,0.0625,64,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,"naive thymus-derived CD4-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",10,0.18181818181818182,55,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,"naive thymus-derived CD8-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",3,0.12,25,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,"naive thymus-derived CD8-positive, alpha-beta T cell","naive thymus-derived CD4-positive, alpha-beta T cell",21,0.84,25,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,natural killer cell,"central memory CD4-positive, alpha-beta T cell",1,0.0038022813688212928,263,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,natural killer cell,"effector memory CD8-positive, alpha-beta T cell",5,0.019011406844106463,263,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,natural killer cell,gamma-delta T cell,2,0.0076045627376425855,263,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,non-classical monocyte,classical monocyte,36,0.07003891050583658,514,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,non-classical monocyte,conventional dendritic cell,1,0.0019455252918287938,514,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,plasmablast,"central memory CD4-positive, alpha-beta T cell",7,0.1590909090909091,44,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,plasmablast,"effector memory CD8-positive, alpha-beta T cell",4,0.09090909090909091,44,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,plasmablast,memory B cell,15,0.3409090909090909,44,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,plasmablast,natural killer cell,1,0.022727272727272728,44,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,plasmablast,transitional stage B cell,2,0.045454545454545456,44,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,"plasmacytoid dendritic cell, human",conventional dendritic cell,1,0.016129032258064516,62,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,platelet,classical monocyte,1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,platelet,"effector memory CD8-positive, alpha-beta T cell",1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,platelet,"naive thymus-derived CD4-positive, alpha-beta T cell",1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,regulatory T cell,"central memory CD4-positive, alpha-beta T cell",26,0.9285714285714286,28,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,regulatory T cell,"naive thymus-derived CD4-positive, alpha-beta T cell",2,0.07142857142857142,28,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,transitional stage B cell,memory B cell,35,0.5555555555555556,63,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,transitional stage B cell,naive B cell,13,0.20634920634920634,63,9197fb4390c82f9b047821612c7dce29972d54a5
+linear_ae,Linear autoencoder,transitional stage B cell,plasmablast,2,0.031746031746031744,63,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),"CD16-negative, CD56-bright natural killer cell, human",natural killer cell,4,0.8,5,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),"central memory CD4-positive, alpha-beta T cell","effector memory CD8-positive, alpha-beta T cell",6,0.013392857142857142,448,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),"central memory CD4-positive, alpha-beta T cell","naive thymus-derived CD4-positive, alpha-beta T cell",46,0.10267857142857142,448,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),"central memory CD4-positive, alpha-beta T cell",regulatory T cell,1,0.002232142857142857,448,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),classical monocyte,"central memory CD4-positive, alpha-beta T cell",1,0.0003266906239790918,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),classical monocyte,conventional dendritic cell,3,0.0009800718719372753,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),classical monocyte,non-classical monocyte,14,0.004573668735707285,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),conventional dendritic cell,classical monocyte,25,0.46296296296296297,54,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),"effector memory CD8-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",23,0.06686046511627906,344,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),"effector memory CD8-positive, alpha-beta T cell",gamma-delta T cell,5,0.014534883720930232,344,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),"effector memory CD8-positive, alpha-beta T cell",mucosal invariant T cell,5,0.014534883720930232,344,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),"effector memory CD8-positive, alpha-beta T cell",natural killer cell,8,0.023255813953488372,344,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),gamma-delta T cell,"central memory CD4-positive, alpha-beta T cell",1,0.018867924528301886,53,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),gamma-delta T cell,"effector memory CD8-positive, alpha-beta T cell",14,0.2641509433962264,53,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),gamma-delta T cell,mucosal invariant T cell,6,0.11320754716981132,53,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),gamma-delta T cell,natural killer cell,9,0.16981132075471697,53,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),lymphocyte,"central memory CD4-positive, alpha-beta T cell",1,0.058823529411764705,17,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),lymphocyte,"effector memory CD8-positive, alpha-beta T cell",1,0.058823529411764705,17,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),lymphocyte,natural killer cell,6,0.35294117647058826,17,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),memory B cell,naive B cell,23,0.12234042553191489,188,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),memory B cell,transitional stage B cell,25,0.13297872340425532,188,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),mucosal invariant T cell,"central memory CD4-positive, alpha-beta T cell",9,0.13043478260869565,69,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),mucosal invariant T cell,"effector memory CD8-positive, alpha-beta T cell",8,0.11594202898550725,69,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),mucosal invariant T cell,gamma-delta T cell,6,0.08695652173913043,69,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),mucosal invariant T cell,natural killer cell,1,0.014492753623188406,69,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),naive B cell,memory B cell,5,0.078125,64,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),naive B cell,transitional stage B cell,3,0.046875,64,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),"naive thymus-derived CD4-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",5,0.09090909090909091,55,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),"naive thymus-derived CD8-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",2,0.08,25,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),"naive thymus-derived CD8-positive, alpha-beta T cell","naive thymus-derived CD4-positive, alpha-beta T cell",17,0.68,25,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),natural killer cell,"CD16-negative, CD56-bright natural killer cell, human",1,0.0038022813688212928,263,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),natural killer cell,gamma-delta T cell,1,0.0038022813688212928,263,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),non-classical monocyte,classical monocyte,25,0.048638132295719845,514,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),plasmablast,"central memory CD4-positive, alpha-beta T cell",5,0.11363636363636363,44,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),plasmablast,classical monocyte,1,0.022727272727272728,44,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),plasmablast,"effector memory CD8-positive, alpha-beta T cell",4,0.09090909090909091,44,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),plasmablast,gamma-delta T cell,2,0.045454545454545456,44,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),plasmablast,lymphocyte,1,0.022727272727272728,44,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),plasmablast,memory B cell,23,0.5227272727272727,44,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),plasmablast,"naive thymus-derived CD4-positive, alpha-beta T cell",1,0.022727272727272728,44,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),plasmablast,transitional stage B cell,6,0.13636363636363635,44,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),"plasmacytoid dendritic cell, human",conventional dendritic cell,1,0.016129032258064516,62,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),"plasmacytoid dendritic cell, human",plasmablast,1,0.016129032258064516,62,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),platelet,classical monocyte,1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),platelet,"naive thymus-derived CD4-positive, alpha-beta T cell",1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),platelet,natural killer cell,1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),regulatory T cell,"central memory CD4-positive, alpha-beta T cell",20,0.7142857142857143,28,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),regulatory T cell,"naive thymus-derived CD4-positive, alpha-beta T cell",2,0.07142857142857142,28,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),transitional stage B cell,memory B cell,30,0.47619047619047616,63,9197fb4390c82f9b047821612c7dce29972d54a5
+vae,VAE (hand-written),transitional stage B cell,naive B cell,14,0.2222222222222222,63,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,"CD16-negative, CD56-bright natural killer cell, human",natural killer cell,4,0.8,5,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,"central memory CD4-positive, alpha-beta T cell","effector memory CD8-positive, alpha-beta T cell",3,0.006696428571428571,448,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,"central memory CD4-positive, alpha-beta T cell","naive thymus-derived CD4-positive, alpha-beta T cell",55,0.12276785714285714,448,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,"central memory CD4-positive, alpha-beta T cell",regulatory T cell,3,0.006696428571428571,448,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,classical monocyte,"central memory CD4-positive, alpha-beta T cell",1,0.0003266906239790918,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,classical monocyte,conventional dendritic cell,5,0.001633453119895459,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,classical monocyte,non-classical monocyte,11,0.0035935968637700096,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,conventional dendritic cell,classical monocyte,20,0.37037037037037035,54,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,"effector memory CD8-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",24,0.06976744186046512,344,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,"effector memory CD8-positive, alpha-beta T cell",gamma-delta T cell,7,0.020348837209302327,344,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,"effector memory CD8-positive, alpha-beta T cell",mucosal invariant T cell,4,0.011627906976744186,344,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,"effector memory CD8-positive, alpha-beta T cell",natural killer cell,8,0.023255813953488372,344,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,gamma-delta T cell,"central memory CD4-positive, alpha-beta T cell",3,0.05660377358490566,53,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,gamma-delta T cell,"effector memory CD8-positive, alpha-beta T cell",10,0.18867924528301888,53,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,gamma-delta T cell,mucosal invariant T cell,6,0.11320754716981132,53,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,gamma-delta T cell,natural killer cell,6,0.11320754716981132,53,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,lymphocyte,"central memory CD4-positive, alpha-beta T cell",1,0.058823529411764705,17,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,lymphocyte,natural killer cell,8,0.47058823529411764,17,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,lymphocyte,regulatory T cell,1,0.058823529411764705,17,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,memory B cell,naive B cell,26,0.13829787234042554,188,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,memory B cell,transitional stage B cell,32,0.1702127659574468,188,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,mucosal invariant T cell,"central memory CD4-positive, alpha-beta T cell",10,0.14492753623188406,69,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,mucosal invariant T cell,"effector memory CD8-positive, alpha-beta T cell",6,0.08695652173913043,69,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,mucosal invariant T cell,gamma-delta T cell,10,0.14492753623188406,69,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,mucosal invariant T cell,natural killer cell,3,0.043478260869565216,69,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,naive B cell,memory B cell,11,0.171875,64,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,naive B cell,transitional stage B cell,3,0.046875,64,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,"naive thymus-derived CD4-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",5,0.09090909090909091,55,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,"naive thymus-derived CD4-positive, alpha-beta T cell","naive thymus-derived CD8-positive, alpha-beta T cell",1,0.01818181818181818,55,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,"naive thymus-derived CD8-positive, alpha-beta T cell","naive thymus-derived CD4-positive, alpha-beta T cell",18,0.72,25,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,natural killer cell,"CD16-negative, CD56-bright natural killer cell, human",1,0.0038022813688212928,263,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,natural killer cell,"effector memory CD8-positive, alpha-beta T cell",2,0.0076045627376425855,263,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,natural killer cell,gamma-delta T cell,2,0.0076045627376425855,263,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,non-classical monocyte,classical monocyte,30,0.058365758754863814,514,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,plasmablast,"central memory CD4-positive, alpha-beta T cell",3,0.06818181818181818,44,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,plasmablast,classical monocyte,1,0.022727272727272728,44,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,plasmablast,"effector memory CD8-positive, alpha-beta T cell",5,0.11363636363636363,44,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,plasmablast,gamma-delta T cell,1,0.022727272727272728,44,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,plasmablast,lymphocyte,1,0.022727272727272728,44,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,plasmablast,memory B cell,22,0.5,44,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,plasmablast,naive B cell,3,0.06818181818181818,44,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,plasmablast,"naive thymus-derived CD4-positive, alpha-beta T cell",3,0.06818181818181818,44,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,plasmablast,transitional stage B cell,3,0.06818181818181818,44,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,"plasmacytoid dendritic cell, human",classical monocyte,1,0.016129032258064516,62,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,"plasmacytoid dendritic cell, human",conventional dendritic cell,1,0.016129032258064516,62,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,platelet,classical monocyte,1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,platelet,"naive thymus-derived CD8-positive, alpha-beta T cell",1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,platelet,natural killer cell,1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,regulatory T cell,"central memory CD4-positive, alpha-beta T cell",19,0.6785714285714286,28,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,regulatory T cell,"naive thymus-derived CD4-positive, alpha-beta T cell",2,0.07142857142857142,28,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,transitional stage B cell,memory B cell,32,0.5079365079365079,63,9197fb4390c82f9b047821612c7dce29972d54a5
+scvi,scvi-tools,transitional stage B cell,naive B cell,11,0.1746031746031746,63,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"CD16-negative, CD56-bright natural killer cell, human",natural killer cell,5,1.0,5,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"central memory CD4-positive, alpha-beta T cell",classical monocyte,2,0.004464285714285714,448,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"central memory CD4-positive, alpha-beta T cell","effector memory CD8-positive, alpha-beta T cell",25,0.05580357142857143,448,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"central memory CD4-positive, alpha-beta T cell",gamma-delta T cell,1,0.002232142857142857,448,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"central memory CD4-positive, alpha-beta T cell",memory B cell,2,0.004464285714285714,448,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"central memory CD4-positive, alpha-beta T cell",mucosal invariant T cell,3,0.006696428571428571,448,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"central memory CD4-positive, alpha-beta T cell","naive thymus-derived CD4-positive, alpha-beta T cell",72,0.16071428571428573,448,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"central memory CD4-positive, alpha-beta T cell","naive thymus-derived CD8-positive, alpha-beta T cell",1,0.002232142857142857,448,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"central memory CD4-positive, alpha-beta T cell",natural killer cell,2,0.004464285714285714,448,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,classical monocyte,conventional dendritic cell,1,0.0003266906239790918,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,classical monocyte,"effector memory CD8-positive, alpha-beta T cell",1,0.0003266906239790918,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,classical monocyte,"naive thymus-derived CD4-positive, alpha-beta T cell",1,0.0003266906239790918,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,classical monocyte,natural killer cell,1,0.0003266906239790918,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,classical monocyte,non-classical monocyte,22,0.007187193727540019,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,conventional dendritic cell,classical monocyte,44,0.8148148148148148,54,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,conventional dendritic cell,non-classical monocyte,1,0.018518518518518517,54,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"effector memory CD8-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",46,0.13372093023255813,344,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"effector memory CD8-positive, alpha-beta T cell",gamma-delta T cell,1,0.0029069767441860465,344,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"effector memory CD8-positive, alpha-beta T cell",mucosal invariant T cell,9,0.02616279069767442,344,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"effector memory CD8-positive, alpha-beta T cell","naive thymus-derived CD4-positive, alpha-beta T cell",7,0.020348837209302327,344,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"effector memory CD8-positive, alpha-beta T cell",natural killer cell,76,0.22093023255813954,344,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,gamma-delta T cell,"central memory CD4-positive, alpha-beta T cell",6,0.11320754716981132,53,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,gamma-delta T cell,"effector memory CD8-positive, alpha-beta T cell",21,0.39622641509433965,53,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,gamma-delta T cell,mucosal invariant T cell,3,0.05660377358490566,53,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,gamma-delta T cell,natural killer cell,22,0.41509433962264153,53,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,lymphocyte,"central memory CD4-positive, alpha-beta T cell",2,0.11764705882352941,17,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,lymphocyte,"effector memory CD8-positive, alpha-beta T cell",1,0.058823529411764705,17,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,lymphocyte,natural killer cell,12,0.7058823529411765,17,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,memory B cell,"central memory CD4-positive, alpha-beta T cell",3,0.015957446808510637,188,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,memory B cell,classical monocyte,4,0.02127659574468085,188,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,memory B cell,"effector memory CD8-positive, alpha-beta T cell",1,0.005319148936170213,188,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,memory B cell,naive B cell,69,0.3670212765957447,188,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,memory B cell,"naive thymus-derived CD4-positive, alpha-beta T cell",9,0.047872340425531915,188,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,memory B cell,transitional stage B cell,13,0.06914893617021277,188,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,mucosal invariant T cell,"central memory CD4-positive, alpha-beta T cell",20,0.2898550724637681,69,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,mucosal invariant T cell,"effector memory CD8-positive, alpha-beta T cell",9,0.13043478260869565,69,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,mucosal invariant T cell,gamma-delta T cell,1,0.014492753623188406,69,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,mucosal invariant T cell,natural killer cell,20,0.2898550724637681,69,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,naive B cell,"central memory CD4-positive, alpha-beta T cell",1,0.015625,64,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,naive B cell,classical monocyte,2,0.03125,64,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,naive B cell,memory B cell,13,0.203125,64,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,naive B cell,"naive thymus-derived CD4-positive, alpha-beta T cell",2,0.03125,64,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,naive B cell,transitional stage B cell,5,0.078125,64,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"naive thymus-derived CD4-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",28,0.509090909090909,55,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"naive thymus-derived CD4-positive, alpha-beta T cell",memory B cell,1,0.01818181818181818,55,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"naive thymus-derived CD4-positive, alpha-beta T cell","naive thymus-derived CD8-positive, alpha-beta T cell",1,0.01818181818181818,55,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"naive thymus-derived CD8-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",12,0.48,25,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"naive thymus-derived CD8-positive, alpha-beta T cell","naive thymus-derived CD4-positive, alpha-beta T cell",12,0.48,25,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"naive thymus-derived CD8-positive, alpha-beta T cell",natural killer cell,1,0.04,25,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,natural killer cell,"effector memory CD8-positive, alpha-beta T cell",7,0.026615969581749048,263,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,natural killer cell,mucosal invariant T cell,2,0.0076045627376425855,263,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,non-classical monocyte,classical monocyte,58,0.11284046692607004,514,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,plasmablast,"central memory CD4-positive, alpha-beta T cell",4,0.09090909090909091,44,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,plasmablast,classical monocyte,2,0.045454545454545456,44,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,plasmablast,"effector memory CD8-positive, alpha-beta T cell",4,0.09090909090909091,44,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,plasmablast,lymphocyte,2,0.045454545454545456,44,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,plasmablast,memory B cell,16,0.36363636363636365,44,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,plasmablast,naive B cell,8,0.18181818181818182,44,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,plasmablast,"naive thymus-derived CD4-positive, alpha-beta T cell",6,0.13636363636363635,44,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,plasmablast,natural killer cell,2,0.045454545454545456,44,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"plasmacytoid dendritic cell, human",classical monocyte,3,0.04838709677419355,62,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"plasmacytoid dendritic cell, human",conventional dendritic cell,1,0.016129032258064516,62,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"plasmacytoid dendritic cell, human",memory B cell,5,0.08064516129032258,62,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"plasmacytoid dendritic cell, human",naive B cell,4,0.06451612903225806,62,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"plasmacytoid dendritic cell, human",natural killer cell,6,0.0967741935483871,62,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,"plasmacytoid dendritic cell, human",transitional stage B cell,2,0.03225806451612903,62,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,platelet,"naive thymus-derived CD4-positive, alpha-beta T cell",1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,platelet,natural killer cell,1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,platelet,non-classical monocyte,1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,regulatory T cell,"central memory CD4-positive, alpha-beta T cell",17,0.6071428571428571,28,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,regulatory T cell,"effector memory CD8-positive, alpha-beta T cell",6,0.21428571428571427,28,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,regulatory T cell,naive B cell,1,0.03571428571428571,28,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,regulatory T cell,"naive thymus-derived CD4-positive, alpha-beta T cell",4,0.14285714285714285,28,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,transitional stage B cell,classical monocyte,2,0.031746031746031744,63,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,transitional stage B cell,memory B cell,24,0.38095238095238093,63,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,transitional stage B cell,naive B cell,31,0.49206349206349204,63,9197fb4390c82f9b047821612c7dce29972d54a5
+transformer,Transformer,transitional stage B cell,"naive thymus-derived CD4-positive, alpha-beta T cell",2,0.031746031746031744,63,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,"CD16-negative, CD56-bright natural killer cell, human",natural killer cell,5,1.0,5,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,"central memory CD4-positive, alpha-beta T cell",classical monocyte,1,0.002232142857142857,448,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,"central memory CD4-positive, alpha-beta T cell","effector memory CD8-positive, alpha-beta T cell",21,0.046875,448,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,"central memory CD4-positive, alpha-beta T cell",memory B cell,1,0.002232142857142857,448,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,"central memory CD4-positive, alpha-beta T cell",mucosal invariant T cell,2,0.004464285714285714,448,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,"central memory CD4-positive, alpha-beta T cell","naive thymus-derived CD4-positive, alpha-beta T cell",43,0.09598214285714286,448,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,"central memory CD4-positive, alpha-beta T cell","naive thymus-derived CD8-positive, alpha-beta T cell",3,0.006696428571428571,448,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,"central memory CD4-positive, alpha-beta T cell",natural killer cell,2,0.004464285714285714,448,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,classical monocyte,"central memory CD4-positive, alpha-beta T cell",2,0.0006533812479581836,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,classical monocyte,conventional dendritic cell,3,0.0009800718719372753,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,classical monocyte,non-classical monocyte,13,0.004246978111728194,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,conventional dendritic cell,classical monocyte,24,0.4444444444444444,54,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,"effector memory CD8-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",38,0.11046511627906977,344,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,"effector memory CD8-positive, alpha-beta T cell",gamma-delta T cell,1,0.0029069767441860465,344,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,"effector memory CD8-positive, alpha-beta T cell",mucosal invariant T cell,7,0.020348837209302327,344,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,"effector memory CD8-positive, alpha-beta T cell","naive thymus-derived CD4-positive, alpha-beta T cell",2,0.005813953488372093,344,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,"effector memory CD8-positive, alpha-beta T cell",natural killer cell,19,0.055232558139534885,344,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,gamma-delta T cell,"central memory CD4-positive, alpha-beta T cell",3,0.05660377358490566,53,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,gamma-delta T cell,"effector memory CD8-positive, alpha-beta T cell",22,0.41509433962264153,53,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,gamma-delta T cell,mucosal invariant T cell,3,0.05660377358490566,53,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,gamma-delta T cell,natural killer cell,18,0.33962264150943394,53,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,lymphocyte,natural killer cell,1,0.058823529411764705,17,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,memory B cell,naive B cell,33,0.17553191489361702,188,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,memory B cell,"naive thymus-derived CD8-positive, alpha-beta T cell",1,0.005319148936170213,188,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,memory B cell,regulatory T cell,1,0.005319148936170213,188,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,memory B cell,transitional stage B cell,8,0.0425531914893617,188,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,mucosal invariant T cell,"central memory CD4-positive, alpha-beta T cell",16,0.2318840579710145,69,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,mucosal invariant T cell,"effector memory CD8-positive, alpha-beta T cell",30,0.43478260869565216,69,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,mucosal invariant T cell,gamma-delta T cell,1,0.014492753623188406,69,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,mucosal invariant T cell,"naive thymus-derived CD4-positive, alpha-beta T cell",3,0.043478260869565216,69,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,mucosal invariant T cell,natural killer cell,8,0.11594202898550725,69,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,naive B cell,memory B cell,17,0.265625,64,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,naive B cell,transitional stage B cell,2,0.03125,64,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,"naive thymus-derived CD4-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",21,0.38181818181818183,55,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,"naive thymus-derived CD4-positive, alpha-beta T cell","effector memory CD8-positive, alpha-beta T cell",2,0.03636363636363636,55,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,"naive thymus-derived CD4-positive, alpha-beta T cell","naive thymus-derived CD8-positive, alpha-beta T cell",1,0.01818181818181818,55,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,"naive thymus-derived CD8-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",7,0.28,25,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,"naive thymus-derived CD8-positive, alpha-beta T cell","naive thymus-derived CD4-positive, alpha-beta T cell",17,0.68,25,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,natural killer cell,"central memory CD4-positive, alpha-beta T cell",1,0.0038022813688212928,263,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,natural killer cell,"effector memory CD8-positive, alpha-beta T cell",18,0.06844106463878327,263,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,natural killer cell,gamma-delta T cell,2,0.0076045627376425855,263,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,natural killer cell,lymphocyte,1,0.0038022813688212928,263,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,non-classical monocyte,classical monocyte,33,0.06420233463035019,514,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,plasmablast,"central memory CD4-positive, alpha-beta T cell",3,0.06818181818181818,44,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,plasmablast,classical monocyte,1,0.022727272727272728,44,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,plasmablast,"effector memory CD8-positive, alpha-beta T cell",9,0.20454545454545456,44,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,plasmablast,lymphocyte,3,0.06818181818181818,44,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,plasmablast,memory B cell,23,0.5227272727272727,44,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,plasmablast,naive B cell,2,0.045454545454545456,44,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,plasmablast,"naive thymus-derived CD4-positive, alpha-beta T cell",3,0.06818181818181818,44,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,"plasmacytoid dendritic cell, human",conventional dendritic cell,1,0.016129032258064516,62,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,"plasmacytoid dendritic cell, human",memory B cell,5,0.08064516129032258,62,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,"plasmacytoid dendritic cell, human",naive B cell,2,0.03225806451612903,62,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,"plasmacytoid dendritic cell, human",transitional stage B cell,1,0.016129032258064516,62,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,platelet,classical monocyte,1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,platelet,"effector memory CD8-positive, alpha-beta T cell",1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,platelet,"naive thymus-derived CD4-positive, alpha-beta T cell",1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,regulatory T cell,"central memory CD4-positive, alpha-beta T cell",23,0.8214285714285714,28,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,regulatory T cell,memory B cell,1,0.03571428571428571,28,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,regulatory T cell,"naive thymus-derived CD4-positive, alpha-beta T cell",3,0.10714285714285714,28,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,transitional stage B cell,memory B cell,41,0.6507936507936508,63,9197fb4390c82f9b047821612c7dce29972d54a5
+census_scvi,Census scVI,transitional stage B cell,naive B cell,17,0.2698412698412698,63,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),"CD16-negative, CD56-bright natural killer cell, human",natural killer cell,5,1.0,5,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),"central memory CD4-positive, alpha-beta T cell",classical monocyte,5,0.011160714285714286,448,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),"central memory CD4-positive, alpha-beta T cell","effector memory CD8-positive, alpha-beta T cell",47,0.10491071428571429,448,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),"central memory CD4-positive, alpha-beta T cell",memory B cell,3,0.006696428571428571,448,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),"central memory CD4-positive, alpha-beta T cell","naive thymus-derived CD4-positive, alpha-beta T cell",143,0.31919642857142855,448,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),"central memory CD4-positive, alpha-beta T cell","naive thymus-derived CD8-positive, alpha-beta T cell",9,0.020089285714285716,448,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),classical monocyte,"central memory CD4-positive, alpha-beta T cell",2,0.0006533812479581836,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),classical monocyte,memory B cell,1,0.0003266906239790918,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),classical monocyte,non-classical monocyte,12,0.003920287487749101,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),conventional dendritic cell,classical monocyte,46,0.8518518518518519,54,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),conventional dendritic cell,memory B cell,1,0.018518518518518517,54,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),conventional dendritic cell,"plasmacytoid dendritic cell, human",1,0.018518518518518517,54,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),"effector memory CD8-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",22,0.06395348837209303,344,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),"effector memory CD8-positive, alpha-beta T cell",mucosal invariant T cell,1,0.0029069767441860465,344,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),"effector memory CD8-positive, alpha-beta T cell","naive thymus-derived CD8-positive, alpha-beta T cell",1,0.0029069767441860465,344,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),"effector memory CD8-positive, alpha-beta T cell",natural killer cell,15,0.0436046511627907,344,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),gamma-delta T cell,"central memory CD4-positive, alpha-beta T cell",10,0.18867924528301888,53,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),gamma-delta T cell,"effector memory CD8-positive, alpha-beta T cell",32,0.6037735849056604,53,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),gamma-delta T cell,mucosal invariant T cell,1,0.018867924528301886,53,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),gamma-delta T cell,"naive thymus-derived CD4-positive, alpha-beta T cell",1,0.018867924528301886,53,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),gamma-delta T cell,natural killer cell,8,0.1509433962264151,53,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),lymphocyte,"central memory CD4-positive, alpha-beta T cell",3,0.17647058823529413,17,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),lymphocyte,"effector memory CD8-positive, alpha-beta T cell",5,0.29411764705882354,17,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),lymphocyte,"naive thymus-derived CD8-positive, alpha-beta T cell",1,0.058823529411764705,17,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),lymphocyte,natural killer cell,8,0.47058823529411764,17,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),memory B cell,"central memory CD4-positive, alpha-beta T cell",1,0.005319148936170213,188,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),memory B cell,classical monocyte,17,0.09042553191489362,188,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),memory B cell,"effector memory CD8-positive, alpha-beta T cell",1,0.005319148936170213,188,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),memory B cell,naive B cell,66,0.35106382978723405,188,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),memory B cell,"naive thymus-derived CD4-positive, alpha-beta T cell",1,0.005319148936170213,188,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),memory B cell,transitional stage B cell,8,0.0425531914893617,188,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),mucosal invariant T cell,"central memory CD4-positive, alpha-beta T cell",23,0.3333333333333333,69,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),mucosal invariant T cell,"effector memory CD8-positive, alpha-beta T cell",28,0.4057971014492754,69,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),mucosal invariant T cell,gamma-delta T cell,2,0.028985507246376812,69,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),mucosal invariant T cell,"naive thymus-derived CD4-positive, alpha-beta T cell",3,0.043478260869565216,69,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),mucosal invariant T cell,natural killer cell,6,0.08695652173913043,69,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),naive B cell,"central memory CD4-positive, alpha-beta T cell",1,0.015625,64,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),naive B cell,classical monocyte,2,0.03125,64,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),naive B cell,memory B cell,20,0.3125,64,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),naive B cell,"naive thymus-derived CD4-positive, alpha-beta T cell",1,0.015625,64,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),naive B cell,transitional stage B cell,3,0.046875,64,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),"naive thymus-derived CD4-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",32,0.5818181818181818,55,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),"naive thymus-derived CD4-positive, alpha-beta T cell","naive thymus-derived CD8-positive, alpha-beta T cell",2,0.03636363636363636,55,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),"naive thymus-derived CD8-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",12,0.48,25,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),"naive thymus-derived CD8-positive, alpha-beta T cell","effector memory CD8-positive, alpha-beta T cell",3,0.12,25,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),"naive thymus-derived CD8-positive, alpha-beta T cell","naive thymus-derived CD4-positive, alpha-beta T cell",5,0.2,25,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),natural killer cell,"central memory CD4-positive, alpha-beta T cell",2,0.0076045627376425855,263,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),natural killer cell,classical monocyte,1,0.0038022813688212928,263,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),natural killer cell,"effector memory CD8-positive, alpha-beta T cell",14,0.053231939163498096,263,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),non-classical monocyte,classical monocyte,351,0.6828793774319066,514,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),plasmablast,"central memory CD4-positive, alpha-beta T cell",6,0.13636363636363635,44,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),plasmablast,classical monocyte,9,0.20454545454545456,44,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),plasmablast,"effector memory CD8-positive, alpha-beta T cell",8,0.18181818181818182,44,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),plasmablast,memory B cell,13,0.29545454545454547,44,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),plasmablast,naive B cell,3,0.06818181818181818,44,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),plasmablast,transitional stage B cell,4,0.09090909090909091,44,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),"plasmacytoid dendritic cell, human",classical monocyte,31,0.5,62,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),"plasmacytoid dendritic cell, human",conventional dendritic cell,2,0.03225806451612903,62,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),"plasmacytoid dendritic cell, human",memory B cell,3,0.04838709677419355,62,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),"plasmacytoid dendritic cell, human",naive B cell,1,0.016129032258064516,62,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),platelet,"central memory CD4-positive, alpha-beta T cell",1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),platelet,classical monocyte,2,0.6666666666666666,3,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),regulatory T cell,"central memory CD4-positive, alpha-beta T cell",21,0.75,28,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),regulatory T cell,"effector memory CD8-positive, alpha-beta T cell",1,0.03571428571428571,28,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),regulatory T cell,"naive thymus-derived CD4-positive, alpha-beta T cell",6,0.21428571428571427,28,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),transitional stage B cell,classical monocyte,3,0.047619047619047616,63,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),transitional stage B cell,memory B cell,35,0.5555555555555556,63,9197fb4390c82f9b047821612c7dce29972d54a5
+geneformer_ft,Geneformer (fine-tuned),transitional stage B cell,naive B cell,22,0.3492063492063492,63,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,"CD16-negative, CD56-bright natural killer cell, human",natural killer cell,4,0.8,5,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,"central memory CD4-positive, alpha-beta T cell","CD16-negative, CD56-bright natural killer cell, human",1,0.002232142857142857,448,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,"central memory CD4-positive, alpha-beta T cell","effector memory CD8-positive, alpha-beta T cell",9,0.020089285714285716,448,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,"central memory CD4-positive, alpha-beta T cell",gamma-delta T cell,3,0.006696428571428571,448,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,"central memory CD4-positive, alpha-beta T cell",memory B cell,1,0.002232142857142857,448,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,"central memory CD4-positive, alpha-beta T cell","naive thymus-derived CD4-positive, alpha-beta T cell",32,0.07142857142857142,448,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,"central memory CD4-positive, alpha-beta T cell","naive thymus-derived CD8-positive, alpha-beta T cell",1,0.002232142857142857,448,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,classical monocyte,"central memory CD4-positive, alpha-beta T cell",1,0.0003266906239790918,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,classical monocyte,conventional dendritic cell,3,0.0009800718719372753,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,classical monocyte,memory B cell,1,0.0003266906239790918,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,classical monocyte,non-classical monocyte,10,0.003266906239790918,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,classical monocyte,plasmablast,1,0.0003266906239790918,3061,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,conventional dendritic cell,classical monocyte,31,0.5740740740740741,54,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,"effector memory CD8-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",20,0.05813953488372093,344,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,"effector memory CD8-positive, alpha-beta T cell",gamma-delta T cell,32,0.09302325581395349,344,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,"effector memory CD8-positive, alpha-beta T cell",mucosal invariant T cell,3,0.00872093023255814,344,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,"effector memory CD8-positive, alpha-beta T cell","naive thymus-derived CD4-positive, alpha-beta T cell",1,0.0029069767441860465,344,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,"effector memory CD8-positive, alpha-beta T cell",natural killer cell,9,0.02616279069767442,344,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,gamma-delta T cell,"central memory CD4-positive, alpha-beta T cell",6,0.11320754716981132,53,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,gamma-delta T cell,"effector memory CD8-positive, alpha-beta T cell",25,0.4716981132075472,53,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,gamma-delta T cell,mucosal invariant T cell,9,0.16981132075471697,53,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,gamma-delta T cell,natural killer cell,3,0.05660377358490566,53,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,lymphocyte,"effector memory CD8-positive, alpha-beta T cell",2,0.11764705882352941,17,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,lymphocyte,natural killer cell,9,0.5294117647058824,17,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,memory B cell,naive B cell,24,0.1276595744680851,188,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,memory B cell,plasmablast,5,0.026595744680851064,188,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,memory B cell,transitional stage B cell,9,0.047872340425531915,188,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,mucosal invariant T cell,"central memory CD4-positive, alpha-beta T cell",9,0.13043478260869565,69,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,mucosal invariant T cell,"effector memory CD8-positive, alpha-beta T cell",17,0.2463768115942029,69,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,mucosal invariant T cell,gamma-delta T cell,2,0.028985507246376812,69,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,mucosal invariant T cell,natural killer cell,2,0.028985507246376812,69,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,naive B cell,memory B cell,32,0.5,64,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,naive B cell,transitional stage B cell,2,0.03125,64,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,"naive thymus-derived CD4-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",7,0.12727272727272726,55,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,"naive thymus-derived CD8-positive, alpha-beta T cell","central memory CD4-positive, alpha-beta T cell",2,0.08,25,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,"naive thymus-derived CD8-positive, alpha-beta T cell","naive thymus-derived CD4-positive, alpha-beta T cell",17,0.68,25,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,natural killer cell,"effector memory CD8-positive, alpha-beta T cell",9,0.034220532319391636,263,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,natural killer cell,plasmablast,1,0.0038022813688212928,263,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,non-classical monocyte,classical monocyte,26,0.05058365758754864,514,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,plasmablast,"central memory CD4-positive, alpha-beta T cell",8,0.18181818181818182,44,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,plasmablast,classical monocyte,1,0.022727272727272728,44,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,plasmablast,"effector memory CD8-positive, alpha-beta T cell",2,0.045454545454545456,44,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,plasmablast,lymphocyte,1,0.022727272727272728,44,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,plasmablast,memory B cell,23,0.5227272727272727,44,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,plasmablast,mucosal invariant T cell,1,0.022727272727272728,44,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,plasmablast,naive B cell,2,0.045454545454545456,44,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,plasmablast,regulatory T cell,1,0.022727272727272728,44,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,plasmablast,transitional stage B cell,1,0.022727272727272728,44,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,"plasmacytoid dendritic cell, human",conventional dendritic cell,1,0.016129032258064516,62,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,"plasmacytoid dendritic cell, human",memory B cell,1,0.016129032258064516,62,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,"plasmacytoid dendritic cell, human",naive B cell,1,0.016129032258064516,62,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,platelet,"central memory CD4-positive, alpha-beta T cell",1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,platelet,classical monocyte,1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,platelet,plasmablast,1,0.3333333333333333,3,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,regulatory T cell,"central memory CD4-positive, alpha-beta T cell",21,0.75,28,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,regulatory T cell,"naive thymus-derived CD4-positive, alpha-beta T cell",4,0.14285714285714285,28,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,transitional stage B cell,memory B cell,48,0.7619047619047619,63,9197fb4390c82f9b047821612c7dce29972d54a5
+tf_sapiens,TranscriptFormer,transitional stage B cell,naive B cell,6,0.09523809523809523,63,9197fb4390c82f9b047821612c7dce29972d54a5

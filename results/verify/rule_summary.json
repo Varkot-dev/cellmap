@@ -1,0 +1,28 @@
+{
+ "comparisons_pre_declared": 68,
+ "passes_pre_declared": [
+  {
+   "dataset": "pbmc",
+   "scheme": "donor",
+   "method": "scvi",
+   "metric": "knn_accuracy_fine"
+  },
+  {
+   "dataset": "m4_blood",
+   "scheme": "donor",
+   "method": "census_scvi",
+   "metric": "scib_batch_mean"
+  },
+  {
+   "dataset": "m4_blood",
+   "scheme": "donor",
+   "method": "vae",
+   "metric": "scib_batch_mean"
+  }
+ ],
+ "worse_pre_declared": 40,
+ "comparisons_lab_scheme_not_pre_declared": 20,
+ "passes_lab_scheme": [],
+ "chance_one_baseline_4_of_5": 0.1875,
+ "git_commit": "99e700f07bf2f74148065d6105c59643998cdb00"
+}

@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cellmap"
+version = "0.0.1"
+description = "Learned representations of single cells from gene-expression data, evaluated honestly."
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+    "anndata>=0.11",
+    "harmonypy>=2.1",
+    "numpy>=1.26",
+    "pandas>=2.1",
+    "pyyaml>=6",
+    "scanpy>=1.11",
+    "scib-metrics>=0.6",
+    "scikit-learn>=1.5",
+    "scipy>=1.11",
+    "torch>=2.2",
+]
+
+[project.optional-dependencies]
+# Needed only to download data (scripts/m0_prepare_data.py). Tests do not need it.
+data = ["cellxgene-census>=1.17"]
+figures = ["matplotlib>=3.8", "umap-learn>=0.5"]
+# Needed only for the M3 parity check against scvi-tools.
+parity = ["scvi-tools>=1.5"]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cellmap"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

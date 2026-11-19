@@ -1,0 +1,60 @@
+{
+  "name": "pbmc",
+  "commit": "58d9a9af6be255009f565354e8b3ae8d193afb7e",
+  "split_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "n_top_genes": 2000,
+  "n_latent": 10,
+  "vae_epochs": 100,
+  "linear_ae_epochs": 100,
+  "vae_settings": "cellmap.vae.train_vae defaults except n_latent, n_epochs, seed",
+  "torch_threads": 2,
+  "timing_note": "other jobs shared the machine during this run; times are upper bounds",
+  "n_parameters": {
+    "vae": 522292,
+    "linear_ae": 40000
+  },
+  "timings": [
+    {
+      "split_seed": 0,
+      "vae_s": 324.42879566600004,
+      "linear_ae_s": 57.23189116000049,
+      "pca_10_s": 17.07774771500044
+    },
+    {
+      "split_seed": 1,
+      "vae_s": 445.7043878650002,
+      "linear_ae_s": 44.50446030600051,
+      "pca_10_s": 17.386240134999753
+    },
+    {
+      "split_seed": 2,
+      "vae_s": 329.7670396470003,
+      "linear_ae_s": 59.06231865299924,
+      "pca_10_s": 23.89353993199984
+    },
+    {
+      "split_seed": 3,
+      "vae_s": 229.55888398099978,
+      "linear_ae_s": 35.238133830999686,
+      "pca_10_s": 24.548768659000416
+    },
+    {
+      "split_seed": 4,
+      "vae_s": 447.2721161999998,
+      "linear_ae_s": 104.79180444099984,
+      "pca_10_s": 30.65544799500003
+    }
+  ],
+  "versions": {
+    "torch": "2.15.0",
+    "scanpy": "1.13.0",
+    "scib-metrics": "0.6.2",
+    "numpy": "2.5.5"
+  }
+}
