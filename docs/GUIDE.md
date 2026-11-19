@@ -30,7 +30,7 @@ How this differs from the other documents:
 4. **The small transformer written by hand learned its training task but produced the weakest cell embedding of the project's own models.**
 5. **Different metrics disagree.** Harmony wins the integration scores and loses fine-grained cell-type accuracy. So "which method is best" depends on what you measure, and the project reports both.
 
-**Where things stand.** The benchmark, the follow-up analyses, the inductive Harmony comparison and an independent review of every claim are done and merged into `main`. Conformal prediction (section 2.12) is done: the coverage promise holds for new donors and erodes for a new lab (0.876, worst lab 0.829), and lab-level hierarchical calibration restores it at the cost of sets about twice as big. In progress: the transformer retrained with a contrastive objective on Colab; split 0 is in, the result waits for all five. Making the repository public is the owner's step (`docs/RELEASE.md`).
+**Where things stand.** The benchmark, the follow-up analyses, the inductive Harmony comparison and an independent review of every claim are done and merged into `main`. Conformal prediction (section 2.12) is done: the coverage promise holds for new donors and erodes for a new lab (0.876, worst lab 0.829), and lab-level hierarchical calibration restores it at the cost of sets about twice as big. In progress: the transformer retrained with a contrastive objective on Colab; split 0 is in, the result waits for all five. Nine one-change ablations on split 0 (temperature, view strength, level noise, one donor per batch, a debiased loss, a rerun for noise) are built, with predictions A1 to A4 fixed in `docs/PLAN.md` before any ran (`scripts/contrastive_ablations.py`, `notebooks/contrastive_ablations_gpu.ipynb`). Making the repository public is the owner's step (`docs/RELEASE.md`).
 
 ---
 
@@ -555,6 +555,7 @@ Experiments worth doing next, if you continue:
 ---
 
 ## Update log
+- **2026-11-19 (evening):** Contrastive ablations designed, predictions fixed, code and notebook added; status line updated.
 - **2026-11-19 (later):** Conformal results added to section 2.12 and the status line: five of seven hypotheses supported, two partly; new figure.
 - **2026-11-19:** Section 2.12 added: conformal prediction, from intuition to the hierarchical version, with three worked examples.
 - **2026-11-18 (late):** Transformer level-encoding result added (it did not help); the inductive Harmony section rewritten from the corrected rerun.
