@@ -6,6 +6,7 @@ from cellmap.conformal import (
     calibrate,
     conformal_quantile,
     fit_linear_probe,
+    hierarchical_quantile,
     knn_proba,
     lac_scores,
     prediction_sets,
@@ -128,3 +129,41 @@ def test_set_metrics_handles_unknown_labels():
     m = set_metrics(sets, np.array([0, 1, -1]), min_class_cells=1)
     assert m["coverage"] == 1.0 and m["mean_size"] == 1.5
     assert true_label_scores(np.array([[0.1, 0.9]]), np.array([1]))[0] == 0.9
+
+
+def grouped_scores(rng, k: int, cells: int = 50):
+    """Scores with a strong group effect: each group shifts all its cells by b_k ~ N(0, 1)."""
+    b = rng.normal(0, 1, k)
+    scores = np.concatenate([bk + rng.normal(0, 0.3, cells) for bk in b])
+    return scores, np.repeat(np.arange(k), cells)
+
+
+def test_pooled_quantile_under_covers_a_new_group_and_hierarchical_does_not():
+    rng = np.random.default_rng(0)
+    pooled, hier = [], []
+    for _ in range(1000):
+        s, g = grouped_scores(rng, 10)
+        new_group = rng.normal(0, 1) + rng.normal(0, 0.3, 200)
+        pooled.append((new_group <= conformal_quantile(s, 0.1)).mean())
+        hier.append((new_group <= hierarchical_quantile(s, g, 0.1)).mean())
+    assert np.mean(pooled) < 0.89
+    assert np.mean(hier) >= 0.9
+
+
+def test_hierarchical_quantile_needs_enough_groups():
+    s, g = grouped_scores(np.random.default_rng(1), 5)
+    assert np.isinf(hierarchical_quantile(s, g, 0.1))  # 5/6 < 0.9
+    assert np.isfinite(hierarchical_quantile(s, g, 0.2))  # 5/6 >= 0.8
+
+
+def test_hierarchical_quantile_weights_groups_not_cells():
+    # one huge group must not dominate: two groups at 0 and 1, the big one at 0
+    s = np.concatenate([np.zeros(1000), np.ones(10)])
+    g = np.concatenate([np.zeros(1000), np.ones(10)])
+    # K = 2 is too few for any alpha below 1/3
+    assert np.isinf(hierarchical_quantile(s, g, 0.2))
+    # each group carries 1/3 of the weight however many cells it has, so the median already
+    # reaches the small group; pooling cells would let the big group decide
+    assert hierarchical_quantile(s, g, 0.5) == 1.0
+    assert conformal_quantile(s, 0.5) == 0.0
+    assert hierarchical_quantile(s, g, 0.7) == 0.0
