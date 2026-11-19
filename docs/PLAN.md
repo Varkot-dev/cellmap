@@ -262,4 +262,14 @@ Seen before this entry: the first PBMC rows (split seed 0, PCA and Harmony) and 
 - **H7 (added):** on held-out labs at alpha 0.2, `lab_hier` reaches at least 0.80 coverage in at least 5 of 6 labs for every method.
 - The full review, with which sources were read in full and which only as abstracts, is in `docs/M9_LITERATURE.md`.
 
+**2026-11-19, contrastive transformer: design and hypotheses, fixed before any result**
+
+Why: with value bins the masked-gene transformer learned its own task far better, yet its embedding did not improve, which points at the objective. This trains the identical architecture (same tokens, rank level encoding, 2,000 genes, 30 epochs, five PBMC donor splits) with SimCLR instead (`src/cellmap/contrastive.py`, `scripts/transformer_contrastive.py`), on a Colab GPU.
+
+- **Objectives:** `contrastive` (SimCLR only) and `contrastive_mgm` (SimCLR plus the masked-gene loss, weight 1).
+- **Fixed settings, not tuned:** temperature 0.1, projection to 64 dimensions, views keep each token with a rate drawn from 0.5 to 0.9 and move 20 percent of levels by one bin, batch 256, learning rate 1e-3. The embedding is the [CLS] state.
+- **C1:** `contrastive` beats the masked-gene transformer (`results/m5/pbmc/`) on fine macro F1 in at least 4 of 5 splits.
+- **C2:** neither variant passes the comparison rule against both baselines on any declared metric.
+- **Reported without a prediction:** the input probes on split seed 0 (does the new objective make the model use expression levels?).
+
 **Working principle (owner's decision, 2026-11-17): full speed, learn afterwards.** The owner chose to have all milestones built as fast as possible, with parallel agents, and to study the material at the end. This replaces "teach before you build" and the per-milestone quiz in `CLAUDE.md` for the build phase. What makes that safe: every decision is written down as it is made (this log and `docs/NOTES.md`), so the reasoning can be read and defended later. The honesty rules are unchanged: no number enters the README unless a script here produced it. Lessons and quizzes move to the end.
