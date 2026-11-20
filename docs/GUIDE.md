@@ -474,6 +474,7 @@ Kept here because "what went wrong and how you caught it" is often the best thin
 | Provenance stamps ignored untracked files, so `results/leakage/splits.csv` names a commit without its script | Independent review | Untracked files now count as dirty |
 | The VAE weight-transplant check was cited but only run as a scratch script | Independent review | Now a test in `tests/test_scvi_baseline.py` |
 | The five PBMC splits were treated as replicates; split 3 is in fact a chemistry hold-out and split 1 tests on a quarter of all cells | Hostile reviewer in the independent review | Recorded in `results/verify/pbmc_split_composition.csv` and read alongside every per-split claim |
+| A rerun of the contrastive transformer with the same seed, code and settings gave fine macro F1 0.540 against 0.506 in the main run | The `base` ablation, which exists to measure exactly this | Not a bug: the two runs' training losses already differ in the fourth decimal in epoch 0, which is GPU arithmetic that is not bit-for-bit repeatable, and the gap grows over 30 epochs. The pre-registered noise rule turns it into a bar of 0.069: an ablation must move macro F1 by more than that to count. Lesson: one run per setting cannot separate effects smaller than this |
 
 ---
 
@@ -555,6 +556,7 @@ Experiments worth doing next, if you continue:
 ---
 
 ## Update log
+- **2026-11-20:** First ablation (a plain rerun) landed: macro F1 0.540 against 0.506 for the same seed, so the noise bar is 0.069. Added to Part 6; scoring script `scripts/contrastive_ablations_evaluate.py` written before the other variants.
 - **2026-11-19 (evening):** Contrastive ablations designed, predictions fixed, code and notebook added; status line updated.
 - **2026-11-19 (later):** Conformal results added to section 2.12 and the status line: five of seven hypotheses supported, two partly; new figure.
 - **2026-11-19:** Section 2.12 added: conformal prediction, from intuition to the hierarchical version, with three worked examples.

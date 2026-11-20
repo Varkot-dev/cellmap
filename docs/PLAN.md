@@ -304,3 +304,15 @@ Every run is scored twice: on the [CLS] state h (the embedding used everywhere) 
 - **Reported without a prediction:** keep_strong, no_jitter, debiased, and alignment and uniformity.
 
 **Working principle (owner's decision, 2026-11-17): full speed, learn afterwards.** The owner chose to have all milestones built as fast as possible, with parallel agents, and to study the material at the end. This replaces "teach before you build" and the per-milestone quiz in `CLAUDE.md` for the build phase. What makes that safe: every decision is written down as it is made (this log and `docs/NOTES.md`), so the reasoning can be read and defended later. The honesty rules are unchanged: no number enters the README unless a script here produced it. Lessons and quizzes move to the end.
+
+**2026-11-20, contrastive ablations: how the predictions are scored (written after seeing only the base run)**
+
+Seen before this entry: the base ablation only (h fine macro F1 0.540, z 0.539, iLISI 0.244). The main run's split seed 0 gave 0.506 with the same seed, code and settings; the training losses differ from the fourth decimal in epoch 0, so the gap is GPU non-determinism, not a code difference. The noise bar is therefore max(0.01, 2 x 0.0345) = 0.069.
+
+The plan did not say how the noise rule meets each prediction. Fixed now, in `scripts/contrastive_ablations_evaluate.py`:
+- A3 is a difference from base, so it is supported only if keep_weak is below base by more than the bar; below but within the bar is reported as "direction only".
+- A4 compares temperatures with each other: supported only if tau_0.5 is lowest and below each other temperature by more than the bar; lowest but within the bar is "direction only".
+- A1 compares h and z inside one run, so the between-run noise rule does not apply; the count is reported as is, with each gap.
+- A2 keeps its own threshold (iLISI up by at least 0.03). For scale, the rerun moved iLISI by 0.007.
+
+Consequence, stated before the other results: with a bar of 0.069, only large effects can count on one split. Smaller differences will be reported as within noise, not as findings.
