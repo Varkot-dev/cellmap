@@ -1,7 +1,7 @@
 {
   "name": "pbmc",
   "split_seed": 0,
-  "commit": "a71f47fefcf2ba67a70cc91023eaae2234865b5c",
+  "commit": "2a3c923e0c5438b7d931a9dc187ab83d74bc0049",
   "device": "cuda",
   "gpu": "Tesla T4",
   "epochs": 30,
