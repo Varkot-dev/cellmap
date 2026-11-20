@@ -1,0 +1,44 @@
+{
+  "name": "pbmc",
+  "split_seed": 0,
+  "commit": "cd07bf6d77223e89060d4b0ec3565966ae1282c0",
+  "device": "cuda",
+  "gpu": "Tesla T4",
+  "epochs": 30,
+  "batch_size": 256,
+  "n_top_genes": 2000,
+  "variants": {
+    "base": {},
+    "tau_0.05": {
+      "temperature": "0.05"
+    },
+    "tau_0.2": {
+      "temperature": "0.2"
+    },
+    "tau_0.5": {
+      "temperature": "0.5"
+    },
+    "keep_strong": {
+      "keep_range": "(0.3, 0.6)"
+    },
+    "keep_weak": {
+      "keep_range": "(0.8, 1.0)"
+    },
+    "no_jitter": {
+      "jitter": "0.0"
+    },
+    "same_donor": {
+      "batch_groups": "donor"
+    },
+    "debiased": {
+      "loss": "debiased",
+      "tau_plus": "0.1"
+    }
+  },
+  "settings": "cellmap.contrastive.train_contrastive defaults except those listed here",
+  "versions": {
+    "torch": "2.14.1+cu130",
+    "scanpy": "1.13.0",
+    "scib-metrics": "0.6.2"
+  }
+}
