@@ -55,7 +55,18 @@ def off_marker_groups(knock: pd.DataFrame) -> dict:
     counts = top.groupby(["model", "group"]).size().unstack(fill_value=0)
     named = top[top["group"] != "other"]
     examples = named.groupby(["model", "group"])["gene"].agg(lambda g: sorted(set(g)))
+    rho = {}
+    for model, g in knock.groupby("model"):
+        per_type = g.groupby("cell_type")[["mean_effect", "mean_expression", "marker_score"]]
+        corr = per_type.corr(method="spearman").xs("mean_effect", level=1)
+        rho[model] = {"with_expression": r(corr["mean_expression"].mean()),
+                      "with_marker_score": r(corr["marker_score"].mean())}  # fmt: skip
+    sensitivity = knock.groupby("model")[["mean_effect", "flip_rate"]].mean()
     return {
+        "mean_spearman_of_effect_over_types": rho,
+        "mean_effect_and_flip_rate": {
+            m: {k: r(v) for k, v in row.items()} for m, row in sensitivity.iterrows()
+        },  # fmt: skip
         "counts_of_top20_knockouts_not_in_marker_top20": counts.to_dict("index"),
         "genes": {f"{m}/{g}": v for (m, g), v in examples.items()},
     }

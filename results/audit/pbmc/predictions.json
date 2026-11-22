@@ -19,6 +19,34 @@
     "verdict": "supported"
   },
   "not_predicted": {
+    "mean_spearman_of_effect_over_types": {
+      "contrastive": {
+        "with_expression": 0.7155,
+        "with_marker_score": 0.1035
+      },
+      "contrastive_mgm": {
+        "with_expression": 0.7103,
+        "with_marker_score": 0.0993
+      },
+      "masked_gene": {
+        "with_expression": 0.8346,
+        "with_marker_score": 0.0852
+      }
+    },
+    "mean_effect_and_flip_rate": {
+      "contrastive": {
+        "mean_effect": 0.0053,
+        "flip_rate": 0.0229
+      },
+      "contrastive_mgm": {
+        "mean_effect": 0.0058,
+        "flip_rate": 0.0225
+      },
+      "masked_gene": {
+        "mean_effect": 0.0198,
+        "flip_rate": 0.055
+      }
+    },
     "counts_of_top20_knockouts_not_in_marker_top20": {
       "contrastive": {
         "HLA": 3,
