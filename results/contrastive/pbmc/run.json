@@ -1,0 +1,19 @@
+{
+  "name": "pbmc",
+  "commit": "fce1ceead64715efaabecb44bf49ad11f79141fe",
+  "device": "cuda",
+  "gpu": "Tesla T4",
+  "epochs": 30,
+  "batch_size": 256,
+  "n_top_genes": 2000,
+  "objectives": {
+    "contrastive": 0.0,
+    "contrastive_mgm": 1.0
+  },
+  "settings": "cellmap.contrastive.train_contrastive defaults except those listed here",
+  "versions": {
+    "torch": "2.14.1+cu130",
+    "scanpy": "1.13.0",
+    "scib-metrics": "0.6.2"
+  }
+}
