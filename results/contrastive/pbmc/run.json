@@ -1,6 +1,6 @@
 {
   "name": "pbmc",
-  "commit": "a9c06794b6d4a1200f1236f59bad5e9ade0c4ef9",
+  "commit": "fce1ceead64715efaabecb44bf49ad11f79141fe",
   "device": "cuda",
   "gpu": "Tesla T4",
   "epochs": 30,
