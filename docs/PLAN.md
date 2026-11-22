@@ -316,3 +316,33 @@ The plan did not say how the noise rule meets each prediction. Fixed now, in `sc
 - A2 keeps its own threshold (iLISI up by at least 0.03). For scale, the rerun moved iLISI by 0.007.
 
 Consequence, stated before the other results: with a bar of 0.069, only large effects can count on one split. Smaller differences will be reported as within noise, not as findings.
+
+**2026-11-22, model audit: what does the transformer rely on? Design and predictions, fixed before any audit result**
+
+Seen before this entry: the contrastive results above (split seeds 0 to 2, and three ablations), and one exploratory table of raw data, not of any model: mean HLA-DRB5 expression per donor in monocytes and B cells, where six donors (C2P05F, C2P07H, C2P10H, C2P13F, C2P16H, Five) are at 0.0 to 0.2 reads per 10,000 and the other 15 at 1.2 to 12.4. That on/off pattern is consistent with HLA-DRB5 copy-number variation between people; nobody here was genotyped, so the audit calls it "carrier status" and does not claim more. Five of the six low donors are in the C2 cohort, so cohort is a possible confound, and the design has a check for it.
+
+Why: the same_donor ablation showed the contrastive model partly tells cells apart by donor. The audit asks which genes the model relies on, whether they are the known markers, and whether it encodes something about the person rather than the cell. All on split seed 0, CPU only, with the saved weights (`results/contrastive/pbmc/model_contrastive_seed0.pt`, `model_contrastive_mgm_seed0.pt`, and the masked-gene transformer `results/m5/pbmc/model_seed0.pt`). "Knocking out" a gene means setting its count to zero in the model's input and embedding the cell again. It says what the model uses; it predicts nothing about a real cell.
+
+Part 1, gene knockout (`scripts/audit_knockout.py`):
+- Cells: split seed 0 test donors; fine types with at least 30 test cells; up to 100 cells per type (numpy seed 0).
+- Candidate genes for a type: detected in at least 20 percent of its sampled cells. Types with fewer than 40 candidates are left out.
+- Effect of a gene on a type: mean over the sampled cells of 1 - cos(h, h with the gene knocked out); a cell without the gene contributes 0.
+- Reference markers: Wilcoxon one-versus-rest on training cells (log of counts per 10,000, the 2,000 genes, scanpy `rank_genes_groups`), ranked among the type's candidates.
+- Baseline explanation: candidates ranked by mean log expression in the sampled cells ("the model just uses whatever is highest").
+- Score: overlap at 20, the share of a ranking's top 20 that is in the marker top 20.
+- **K1:** for the contrastive model, the knockout ranking overlaps the markers more than the expression ranking does, in at least two thirds of the types.
+- **K2:** mean knockout overlap over types is higher for the contrastive model than for the masked-gene transformer.
+- Reported without a prediction: how often a knockout changes the kNN label, and which highly ranked genes are not markers (HLA, ribosomal, mitochondrial, stress genes such as FOS and JUN, haemoglobin).
+
+Part 2, the HLA-DRB5 test (`scripts/audit_genotype.py`):
+- Carrier status per donor: mean of 10,000 x count / total count of HLA-DRB5 over the donor's monocytes and B cells; non-carrier below 0.5.
+- Cells: classical monocytes (high HLA class II) and, as a control, naive CD4 T cells (little class II); up to 300 cells per donor and type (numpy seed 0); all 21 donors. The carrier label was never used in training, but 13 donors' cells were, so this tests what the embedding holds, not generalisation.
+- Probe: logistic regression on standardised embeddings (C 1.0, balanced classes), leave one donor out; a donor's score is the mean predicted probability over its cells; AUROC over the 21 donors.
+- Interventions, each followed by embedding again and refitting the probe: none; HLA-DRB5 knocked out; each of 10 control genes knocked out on its own, drawn at random (seed 0) from the 50 non-HLA genes whose detection rate in carriers' classical monocytes is closest to HLA-DRB5's.
+- **G1:** on classical monocytes the contrastive embedding gives AUROC at least 0.80.
+- **G2:** knocking out HLA-DRB5 lowers that AUROC by more than the largest drop among the 10 control genes.
+- **G3:** on naive CD4 T cells the AUROC is lower than on classical monocytes.
+- **G4:** PCA (50 components, the project's usual baseline, the gene zeroed in its input) also gives AUROC at least 0.80 on classical monocytes: the information is in the data, not something only the transformer invents.
+- Reported without a prediction: the masked-gene and contrastive-plus-masked-gene transformers; knocking out all HLA genes at once; AUROC within the C2 cohort alone (8 donors), the cohort check.
+
+Part 3, a sparse autoencoder on the transformer's internal states, is designed after parts 1 and 2 and gets its own entry before it runs.
