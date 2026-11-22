@@ -1,0 +1,81 @@
+{
+  "K1": {
+    "claim": "For the contrastive model, the knockout ranking overlaps the marker top 20 more than the expression ranking does, in at least two thirds of the types.",
+    "knockout_higher_in": "6 of 14",
+    "ties": 4,
+    "mean_overlap": {
+      "knockout": 0.3357,
+      "expression": 0.3393
+    },
+    "verdict": "not supported"
+  },
+  "K2": {
+    "claim": "Mean knockout overlap with the markers is higher for the contrastive model than for the masked-gene transformer.",
+    "mean_overlap_by_model": {
+      "contrastive": 0.3357,
+      "contrastive_mgm": 0.3357,
+      "masked_gene": 0.325
+    },
+    "verdict": "supported"
+  },
+  "not_predicted": {
+    "counts_of_top20_knockouts_not_in_marker_top20": {
+      "contrastive": {
+        "HLA": 3,
+        "other": 148,
+        "ribosomal": 34,
+        "stress (immediate early)": 1
+      },
+      "contrastive_mgm": {
+        "HLA": 3,
+        "other": 148,
+        "ribosomal": 34,
+        "stress (immediate early)": 1
+      },
+      "masked_gene": {
+        "HLA": 3,
+        "other": 145,
+        "ribosomal": 41,
+        "stress (immediate early)": 0
+      }
+    },
+    "genes": {
+      "contrastive/HLA": [
+        "HLA-DRA",
+        "HLA-DRB1"
+      ],
+      "contrastive/ribosomal": [
+        "RPL3",
+        "RPS18",
+        "RPS27",
+        "RPS29"
+      ],
+      "contrastive/stress (immediate early)": [
+        "IER2"
+      ],
+      "contrastive_mgm/HLA": [
+        "HLA-DRA",
+        "HLA-DRB1"
+      ],
+      "contrastive_mgm/ribosomal": [
+        "RPL3",
+        "RPS18",
+        "RPS27",
+        "RPS29"
+      ],
+      "contrastive_mgm/stress (immediate early)": [
+        "IER2"
+      ],
+      "masked_gene/HLA": [
+        "HLA-DPB1",
+        "HLA-DRA"
+      ],
+      "masked_gene/ribosomal": [
+        "RPL3",
+        "RPS18",
+        "RPS27",
+        "RPS29"
+      ]
+    }
+  }
+}
