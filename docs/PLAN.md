@@ -361,3 +361,9 @@ Part 3, a sparse autoencoder on the transformer's internal states, is designed a
 Changed reading: the transformers' carrier scores sort mostly by cohort (C2 low) and chemistry (the two 10x v3 donors are the worst errors), so the probe mostly learned the confound that the design entry flagged. The donor shortcut seen in the one-donor-per-batch ablation is therefore attributed to cohort and chemistry, not to HLA-DRB5. Lesson for future pre-registrations: a causal knockout test needs a minimum effect size, not only "larger than the controls", because controls can move by exactly zero. Part 3 (sparse autoencoder) is not started; given part 1, single-unit tools on this model need care, and its design entry comes first.
 
 Contrastive main run: split seed 3 is in (contrastive 0.301, masked-gene 0.258), so C1 holds on 4 of 4 splits and is settled whatever split 4 shows. The full write-up waits for split 4.
+
+**2026-11-22, contrastive results against C1 and C2** (`scripts/contrastive_evaluate.py`, `results/contrastive/pbmc/hypotheses.json`)
+
+- **C1 supported:** contrastive beats the masked-gene transformer on fine macro F1 in 5 of 5 splits; mean 0.505 against 0.371. Gaps 0.139, 0.185, 0.126, 0.043, 0.174; the smallest is split 3, the chemistry hold-out.
+- **C2 supported:** 0 of 12 comparisons pass the rule; both variants are below both baselines on all six metrics in at least 4 of 5 splits.
+- Not changed by the result: the ablations continue as pre-registered on split seed 0.

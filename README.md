@@ -23,10 +23,11 @@ with GitHub Pages once the repository is public (see [docs/RELEASE.md](docs/RELE
 The data pipeline, the two baselines, a VAE and a transformer written from scratch, a parity
 check against scvi-tools, published pretrained embeddings, a six-lab benchmark with whole labs
 held out, follow-up analyses, an inductive version of Harmony, conformal prediction sets that
-say how sure a classifier is, a small audit package ([`audit/`](audit/README.md)), and the site.
-Everything below is finished and has tests unless it says otherwise. In progress: the same
-transformer retrained with a contrastive objective on a Colab GPU; no result is reported until
-all five splits are in.
+say how sure a classifier is, the transformer retrained with a contrastive objective, an audit
+of what that transformer relies on, a small audit package ([`audit/`](audit/README.md)), and the
+site. Everything below is finished and has tests unless it says otherwise. In progress: nine
+one-change ablations of the contrastive transformer on one split; no ablation result is
+reported here until all nine are in.
 
 ## Results: every method on the same five donor splits
 
@@ -228,6 +229,55 @@ Seven hypotheses were fixed in `docs/PLAN.md` before the results; each is checke
 Weaknesses: six labs is few for lab-level statements; the PBMC part uses one split and four
 calibration donors, so it is used for set sizes, not coverage claims; the H4 test was written
 after a first look at one method's per-type table (recorded in the decision log).
+
+## Does the training objective matter? (the transformer, retrained)
+
+The hand-written transformer was trained by hiding genes and predicting them, and scored far
+below PCA. To ask whether the objective was the problem, the identical model (same genes,
+tokens, size, epochs and splits) was retrained with a contrastive objective: two randomly
+corrupted copies of each cell must find each other among 510 other cells (SimCLR). Two
+hypotheses were fixed in `docs/PLAN.md` before any result; `scripts/contrastive_evaluate.py`
+checks them (`results/contrastive/pbmc/hypotheses.json`). Trained on a Colab T4 by
+`scripts/transformer_contrastive.py`.
+
+![Contrastive transformer](assets/contrastive_pbmc.png)
+
+- **The objective matters a lot.** Fine macro F1 rose from 0.371 to 0.505 on average, higher
+  on 5 of 5 splits (C1 supported). The gain was smallest on split 3, the only split where a test
+  donor used a sequencing chemistry no training donor had.
+- **It still loses to the simple baselines.** Against HVG + PCA (0.664) and PCA + Harmony, both
+  contrastive variants are lower on all six declared metrics in at least 4 of 5 splits, and pass
+  the comparison rule on none (C2 supported). Adding the masked-gene loss back changed little.
+
+Weaknesses: one dataset of 21 donors; settings were fixed in advance and not tuned, so a tuned
+version could do better; each split is one training run, and GPU training is not bit-for-bit
+repeatable, so small single-split gaps (such as split 3) should be read with care.
+
+## What does the transformer rely on? (a model audit)
+
+Run on CPU from the saved split-0 weights (`scripts/audit_knockout.py`,
+`scripts/audit_genotype.py`); six predictions fixed first, checked by `scripts/audit_evaluate.py`
+(`results/audit/pbmc/predictions.json`). Two of six failed.
+
+![Model audit](assets/audit_pbmc.png)
+
+- **It leans on abundant genes, not specific ones.** Knocking each common gene out of the input
+  in turn, the genes that move a cell most track how highly they are expressed (Spearman 0.72)
+  and barely track how specific they are to the cell type (0.10). They matched the marker genes
+  no better than a plain "most expressed" list (6 of 14 types; predicted at least two thirds).
+- **The contrastive model shrugs off losing one gene,** about four times less than the
+  masked-gene model (mean effect 0.0053 against 0.0198), as training on views with genes
+  dropped should make it.
+- **A suspected genetic shortcut turned out to be batch.** Six of 21 donors show essentially no
+  HLA-DRB5 (consistent with copy-number differences between people; nobody here was genotyped).
+  A probe on monocyte embeddings separates them with AUROC 0.756 for the contrastive transformer
+  (predicted at least 0.80) and 0.933 for PCA. Knocking HLA-DRB5 out lowers PCA's to 0.911, and
+  all HLA genes to 0.822; the transformer moves only to 0.733. The transformer's per-donor scores
+  sort by sample cohort and chemistry instead, the confound flagged before the run.
+
+Weaknesses: one split; with 21 donors one pair of donors moves the AUROC by 0.011; the HLA-DRB5
+pattern had been seen before the predictions were written; single-gene knockout is a blunt tool
+for a model trained to ignore missing genes.
 
 ## leakaudit: the checks, as a reusable package
 

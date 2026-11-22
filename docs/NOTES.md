@@ -695,6 +695,48 @@ Same genes, PCA, folds and scoring as the baseline and six-lab runs (`results/m8
 
 **What to say:** "Coverage guarantees depend on exchangeability, so I tested what you calibrate on. Same-donor cells overstate coverage on a new lab, from 0.90 to 0.83 in the worst case. Making labs the exchangeable unit restores coverage, but sets get almost twice as big, and with five labs you cannot honestly promise 90 percent at all."
 
+## Did the training objective hold the transformer back? (contrastive)
+
+**Question:** the masked-gene transformer learned its own task well yet gave a poor embedding. Was the objective the problem?
+
+**Method:** the identical architecture, genes, tokens, epochs and five donor splits, retrained with SimCLR: two views of each cell (each keeps 50 to 90 percent of its tokens, 20 percent of levels nudged one bin), temperature 0.1, projection to 64 dimensions, batch 256. Settings fixed in advance, not tuned. A second variant adds the masked-gene loss back. C1 and C2 were fixed first; `scripts/contrastive_evaluate.py` checks them.
+
+**Result:**
+
+| Hypothesis | Verdict | Numbers |
+|---|---|---|
+| C1 contrastive beats masked-gene on fine macro F1 in at least 4 of 5 splits | Supported | 5 of 5; mean 0.505 vs 0.371 (+0.134) |
+| C2 neither variant passes the comparison rule against both baselines | Supported | 0 of 12; lower than both on all 12 in at least 4 of 5 splits |
+
+**Reading:** the objective was a large part of the problem, but not all of it. At 21 donors and 2,000 genes, a linear method still keeps more cell-type information than either transformer.
+
+**Weakness:** one dataset; untuned; a same-seed rerun moved fine macro F1 by 0.034, so single-run gaps of that size are noise.
+
+**What to say:** "I changed only the objective and the transformer gained 13 points of macro F1 on every split, but PCA still wins by 16. So the objective mattered, and the data scale is the remaining limit."
+
+## What does the transformer rely on? (model audit)
+
+**Question:** which genes does the contrastive transformer use, and is its donor shortcut a genetic marker (HLA-DRB5)?
+
+**Method:** gene knockout (set a count to zero in the input, embed again, measure 1 - cos) for 14 types on split-0 test cells, compared with Wilcoxon markers and a "most expressed" list; and a leave-one-donor-out probe for HLA-DRB5 carrier status on monocyte embeddings, under knockouts of HLA-DRB5, all HLA genes, and 10 expression-matched controls. Six predictions fixed first (`scripts/audit_evaluate.py`).
+
+**Result:**
+
+| Prediction | Verdict | Numbers |
+|---|---|---|
+| K1 knockout matches markers better than expression, two thirds of types | Not supported | 6 of 14 (4 ties); 0.336 vs 0.339 |
+| K2 contrastive matches markers better than masked-gene | Supported, negligible | 0.336 vs 0.325 |
+| G1 contrastive carrier AUROC at least 0.80 | Not supported | 0.756 |
+| G2 HLA-DRB5 knockout drop larger than any control | Supported, tiny | 0.022 vs 0.000 |
+| G3 lower on naive CD4 T cells | Supported | 0.321 |
+| G4 PCA at least 0.80 | Supported | 0.933 (0.822 without any HLA gene) |
+
+**Reading:** the transformer's reliance tracks abundance (Spearman 0.72), not specificity (0.10), and it is four times less sensitive to one missing gene than the masked-gene model. PCA reads HLA-DRB5; the transformer barely does, and its carrier scores sort by cohort and chemistry. The donor shortcut is batch, not genotype.
+
+**Weakness:** one split; 21 donors; no genotypes; G2's bar was too low because controls moved by exactly zero; the HLA-DRB5 table was seen first.
+
+**What to say:** "I had a hypothesis that the shortcut was genetic, tested it causally, and it was wrong: the signal was cohort and chemistry. I also learned to give causal tests a minimum effect size."
+
 ## What you built so far, file by file
 
 | File | What it does | Key decision |
