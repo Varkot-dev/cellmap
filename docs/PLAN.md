@@ -346,3 +346,18 @@ Part 2, the HLA-DRB5 test (`scripts/audit_genotype.py`):
 - Reported without a prediction: the masked-gene and contrastive-plus-masked-gene transformers; knocking out all HLA genes at once; AUROC within the C2 cohort alone (8 donors), the cohort check.
 
 Part 3, a sparse autoencoder on the transformer's internal states, is designed after parts 1 and 2 and gets its own entry before it runs.
+
+**2026-11-22, model audit results against the predictions** (`scripts/audit_evaluate.py`, `results/audit/pbmc/predictions.json`)
+
+| Prediction | Verdict | Numbers |
+|---|---|---|
+| K1 knockout beats expression at matching markers, two thirds of types | Not supported | 6 of 14 (4 ties); overlap 0.336 vs 0.339 |
+| K2 contrastive overlaps markers more than masked-gene | Supported, negligible | 0.336 vs 0.325 (3 of 280 slots) |
+| G1 contrastive monocyte carrier AUROC at least 0.80 | Not supported | 0.756 |
+| G2 HLA-DRB5 knockout drop larger than any control | Supported, tiny | 0.022 drop (2 of 90 donor pairs); controls 0.000 |
+| G3 naive CD4 T cells lower than monocytes | Supported | 0.321 vs 0.756 |
+| G4 PCA at least 0.80 | Supported | 0.933; 0.822 with every HLA gene knocked out |
+
+Changed reading: the transformers' carrier scores sort mostly by cohort (C2 low) and chemistry (the two 10x v3 donors are the worst errors), so the probe mostly learned the confound that the design entry flagged. The donor shortcut seen in the one-donor-per-batch ablation is therefore attributed to cohort and chemistry, not to HLA-DRB5. Lesson for future pre-registrations: a causal knockout test needs a minimum effect size, not only "larger than the controls", because controls can move by exactly zero. Part 3 (sparse autoencoder) is not started; given part 1, single-unit tools on this model need care, and its design entry comes first.
+
+Contrastive main run: split seed 3 is in (contrastive 0.301, masked-gene 0.258), so C1 holds on 4 of 4 splits and is settled whatever split 4 shows. The full write-up waits for split 4.

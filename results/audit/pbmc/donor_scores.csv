@@ -1,0 +1,1665 @@
+method,cell_type,knockout,donor,carrier,score
+contrastive,classical monocyte,none,C2P01H,1,0.4934632480144501
+contrastive,classical monocyte,none,C2P05F,0,0.3720410466194153
+contrastive,classical monocyte,none,C2P07H,0,0.4818415343761444
+contrastive,classical monocyte,none,C2P10H,0,0.35085397958755493
+contrastive,classical monocyte,none,C2P13F,0,0.34263160824775696
+contrastive,classical monocyte,none,C2P15H,1,0.4413328468799591
+contrastive,classical monocyte,none,C2P16H,0,0.37069031596183777
+contrastive,classical monocyte,none,C2P19H,1,0.47537118196487427
+contrastive,classical monocyte,none,Five,0,0.9507808685302734
+contrastive,classical monocyte,none,P02H,1,0.5371074080467224
+contrastive,classical monocyte,none,P04H,1,0.8811063766479492
+contrastive,classical monocyte,none,P06F,1,0.8855594992637634
+contrastive,classical monocyte,none,P07H,1,0.9202414751052856
+contrastive,classical monocyte,none,P08H,1,0.8491580486297607
+contrastive,classical monocyte,none,P09H,1,0.6638489365577698
+contrastive,classical monocyte,none,P13H,1,0.7924227118492126
+contrastive,classical monocyte,none,P15F,1,0.8016855120658875
+contrastive,classical monocyte,none,P17H,1,0.6813899278640747
+contrastive,classical monocyte,none,P18F,1,0.6220611333847046
+contrastive,classical monocyte,none,P20H,1,0.6472817063331604
+contrastive,classical monocyte,none,one_Ten,1,0.03948817402124405
+contrastive,classical monocyte,HLA-DRB5,C2P01H,1,0.4671885073184967
+contrastive,classical monocyte,HLA-DRB5,C2P05F,0,0.3988431692123413
+contrastive,classical monocyte,HLA-DRB5,C2P07H,0,0.5090923309326172
+contrastive,classical monocyte,HLA-DRB5,C2P10H,0,0.35646405816078186
+contrastive,classical monocyte,HLA-DRB5,C2P13F,0,0.35183820128440857
+contrastive,classical monocyte,HLA-DRB5,C2P15H,1,0.42501822113990784
+contrastive,classical monocyte,HLA-DRB5,C2P16H,0,0.38083136081695557
+contrastive,classical monocyte,HLA-DRB5,C2P19H,1,0.44167354702949524
+contrastive,classical monocyte,HLA-DRB5,Five,0,0.9546732306480408
+contrastive,classical monocyte,HLA-DRB5,P02H,1,0.49134472012519836
+contrastive,classical monocyte,HLA-DRB5,P04H,1,0.8802142143249512
+contrastive,classical monocyte,HLA-DRB5,P06F,1,0.8828912377357483
+contrastive,classical monocyte,HLA-DRB5,P07H,1,0.9184055328369141
+contrastive,classical monocyte,HLA-DRB5,P08H,1,0.8465234637260437
+contrastive,classical monocyte,HLA-DRB5,P09H,1,0.6300524473190308
+contrastive,classical monocyte,HLA-DRB5,P13H,1,0.7893053889274597
+contrastive,classical monocyte,HLA-DRB5,P15F,1,0.8047904968261719
+contrastive,classical monocyte,HLA-DRB5,P17H,1,0.6645326018333435
+contrastive,classical monocyte,HLA-DRB5,P18F,1,0.6158154010772705
+contrastive,classical monocyte,HLA-DRB5,P20H,1,0.6370299458503723
+contrastive,classical monocyte,HLA-DRB5,one_Ten,1,0.0339217334985733
+contrastive,classical monocyte,all HLA,C2P01H,1,0.4709841012954712
+contrastive,classical monocyte,all HLA,C2P05F,0,0.38827189803123474
+contrastive,classical monocyte,all HLA,C2P07H,0,0.5111685395240784
+contrastive,classical monocyte,all HLA,C2P10H,0,0.35660815238952637
+contrastive,classical monocyte,all HLA,C2P13F,0,0.36066269874572754
+contrastive,classical monocyte,all HLA,C2P15H,1,0.41788923740386963
+contrastive,classical monocyte,all HLA,C2P16H,0,0.37980765104293823
+contrastive,classical monocyte,all HLA,C2P19H,1,0.4572827219963074
+contrastive,classical monocyte,all HLA,Five,0,0.9582637548446655
+contrastive,classical monocyte,all HLA,P02H,1,0.5073124170303345
+contrastive,classical monocyte,all HLA,P04H,1,0.8812673687934875
+contrastive,classical monocyte,all HLA,P06F,1,0.8784747123718262
+contrastive,classical monocyte,all HLA,P07H,1,0.913918673992157
+contrastive,classical monocyte,all HLA,P08H,1,0.8414304852485657
+contrastive,classical monocyte,all HLA,P09H,1,0.6016895174980164
+contrastive,classical monocyte,all HLA,P13H,1,0.7884436249732971
+contrastive,classical monocyte,all HLA,P15F,1,0.8023471832275391
+contrastive,classical monocyte,all HLA,P17H,1,0.6754863858222961
+contrastive,classical monocyte,all HLA,P18F,1,0.5900776386260986
+contrastive,classical monocyte,all HLA,P20H,1,0.6494783759117126
+contrastive,classical monocyte,all HLA,one_Ten,1,0.02712569199502468
+contrastive,classical monocyte,control EFHD2,C2P01H,1,0.4977097511291504
+contrastive,classical monocyte,control EFHD2,C2P05F,0,0.3700387179851532
+contrastive,classical monocyte,control EFHD2,C2P07H,0,0.47821593284606934
+contrastive,classical monocyte,control EFHD2,C2P10H,0,0.35018208622932434
+contrastive,classical monocyte,control EFHD2,C2P13F,0,0.3418349325656891
+contrastive,classical monocyte,control EFHD2,C2P15H,1,0.44302138686180115
+contrastive,classical monocyte,control EFHD2,C2P16H,0,0.3691198527812958
+contrastive,classical monocyte,control EFHD2,C2P19H,1,0.4775022864341736
+contrastive,classical monocyte,control EFHD2,Five,0,0.9542120099067688
+contrastive,classical monocyte,control EFHD2,P02H,1,0.5427460074424744
+contrastive,classical monocyte,control EFHD2,P04H,1,0.8813100457191467
+contrastive,classical monocyte,control EFHD2,P06F,1,0.8854691386222839
+contrastive,classical monocyte,control EFHD2,P07H,1,0.9188594818115234
+contrastive,classical monocyte,control EFHD2,P08H,1,0.8485120534896851
+contrastive,classical monocyte,control EFHD2,P09H,1,0.6664853692054749
+contrastive,classical monocyte,control EFHD2,P13H,1,0.7939037084579468
+contrastive,classical monocyte,control EFHD2,P15F,1,0.8029422163963318
+contrastive,classical monocyte,control EFHD2,P17H,1,0.6828211545944214
+contrastive,classical monocyte,control EFHD2,P18F,1,0.6212499737739563
+contrastive,classical monocyte,control EFHD2,P20H,1,0.6478477716445923
+contrastive,classical monocyte,control EFHD2,one_Ten,1,0.03862397372722626
+contrastive,classical monocyte,control CSF3R,C2P01H,1,0.4938664734363556
+contrastive,classical monocyte,control CSF3R,C2P05F,0,0.3691495358943939
+contrastive,classical monocyte,control CSF3R,C2P07H,0,0.480070024728775
+contrastive,classical monocyte,control CSF3R,C2P10H,0,0.34996312856674194
+contrastive,classical monocyte,control CSF3R,C2P13F,0,0.343351811170578
+contrastive,classical monocyte,control CSF3R,C2P15H,1,0.44631654024124146
+contrastive,classical monocyte,control CSF3R,C2P16H,0,0.36891961097717285
+contrastive,classical monocyte,control CSF3R,C2P19H,1,0.47455307841300964
+contrastive,classical monocyte,control CSF3R,Five,0,0.9526849389076233
+contrastive,classical monocyte,control CSF3R,P02H,1,0.540802538394928
+contrastive,classical monocyte,control CSF3R,P04H,1,0.883621096611023
+contrastive,classical monocyte,control CSF3R,P06F,1,0.8857485055923462
+contrastive,classical monocyte,control CSF3R,P07H,1,0.9209979176521301
+contrastive,classical monocyte,control CSF3R,P08H,1,0.8492536544799805
+contrastive,classical monocyte,control CSF3R,P09H,1,0.6666237115859985
+contrastive,classical monocyte,control CSF3R,P13H,1,0.7906398773193359
+contrastive,classical monocyte,control CSF3R,P15F,1,0.8041747808456421
+contrastive,classical monocyte,control CSF3R,P17H,1,0.6816928386688232
+contrastive,classical monocyte,control CSF3R,P18F,1,0.6205094456672668
+contrastive,classical monocyte,control CSF3R,P20H,1,0.6484708189964294
+contrastive,classical monocyte,control CSF3R,one_Ten,1,0.03910290077328682
+contrastive,classical monocyte,control CAPG,C2P01H,1,0.4959518313407898
+contrastive,classical monocyte,control CAPG,C2P05F,0,0.37378066778182983
+contrastive,classical monocyte,control CAPG,C2P07H,0,0.4826309084892273
+contrastive,classical monocyte,control CAPG,C2P10H,0,0.35358211398124695
+contrastive,classical monocyte,control CAPG,C2P13F,0,0.3440353274345398
+contrastive,classical monocyte,control CAPG,C2P15H,1,0.4401613473892212
+contrastive,classical monocyte,control CAPG,C2P16H,0,0.37045273184776306
+contrastive,classical monocyte,control CAPG,C2P19H,1,0.47237202525138855
+contrastive,classical monocyte,control CAPG,Five,0,0.9510796070098877
+contrastive,classical monocyte,control CAPG,P02H,1,0.534512460231781
+contrastive,classical monocyte,control CAPG,P04H,1,0.8789343237876892
+contrastive,classical monocyte,control CAPG,P06F,1,0.8848368525505066
+contrastive,classical monocyte,control CAPG,P07H,1,0.9191131591796875
+contrastive,classical monocyte,control CAPG,P08H,1,0.8479793667793274
+contrastive,classical monocyte,control CAPG,P09H,1,0.6621233224868774
+contrastive,classical monocyte,control CAPG,P13H,1,0.7923675775527954
+contrastive,classical monocyte,control CAPG,P15F,1,0.8001818060874939
+contrastive,classical monocyte,control CAPG,P17H,1,0.6808634400367737
+contrastive,classical monocyte,control CAPG,P18F,1,0.6210960149765015
+contrastive,classical monocyte,control CAPG,P20H,1,0.6454412341117859
+contrastive,classical monocyte,control CAPG,one_Ten,1,0.039427388459444046
+contrastive,classical monocyte,control ZEB2,C2P01H,1,0.49441009759902954
+contrastive,classical monocyte,control ZEB2,C2P05F,0,0.3725639879703522
+contrastive,classical monocyte,control ZEB2,C2P07H,0,0.47860464453697205
+contrastive,classical monocyte,control ZEB2,C2P10H,0,0.352665513753891
+contrastive,classical monocyte,control ZEB2,C2P13F,0,0.3439067602157593
+contrastive,classical monocyte,control ZEB2,C2P15H,1,0.4422490894794464
+contrastive,classical monocyte,control ZEB2,C2P16H,0,0.36898428201675415
+contrastive,classical monocyte,control ZEB2,C2P19H,1,0.47492268681526184
+contrastive,classical monocyte,control ZEB2,Five,0,0.9522228837013245
+contrastive,classical monocyte,control ZEB2,P02H,1,0.5393515825271606
+contrastive,classical monocyte,control ZEB2,P04H,1,0.8813599944114685
+contrastive,classical monocyte,control ZEB2,P06F,1,0.8855178952217102
+contrastive,classical monocyte,control ZEB2,P07H,1,0.9185284376144409
+contrastive,classical monocyte,control ZEB2,P08H,1,0.8478637933731079
+contrastive,classical monocyte,control ZEB2,P09H,1,0.6641914248466492
+contrastive,classical monocyte,control ZEB2,P13H,1,0.7925736308097839
+contrastive,classical monocyte,control ZEB2,P15F,1,0.7999143004417419
+contrastive,classical monocyte,control ZEB2,P17H,1,0.6802710890769958
+contrastive,classical monocyte,control ZEB2,P18F,1,0.6238892674446106
+contrastive,classical monocyte,control ZEB2,P20H,1,0.645193338394165
+contrastive,classical monocyte,control ZEB2,one_Ten,1,0.03966022655367851
+contrastive,classical monocyte,control TIMP1,C2P01H,1,0.4937956631183624
+contrastive,classical monocyte,control TIMP1,C2P05F,0,0.37396109104156494
+contrastive,classical monocyte,control TIMP1,C2P07H,0,0.47938111424446106
+contrastive,classical monocyte,control TIMP1,C2P10H,0,0.35080215334892273
+contrastive,classical monocyte,control TIMP1,C2P13F,0,0.3433428108692169
+contrastive,classical monocyte,control TIMP1,C2P15H,1,0.44386422634124756
+contrastive,classical monocyte,control TIMP1,C2P16H,0,0.3670025169849396
+contrastive,classical monocyte,control TIMP1,C2P19H,1,0.4774306118488312
+contrastive,classical monocyte,control TIMP1,Five,0,0.9529073238372803
+contrastive,classical monocyte,control TIMP1,P02H,1,0.5385482311248779
+contrastive,classical monocyte,control TIMP1,P04H,1,0.8820197582244873
+contrastive,classical monocyte,control TIMP1,P06F,1,0.8852130174636841
+contrastive,classical monocyte,control TIMP1,P07H,1,0.918836236000061
+contrastive,classical monocyte,control TIMP1,P08H,1,0.8488098382949829
+contrastive,classical monocyte,control TIMP1,P09H,1,0.6650685667991638
+contrastive,classical monocyte,control TIMP1,P13H,1,0.7930993437767029
+contrastive,classical monocyte,control TIMP1,P15F,1,0.8005990386009216
+contrastive,classical monocyte,control TIMP1,P17H,1,0.6823734641075134
+contrastive,classical monocyte,control TIMP1,P18F,1,0.6205151081085205
+contrastive,classical monocyte,control TIMP1,P20H,1,0.646971583366394
+contrastive,classical monocyte,control TIMP1,one_Ten,1,0.03963707014918327
+contrastive,classical monocyte,control CFP,C2P01H,1,0.49426472187042236
+contrastive,classical monocyte,control CFP,C2P05F,0,0.3721635043621063
+contrastive,classical monocyte,control CFP,C2P07H,0,0.4771707057952881
+contrastive,classical monocyte,control CFP,C2P10H,0,0.35334721207618713
+contrastive,classical monocyte,control CFP,C2P13F,0,0.3426823318004608
+contrastive,classical monocyte,control CFP,C2P15H,1,0.44338923692703247
+contrastive,classical monocyte,control CFP,C2P16H,0,0.369404137134552
+contrastive,classical monocyte,control CFP,C2P19H,1,0.4757901132106781
+contrastive,classical monocyte,control CFP,Five,0,0.9519525170326233
+contrastive,classical monocyte,control CFP,P02H,1,0.5394125580787659
+contrastive,classical monocyte,control CFP,P04H,1,0.8811246752738953
+contrastive,classical monocyte,control CFP,P06F,1,0.8846766352653503
+contrastive,classical monocyte,control CFP,P07H,1,0.9177040457725525
+contrastive,classical monocyte,control CFP,P08H,1,0.8497456908226013
+contrastive,classical monocyte,control CFP,P09H,1,0.663526713848114
+contrastive,classical monocyte,control CFP,P13H,1,0.7932831645011902
+contrastive,classical monocyte,control CFP,P15F,1,0.8003529906272888
+contrastive,classical monocyte,control CFP,P17H,1,0.6826884150505066
+contrastive,classical monocyte,control CFP,P18F,1,0.6211156845092773
+contrastive,classical monocyte,control CFP,P20H,1,0.6478419303894043
+contrastive,classical monocyte,control CFP,one_Ten,1,0.0407426655292511
+contrastive,classical monocyte,control NUP214,C2P01H,1,0.4905327260494232
+contrastive,classical monocyte,control NUP214,C2P05F,0,0.3759586215019226
+contrastive,classical monocyte,control NUP214,C2P07H,0,0.4858004152774811
+contrastive,classical monocyte,control NUP214,C2P10H,0,0.351812481880188
+contrastive,classical monocyte,control NUP214,C2P13F,0,0.3398078680038452
+contrastive,classical monocyte,control NUP214,C2P15H,1,0.44185012578964233
+contrastive,classical monocyte,control NUP214,C2P16H,0,0.36897897720336914
+contrastive,classical monocyte,control NUP214,C2P19H,1,0.47174566984176636
+contrastive,classical monocyte,control NUP214,Five,0,0.9540916085243225
+contrastive,classical monocyte,control NUP214,P02H,1,0.5421916246414185
+contrastive,classical monocyte,control NUP214,P04H,1,0.8794904351234436
+contrastive,classical monocyte,control NUP214,P06F,1,0.8834248781204224
+contrastive,classical monocyte,control NUP214,P07H,1,0.9207969903945923
+contrastive,classical monocyte,control NUP214,P08H,1,0.8509498834609985
+contrastive,classical monocyte,control NUP214,P09H,1,0.6621321439743042
+contrastive,classical monocyte,control NUP214,P13H,1,0.7930120229721069
+contrastive,classical monocyte,control NUP214,P15F,1,0.8082388639450073
+contrastive,classical monocyte,control NUP214,P17H,1,0.6791282892227173
+contrastive,classical monocyte,control NUP214,P18F,1,0.620834231376648
+contrastive,classical monocyte,control NUP214,P20H,1,0.6445562243461609
+contrastive,classical monocyte,control NUP214,one_Ten,1,0.03814966231584549
+contrastive,classical monocyte,control MS4A6A,C2P01H,1,0.4936074912548065
+contrastive,classical monocyte,control MS4A6A,C2P05F,0,0.37106043100357056
+contrastive,classical monocyte,control MS4A6A,C2P07H,0,0.4839005172252655
+contrastive,classical monocyte,control MS4A6A,C2P10H,0,0.35248082876205444
+contrastive,classical monocyte,control MS4A6A,C2P13F,0,0.34347161650657654
+contrastive,classical monocyte,control MS4A6A,C2P15H,1,0.4440973997116089
+contrastive,classical monocyte,control MS4A6A,C2P16H,0,0.367924302816391
+contrastive,classical monocyte,control MS4A6A,C2P19H,1,0.4764222204685211
+contrastive,classical monocyte,control MS4A6A,Five,0,0.9513415694236755
+contrastive,classical monocyte,control MS4A6A,P02H,1,0.5376323461532593
+contrastive,classical monocyte,control MS4A6A,P04H,1,0.8790388107299805
+contrastive,classical monocyte,control MS4A6A,P06F,1,0.8860076665878296
+contrastive,classical monocyte,control MS4A6A,P07H,1,0.9177502393722534
+contrastive,classical monocyte,control MS4A6A,P08H,1,0.8489624857902527
+contrastive,classical monocyte,control MS4A6A,P09H,1,0.663737952709198
+contrastive,classical monocyte,control MS4A6A,P13H,1,0.7927398085594177
+contrastive,classical monocyte,control MS4A6A,P15F,1,0.7988226413726807
+contrastive,classical monocyte,control MS4A6A,P17H,1,0.6834625005722046
+contrastive,classical monocyte,control MS4A6A,P18F,1,0.621802568435669
+contrastive,classical monocyte,control MS4A6A,P20H,1,0.6482155919075012
+contrastive,classical monocyte,control MS4A6A,one_Ten,1,0.03942820429801941
+contrastive,classical monocyte,control IER2,C2P01H,1,0.4951515197753906
+contrastive,classical monocyte,control IER2,C2P05F,0,0.37768441438674927
+contrastive,classical monocyte,control IER2,C2P07H,0,0.47658222913742065
+contrastive,classical monocyte,control IER2,C2P10H,0,0.35505470633506775
+contrastive,classical monocyte,control IER2,C2P13F,0,0.3455827832221985
+contrastive,classical monocyte,control IER2,C2P15H,1,0.4413721263408661
+contrastive,classical monocyte,control IER2,C2P16H,0,0.37035176157951355
+contrastive,classical monocyte,control IER2,C2P19H,1,0.4764760434627533
+contrastive,classical monocyte,control IER2,Five,0,0.9523866772651672
+contrastive,classical monocyte,control IER2,P02H,1,0.5398575067520142
+contrastive,classical monocyte,control IER2,P04H,1,0.8808202147483826
+contrastive,classical monocyte,control IER2,P06F,1,0.8864327073097229
+contrastive,classical monocyte,control IER2,P07H,1,0.9207128882408142
+contrastive,classical monocyte,control IER2,P08H,1,0.848537266254425
+contrastive,classical monocyte,control IER2,P09H,1,0.667458176612854
+contrastive,classical monocyte,control IER2,P13H,1,0.7954743504524231
+contrastive,classical monocyte,control IER2,P15F,1,0.8045936226844788
+contrastive,classical monocyte,control IER2,P17H,1,0.6739549040794373
+contrastive,classical monocyte,control IER2,P18F,1,0.6110907196998596
+contrastive,classical monocyte,control IER2,P20H,1,0.640655517578125
+contrastive,classical monocyte,control IER2,one_Ten,1,0.04098621383309364
+contrastive,classical monocyte,control BLVRB,C2P01H,1,0.49144622683525085
+contrastive,classical monocyte,control BLVRB,C2P05F,0,0.37299567461013794
+contrastive,classical monocyte,control BLVRB,C2P07H,0,0.4812149107456207
+contrastive,classical monocyte,control BLVRB,C2P10H,0,0.35316652059555054
+contrastive,classical monocyte,control BLVRB,C2P13F,0,0.3405509889125824
+contrastive,classical monocyte,control BLVRB,C2P15H,1,0.4436657130718231
+contrastive,classical monocyte,control BLVRB,C2P16H,0,0.3689442574977875
+contrastive,classical monocyte,control BLVRB,C2P19H,1,0.4751022756099701
+contrastive,classical monocyte,control BLVRB,Five,0,0.951978862285614
+contrastive,classical monocyte,control BLVRB,P02H,1,0.5422469973564148
+contrastive,classical monocyte,control BLVRB,P04H,1,0.8797234296798706
+contrastive,classical monocyte,control BLVRB,P06F,1,0.8878238797187805
+contrastive,classical monocyte,control BLVRB,P07H,1,0.9199216961860657
+contrastive,classical monocyte,control BLVRB,P08H,1,0.8482365012168884
+contrastive,classical monocyte,control BLVRB,P09H,1,0.664527177810669
+contrastive,classical monocyte,control BLVRB,P13H,1,0.7926973700523376
+contrastive,classical monocyte,control BLVRB,P15F,1,0.801764726638794
+contrastive,classical monocyte,control BLVRB,P17H,1,0.6816458106040955
+contrastive,classical monocyte,control BLVRB,P18F,1,0.6214514970779419
+contrastive,classical monocyte,control BLVRB,P20H,1,0.6457130908966064
+contrastive,classical monocyte,control BLVRB,one_Ten,1,0.04023529216647148
+contrastive,naive CD4 T cell,none,C2P01H,1,0.4754139184951782
+contrastive,naive CD4 T cell,none,C2P07H,0,0.9531598091125488
+contrastive,naive CD4 T cell,none,C2P10H,0,0.6115292310714722
+contrastive,naive CD4 T cell,none,C2P16H,0,0.40310126543045044
+contrastive,naive CD4 T cell,none,C2P19H,1,0.6728587746620178
+contrastive,naive CD4 T cell,none,Five,0,0.9805195927619934
+contrastive,naive CD4 T cell,none,P02H,1,0.7096697688102722
+contrastive,naive CD4 T cell,none,P09H,1,0.7584126591682434
+contrastive,naive CD4 T cell,none,P18F,1,0.561906635761261
+contrastive,naive CD4 T cell,none,P20H,1,0.43157827854156494
+contrastive,naive CD4 T cell,none,one_Ten,1,0.045657917857170105
+contrastive,naive CD4 T cell,HLA-DRB5,C2P01H,1,0.473080575466156
+contrastive,naive CD4 T cell,HLA-DRB5,C2P07H,0,0.9534444808959961
+contrastive,naive CD4 T cell,HLA-DRB5,C2P10H,0,0.6147031784057617
+contrastive,naive CD4 T cell,HLA-DRB5,C2P16H,0,0.4066780209541321
+contrastive,naive CD4 T cell,HLA-DRB5,C2P19H,1,0.6718917489051819
+contrastive,naive CD4 T cell,HLA-DRB5,Five,0,0.9811065793037415
+contrastive,naive CD4 T cell,HLA-DRB5,P02H,1,0.7089179754257202
+contrastive,naive CD4 T cell,HLA-DRB5,P09H,1,0.7559543251991272
+contrastive,naive CD4 T cell,HLA-DRB5,P18F,1,0.5569196343421936
+contrastive,naive CD4 T cell,HLA-DRB5,P20H,1,0.43011075258255005
+contrastive,naive CD4 T cell,HLA-DRB5,one_Ten,1,0.04739079624414444
+contrastive,naive CD4 T cell,all HLA,C2P01H,1,0.46633273363113403
+contrastive,naive CD4 T cell,all HLA,C2P07H,0,0.9535424113273621
+contrastive,naive CD4 T cell,all HLA,C2P10H,0,0.6250313520431519
+contrastive,naive CD4 T cell,all HLA,C2P16H,0,0.42018207907676697
+contrastive,naive CD4 T cell,all HLA,C2P19H,1,0.6675758957862854
+contrastive,naive CD4 T cell,all HLA,Five,0,0.9853957891464233
+contrastive,naive CD4 T cell,all HLA,P02H,1,0.6977252960205078
+contrastive,naive CD4 T cell,all HLA,P09H,1,0.7474485635757446
+contrastive,naive CD4 T cell,all HLA,P18F,1,0.558873176574707
+contrastive,naive CD4 T cell,all HLA,P20H,1,0.4252355098724365
+contrastive,naive CD4 T cell,all HLA,one_Ten,1,0.06119484454393387
+contrastive,naive CD4 T cell,control EFHD2,C2P01H,1,0.47681745886802673
+contrastive,naive CD4 T cell,control EFHD2,C2P07H,0,0.9535754323005676
+contrastive,naive CD4 T cell,control EFHD2,C2P10H,0,0.6111937165260315
+contrastive,naive CD4 T cell,control EFHD2,C2P16H,0,0.40027302503585815
+contrastive,naive CD4 T cell,control EFHD2,C2P19H,1,0.672326922416687
+contrastive,naive CD4 T cell,control EFHD2,Five,0,0.9805525541305542
+contrastive,naive CD4 T cell,control EFHD2,P02H,1,0.7096548676490784
+contrastive,naive CD4 T cell,control EFHD2,P09H,1,0.7581142783164978
+contrastive,naive CD4 T cell,control EFHD2,P18F,1,0.5622997283935547
+contrastive,naive CD4 T cell,control EFHD2,P20H,1,0.4313715398311615
+contrastive,naive CD4 T cell,control EFHD2,one_Ten,1,0.045717380940914154
+contrastive,naive CD4 T cell,control CSF3R,C2P01H,1,0.4735436737537384
+contrastive,naive CD4 T cell,control CSF3R,C2P07H,0,0.9529265761375427
+contrastive,naive CD4 T cell,control CSF3R,C2P10H,0,0.6120896339416504
+contrastive,naive CD4 T cell,control CSF3R,C2P16H,0,0.4036398231983185
+contrastive,naive CD4 T cell,control CSF3R,C2P19H,1,0.6729488372802734
+contrastive,naive CD4 T cell,control CSF3R,Five,0,0.9804677367210388
+contrastive,naive CD4 T cell,control CSF3R,P02H,1,0.7110493779182434
+contrastive,naive CD4 T cell,control CSF3R,P09H,1,0.7585929036140442
+contrastive,naive CD4 T cell,control CSF3R,P18F,1,0.5608564615249634
+contrastive,naive CD4 T cell,control CSF3R,P20H,1,0.43013566732406616
+contrastive,naive CD4 T cell,control CSF3R,one_Ten,1,0.04566667601466179
+contrastive,naive CD4 T cell,control CAPG,C2P01H,1,0.47576040029525757
+contrastive,naive CD4 T cell,control CAPG,C2P07H,0,0.9535593390464783
+contrastive,naive CD4 T cell,control CAPG,C2P10H,0,0.6133784055709839
+contrastive,naive CD4 T cell,control CAPG,C2P16H,0,0.40360504388809204
+contrastive,naive CD4 T cell,control CAPG,C2P19H,1,0.6727665662765503
+contrastive,naive CD4 T cell,control CAPG,Five,0,0.9811932444572449
+contrastive,naive CD4 T cell,control CAPG,P02H,1,0.7097843289375305
+contrastive,naive CD4 T cell,control CAPG,P09H,1,0.7581911087036133
+contrastive,naive CD4 T cell,control CAPG,P18F,1,0.5622833967208862
+contrastive,naive CD4 T cell,control CAPG,P20H,1,0.43176978826522827
+contrastive,naive CD4 T cell,control CAPG,one_Ten,1,0.04570208117365837
+contrastive,naive CD4 T cell,control ZEB2,C2P01H,1,0.47597822546958923
+contrastive,naive CD4 T cell,control ZEB2,C2P07H,0,0.9534671902656555
+contrastive,naive CD4 T cell,control ZEB2,C2P10H,0,0.6122941374778748
+contrastive,naive CD4 T cell,control ZEB2,C2P16H,0,0.40335923433303833
+contrastive,naive CD4 T cell,control ZEB2,C2P19H,1,0.673550546169281
+contrastive,naive CD4 T cell,control ZEB2,Five,0,0.9804134368896484
+contrastive,naive CD4 T cell,control ZEB2,P02H,1,0.7097697257995605
+contrastive,naive CD4 T cell,control ZEB2,P09H,1,0.7587775588035583
+contrastive,naive CD4 T cell,control ZEB2,P18F,1,0.5601686239242554
+contrastive,naive CD4 T cell,control ZEB2,P20H,1,0.43171581625938416
+contrastive,naive CD4 T cell,control ZEB2,one_Ten,1,0.045627888292074203
+contrastive,naive CD4 T cell,control TIMP1,C2P01H,1,0.47278669476509094
+contrastive,naive CD4 T cell,control TIMP1,C2P07H,0,0.9536105394363403
+contrastive,naive CD4 T cell,control TIMP1,C2P10H,0,0.6116541624069214
+contrastive,naive CD4 T cell,control TIMP1,C2P16H,0,0.40481793880462646
+contrastive,naive CD4 T cell,control TIMP1,C2P19H,1,0.6721889972686768
+contrastive,naive CD4 T cell,control TIMP1,Five,0,0.9800219535827637
+contrastive,naive CD4 T cell,control TIMP1,P02H,1,0.7119123339653015
+contrastive,naive CD4 T cell,control TIMP1,P09H,1,0.7564414739608765
+contrastive,naive CD4 T cell,control TIMP1,P18F,1,0.5553597211837769
+contrastive,naive CD4 T cell,control TIMP1,P20H,1,0.4333297610282898
+contrastive,naive CD4 T cell,control TIMP1,one_Ten,1,0.04695660248398781
+contrastive,naive CD4 T cell,control CFP,C2P01H,1,0.47721609473228455
+contrastive,naive CD4 T cell,control CFP,C2P07H,0,0.9521406888961792
+contrastive,naive CD4 T cell,control CFP,C2P10H,0,0.6109200119972229
+contrastive,naive CD4 T cell,control CFP,C2P16H,0,0.4019024968147278
+contrastive,naive CD4 T cell,control CFP,C2P19H,1,0.6720036268234253
+contrastive,naive CD4 T cell,control CFP,Five,0,0.9806797504425049
+contrastive,naive CD4 T cell,control CFP,P02H,1,0.7102594971656799
+contrastive,naive CD4 T cell,control CFP,P09H,1,0.7592422366142273
+contrastive,naive CD4 T cell,control CFP,P18F,1,0.5617090463638306
+contrastive,naive CD4 T cell,control CFP,P20H,1,0.4327060878276825
+contrastive,naive CD4 T cell,control CFP,one_Ten,1,0.04583505913615227
+contrastive,naive CD4 T cell,control NUP214,C2P01H,1,0.47552135586738586
+contrastive,naive CD4 T cell,control NUP214,C2P07H,0,0.9530057907104492
+contrastive,naive CD4 T cell,control NUP214,C2P10H,0,0.6106780767440796
+contrastive,naive CD4 T cell,control NUP214,C2P16H,0,0.40352776646614075
+contrastive,naive CD4 T cell,control NUP214,C2P19H,1,0.6726844906806946
+contrastive,naive CD4 T cell,control NUP214,Five,0,0.9790441989898682
+contrastive,naive CD4 T cell,control NUP214,P02H,1,0.7097635865211487
+contrastive,naive CD4 T cell,control NUP214,P09H,1,0.7582821249961853
+contrastive,naive CD4 T cell,control NUP214,P18F,1,0.5628191232681274
+contrastive,naive CD4 T cell,control NUP214,P20H,1,0.43164825439453125
+contrastive,naive CD4 T cell,control NUP214,one_Ten,1,0.046446606516838074
+contrastive,naive CD4 T cell,control MS4A6A,C2P01H,1,0.47601255774497986
+contrastive,naive CD4 T cell,control MS4A6A,C2P07H,0,0.9538269639015198
+contrastive,naive CD4 T cell,control MS4A6A,C2P10H,0,0.6109324097633362
+contrastive,naive CD4 T cell,control MS4A6A,C2P16H,0,0.40525171160697937
+contrastive,naive CD4 T cell,control MS4A6A,C2P19H,1,0.6714476943016052
+contrastive,naive CD4 T cell,control MS4A6A,Five,0,0.9811111688613892
+contrastive,naive CD4 T cell,control MS4A6A,P02H,1,0.7094058990478516
+contrastive,naive CD4 T cell,control MS4A6A,P09H,1,0.7576762437820435
+contrastive,naive CD4 T cell,control MS4A6A,P18F,1,0.5624896883964539
+contrastive,naive CD4 T cell,control MS4A6A,P20H,1,0.4301564693450928
+contrastive,naive CD4 T cell,control MS4A6A,one_Ten,1,0.04568958282470703
+contrastive,naive CD4 T cell,control IER2,C2P01H,1,0.47801142930984497
+contrastive,naive CD4 T cell,control IER2,C2P07H,0,0.9541309475898743
+contrastive,naive CD4 T cell,control IER2,C2P10H,0,0.6150527000427246
+contrastive,naive CD4 T cell,control IER2,C2P16H,0,0.40173035860061646
+contrastive,naive CD4 T cell,control IER2,C2P19H,1,0.6754310727119446
+contrastive,naive CD4 T cell,control IER2,Five,0,0.9811424016952515
+contrastive,naive CD4 T cell,control IER2,P02H,1,0.7116634249687195
+contrastive,naive CD4 T cell,control IER2,P09H,1,0.7550338506698608
+contrastive,naive CD4 T cell,control IER2,P18F,1,0.5591638088226318
+contrastive,naive CD4 T cell,control IER2,P20H,1,0.42929792404174805
+contrastive,naive CD4 T cell,control IER2,one_Ten,1,0.04571148380637169
+contrastive,naive CD4 T cell,control BLVRB,C2P01H,1,0.47772231698036194
+contrastive,naive CD4 T cell,control BLVRB,C2P07H,0,0.9530795216560364
+contrastive,naive CD4 T cell,control BLVRB,C2P10H,0,0.6087664365768433
+contrastive,naive CD4 T cell,control BLVRB,C2P16H,0,0.4032878875732422
+contrastive,naive CD4 T cell,control BLVRB,C2P19H,1,0.6740785837173462
+contrastive,naive CD4 T cell,control BLVRB,Five,0,0.9806374311447144
+contrastive,naive CD4 T cell,control BLVRB,P02H,1,0.7082115411758423
+contrastive,naive CD4 T cell,control BLVRB,P09H,1,0.7570339441299438
+contrastive,naive CD4 T cell,control BLVRB,P18F,1,0.5616083145141602
+contrastive,naive CD4 T cell,control BLVRB,P20H,1,0.4319553077220917
+contrastive,naive CD4 T cell,control BLVRB,one_Ten,1,0.04496941715478897
+contrastive_mgm,classical monocyte,none,C2P01H,1,0.5854198336601257
+contrastive_mgm,classical monocyte,none,C2P05F,0,0.389913946390152
+contrastive_mgm,classical monocyte,none,C2P07H,0,0.4635835289955139
+contrastive_mgm,classical monocyte,none,C2P10H,0,0.27425792813301086
+contrastive_mgm,classical monocyte,none,C2P13F,0,0.3066883683204651
+contrastive_mgm,classical monocyte,none,C2P15H,1,0.5093357563018799
+contrastive_mgm,classical monocyte,none,C2P16H,0,0.3007855713367462
+contrastive_mgm,classical monocyte,none,C2P19H,1,0.5659946203231812
+contrastive_mgm,classical monocyte,none,Five,0,0.9173598289489746
+contrastive_mgm,classical monocyte,none,P02H,1,0.6635396480560303
+contrastive_mgm,classical monocyte,none,P04H,1,0.9098213911056519
+contrastive_mgm,classical monocyte,none,P06F,1,0.9204034209251404
+contrastive_mgm,classical monocyte,none,P07H,1,0.9199504852294922
+contrastive_mgm,classical monocyte,none,P08H,1,0.86187744140625
+contrastive_mgm,classical monocyte,none,P09H,1,0.6986777782440186
+contrastive_mgm,classical monocyte,none,P13H,1,0.8291763067245483
+contrastive_mgm,classical monocyte,none,P15F,1,0.8262801170349121
+contrastive_mgm,classical monocyte,none,P17H,1,0.6720953583717346
+contrastive_mgm,classical monocyte,none,P18F,1,0.6287042498588562
+contrastive_mgm,classical monocyte,none,P20H,1,0.6586054563522339
+contrastive_mgm,classical monocyte,none,one_Ten,1,0.01069050282239914
+contrastive_mgm,classical monocyte,HLA-DRB5,C2P01H,1,0.5493892431259155
+contrastive_mgm,classical monocyte,HLA-DRB5,C2P05F,0,0.42390021681785583
+contrastive_mgm,classical monocyte,HLA-DRB5,C2P07H,0,0.5033441185951233
+contrastive_mgm,classical monocyte,HLA-DRB5,C2P10H,0,0.2901363968849182
+contrastive_mgm,classical monocyte,HLA-DRB5,C2P13F,0,0.3128308653831482
+contrastive_mgm,classical monocyte,HLA-DRB5,C2P15H,1,0.49874886870384216
+contrastive_mgm,classical monocyte,HLA-DRB5,C2P16H,0,0.3172776699066162
+contrastive_mgm,classical monocyte,HLA-DRB5,C2P19H,1,0.5111508965492249
+contrastive_mgm,classical monocyte,HLA-DRB5,Five,0,0.9282360672950745
+contrastive_mgm,classical monocyte,HLA-DRB5,P02H,1,0.6114838719367981
+contrastive_mgm,classical monocyte,HLA-DRB5,P04H,1,0.9076509475708008
+contrastive_mgm,classical monocyte,HLA-DRB5,P06F,1,0.9080634713172913
+contrastive_mgm,classical monocyte,HLA-DRB5,P07H,1,0.9113182425498962
+contrastive_mgm,classical monocyte,HLA-DRB5,P08H,1,0.85504150390625
+contrastive_mgm,classical monocyte,HLA-DRB5,P09H,1,0.662871778011322
+contrastive_mgm,classical monocyte,HLA-DRB5,P13H,1,0.8271799683570862
+contrastive_mgm,classical monocyte,HLA-DRB5,P15F,1,0.8247541785240173
+contrastive_mgm,classical monocyte,HLA-DRB5,P17H,1,0.6444255113601685
+contrastive_mgm,classical monocyte,HLA-DRB5,P18F,1,0.6157662272453308
+contrastive_mgm,classical monocyte,HLA-DRB5,P20H,1,0.6523814797401428
+contrastive_mgm,classical monocyte,HLA-DRB5,one_Ten,1,0.008627792820334435
+contrastive_mgm,classical monocyte,all HLA,C2P01H,1,0.5557134747505188
+contrastive_mgm,classical monocyte,all HLA,C2P05F,0,0.43595829606056213
+contrastive_mgm,classical monocyte,all HLA,C2P07H,0,0.5128213763237
+contrastive_mgm,classical monocyte,all HLA,C2P10H,0,0.2774296998977661
+contrastive_mgm,classical monocyte,all HLA,C2P13F,0,0.3104594051837921
+contrastive_mgm,classical monocyte,all HLA,C2P15H,1,0.4738035202026367
+contrastive_mgm,classical monocyte,all HLA,C2P16H,0,0.3289340138435364
+contrastive_mgm,classical monocyte,all HLA,C2P19H,1,0.5190516710281372
+contrastive_mgm,classical monocyte,all HLA,Five,0,0.917092502117157
+contrastive_mgm,classical monocyte,all HLA,P02H,1,0.6347911357879639
+contrastive_mgm,classical monocyte,all HLA,P04H,1,0.9033099412918091
+contrastive_mgm,classical monocyte,all HLA,P06F,1,0.9123359322547913
+contrastive_mgm,classical monocyte,all HLA,P07H,1,0.9116847515106201
+contrastive_mgm,classical monocyte,all HLA,P08H,1,0.8488809466362
+contrastive_mgm,classical monocyte,all HLA,P09H,1,0.6058850884437561
+contrastive_mgm,classical monocyte,all HLA,P13H,1,0.8238150477409363
+contrastive_mgm,classical monocyte,all HLA,P15F,1,0.8331446051597595
+contrastive_mgm,classical monocyte,all HLA,P17H,1,0.6680582165718079
+contrastive_mgm,classical monocyte,all HLA,P18F,1,0.5936048626899719
+contrastive_mgm,classical monocyte,all HLA,P20H,1,0.6474891901016235
+contrastive_mgm,classical monocyte,all HLA,one_Ten,1,0.008237907662987709
+contrastive_mgm,classical monocyte,control EFHD2,C2P01H,1,0.5875982642173767
+contrastive_mgm,classical monocyte,control EFHD2,C2P05F,0,0.39060020446777344
+contrastive_mgm,classical monocyte,control EFHD2,C2P07H,0,0.4619203209877014
+contrastive_mgm,classical monocyte,control EFHD2,C2P10H,0,0.2744077444076538
+contrastive_mgm,classical monocyte,control EFHD2,C2P13F,0,0.30804625153541565
+contrastive_mgm,classical monocyte,control EFHD2,C2P15H,1,0.5093089938163757
+contrastive_mgm,classical monocyte,control EFHD2,C2P16H,0,0.30266061425209045
+contrastive_mgm,classical monocyte,control EFHD2,C2P19H,1,0.5681748986244202
+contrastive_mgm,classical monocyte,control EFHD2,Five,0,0.9147768020629883
+contrastive_mgm,classical monocyte,control EFHD2,P02H,1,0.6617220044136047
+contrastive_mgm,classical monocyte,control EFHD2,P04H,1,0.9075127243995667
+contrastive_mgm,classical monocyte,control EFHD2,P06F,1,0.9184358716011047
+contrastive_mgm,classical monocyte,control EFHD2,P07H,1,0.919174075126648
+contrastive_mgm,classical monocyte,control EFHD2,P08H,1,0.8603723049163818
+contrastive_mgm,classical monocyte,control EFHD2,P09H,1,0.6979755759239197
+contrastive_mgm,classical monocyte,control EFHD2,P13H,1,0.8305139541625977
+contrastive_mgm,classical monocyte,control EFHD2,P15F,1,0.8252874612808228
+contrastive_mgm,classical monocyte,control EFHD2,P17H,1,0.6700096726417542
+contrastive_mgm,classical monocyte,control EFHD2,P18F,1,0.627090334892273
+contrastive_mgm,classical monocyte,control EFHD2,P20H,1,0.6572028398513794
+contrastive_mgm,classical monocyte,control EFHD2,one_Ten,1,0.011014404706656933
+contrastive_mgm,classical monocyte,control CSF3R,C2P01H,1,0.5820096731185913
+contrastive_mgm,classical monocyte,control CSF3R,C2P05F,0,0.3893180787563324
+contrastive_mgm,classical monocyte,control CSF3R,C2P07H,0,0.4615906774997711
+contrastive_mgm,classical monocyte,control CSF3R,C2P10H,0,0.27171334624290466
+contrastive_mgm,classical monocyte,control CSF3R,C2P13F,0,0.30571436882019043
+contrastive_mgm,classical monocyte,control CSF3R,C2P15H,1,0.5127635598182678
+contrastive_mgm,classical monocyte,control CSF3R,C2P16H,0,0.30044540762901306
+contrastive_mgm,classical monocyte,control CSF3R,C2P19H,1,0.566641628742218
+contrastive_mgm,classical monocyte,control CSF3R,Five,0,0.9166998267173767
+contrastive_mgm,classical monocyte,control CSF3R,P02H,1,0.6679888963699341
+contrastive_mgm,classical monocyte,control CSF3R,P04H,1,0.9123932123184204
+contrastive_mgm,classical monocyte,control CSF3R,P06F,1,0.92069011926651
+contrastive_mgm,classical monocyte,control CSF3R,P07H,1,0.9215707182884216
+contrastive_mgm,classical monocyte,control CSF3R,P08H,1,0.8592191338539124
+contrastive_mgm,classical monocyte,control CSF3R,P09H,1,0.6991655230522156
+contrastive_mgm,classical monocyte,control CSF3R,P13H,1,0.8299615383148193
+contrastive_mgm,classical monocyte,control CSF3R,P15F,1,0.8282135128974915
+contrastive_mgm,classical monocyte,control CSF3R,P17H,1,0.6743009686470032
+contrastive_mgm,classical monocyte,control CSF3R,P18F,1,0.6263846755027771
+contrastive_mgm,classical monocyte,control CSF3R,P20H,1,0.6650136113166809
+contrastive_mgm,classical monocyte,control CSF3R,one_Ten,1,0.011082001961767673
+contrastive_mgm,classical monocyte,control CAPG,C2P01H,1,0.5866892337799072
+contrastive_mgm,classical monocyte,control CAPG,C2P05F,0,0.38918399810791016
+contrastive_mgm,classical monocyte,control CAPG,C2P07H,0,0.46187499165534973
+contrastive_mgm,classical monocyte,control CAPG,C2P10H,0,0.2771255373954773
+contrastive_mgm,classical monocyte,control CAPG,C2P13F,0,0.30527156591415405
+contrastive_mgm,classical monocyte,control CAPG,C2P15H,1,0.5093352198600769
+contrastive_mgm,classical monocyte,control CAPG,C2P16H,0,0.3020777106285095
+contrastive_mgm,classical monocyte,control CAPG,C2P19H,1,0.5646970868110657
+contrastive_mgm,classical monocyte,control CAPG,Five,0,0.9140623211860657
+contrastive_mgm,classical monocyte,control CAPG,P02H,1,0.6614897847175598
+contrastive_mgm,classical monocyte,control CAPG,P04H,1,0.9086853861808777
+contrastive_mgm,classical monocyte,control CAPG,P06F,1,0.9199557304382324
+contrastive_mgm,classical monocyte,control CAPG,P07H,1,0.919525146484375
+contrastive_mgm,classical monocyte,control CAPG,P08H,1,0.8609732985496521
+contrastive_mgm,classical monocyte,control CAPG,P09H,1,0.6974717974662781
+contrastive_mgm,classical monocyte,control CAPG,P13H,1,0.8297650814056396
+contrastive_mgm,classical monocyte,control CAPG,P15F,1,0.8238824009895325
+contrastive_mgm,classical monocyte,control CAPG,P17H,1,0.6740120649337769
+contrastive_mgm,classical monocyte,control CAPG,P18F,1,0.6289779543876648
+contrastive_mgm,classical monocyte,control CAPG,P20H,1,0.6602981686592102
+contrastive_mgm,classical monocyte,control CAPG,one_Ten,1,0.011879383586347103
+contrastive_mgm,classical monocyte,control ZEB2,C2P01H,1,0.587805986404419
+contrastive_mgm,classical monocyte,control ZEB2,C2P05F,0,0.3902384042739868
+contrastive_mgm,classical monocyte,control ZEB2,C2P07H,0,0.46000751852989197
+contrastive_mgm,classical monocyte,control ZEB2,C2P10H,0,0.27721986174583435
+contrastive_mgm,classical monocyte,control ZEB2,C2P13F,0,0.3068349063396454
+contrastive_mgm,classical monocyte,control ZEB2,C2P15H,1,0.5087065100669861
+contrastive_mgm,classical monocyte,control ZEB2,C2P16H,0,0.30302250385284424
+contrastive_mgm,classical monocyte,control ZEB2,C2P19H,1,0.5641866326332092
+contrastive_mgm,classical monocyte,control ZEB2,Five,0,0.9150492548942566
+contrastive_mgm,classical monocyte,control ZEB2,P02H,1,0.6620586514472961
+contrastive_mgm,classical monocyte,control ZEB2,P04H,1,0.9090931415557861
+contrastive_mgm,classical monocyte,control ZEB2,P06F,1,0.9190881252288818
+contrastive_mgm,classical monocyte,control ZEB2,P07H,1,0.9188336133956909
+contrastive_mgm,classical monocyte,control ZEB2,P08H,1,0.8582952618598938
+contrastive_mgm,classical monocyte,control ZEB2,P09H,1,0.700322151184082
+contrastive_mgm,classical monocyte,control ZEB2,P13H,1,0.8300206661224365
+contrastive_mgm,classical monocyte,control ZEB2,P15F,1,0.8235429525375366
+contrastive_mgm,classical monocyte,control ZEB2,P17H,1,0.6693024039268494
+contrastive_mgm,classical monocyte,control ZEB2,P18F,1,0.6296128034591675
+contrastive_mgm,classical monocyte,control ZEB2,P20H,1,0.6594619154930115
+contrastive_mgm,classical monocyte,control ZEB2,one_Ten,1,0.011836572550237179
+contrastive_mgm,classical monocyte,control TIMP1,C2P01H,1,0.5875945091247559
+contrastive_mgm,classical monocyte,control TIMP1,C2P05F,0,0.3873472511768341
+contrastive_mgm,classical monocyte,control TIMP1,C2P07H,0,0.461295485496521
+contrastive_mgm,classical monocyte,control TIMP1,C2P10H,0,0.27678462862968445
+contrastive_mgm,classical monocyte,control TIMP1,C2P13F,0,0.30447298288345337
+contrastive_mgm,classical monocyte,control TIMP1,C2P15H,1,0.5080034136772156
+contrastive_mgm,classical monocyte,control TIMP1,C2P16H,0,0.3038248121738434
+contrastive_mgm,classical monocyte,control TIMP1,C2P19H,1,0.5663009881973267
+contrastive_mgm,classical monocyte,control TIMP1,Five,0,0.9169360399246216
+contrastive_mgm,classical monocyte,control TIMP1,P02H,1,0.6642292141914368
+contrastive_mgm,classical monocyte,control TIMP1,P04H,1,0.9086270332336426
+contrastive_mgm,classical monocyte,control TIMP1,P06F,1,0.9197081327438354
+contrastive_mgm,classical monocyte,control TIMP1,P07H,1,0.919781506061554
+contrastive_mgm,classical monocyte,control TIMP1,P08H,1,0.8607343435287476
+contrastive_mgm,classical monocyte,control TIMP1,P09H,1,0.6993269920349121
+contrastive_mgm,classical monocyte,control TIMP1,P13H,1,0.8308835625648499
+contrastive_mgm,classical monocyte,control TIMP1,P15F,1,0.8259907960891724
+contrastive_mgm,classical monocyte,control TIMP1,P17H,1,0.672590970993042
+contrastive_mgm,classical monocyte,control TIMP1,P18F,1,0.6248606443405151
+contrastive_mgm,classical monocyte,control TIMP1,P20H,1,0.6589149236679077
+contrastive_mgm,classical monocyte,control TIMP1,one_Ten,1,0.01114616822451353
+contrastive_mgm,classical monocyte,control CFP,C2P01H,1,0.5884838700294495
+contrastive_mgm,classical monocyte,control CFP,C2P05F,0,0.3910764753818512
+contrastive_mgm,classical monocyte,control CFP,C2P07H,0,0.46274465322494507
+contrastive_mgm,classical monocyte,control CFP,C2P10H,0,0.2777734398841858
+contrastive_mgm,classical monocyte,control CFP,C2P13F,0,0.3053860068321228
+contrastive_mgm,classical monocyte,control CFP,C2P15H,1,0.5098739862442017
+contrastive_mgm,classical monocyte,control CFP,C2P16H,0,0.30063146352767944
+contrastive_mgm,classical monocyte,control CFP,C2P19H,1,0.5657175779342651
+contrastive_mgm,classical monocyte,control CFP,Five,0,0.9117660522460938
+contrastive_mgm,classical monocyte,control CFP,P02H,1,0.665338933467865
+contrastive_mgm,classical monocyte,control CFP,P04H,1,0.9084030389785767
+contrastive_mgm,classical monocyte,control CFP,P06F,1,0.9183343648910522
+contrastive_mgm,classical monocyte,control CFP,P07H,1,0.9215672016143799
+contrastive_mgm,classical monocyte,control CFP,P08H,1,0.8585172295570374
+contrastive_mgm,classical monocyte,control CFP,P09H,1,0.6999832987785339
+contrastive_mgm,classical monocyte,control CFP,P13H,1,0.8313215970993042
+contrastive_mgm,classical monocyte,control CFP,P15F,1,0.8266239166259766
+contrastive_mgm,classical monocyte,control CFP,P17H,1,0.6713876128196716
+contrastive_mgm,classical monocyte,control CFP,P18F,1,0.6250185370445251
+contrastive_mgm,classical monocyte,control CFP,P20H,1,0.660448431968689
+contrastive_mgm,classical monocyte,control CFP,one_Ten,1,0.01058367919176817
+contrastive_mgm,classical monocyte,control NUP214,C2P01H,1,0.5856667160987854
+contrastive_mgm,classical monocyte,control NUP214,C2P05F,0,0.3904149532318115
+contrastive_mgm,classical monocyte,control NUP214,C2P07H,0,0.46175074577331543
+contrastive_mgm,classical monocyte,control NUP214,C2P10H,0,0.27452436089515686
+contrastive_mgm,classical monocyte,control NUP214,C2P13F,0,0.3040871024131775
+contrastive_mgm,classical monocyte,control NUP214,C2P15H,1,0.5090922117233276
+contrastive_mgm,classical monocyte,control NUP214,C2P16H,0,0.3018719553947449
+contrastive_mgm,classical monocyte,control NUP214,C2P19H,1,0.5611157417297363
+contrastive_mgm,classical monocyte,control NUP214,Five,0,0.9129560589790344
+contrastive_mgm,classical monocyte,control NUP214,P02H,1,0.6658410429954529
+contrastive_mgm,classical monocyte,control NUP214,P04H,1,0.9097069501876831
+contrastive_mgm,classical monocyte,control NUP214,P06F,1,0.9180165529251099
+contrastive_mgm,classical monocyte,control NUP214,P07H,1,0.9221919775009155
+contrastive_mgm,classical monocyte,control NUP214,P08H,1,0.8619619011878967
+contrastive_mgm,classical monocyte,control NUP214,P09H,1,0.6980916857719421
+contrastive_mgm,classical monocyte,control NUP214,P13H,1,0.8301483392715454
+contrastive_mgm,classical monocyte,control NUP214,P15F,1,0.8308669924736023
+contrastive_mgm,classical monocyte,control NUP214,P17H,1,0.6698442697525024
+contrastive_mgm,classical monocyte,control NUP214,P18F,1,0.6308131814002991
+contrastive_mgm,classical monocyte,control NUP214,P20H,1,0.6592881083488464
+contrastive_mgm,classical monocyte,control NUP214,one_Ten,1,0.011542506515979767
+contrastive_mgm,classical monocyte,control MS4A6A,C2P01H,1,0.5878178477287292
+contrastive_mgm,classical monocyte,control MS4A6A,C2P05F,0,0.3904108703136444
+contrastive_mgm,classical monocyte,control MS4A6A,C2P07H,0,0.4635518491268158
+contrastive_mgm,classical monocyte,control MS4A6A,C2P10H,0,0.27514779567718506
+contrastive_mgm,classical monocyte,control MS4A6A,C2P13F,0,0.3051300644874573
+contrastive_mgm,classical monocyte,control MS4A6A,C2P15H,1,0.5093215703964233
+contrastive_mgm,classical monocyte,control MS4A6A,C2P16H,0,0.2998998761177063
+contrastive_mgm,classical monocyte,control MS4A6A,C2P19H,1,0.5665409564971924
+contrastive_mgm,classical monocyte,control MS4A6A,Five,0,0.9127007126808167
+contrastive_mgm,classical monocyte,control MS4A6A,P02H,1,0.6637679934501648
+contrastive_mgm,classical monocyte,control MS4A6A,P04H,1,0.9083399176597595
+contrastive_mgm,classical monocyte,control MS4A6A,P06F,1,0.9188557863235474
+contrastive_mgm,classical monocyte,control MS4A6A,P07H,1,0.9203000664710999
+contrastive_mgm,classical monocyte,control MS4A6A,P08H,1,0.8584884405136108
+contrastive_mgm,classical monocyte,control MS4A6A,P09H,1,0.6975480318069458
+contrastive_mgm,classical monocyte,control MS4A6A,P13H,1,0.8283692002296448
+contrastive_mgm,classical monocyte,control MS4A6A,P15F,1,0.8260177373886108
+contrastive_mgm,classical monocyte,control MS4A6A,P17H,1,0.6711083054542542
+contrastive_mgm,classical monocyte,control MS4A6A,P18F,1,0.6274832487106323
+contrastive_mgm,classical monocyte,control MS4A6A,P20H,1,0.6619619727134705
+contrastive_mgm,classical monocyte,control MS4A6A,one_Ten,1,0.010655757039785385
+contrastive_mgm,classical monocyte,control IER2,C2P01H,1,0.5884310007095337
+contrastive_mgm,classical monocyte,control IER2,C2P05F,0,0.39282649755477905
+contrastive_mgm,classical monocyte,control IER2,C2P07H,0,0.4617220163345337
+contrastive_mgm,classical monocyte,control IER2,C2P10H,0,0.2783263027667999
+contrastive_mgm,classical monocyte,control IER2,C2P13F,0,0.31037425994873047
+contrastive_mgm,classical monocyte,control IER2,C2P15H,1,0.506149411201477
+contrastive_mgm,classical monocyte,control IER2,C2P16H,0,0.30228570103645325
+contrastive_mgm,classical monocyte,control IER2,C2P19H,1,0.565747857093811
+contrastive_mgm,classical monocyte,control IER2,Five,0,0.9141428470611572
+contrastive_mgm,classical monocyte,control IER2,P02H,1,0.6625766754150391
+contrastive_mgm,classical monocyte,control IER2,P04H,1,0.908495306968689
+contrastive_mgm,classical monocyte,control IER2,P06F,1,0.919966459274292
+contrastive_mgm,classical monocyte,control IER2,P07H,1,0.9204044342041016
+contrastive_mgm,classical monocyte,control IER2,P08H,1,0.8594874143600464
+contrastive_mgm,classical monocyte,control IER2,P09H,1,0.6972817182540894
+contrastive_mgm,classical monocyte,control IER2,P13H,1,0.8328236937522888
+contrastive_mgm,classical monocyte,control IER2,P15F,1,0.8292528986930847
+contrastive_mgm,classical monocyte,control IER2,P17H,1,0.6677667498588562
+contrastive_mgm,classical monocyte,control IER2,P18F,1,0.6111276745796204
+contrastive_mgm,classical monocyte,control IER2,P20H,1,0.6519975066184998
+contrastive_mgm,classical monocyte,control IER2,one_Ten,1,0.011235035955905914
+contrastive_mgm,classical monocyte,control BLVRB,C2P01H,1,0.5861065983772278
+contrastive_mgm,classical monocyte,control BLVRB,C2P05F,0,0.3910500705242157
+contrastive_mgm,classical monocyte,control BLVRB,C2P07H,0,0.46342703700065613
+contrastive_mgm,classical monocyte,control BLVRB,C2P10H,0,0.2752149999141693
+contrastive_mgm,classical monocyte,control BLVRB,C2P13F,0,0.30457133054733276
+contrastive_mgm,classical monocyte,control BLVRB,C2P15H,1,0.5120862126350403
+contrastive_mgm,classical monocyte,control BLVRB,C2P16H,0,0.3013068735599518
+contrastive_mgm,classical monocyte,control BLVRB,C2P19H,1,0.5654825568199158
+contrastive_mgm,classical monocyte,control BLVRB,Five,0,0.9144829511642456
+contrastive_mgm,classical monocyte,control BLVRB,P02H,1,0.6632773876190186
+contrastive_mgm,classical monocyte,control BLVRB,P04H,1,0.9067901372909546
+contrastive_mgm,classical monocyte,control BLVRB,P06F,1,0.9222692847251892
+contrastive_mgm,classical monocyte,control BLVRB,P07H,1,0.9190037250518799
+contrastive_mgm,classical monocyte,control BLVRB,P08H,1,0.8618876338005066
+contrastive_mgm,classical monocyte,control BLVRB,P09H,1,0.6977266073226929
+contrastive_mgm,classical monocyte,control BLVRB,P13H,1,0.8305646777153015
+contrastive_mgm,classical monocyte,control BLVRB,P15F,1,0.8267685770988464
+contrastive_mgm,classical monocyte,control BLVRB,P17H,1,0.6697011590003967
+contrastive_mgm,classical monocyte,control BLVRB,P18F,1,0.6288903951644897
+contrastive_mgm,classical monocyte,control BLVRB,P20H,1,0.6585174798965454
+contrastive_mgm,classical monocyte,control BLVRB,one_Ten,1,0.010422739200294018
+contrastive_mgm,naive CD4 T cell,none,C2P01H,1,0.5052481889724731
+contrastive_mgm,naive CD4 T cell,none,C2P07H,0,0.9454247355461121
+contrastive_mgm,naive CD4 T cell,none,C2P10H,0,0.5426450371742249
+contrastive_mgm,naive CD4 T cell,none,C2P16H,0,0.3819775879383087
+contrastive_mgm,naive CD4 T cell,none,C2P19H,1,0.7208638787269592
+contrastive_mgm,naive CD4 T cell,none,Five,0,0.9938300848007202
+contrastive_mgm,naive CD4 T cell,none,P02H,1,0.7600023150444031
+contrastive_mgm,naive CD4 T cell,none,P09H,1,0.7824046015739441
+contrastive_mgm,naive CD4 T cell,none,P18F,1,0.6785832643508911
+contrastive_mgm,naive CD4 T cell,none,P20H,1,0.41778022050857544
+contrastive_mgm,naive CD4 T cell,none,one_Ten,1,0.03432867303490639
+contrastive_mgm,naive CD4 T cell,HLA-DRB5,C2P01H,1,0.50117427110672
+contrastive_mgm,naive CD4 T cell,HLA-DRB5,C2P07H,0,0.9464837908744812
+contrastive_mgm,naive CD4 T cell,HLA-DRB5,C2P10H,0,0.5462242364883423
+contrastive_mgm,naive CD4 T cell,HLA-DRB5,C2P16H,0,0.3857838213443756
+contrastive_mgm,naive CD4 T cell,HLA-DRB5,C2P19H,1,0.721167802810669
+contrastive_mgm,naive CD4 T cell,HLA-DRB5,Five,0,0.9941877126693726
+contrastive_mgm,naive CD4 T cell,HLA-DRB5,P02H,1,0.7570317387580872
+contrastive_mgm,naive CD4 T cell,HLA-DRB5,P09H,1,0.7810197472572327
+contrastive_mgm,naive CD4 T cell,HLA-DRB5,P18F,1,0.6712101697921753
+contrastive_mgm,naive CD4 T cell,HLA-DRB5,P20H,1,0.41502130031585693
+contrastive_mgm,naive CD4 T cell,HLA-DRB5,one_Ten,1,0.034362390637397766
+contrastive_mgm,naive CD4 T cell,all HLA,C2P01H,1,0.4889701306819916
+contrastive_mgm,naive CD4 T cell,all HLA,C2P07H,0,0.9492273926734924
+contrastive_mgm,naive CD4 T cell,all HLA,C2P10H,0,0.5581735968589783
+contrastive_mgm,naive CD4 T cell,all HLA,C2P16H,0,0.3887118995189667
+contrastive_mgm,naive CD4 T cell,all HLA,C2P19H,1,0.715074360370636
+contrastive_mgm,naive CD4 T cell,all HLA,Five,0,0.9946689009666443
+contrastive_mgm,naive CD4 T cell,all HLA,P02H,1,0.728296160697937
+contrastive_mgm,naive CD4 T cell,all HLA,P09H,1,0.7673912644386292
+contrastive_mgm,naive CD4 T cell,all HLA,P18F,1,0.6823028326034546
+contrastive_mgm,naive CD4 T cell,all HLA,P20H,1,0.41547340154647827
+contrastive_mgm,naive CD4 T cell,all HLA,one_Ten,1,0.04576604813337326
+contrastive_mgm,naive CD4 T cell,control EFHD2,C2P01H,1,0.5039307475090027
+contrastive_mgm,naive CD4 T cell,control EFHD2,C2P07H,0,0.9458849430084229
+contrastive_mgm,naive CD4 T cell,control EFHD2,C2P10H,0,0.5421693921089172
+contrastive_mgm,naive CD4 T cell,control EFHD2,C2P16H,0,0.38170328736305237
+contrastive_mgm,naive CD4 T cell,control EFHD2,C2P19H,1,0.7208592295646667
+contrastive_mgm,naive CD4 T cell,control EFHD2,Five,0,0.9941141605377197
+contrastive_mgm,naive CD4 T cell,control EFHD2,P02H,1,0.7605846524238586
+contrastive_mgm,naive CD4 T cell,control EFHD2,P09H,1,0.7808268070220947
+contrastive_mgm,naive CD4 T cell,control EFHD2,P18F,1,0.6759724617004395
+contrastive_mgm,naive CD4 T cell,control EFHD2,P20H,1,0.4175069332122803
+contrastive_mgm,naive CD4 T cell,control EFHD2,one_Ten,1,0.03487371280789375
+contrastive_mgm,naive CD4 T cell,control CSF3R,C2P01H,1,0.5046427845954895
+contrastive_mgm,naive CD4 T cell,control CSF3R,C2P07H,0,0.9441081881523132
+contrastive_mgm,naive CD4 T cell,control CSF3R,C2P10H,0,0.5434722304344177
+contrastive_mgm,naive CD4 T cell,control CSF3R,C2P16H,0,0.383139044046402
+contrastive_mgm,naive CD4 T cell,control CSF3R,C2P19H,1,0.7196266055107117
+contrastive_mgm,naive CD4 T cell,control CSF3R,Five,0,0.9940448999404907
+contrastive_mgm,naive CD4 T cell,control CSF3R,P02H,1,0.7606899738311768
+contrastive_mgm,naive CD4 T cell,control CSF3R,P09H,1,0.782686173915863
+contrastive_mgm,naive CD4 T cell,control CSF3R,P18F,1,0.6770248413085938
+contrastive_mgm,naive CD4 T cell,control CSF3R,P20H,1,0.4168377220630646
+contrastive_mgm,naive CD4 T cell,control CSF3R,one_Ten,1,0.03475922718644142
+contrastive_mgm,naive CD4 T cell,control CAPG,C2P01H,1,0.5060862302780151
+contrastive_mgm,naive CD4 T cell,control CAPG,C2P07H,0,0.9458361864089966
+contrastive_mgm,naive CD4 T cell,control CAPG,C2P10H,0,0.5439792275428772
+contrastive_mgm,naive CD4 T cell,control CAPG,C2P16H,0,0.38237446546554565
+contrastive_mgm,naive CD4 T cell,control CAPG,C2P19H,1,0.7199179530143738
+contrastive_mgm,naive CD4 T cell,control CAPG,Five,0,0.9938990473747253
+contrastive_mgm,naive CD4 T cell,control CAPG,P02H,1,0.7599688768386841
+contrastive_mgm,naive CD4 T cell,control CAPG,P09H,1,0.783130407333374
+contrastive_mgm,naive CD4 T cell,control CAPG,P18F,1,0.6786500215530396
+contrastive_mgm,naive CD4 T cell,control CAPG,P20H,1,0.41771188378334045
+contrastive_mgm,naive CD4 T cell,control CAPG,one_Ten,1,0.03432077914476395
+contrastive_mgm,naive CD4 T cell,control ZEB2,C2P01H,1,0.5050863027572632
+contrastive_mgm,naive CD4 T cell,control ZEB2,C2P07H,0,0.9455444812774658
+contrastive_mgm,naive CD4 T cell,control ZEB2,C2P10H,0,0.5433465838432312
+contrastive_mgm,naive CD4 T cell,control ZEB2,C2P16H,0,0.381687194108963
+contrastive_mgm,naive CD4 T cell,control ZEB2,C2P19H,1,0.7200319766998291
+contrastive_mgm,naive CD4 T cell,control ZEB2,Five,0,0.9937419891357422
+contrastive_mgm,naive CD4 T cell,control ZEB2,P02H,1,0.75958251953125
+contrastive_mgm,naive CD4 T cell,control ZEB2,P09H,1,0.7830592393875122
+contrastive_mgm,naive CD4 T cell,control ZEB2,P18F,1,0.6780179142951965
+contrastive_mgm,naive CD4 T cell,control ZEB2,P20H,1,0.4173133969306946
+contrastive_mgm,naive CD4 T cell,control ZEB2,one_Ten,1,0.03467730060219765
+contrastive_mgm,naive CD4 T cell,control TIMP1,C2P01H,1,0.504683792591095
+contrastive_mgm,naive CD4 T cell,control TIMP1,C2P07H,0,0.9452502131462097
+contrastive_mgm,naive CD4 T cell,control TIMP1,C2P10H,0,0.542441725730896
+contrastive_mgm,naive CD4 T cell,control TIMP1,C2P16H,0,0.38097357749938965
+contrastive_mgm,naive CD4 T cell,control TIMP1,C2P19H,1,0.7199828028678894
+contrastive_mgm,naive CD4 T cell,control TIMP1,Five,0,0.9944358468055725
+contrastive_mgm,naive CD4 T cell,control TIMP1,P02H,1,0.7618131637573242
+contrastive_mgm,naive CD4 T cell,control TIMP1,P09H,1,0.7813212275505066
+contrastive_mgm,naive CD4 T cell,control TIMP1,P18F,1,0.6762996315956116
+contrastive_mgm,naive CD4 T cell,control TIMP1,P20H,1,0.41891786456108093
+contrastive_mgm,naive CD4 T cell,control TIMP1,one_Ten,1,0.03511958569288254
+contrastive_mgm,naive CD4 T cell,control CFP,C2P01H,1,0.505878210067749
+contrastive_mgm,naive CD4 T cell,control CFP,C2P07H,0,0.9439861178398132
+contrastive_mgm,naive CD4 T cell,control CFP,C2P10H,0,0.5411113500595093
+contrastive_mgm,naive CD4 T cell,control CFP,C2P16H,0,0.38099631667137146
+contrastive_mgm,naive CD4 T cell,control CFP,C2P19H,1,0.7199650406837463
+contrastive_mgm,naive CD4 T cell,control CFP,Five,0,0.9938706755638123
+contrastive_mgm,naive CD4 T cell,control CFP,P02H,1,0.7610426545143127
+contrastive_mgm,naive CD4 T cell,control CFP,P09H,1,0.7813403606414795
+contrastive_mgm,naive CD4 T cell,control CFP,P18F,1,0.6749750971794128
+contrastive_mgm,naive CD4 T cell,control CFP,P20H,1,0.4197207987308502
+contrastive_mgm,naive CD4 T cell,control CFP,one_Ten,1,0.03389118239283562
+contrastive_mgm,naive CD4 T cell,control NUP214,C2P01H,1,0.5055972337722778
+contrastive_mgm,naive CD4 T cell,control NUP214,C2P07H,0,0.9451584219932556
+contrastive_mgm,naive CD4 T cell,control NUP214,C2P10H,0,0.5432130694389343
+contrastive_mgm,naive CD4 T cell,control NUP214,C2P16H,0,0.38227730989456177
+contrastive_mgm,naive CD4 T cell,control NUP214,C2P19H,1,0.7193636298179626
+contrastive_mgm,naive CD4 T cell,control NUP214,Five,0,0.9940426349639893
+contrastive_mgm,naive CD4 T cell,control NUP214,P02H,1,0.7591038942337036
+contrastive_mgm,naive CD4 T cell,control NUP214,P09H,1,0.7826222777366638
+contrastive_mgm,naive CD4 T cell,control NUP214,P18F,1,0.6798436641693115
+contrastive_mgm,naive CD4 T cell,control NUP214,P20H,1,0.41621243953704834
+contrastive_mgm,naive CD4 T cell,control NUP214,one_Ten,1,0.03442392870783806
+contrastive_mgm,naive CD4 T cell,control MS4A6A,C2P01H,1,0.505832314491272
+contrastive_mgm,naive CD4 T cell,control MS4A6A,C2P07H,0,0.9456527233123779
+contrastive_mgm,naive CD4 T cell,control MS4A6A,C2P10H,0,0.5435040593147278
+contrastive_mgm,naive CD4 T cell,control MS4A6A,C2P16H,0,0.3815699517726898
+contrastive_mgm,naive CD4 T cell,control MS4A6A,C2P19H,1,0.7213029861450195
+contrastive_mgm,naive CD4 T cell,control MS4A6A,Five,0,0.9945913553237915
+contrastive_mgm,naive CD4 T cell,control MS4A6A,P02H,1,0.7586797475814819
+contrastive_mgm,naive CD4 T cell,control MS4A6A,P09H,1,0.7821821570396423
+contrastive_mgm,naive CD4 T cell,control MS4A6A,P18F,1,0.6791582107543945
+contrastive_mgm,naive CD4 T cell,control MS4A6A,P20H,1,0.4164738655090332
+contrastive_mgm,naive CD4 T cell,control MS4A6A,one_Ten,1,0.03435700014233589
+contrastive_mgm,naive CD4 T cell,control IER2,C2P01H,1,0.5067160725593567
+contrastive_mgm,naive CD4 T cell,control IER2,C2P07H,0,0.9464461207389832
+contrastive_mgm,naive CD4 T cell,control IER2,C2P10H,0,0.5403206944465637
+contrastive_mgm,naive CD4 T cell,control IER2,C2P16H,0,0.3831857442855835
+contrastive_mgm,naive CD4 T cell,control IER2,C2P19H,1,0.7212149500846863
+contrastive_mgm,naive CD4 T cell,control IER2,Five,0,0.9949090480804443
+contrastive_mgm,naive CD4 T cell,control IER2,P02H,1,0.7614070177078247
+contrastive_mgm,naive CD4 T cell,control IER2,P09H,1,0.7839779257774353
+contrastive_mgm,naive CD4 T cell,control IER2,P18F,1,0.676889955997467
+contrastive_mgm,naive CD4 T cell,control IER2,P20H,1,0.41601401567459106
+contrastive_mgm,naive CD4 T cell,control IER2,one_Ten,1,0.036644481122493744
+contrastive_mgm,naive CD4 T cell,control BLVRB,C2P01H,1,0.5053023099899292
+contrastive_mgm,naive CD4 T cell,control BLVRB,C2P07H,0,0.9457601308822632
+contrastive_mgm,naive CD4 T cell,control BLVRB,C2P10H,0,0.5410100817680359
+contrastive_mgm,naive CD4 T cell,control BLVRB,C2P16H,0,0.381863534450531
+contrastive_mgm,naive CD4 T cell,control BLVRB,C2P19H,1,0.7211264967918396
+contrastive_mgm,naive CD4 T cell,control BLVRB,Five,0,0.9940197467803955
+contrastive_mgm,naive CD4 T cell,control BLVRB,P02H,1,0.7589291334152222
+contrastive_mgm,naive CD4 T cell,control BLVRB,P09H,1,0.7817493081092834
+contrastive_mgm,naive CD4 T cell,control BLVRB,P18F,1,0.6790147423744202
+contrastive_mgm,naive CD4 T cell,control BLVRB,P20H,1,0.417964369058609
+contrastive_mgm,naive CD4 T cell,control BLVRB,one_Ten,1,0.03456193953752518
+masked_gene,classical monocyte,none,C2P01H,1,0.7411330342292786
+masked_gene,classical monocyte,none,C2P05F,0,0.4025086462497711
+masked_gene,classical monocyte,none,C2P07H,0,0.32109421491622925
+masked_gene,classical monocyte,none,C2P10H,0,0.3791622221469879
+masked_gene,classical monocyte,none,C2P13F,0,0.32866573333740234
+masked_gene,classical monocyte,none,C2P15H,1,0.5751450657844543
+masked_gene,classical monocyte,none,C2P16H,0,0.3133203983306885
+masked_gene,classical monocyte,none,C2P19H,1,0.6749585866928101
+masked_gene,classical monocyte,none,Five,0,0.9872146844863892
+masked_gene,classical monocyte,none,P02H,1,0.7183007001876831
+masked_gene,classical monocyte,none,P04H,1,0.9029913544654846
+masked_gene,classical monocyte,none,P06F,1,0.8931723833084106
+masked_gene,classical monocyte,none,P07H,1,0.8913114666938782
+masked_gene,classical monocyte,none,P08H,1,0.7954142093658447
+masked_gene,classical monocyte,none,P09H,1,0.7218542098999023
+masked_gene,classical monocyte,none,P13H,1,0.7552887797355652
+masked_gene,classical monocyte,none,P15F,1,0.7682687044143677
+masked_gene,classical monocyte,none,P17H,1,0.5757544040679932
+masked_gene,classical monocyte,none,P18F,1,0.5457019805908203
+masked_gene,classical monocyte,none,P20H,1,0.5630179643630981
+masked_gene,classical monocyte,none,one_Ten,1,0.024429405108094215
+masked_gene,classical monocyte,HLA-DRB5,C2P01H,1,0.7311918139457703
+masked_gene,classical monocyte,HLA-DRB5,C2P05F,0,0.4147460460662842
+masked_gene,classical monocyte,HLA-DRB5,C2P07H,0,0.3432612419128418
+masked_gene,classical monocyte,HLA-DRB5,C2P10H,0,0.37988123297691345
+masked_gene,classical monocyte,HLA-DRB5,C2P13F,0,0.3241308033466339
+masked_gene,classical monocyte,HLA-DRB5,C2P15H,1,0.5702187418937683
+masked_gene,classical monocyte,HLA-DRB5,C2P16H,0,0.31452658772468567
+masked_gene,classical monocyte,HLA-DRB5,C2P19H,1,0.6647025346755981
+masked_gene,classical monocyte,HLA-DRB5,Five,0,0.9877896904945374
+masked_gene,classical monocyte,HLA-DRB5,P02H,1,0.6999045610427856
+masked_gene,classical monocyte,HLA-DRB5,P04H,1,0.906141996383667
+masked_gene,classical monocyte,HLA-DRB5,P06F,1,0.8879073858261108
+masked_gene,classical monocyte,HLA-DRB5,P07H,1,0.8912896513938904
+masked_gene,classical monocyte,HLA-DRB5,P08H,1,0.7955323457717896
+masked_gene,classical monocyte,HLA-DRB5,P09H,1,0.686084508895874
+masked_gene,classical monocyte,HLA-DRB5,P13H,1,0.7553324103355408
+masked_gene,classical monocyte,HLA-DRB5,P15F,1,0.767180860042572
+masked_gene,classical monocyte,HLA-DRB5,P17H,1,0.5701562166213989
+masked_gene,classical monocyte,HLA-DRB5,P18F,1,0.5450406670570374
+masked_gene,classical monocyte,HLA-DRB5,P20H,1,0.5721676349639893
+masked_gene,classical monocyte,HLA-DRB5,one_Ten,1,0.027466751635074615
+masked_gene,classical monocyte,all HLA,C2P01H,1,0.7475661039352417
+masked_gene,classical monocyte,all HLA,C2P05F,0,0.42612847685813904
+masked_gene,classical monocyte,all HLA,C2P07H,0,0.3443232774734497
+masked_gene,classical monocyte,all HLA,C2P10H,0,0.38299429416656494
+masked_gene,classical monocyte,all HLA,C2P13F,0,0.3275030553340912
+masked_gene,classical monocyte,all HLA,C2P15H,1,0.5844302177429199
+masked_gene,classical monocyte,all HLA,C2P16H,0,0.30802616477012634
+masked_gene,classical monocyte,all HLA,C2P19H,1,0.6623808741569519
+masked_gene,classical monocyte,all HLA,Five,0,0.9866180419921875
+masked_gene,classical monocyte,all HLA,P02H,1,0.7073435187339783
+masked_gene,classical monocyte,all HLA,P04H,1,0.9115262031555176
+masked_gene,classical monocyte,all HLA,P06F,1,0.8975290060043335
+masked_gene,classical monocyte,all HLA,P07H,1,0.896191418170929
+masked_gene,classical monocyte,all HLA,P08H,1,0.7893403768539429
+masked_gene,classical monocyte,all HLA,P09H,1,0.6730172038078308
+masked_gene,classical monocyte,all HLA,P13H,1,0.7543055415153503
+masked_gene,classical monocyte,all HLA,P15F,1,0.7615073919296265
+masked_gene,classical monocyte,all HLA,P17H,1,0.5647879242897034
+masked_gene,classical monocyte,all HLA,P18F,1,0.5281883478164673
+masked_gene,classical monocyte,all HLA,P20H,1,0.5746361613273621
+masked_gene,classical monocyte,all HLA,one_Ten,1,0.028732532635331154
+masked_gene,classical monocyte,control EFHD2,C2P01H,1,0.7433497905731201
+masked_gene,classical monocyte,control EFHD2,C2P05F,0,0.4121249318122864
+masked_gene,classical monocyte,control EFHD2,C2P07H,0,0.32010340690612793
+masked_gene,classical monocyte,control EFHD2,C2P10H,0,0.3783922791481018
+masked_gene,classical monocyte,control EFHD2,C2P13F,0,0.3281562328338623
+masked_gene,classical monocyte,control EFHD2,C2P15H,1,0.5718079805374146
+masked_gene,classical monocyte,control EFHD2,C2P16H,0,0.31376636028289795
+masked_gene,classical monocyte,control EFHD2,C2P19H,1,0.678972601890564
+masked_gene,classical monocyte,control EFHD2,Five,0,0.9880739450454712
+masked_gene,classical monocyte,control EFHD2,P02H,1,0.7177698612213135
+masked_gene,classical monocyte,control EFHD2,P04H,1,0.9011586308479309
+masked_gene,classical monocyte,control EFHD2,P06F,1,0.8917606472969055
+masked_gene,classical monocyte,control EFHD2,P07H,1,0.8876587748527527
+masked_gene,classical monocyte,control EFHD2,P08H,1,0.794467568397522
+masked_gene,classical monocyte,control EFHD2,P09H,1,0.7172353863716125
+masked_gene,classical monocyte,control EFHD2,P13H,1,0.7506797313690186
+masked_gene,classical monocyte,control EFHD2,P15F,1,0.767934262752533
+masked_gene,classical monocyte,control EFHD2,P17H,1,0.5738992094993591
+masked_gene,classical monocyte,control EFHD2,P18F,1,0.5438107252120972
+masked_gene,classical monocyte,control EFHD2,P20H,1,0.5627868175506592
+masked_gene,classical monocyte,control EFHD2,one_Ten,1,0.024474449455738068
+masked_gene,classical monocyte,control CSF3R,C2P01H,1,0.7422947287559509
+masked_gene,classical monocyte,control CSF3R,C2P05F,0,0.40649399161338806
+masked_gene,classical monocyte,control CSF3R,C2P07H,0,0.3190821707248688
+masked_gene,classical monocyte,control CSF3R,C2P10H,0,0.3820723593235016
+masked_gene,classical monocyte,control CSF3R,C2P13F,0,0.32868051528930664
+masked_gene,classical monocyte,control CSF3R,C2P15H,1,0.5725038051605225
+masked_gene,classical monocyte,control CSF3R,C2P16H,0,0.314125657081604
+masked_gene,classical monocyte,control CSF3R,C2P19H,1,0.676261305809021
+masked_gene,classical monocyte,control CSF3R,Five,0,0.9874985814094543
+masked_gene,classical monocyte,control CSF3R,P02H,1,0.726121187210083
+masked_gene,classical monocyte,control CSF3R,P04H,1,0.9025297164916992
+masked_gene,classical monocyte,control CSF3R,P06F,1,0.8934890627861023
+masked_gene,classical monocyte,control CSF3R,P07H,1,0.8907892107963562
+masked_gene,classical monocyte,control CSF3R,P08H,1,0.7943151593208313
+masked_gene,classical monocyte,control CSF3R,P09H,1,0.7205263376235962
+masked_gene,classical monocyte,control CSF3R,P13H,1,0.7517638206481934
+masked_gene,classical monocyte,control CSF3R,P15F,1,0.767311692237854
+masked_gene,classical monocyte,control CSF3R,P17H,1,0.5704115629196167
+masked_gene,classical monocyte,control CSF3R,P18F,1,0.5445927977561951
+masked_gene,classical monocyte,control CSF3R,P20H,1,0.5593748092651367
+masked_gene,classical monocyte,control CSF3R,one_Ten,1,0.02486242726445198
+masked_gene,classical monocyte,control CAPG,C2P01H,1,0.7409573197364807
+masked_gene,classical monocyte,control CAPG,C2P05F,0,0.40620142221450806
+masked_gene,classical monocyte,control CAPG,C2P07H,0,0.32069340348243713
+masked_gene,classical monocyte,control CAPG,C2P10H,0,0.3806714713573456
+masked_gene,classical monocyte,control CAPG,C2P13F,0,0.32631880044937134
+masked_gene,classical monocyte,control CAPG,C2P15H,1,0.5764269828796387
+masked_gene,classical monocyte,control CAPG,C2P16H,0,0.31371861696243286
+masked_gene,classical monocyte,control CAPG,C2P19H,1,0.6767487525939941
+masked_gene,classical monocyte,control CAPG,Five,0,0.9869946241378784
+masked_gene,classical monocyte,control CAPG,P02H,1,0.7218096852302551
+masked_gene,classical monocyte,control CAPG,P04H,1,0.9016101360321045
+masked_gene,classical monocyte,control CAPG,P06F,1,0.8918910622596741
+masked_gene,classical monocyte,control CAPG,P07H,1,0.8889338970184326
+masked_gene,classical monocyte,control CAPG,P08H,1,0.7956919074058533
+masked_gene,classical monocyte,control CAPG,P09H,1,0.7174304723739624
+masked_gene,classical monocyte,control CAPG,P13H,1,0.7540867328643799
+masked_gene,classical monocyte,control CAPG,P15F,1,0.7682970762252808
+masked_gene,classical monocyte,control CAPG,P17H,1,0.575499951839447
+masked_gene,classical monocyte,control CAPG,P18F,1,0.544131338596344
+masked_gene,classical monocyte,control CAPG,P20H,1,0.5638456344604492
+masked_gene,classical monocyte,control CAPG,one_Ten,1,0.024641036987304688
+masked_gene,classical monocyte,control ZEB2,C2P01H,1,0.7471907734870911
+masked_gene,classical monocyte,control ZEB2,C2P05F,0,0.4066055417060852
+masked_gene,classical monocyte,control ZEB2,C2P07H,0,0.32505717873573303
+masked_gene,classical monocyte,control ZEB2,C2P10H,0,0.3775538206100464
+masked_gene,classical monocyte,control ZEB2,C2P13F,0,0.32597991824150085
+masked_gene,classical monocyte,control ZEB2,C2P15H,1,0.5719774961471558
+masked_gene,classical monocyte,control ZEB2,C2P16H,0,0.31540805101394653
+masked_gene,classical monocyte,control ZEB2,C2P19H,1,0.6766070127487183
+masked_gene,classical monocyte,control ZEB2,Five,0,0.9876288771629333
+masked_gene,classical monocyte,control ZEB2,P02H,1,0.7189164161682129
+masked_gene,classical monocyte,control ZEB2,P04H,1,0.9042631983757019
+masked_gene,classical monocyte,control ZEB2,P06F,1,0.8912347555160522
+masked_gene,classical monocyte,control ZEB2,P07H,1,0.8898197412490845
+masked_gene,classical monocyte,control ZEB2,P08H,1,0.7960910797119141
+masked_gene,classical monocyte,control ZEB2,P09H,1,0.7207226157188416
+masked_gene,classical monocyte,control ZEB2,P13H,1,0.7500227093696594
+masked_gene,classical monocyte,control ZEB2,P15F,1,0.7678377032279968
+masked_gene,classical monocyte,control ZEB2,P17H,1,0.5737049579620361
+masked_gene,classical monocyte,control ZEB2,P18F,1,0.5484302639961243
+masked_gene,classical monocyte,control ZEB2,P20H,1,0.5607283115386963
+masked_gene,classical monocyte,control ZEB2,one_Ten,1,0.025185901671648026
+masked_gene,classical monocyte,control TIMP1,C2P01H,1,0.7419778108596802
+masked_gene,classical monocyte,control TIMP1,C2P05F,0,0.4033399820327759
+masked_gene,classical monocyte,control TIMP1,C2P07H,0,0.3219168186187744
+masked_gene,classical monocyte,control TIMP1,C2P10H,0,0.37921518087387085
+masked_gene,classical monocyte,control TIMP1,C2P13F,0,0.3280222713947296
+masked_gene,classical monocyte,control TIMP1,C2P15H,1,0.575192391872406
+masked_gene,classical monocyte,control TIMP1,C2P16H,0,0.30780747532844543
+masked_gene,classical monocyte,control TIMP1,C2P19H,1,0.6761600375175476
+masked_gene,classical monocyte,control TIMP1,Five,0,0.9877673387527466
+masked_gene,classical monocyte,control TIMP1,P02H,1,0.7262464165687561
+masked_gene,classical monocyte,control TIMP1,P04H,1,0.9045878052711487
+masked_gene,classical monocyte,control TIMP1,P06F,1,0.8907604217529297
+masked_gene,classical monocyte,control TIMP1,P07H,1,0.8903035521507263
+masked_gene,classical monocyte,control TIMP1,P08H,1,0.7977438569068909
+masked_gene,classical monocyte,control TIMP1,P09H,1,0.7221171855926514
+masked_gene,classical monocyte,control TIMP1,P13H,1,0.7578139901161194
+masked_gene,classical monocyte,control TIMP1,P15F,1,0.768629789352417
+masked_gene,classical monocyte,control TIMP1,P17H,1,0.575126051902771
+masked_gene,classical monocyte,control TIMP1,P18F,1,0.5500848889350891
+masked_gene,classical monocyte,control TIMP1,P20H,1,0.5650310516357422
+masked_gene,classical monocyte,control TIMP1,one_Ten,1,0.024876657873392105
+masked_gene,classical monocyte,control CFP,C2P01H,1,0.7424338459968567
+masked_gene,classical monocyte,control CFP,C2P05F,0,0.406414657831192
+masked_gene,classical monocyte,control CFP,C2P07H,0,0.320475310087204
+masked_gene,classical monocyte,control CFP,C2P10H,0,0.3844641149044037
+masked_gene,classical monocyte,control CFP,C2P13F,0,0.32831254601478577
+masked_gene,classical monocyte,control CFP,C2P15H,1,0.5726854205131531
+masked_gene,classical monocyte,control CFP,C2P16H,0,0.31273558735847473
+masked_gene,classical monocyte,control CFP,C2P19H,1,0.6757053732872009
+masked_gene,classical monocyte,control CFP,Five,0,0.9875413179397583
+masked_gene,classical monocyte,control CFP,P02H,1,0.7240231037139893
+masked_gene,classical monocyte,control CFP,P04H,1,0.9025295972824097
+masked_gene,classical monocyte,control CFP,P06F,1,0.890580415725708
+masked_gene,classical monocyte,control CFP,P07H,1,0.8876129388809204
+masked_gene,classical monocyte,control CFP,P08H,1,0.7954185009002686
+masked_gene,classical monocyte,control CFP,P09H,1,0.7165396809577942
+masked_gene,classical monocyte,control CFP,P13H,1,0.7521705031394958
+masked_gene,classical monocyte,control CFP,P15F,1,0.7665796279907227
+masked_gene,classical monocyte,control CFP,P17H,1,0.5738325715065002
+masked_gene,classical monocyte,control CFP,P18F,1,0.549728512763977
+masked_gene,classical monocyte,control CFP,P20H,1,0.5627717971801758
+masked_gene,classical monocyte,control CFP,one_Ten,1,0.02322547696530819
+masked_gene,classical monocyte,control NUP214,C2P01H,1,0.7419517040252686
+masked_gene,classical monocyte,control NUP214,C2P05F,0,0.4059288501739502
+masked_gene,classical monocyte,control NUP214,C2P07H,0,0.320548415184021
+masked_gene,classical monocyte,control NUP214,C2P10H,0,0.37576648592948914
+masked_gene,classical monocyte,control NUP214,C2P13F,0,0.3299582302570343
+masked_gene,classical monocyte,control NUP214,C2P15H,1,0.57284015417099
+masked_gene,classical monocyte,control NUP214,C2P16H,0,0.31252118945121765
+masked_gene,classical monocyte,control NUP214,C2P19H,1,0.6754446029663086
+masked_gene,classical monocyte,control NUP214,Five,0,0.98801189661026
+masked_gene,classical monocyte,control NUP214,P02H,1,0.727217435836792
+masked_gene,classical monocyte,control NUP214,P04H,1,0.9048079252243042
+masked_gene,classical monocyte,control NUP214,P06F,1,0.8921428322792053
+masked_gene,classical monocyte,control NUP214,P07H,1,0.8879420757293701
+masked_gene,classical monocyte,control NUP214,P08H,1,0.7967461347579956
+masked_gene,classical monocyte,control NUP214,P09H,1,0.7235403656959534
+masked_gene,classical monocyte,control NUP214,P13H,1,0.7555211186408997
+masked_gene,classical monocyte,control NUP214,P15F,1,0.7719274163246155
+masked_gene,classical monocyte,control NUP214,P17H,1,0.5750975012779236
+masked_gene,classical monocyte,control NUP214,P18F,1,0.5425249338150024
+masked_gene,classical monocyte,control NUP214,P20H,1,0.5628519058227539
+masked_gene,classical monocyte,control NUP214,one_Ten,1,0.024305792525410652
+masked_gene,classical monocyte,control MS4A6A,C2P01H,1,0.7475852966308594
+masked_gene,classical monocyte,control MS4A6A,C2P05F,0,0.40090084075927734
+masked_gene,classical monocyte,control MS4A6A,C2P07H,0,0.3268606960773468
+masked_gene,classical monocyte,control MS4A6A,C2P10H,0,0.37683114409446716
+masked_gene,classical monocyte,control MS4A6A,C2P13F,0,0.3240118622779846
+masked_gene,classical monocyte,control MS4A6A,C2P15H,1,0.5784451961517334
+masked_gene,classical monocyte,control MS4A6A,C2P16H,0,0.3098531663417816
+masked_gene,classical monocyte,control MS4A6A,C2P19H,1,0.6839282512664795
+masked_gene,classical monocyte,control MS4A6A,Five,0,0.9877628684043884
+masked_gene,classical monocyte,control MS4A6A,P02H,1,0.7281730771064758
+masked_gene,classical monocyte,control MS4A6A,P04H,1,0.9023325443267822
+masked_gene,classical monocyte,control MS4A6A,P06F,1,0.8935779929161072
+masked_gene,classical monocyte,control MS4A6A,P07H,1,0.8910621404647827
+masked_gene,classical monocyte,control MS4A6A,P08H,1,0.7988949418067932
+masked_gene,classical monocyte,control MS4A6A,P09H,1,0.7171820402145386
+masked_gene,classical monocyte,control MS4A6A,P13H,1,0.7541518807411194
+masked_gene,classical monocyte,control MS4A6A,P15F,1,0.7629507184028625
+masked_gene,classical monocyte,control MS4A6A,P17H,1,0.5783337354660034
+masked_gene,classical monocyte,control MS4A6A,P18F,1,0.5562112331390381
+masked_gene,classical monocyte,control MS4A6A,P20H,1,0.5667518377304077
+masked_gene,classical monocyte,control MS4A6A,one_Ten,1,0.024278437718749046
+masked_gene,classical monocyte,control IER2,C2P01H,1,0.746486485004425
+masked_gene,classical monocyte,control IER2,C2P05F,0,0.4144858121871948
+masked_gene,classical monocyte,control IER2,C2P07H,0,0.31087347865104675
+masked_gene,classical monocyte,control IER2,C2P10H,0,0.3872711658477783
+masked_gene,classical monocyte,control IER2,C2P13F,0,0.3332761526107788
+masked_gene,classical monocyte,control IER2,C2P15H,1,0.5736401081085205
+masked_gene,classical monocyte,control IER2,C2P16H,0,0.316201776266098
+masked_gene,classical monocyte,control IER2,C2P19H,1,0.6806299090385437
+masked_gene,classical monocyte,control IER2,Five,0,0.9874681830406189
+masked_gene,classical monocyte,control IER2,P02H,1,0.7191233038902283
+masked_gene,classical monocyte,control IER2,P04H,1,0.9019266963005066
+masked_gene,classical monocyte,control IER2,P06F,1,0.8923414945602417
+masked_gene,classical monocyte,control IER2,P07H,1,0.8925116062164307
+masked_gene,classical monocyte,control IER2,P08H,1,0.7969371676445007
+masked_gene,classical monocyte,control IER2,P09H,1,0.7118324041366577
+masked_gene,classical monocyte,control IER2,P13H,1,0.7588312029838562
+masked_gene,classical monocyte,control IER2,P15F,1,0.7694902420043945
+masked_gene,classical monocyte,control IER2,P17H,1,0.5677838325500488
+masked_gene,classical monocyte,control IER2,P18F,1,0.5249282121658325
+masked_gene,classical monocyte,control IER2,P20H,1,0.5492250323295593
+masked_gene,classical monocyte,control IER2,one_Ten,1,0.023031743243336678
+masked_gene,classical monocyte,control BLVRB,C2P01H,1,0.7432942986488342
+masked_gene,classical monocyte,control BLVRB,C2P05F,0,0.4039137363433838
+masked_gene,classical monocyte,control BLVRB,C2P07H,0,0.32225918769836426
+masked_gene,classical monocyte,control BLVRB,C2P10H,0,0.3818056881427765
+masked_gene,classical monocyte,control BLVRB,C2P13F,0,0.32547491788864136
+masked_gene,classical monocyte,control BLVRB,C2P15H,1,0.5781015753746033
+masked_gene,classical monocyte,control BLVRB,C2P16H,0,0.3132533133029938
+masked_gene,classical monocyte,control BLVRB,C2P19H,1,0.6755431294441223
+masked_gene,classical monocyte,control BLVRB,Five,0,0.9881162643432617
+masked_gene,classical monocyte,control BLVRB,P02H,1,0.7264547944068909
+masked_gene,classical monocyte,control BLVRB,P04H,1,0.9011399149894714
+masked_gene,classical monocyte,control BLVRB,P06F,1,0.8916215300559998
+masked_gene,classical monocyte,control BLVRB,P07H,1,0.8871616721153259
+masked_gene,classical monocyte,control BLVRB,P08H,1,0.7954063415527344
+masked_gene,classical monocyte,control BLVRB,P09H,1,0.7191392779350281
+masked_gene,classical monocyte,control BLVRB,P13H,1,0.7570168972015381
+masked_gene,classical monocyte,control BLVRB,P15F,1,0.7706182599067688
+masked_gene,classical monocyte,control BLVRB,P17H,1,0.5754132866859436
+masked_gene,classical monocyte,control BLVRB,P18F,1,0.5419665575027466
+masked_gene,classical monocyte,control BLVRB,P20H,1,0.5664870142936707
+masked_gene,classical monocyte,control BLVRB,one_Ten,1,0.025401471182703972
+masked_gene,naive CD4 T cell,none,C2P01H,1,0.3673178553581238
+masked_gene,naive CD4 T cell,none,C2P07H,0,0.9626988768577576
+masked_gene,naive CD4 T cell,none,C2P10H,0,0.5267835855484009
+masked_gene,naive CD4 T cell,none,C2P16H,0,0.3570388853549957
+masked_gene,naive CD4 T cell,none,C2P19H,1,0.7618547677993774
+masked_gene,naive CD4 T cell,none,Five,0,0.9960831999778748
+masked_gene,naive CD4 T cell,none,P02H,1,0.7747993469238281
+masked_gene,naive CD4 T cell,none,P09H,1,0.7981692552566528
+masked_gene,naive CD4 T cell,none,P18F,1,0.6185389161109924
+masked_gene,naive CD4 T cell,none,P20H,1,0.48845380544662476
+masked_gene,naive CD4 T cell,none,one_Ten,1,0.0328778475522995
+masked_gene,naive CD4 T cell,HLA-DRB5,C2P01H,1,0.3720148205757141
+masked_gene,naive CD4 T cell,HLA-DRB5,C2P07H,0,0.9630450010299683
+masked_gene,naive CD4 T cell,HLA-DRB5,C2P10H,0,0.5257453322410583
+masked_gene,naive CD4 T cell,HLA-DRB5,C2P16H,0,0.3566952645778656
+masked_gene,naive CD4 T cell,HLA-DRB5,C2P19H,1,0.7615974545478821
+masked_gene,naive CD4 T cell,HLA-DRB5,Five,0,0.996202826499939
+masked_gene,naive CD4 T cell,HLA-DRB5,P02H,1,0.775263249874115
+masked_gene,naive CD4 T cell,HLA-DRB5,P09H,1,0.7976613640785217
+masked_gene,naive CD4 T cell,HLA-DRB5,P18F,1,0.6113793253898621
+masked_gene,naive CD4 T cell,HLA-DRB5,P20H,1,0.4879037141799927
+masked_gene,naive CD4 T cell,HLA-DRB5,one_Ten,1,0.03301994502544403
+masked_gene,naive CD4 T cell,all HLA,C2P01H,1,0.3881712853908539
+masked_gene,naive CD4 T cell,all HLA,C2P07H,0,0.9659530520439148
+masked_gene,naive CD4 T cell,all HLA,C2P10H,0,0.5233453512191772
+masked_gene,naive CD4 T cell,all HLA,C2P16H,0,0.3766530454158783
+masked_gene,naive CD4 T cell,all HLA,C2P19H,1,0.7511541843414307
+masked_gene,naive CD4 T cell,all HLA,Five,0,0.9973810911178589
+masked_gene,naive CD4 T cell,all HLA,P02H,1,0.7563060522079468
+masked_gene,naive CD4 T cell,all HLA,P09H,1,0.7896963357925415
+masked_gene,naive CD4 T cell,all HLA,P18F,1,0.6292189955711365
+masked_gene,naive CD4 T cell,all HLA,P20H,1,0.49638646841049194
+masked_gene,naive CD4 T cell,all HLA,one_Ten,1,0.04201147332787514
+masked_gene,naive CD4 T cell,control EFHD2,C2P01H,1,0.3763105273246765
+masked_gene,naive CD4 T cell,control EFHD2,C2P07H,0,0.9628209471702576
+masked_gene,naive CD4 T cell,control EFHD2,C2P10H,0,0.5248867273330688
+masked_gene,naive CD4 T cell,control EFHD2,C2P16H,0,0.35349494218826294
+masked_gene,naive CD4 T cell,control EFHD2,C2P19H,1,0.7589970231056213
+masked_gene,naive CD4 T cell,control EFHD2,Five,0,0.9960706830024719
+masked_gene,naive CD4 T cell,control EFHD2,P02H,1,0.7764025330543518
+masked_gene,naive CD4 T cell,control EFHD2,P09H,1,0.7983949184417725
+masked_gene,naive CD4 T cell,control EFHD2,P18F,1,0.612840473651886
+masked_gene,naive CD4 T cell,control EFHD2,P20H,1,0.4879288971424103
+masked_gene,naive CD4 T cell,control EFHD2,one_Ten,1,0.03342344984412193
+masked_gene,naive CD4 T cell,control CSF3R,C2P01H,1,0.36654478311538696
+masked_gene,naive CD4 T cell,control CSF3R,C2P07H,0,0.9622592329978943
+masked_gene,naive CD4 T cell,control CSF3R,C2P10H,0,0.5278583765029907
+masked_gene,naive CD4 T cell,control CSF3R,C2P16H,0,0.35679712891578674
+masked_gene,naive CD4 T cell,control CSF3R,C2P19H,1,0.7584839463233948
+masked_gene,naive CD4 T cell,control CSF3R,Five,0,0.9961285591125488
+masked_gene,naive CD4 T cell,control CSF3R,P02H,1,0.7747098207473755
+masked_gene,naive CD4 T cell,control CSF3R,P09H,1,0.798622727394104
+masked_gene,naive CD4 T cell,control CSF3R,P18F,1,0.6182756423950195
+masked_gene,naive CD4 T cell,control CSF3R,P20H,1,0.4882085919380188
+masked_gene,naive CD4 T cell,control CSF3R,one_Ten,1,0.032946325838565826
+masked_gene,naive CD4 T cell,control CAPG,C2P01H,1,0.37193018198013306
+masked_gene,naive CD4 T cell,control CAPG,C2P07H,0,0.9627258777618408
+masked_gene,naive CD4 T cell,control CAPG,C2P10H,0,0.5272344946861267
+masked_gene,naive CD4 T cell,control CAPG,C2P16H,0,0.3563944697380066
+masked_gene,naive CD4 T cell,control CAPG,C2P19H,1,0.7606087923049927
+masked_gene,naive CD4 T cell,control CAPG,Five,0,0.9961761236190796
+masked_gene,naive CD4 T cell,control CAPG,P02H,1,0.7760828733444214
+masked_gene,naive CD4 T cell,control CAPG,P09H,1,0.8005229234695435
+masked_gene,naive CD4 T cell,control CAPG,P18F,1,0.6188331246376038
+masked_gene,naive CD4 T cell,control CAPG,P20H,1,0.48773297667503357
+masked_gene,naive CD4 T cell,control CAPG,one_Ten,1,0.03346734493970871
+masked_gene,naive CD4 T cell,control ZEB2,C2P01H,1,0.3672419488430023
+masked_gene,naive CD4 T cell,control ZEB2,C2P07H,0,0.9623491764068604
+masked_gene,naive CD4 T cell,control ZEB2,C2P10H,0,0.5267429351806641
+masked_gene,naive CD4 T cell,control ZEB2,C2P16H,0,0.35610491037368774
+masked_gene,naive CD4 T cell,control ZEB2,C2P19H,1,0.7620266675949097
+masked_gene,naive CD4 T cell,control ZEB2,Five,0,0.9960548877716064
+masked_gene,naive CD4 T cell,control ZEB2,P02H,1,0.7740203738212585
+masked_gene,naive CD4 T cell,control ZEB2,P09H,1,0.7984293699264526
+masked_gene,naive CD4 T cell,control ZEB2,P18F,1,0.613010048866272
+masked_gene,naive CD4 T cell,control ZEB2,P20H,1,0.4878544211387634
+masked_gene,naive CD4 T cell,control ZEB2,one_Ten,1,0.032624755054712296
+masked_gene,naive CD4 T cell,control TIMP1,C2P01H,1,0.3759452998638153
+masked_gene,naive CD4 T cell,control TIMP1,C2P07H,0,0.9618280529975891
+masked_gene,naive CD4 T cell,control TIMP1,C2P10H,0,0.5226203203201294
+masked_gene,naive CD4 T cell,control TIMP1,C2P16H,0,0.354621022939682
+masked_gene,naive CD4 T cell,control TIMP1,C2P19H,1,0.7551981210708618
+masked_gene,naive CD4 T cell,control TIMP1,Five,0,0.9962198138237
+masked_gene,naive CD4 T cell,control TIMP1,P02H,1,0.7757524847984314
+masked_gene,naive CD4 T cell,control TIMP1,P09H,1,0.8046033978462219
+masked_gene,naive CD4 T cell,control TIMP1,P18F,1,0.6157670617103577
+masked_gene,naive CD4 T cell,control TIMP1,P20H,1,0.4914228022098541
+masked_gene,naive CD4 T cell,control TIMP1,one_Ten,1,0.03331902623176575
+masked_gene,naive CD4 T cell,control CFP,C2P01H,1,0.3719075620174408
+masked_gene,naive CD4 T cell,control CFP,C2P07H,0,0.9631454348564148
+masked_gene,naive CD4 T cell,control CFP,C2P10H,0,0.5277451872825623
+masked_gene,naive CD4 T cell,control CFP,C2P16H,0,0.35603705048561096
+masked_gene,naive CD4 T cell,control CFP,C2P19H,1,0.7608938813209534
+masked_gene,naive CD4 T cell,control CFP,Five,0,0.9962161183357239
+masked_gene,naive CD4 T cell,control CFP,P02H,1,0.7775921821594238
+masked_gene,naive CD4 T cell,control CFP,P09H,1,0.7970109581947327
+masked_gene,naive CD4 T cell,control CFP,P18F,1,0.6166170835494995
+masked_gene,naive CD4 T cell,control CFP,P20H,1,0.48816731572151184
+masked_gene,naive CD4 T cell,control CFP,one_Ten,1,0.0323212705552578
+masked_gene,naive CD4 T cell,control NUP214,C2P01H,1,0.3699963390827179
+masked_gene,naive CD4 T cell,control NUP214,C2P07H,0,0.9621815085411072
+masked_gene,naive CD4 T cell,control NUP214,C2P10H,0,0.5267862677574158
+masked_gene,naive CD4 T cell,control NUP214,C2P16H,0,0.356224924325943
+masked_gene,naive CD4 T cell,control NUP214,C2P19H,1,0.7586448788642883
+masked_gene,naive CD4 T cell,control NUP214,Five,0,0.9961356520652771
+masked_gene,naive CD4 T cell,control NUP214,P02H,1,0.7746950387954712
+masked_gene,naive CD4 T cell,control NUP214,P09H,1,0.7971473932266235
+masked_gene,naive CD4 T cell,control NUP214,P18F,1,0.6189680099487305
+masked_gene,naive CD4 T cell,control NUP214,P20H,1,0.48690083622932434
+masked_gene,naive CD4 T cell,control NUP214,one_Ten,1,0.032690342515707016
+masked_gene,naive CD4 T cell,control MS4A6A,C2P01H,1,0.3706030249595642
+masked_gene,naive CD4 T cell,control MS4A6A,C2P07H,0,0.9628347754478455
+masked_gene,naive CD4 T cell,control MS4A6A,C2P10H,0,0.5262219309806824
+masked_gene,naive CD4 T cell,control MS4A6A,C2P16H,0,0.35546809434890747
+masked_gene,naive CD4 T cell,control MS4A6A,C2P19H,1,0.7626409530639648
+masked_gene,naive CD4 T cell,control MS4A6A,Five,0,0.9962705373764038
+masked_gene,naive CD4 T cell,control MS4A6A,P02H,1,0.7774556279182434
+masked_gene,naive CD4 T cell,control MS4A6A,P09H,1,0.7994093298912048
+masked_gene,naive CD4 T cell,control MS4A6A,P18F,1,0.6176273226737976
+masked_gene,naive CD4 T cell,control MS4A6A,P20H,1,0.48887449502944946
+masked_gene,naive CD4 T cell,control MS4A6A,one_Ten,1,0.03292131796479225
+masked_gene,naive CD4 T cell,control IER2,C2P01H,1,0.3789806067943573
+masked_gene,naive CD4 T cell,control IER2,C2P07H,0,0.9635042548179626
+masked_gene,naive CD4 T cell,control IER2,C2P10H,0,0.5227189064025879
+masked_gene,naive CD4 T cell,control IER2,C2P16H,0,0.34825968742370605
+masked_gene,naive CD4 T cell,control IER2,C2P19H,1,0.7637640833854675
+masked_gene,naive CD4 T cell,control IER2,Five,0,0.9950044751167297
+masked_gene,naive CD4 T cell,control IER2,P02H,1,0.7775955200195312
+masked_gene,naive CD4 T cell,control IER2,P09H,1,0.7995826601982117
+masked_gene,naive CD4 T cell,control IER2,P18F,1,0.615495502948761
+masked_gene,naive CD4 T cell,control IER2,P20H,1,0.48607137799263
+masked_gene,naive CD4 T cell,control IER2,one_Ten,1,0.042485374957323074
+masked_gene,naive CD4 T cell,control BLVRB,C2P01H,1,0.3720974922180176
+masked_gene,naive CD4 T cell,control BLVRB,C2P07H,0,0.9623265862464905
+masked_gene,naive CD4 T cell,control BLVRB,C2P10H,0,0.5252031087875366
+masked_gene,naive CD4 T cell,control BLVRB,C2P16H,0,0.35766252875328064
+masked_gene,naive CD4 T cell,control BLVRB,C2P19H,1,0.7622600197792053
+masked_gene,naive CD4 T cell,control BLVRB,Five,0,0.9961314797401428
+masked_gene,naive CD4 T cell,control BLVRB,P02H,1,0.7758104205131531
+masked_gene,naive CD4 T cell,control BLVRB,P09H,1,0.7968548536300659
+masked_gene,naive CD4 T cell,control BLVRB,P18F,1,0.6175430417060852
+masked_gene,naive CD4 T cell,control BLVRB,P20H,1,0.48779529333114624
+masked_gene,naive CD4 T cell,control BLVRB,one_Ten,1,0.031562983989715576
+pca,classical monocyte,none,C2P01H,1,0.7804265022277832
+pca,classical monocyte,none,C2P05F,0,0.40065258741378784
+pca,classical monocyte,none,C2P07H,0,0.49640798568725586
+pca,classical monocyte,none,C2P10H,0,0.31721195578575134
+pca,classical monocyte,none,C2P13F,0,0.265166312456131
+pca,classical monocyte,none,C2P15H,1,0.5803393125534058
+pca,classical monocyte,none,C2P16H,0,0.32423824071884155
+pca,classical monocyte,none,C2P19H,1,0.6970539093017578
+pca,classical monocyte,none,Five,0,0.44613057374954224
+pca,classical monocyte,none,P02H,1,0.736324667930603
+pca,classical monocyte,none,P04H,1,0.7286279201507568
+pca,classical monocyte,none,P06F,1,0.7572397589683533
+pca,classical monocyte,none,P07H,1,0.7120465636253357
+pca,classical monocyte,none,P08H,1,0.7613768577575684
+pca,classical monocyte,none,P09H,1,0.7666940093040466
+pca,classical monocyte,none,P13H,1,0.7042620778083801
+pca,classical monocyte,none,P15F,1,0.680884063243866
+pca,classical monocyte,none,P17H,1,0.7854676246643066
+pca,classical monocyte,none,P18F,1,0.7438122630119324
+pca,classical monocyte,none,P20H,1,0.7366980910301208
+pca,classical monocyte,none,one_Ten,1,0.005257530137896538
+pca,classical monocyte,HLA-DRB5,C2P01H,1,0.758289635181427
+pca,classical monocyte,HLA-DRB5,C2P05F,0,0.4475104808807373
+pca,classical monocyte,HLA-DRB5,C2P07H,0,0.5299182534217834
+pca,classical monocyte,HLA-DRB5,C2P10H,0,0.3398894667625427
+pca,classical monocyte,HLA-DRB5,C2P13F,0,0.28405314683914185
+pca,classical monocyte,HLA-DRB5,C2P15H,1,0.5463433265686035
+pca,classical monocyte,HLA-DRB5,C2P16H,0,0.3495504856109619
+pca,classical monocyte,HLA-DRB5,C2P19H,1,0.6209574341773987
+pca,classical monocyte,HLA-DRB5,Five,0,0.6583954691886902
+pca,classical monocyte,HLA-DRB5,P02H,1,0.6688023805618286
+pca,classical monocyte,HLA-DRB5,P04H,1,0.7255750298500061
+pca,classical monocyte,HLA-DRB5,P06F,1,0.7436954379081726
+pca,classical monocyte,HLA-DRB5,P07H,1,0.6983497142791748
+pca,classical monocyte,HLA-DRB5,P08H,1,0.7522380352020264
+pca,classical monocyte,HLA-DRB5,P09H,1,0.7119945287704468
+pca,classical monocyte,HLA-DRB5,P13H,1,0.6928208470344543
+pca,classical monocyte,HLA-DRB5,P15F,1,0.6927671432495117
+pca,classical monocyte,HLA-DRB5,P17H,1,0.7440219521522522
+pca,classical monocyte,HLA-DRB5,P18F,1,0.7061359882354736
+pca,classical monocyte,HLA-DRB5,P20H,1,0.7083534598350525
+pca,classical monocyte,HLA-DRB5,one_Ten,1,0.005220434162765741
+pca,classical monocyte,all HLA,C2P01H,1,0.7540843486785889
+pca,classical monocyte,all HLA,C2P05F,0,0.46156492829322815
+pca,classical monocyte,all HLA,C2P07H,0,0.5310230255126953
+pca,classical monocyte,all HLA,C2P10H,0,0.34908154606819153
+pca,classical monocyte,all HLA,C2P13F,0,0.28867679834365845
+pca,classical monocyte,all HLA,C2P15H,1,0.5469487309455872
+pca,classical monocyte,all HLA,C2P16H,0,0.35132500529289246
+pca,classical monocyte,all HLA,C2P19H,1,0.6226680874824524
+pca,classical monocyte,all HLA,Five,0,0.739562451839447
+pca,classical monocyte,all HLA,P02H,1,0.6625332832336426
+pca,classical monocyte,all HLA,P04H,1,0.7169597744941711
+pca,classical monocyte,all HLA,P06F,1,0.7409026622772217
+pca,classical monocyte,all HLA,P07H,1,0.692936897277832
+pca,classical monocyte,all HLA,P08H,1,0.740470290184021
+pca,classical monocyte,all HLA,P09H,1,0.684360146522522
+pca,classical monocyte,all HLA,P13H,1,0.6993009448051453
+pca,classical monocyte,all HLA,P15F,1,0.688998281955719
+pca,classical monocyte,all HLA,P17H,1,0.7485511302947998
+pca,classical monocyte,all HLA,P18F,1,0.6817503571510315
+pca,classical monocyte,all HLA,P20H,1,0.7095695734024048
+pca,classical monocyte,all HLA,one_Ten,1,0.0041748760268092155
+pca,classical monocyte,control EFHD2,C2P01H,1,0.7801113128662109
+pca,classical monocyte,control EFHD2,C2P05F,0,0.40164488554000854
+pca,classical monocyte,control EFHD2,C2P07H,0,0.49706247448921204
+pca,classical monocyte,control EFHD2,C2P10H,0,0.31767159700393677
+pca,classical monocyte,control EFHD2,C2P13F,0,0.264931321144104
+pca,classical monocyte,control EFHD2,C2P15H,1,0.5811981558799744
+pca,classical monocyte,control EFHD2,C2P16H,0,0.32475990056991577
+pca,classical monocyte,control EFHD2,C2P19H,1,0.6980713605880737
+pca,classical monocyte,control EFHD2,Five,0,0.44537481665611267
+pca,classical monocyte,control EFHD2,P02H,1,0.7358077764511108
+pca,classical monocyte,control EFHD2,P04H,1,0.7277479767799377
+pca,classical monocyte,control EFHD2,P06F,1,0.7564448714256287
+pca,classical monocyte,control EFHD2,P07H,1,0.7114466428756714
+pca,classical monocyte,control EFHD2,P08H,1,0.7616234421730042
+pca,classical monocyte,control EFHD2,P09H,1,0.7652076482772827
+pca,classical monocyte,control EFHD2,P13H,1,0.7046267986297607
+pca,classical monocyte,control EFHD2,P15F,1,0.6810460090637207
+pca,classical monocyte,control EFHD2,P17H,1,0.7851487398147583
+pca,classical monocyte,control EFHD2,P18F,1,0.7436323165893555
+pca,classical monocyte,control EFHD2,P20H,1,0.7363452315330505
+pca,classical monocyte,control EFHD2,one_Ten,1,0.005294539034366608
+pca,classical monocyte,control CSF3R,C2P01H,1,0.7792894244194031
+pca,classical monocyte,control CSF3R,C2P05F,0,0.40117186307907104
+pca,classical monocyte,control CSF3R,C2P07H,0,0.4950030446052551
+pca,classical monocyte,control CSF3R,C2P10H,0,0.3142962157726288
+pca,classical monocyte,control CSF3R,C2P13F,0,0.26476502418518066
+pca,classical monocyte,control CSF3R,C2P15H,1,0.5841504335403442
+pca,classical monocyte,control CSF3R,C2P16H,0,0.32321447134017944
+pca,classical monocyte,control CSF3R,C2P19H,1,0.697297990322113
+pca,classical monocyte,control CSF3R,Five,0,0.4476093053817749
+pca,classical monocyte,control CSF3R,P02H,1,0.736801028251648
+pca,classical monocyte,control CSF3R,P04H,1,0.731522798538208
+pca,classical monocyte,control CSF3R,P06F,1,0.7567684054374695
+pca,classical monocyte,control CSF3R,P07H,1,0.7126982808113098
+pca,classical monocyte,control CSF3R,P08H,1,0.7627917528152466
+pca,classical monocyte,control CSF3R,P09H,1,0.7652155160903931
+pca,classical monocyte,control CSF3R,P13H,1,0.703815221786499
+pca,classical monocyte,control CSF3R,P15F,1,0.6847382187843323
+pca,classical monocyte,control CSF3R,P17H,1,0.7867698073387146
+pca,classical monocyte,control CSF3R,P18F,1,0.7428672313690186
+pca,classical monocyte,control CSF3R,P20H,1,0.738759458065033
+pca,classical monocyte,control CSF3R,one_Ten,1,0.0051958318799734116
+pca,classical monocyte,control CAPG,C2P01H,1,0.7795138359069824
+pca,classical monocyte,control CAPG,C2P05F,0,0.4022156894207001
+pca,classical monocyte,control CAPG,C2P07H,0,0.49878597259521484
+pca,classical monocyte,control CAPG,C2P10H,0,0.316836953163147
+pca,classical monocyte,control CAPG,C2P13F,0,0.2647199034690857
+pca,classical monocyte,control CAPG,C2P15H,1,0.578708827495575
+pca,classical monocyte,control CAPG,C2P16H,0,0.325779527425766
+pca,classical monocyte,control CAPG,C2P19H,1,0.6932020783424377
+pca,classical monocyte,control CAPG,Five,0,0.43112263083457947
+pca,classical monocyte,control CAPG,P02H,1,0.7330396771430969
+pca,classical monocyte,control CAPG,P04H,1,0.7292352318763733
+pca,classical monocyte,control CAPG,P06F,1,0.7568122744560242
+pca,classical monocyte,control CAPG,P07H,1,0.7122669816017151
+pca,classical monocyte,control CAPG,P08H,1,0.7608739137649536
+pca,classical monocyte,control CAPG,P09H,1,0.7645414471626282
+pca,classical monocyte,control CAPG,P13H,1,0.7027086019515991
+pca,classical monocyte,control CAPG,P15F,1,0.6804563403129578
+pca,classical monocyte,control CAPG,P17H,1,0.7858597040176392
+pca,classical monocyte,control CAPG,P18F,1,0.7453372478485107
+pca,classical monocyte,control CAPG,P20H,1,0.736700713634491
+pca,classical monocyte,control CAPG,one_Ten,1,0.005196239333599806
+pca,classical monocyte,control ZEB2,C2P01H,1,0.780377984046936
+pca,classical monocyte,control ZEB2,C2P05F,0,0.4014311134815216
+pca,classical monocyte,control ZEB2,C2P07H,0,0.49521300196647644
+pca,classical monocyte,control ZEB2,C2P10H,0,0.31791600584983826
+pca,classical monocyte,control ZEB2,C2P13F,0,0.266198992729187
+pca,classical monocyte,control ZEB2,C2P15H,1,0.5805619359016418
+pca,classical monocyte,control ZEB2,C2P16H,0,0.3253272473812103
+pca,classical monocyte,control ZEB2,C2P19H,1,0.696149468421936
+pca,classical monocyte,control ZEB2,Five,0,0.4434581398963928
+pca,classical monocyte,control ZEB2,P02H,1,0.7344589233398438
+pca,classical monocyte,control ZEB2,P04H,1,0.7277652025222778
+pca,classical monocyte,control ZEB2,P06F,1,0.7572399377822876
+pca,classical monocyte,control ZEB2,P07H,1,0.7110227346420288
+pca,classical monocyte,control ZEB2,P08H,1,0.7608469128608704
+pca,classical monocyte,control ZEB2,P09H,1,0.7661942839622498
+pca,classical monocyte,control ZEB2,P13H,1,0.7039595246315002
+pca,classical monocyte,control ZEB2,P15F,1,0.6796125173568726
+pca,classical monocyte,control ZEB2,P17H,1,0.7844607830047607
+pca,classical monocyte,control ZEB2,P18F,1,0.744964063167572
+pca,classical monocyte,control ZEB2,P20H,1,0.7361164093017578
+pca,classical monocyte,control ZEB2,one_Ten,1,0.00534864841029048
+pca,classical monocyte,control TIMP1,C2P01H,1,0.7811444401741028
+pca,classical monocyte,control TIMP1,C2P05F,0,0.400291383266449
+pca,classical monocyte,control TIMP1,C2P07H,0,0.4964475631713867
+pca,classical monocyte,control TIMP1,C2P10H,0,0.317221999168396
+pca,classical monocyte,control TIMP1,C2P13F,0,0.2649592161178589
+pca,classical monocyte,control TIMP1,C2P15H,1,0.5809983611106873
+pca,classical monocyte,control TIMP1,C2P16H,0,0.3238601088523865
+pca,classical monocyte,control TIMP1,C2P19H,1,0.6978318095207214
+pca,classical monocyte,control TIMP1,Five,0,0.44541025161743164
+pca,classical monocyte,control TIMP1,P02H,1,0.7378580570220947
+pca,classical monocyte,control TIMP1,P04H,1,0.7280139327049255
+pca,classical monocyte,control TIMP1,P06F,1,0.7570374608039856
+pca,classical monocyte,control TIMP1,P07H,1,0.7114114165306091
+pca,classical monocyte,control TIMP1,P08H,1,0.7613317370414734
+pca,classical monocyte,control TIMP1,P09H,1,0.7670050263404846
+pca,classical monocyte,control TIMP1,P13H,1,0.7035175561904907
+pca,classical monocyte,control TIMP1,P15F,1,0.6805473566055298
+pca,classical monocyte,control TIMP1,P17H,1,0.7852445840835571
+pca,classical monocyte,control TIMP1,P18F,1,0.7436819672584534
+pca,classical monocyte,control TIMP1,P20H,1,0.7367009520530701
+pca,classical monocyte,control TIMP1,one_Ten,1,0.0052538407035171986
+pca,classical monocyte,control CFP,C2P01H,1,0.7795737981796265
+pca,classical monocyte,control CFP,C2P05F,0,0.4003995656967163
+pca,classical monocyte,control CFP,C2P07H,0,0.49754592776298523
+pca,classical monocyte,control CFP,C2P10H,0,0.3170815110206604
+pca,classical monocyte,control CFP,C2P13F,0,0.2652120590209961
+pca,classical monocyte,control CFP,C2P15H,1,0.5821139812469482
+pca,classical monocyte,control CFP,C2P16H,0,0.3224138021469116
+pca,classical monocyte,control CFP,C2P19H,1,0.6958442330360413
+pca,classical monocyte,control CFP,Five,0,0.4479736387729645
+pca,classical monocyte,control CFP,P02H,1,0.7361438274383545
+pca,classical monocyte,control CFP,P04H,1,0.7300044894218445
+pca,classical monocyte,control CFP,P06F,1,0.756303608417511
+pca,classical monocyte,control CFP,P07H,1,0.712245762348175
+pca,classical monocyte,control CFP,P08H,1,0.7626019716262817
+pca,classical monocyte,control CFP,P09H,1,0.7678672075271606
+pca,classical monocyte,control CFP,P13H,1,0.7051666378974915
+pca,classical monocyte,control CFP,P15F,1,0.679550051689148
+pca,classical monocyte,control CFP,P17H,1,0.7871019244194031
+pca,classical monocyte,control CFP,P18F,1,0.7430564165115356
+pca,classical monocyte,control CFP,P20H,1,0.7360312938690186
+pca,classical monocyte,control CFP,one_Ten,1,0.005303654819726944
+pca,classical monocyte,control NUP214,C2P01H,1,0.7816916108131409
+pca,classical monocyte,control NUP214,C2P05F,0,0.3989012539386749
+pca,classical monocyte,control NUP214,C2P07H,0,0.5000234842300415
+pca,classical monocyte,control NUP214,C2P10H,0,0.31947824358940125
+pca,classical monocyte,control NUP214,C2P13F,0,0.26197993755340576
+pca,classical monocyte,control NUP214,C2P15H,1,0.5813135504722595
+pca,classical monocyte,control NUP214,C2P16H,0,0.3272663950920105
+pca,classical monocyte,control NUP214,C2P19H,1,0.6929554343223572
+pca,classical monocyte,control NUP214,Five,0,0.44773197174072266
+pca,classical monocyte,control NUP214,P02H,1,0.7382088303565979
+pca,classical monocyte,control NUP214,P04H,1,0.726942777633667
+pca,classical monocyte,control NUP214,P06F,1,0.7552441954612732
+pca,classical monocyte,control NUP214,P07H,1,0.7104712128639221
+pca,classical monocyte,control NUP214,P08H,1,0.760577917098999
+pca,classical monocyte,control NUP214,P09H,1,0.761772096157074
+pca,classical monocyte,control NUP214,P13H,1,0.7063477635383606
+pca,classical monocyte,control NUP214,P15F,1,0.6839754581451416
+pca,classical monocyte,control NUP214,P17H,1,0.7830554246902466
+pca,classical monocyte,control NUP214,P18F,1,0.7419500350952148
+pca,classical monocyte,control NUP214,P20H,1,0.7350162267684937
+pca,classical monocyte,control NUP214,one_Ten,1,0.005357467103749514
+pca,classical monocyte,control MS4A6A,C2P01H,1,0.7807478308677673
+pca,classical monocyte,control MS4A6A,C2P05F,0,0.4005339443683624
+pca,classical monocyte,control MS4A6A,C2P07H,0,0.4964078664779663
+pca,classical monocyte,control MS4A6A,C2P10H,0,0.3174525797367096
+pca,classical monocyte,control MS4A6A,C2P13F,0,0.265426367521286
+pca,classical monocyte,control MS4A6A,C2P15H,1,0.581081748008728
+pca,classical monocyte,control MS4A6A,C2P16H,0,0.3242647349834442
+pca,classical monocyte,control MS4A6A,C2P19H,1,0.6981787085533142
+pca,classical monocyte,control MS4A6A,Five,0,0.44289326667785645
+pca,classical monocyte,control MS4A6A,P02H,1,0.7377247214317322
+pca,classical monocyte,control MS4A6A,P04H,1,0.7277462482452393
+pca,classical monocyte,control MS4A6A,P06F,1,0.7565821409225464
+pca,classical monocyte,control MS4A6A,P07H,1,0.7116115093231201
+pca,classical monocyte,control MS4A6A,P08H,1,0.7611851692199707
+pca,classical monocyte,control MS4A6A,P09H,1,0.7676418423652649
+pca,classical monocyte,control MS4A6A,P13H,1,0.7038934230804443
+pca,classical monocyte,control MS4A6A,P15F,1,0.6806066632270813
+pca,classical monocyte,control MS4A6A,P17H,1,0.7853956818580627
+pca,classical monocyte,control MS4A6A,P18F,1,0.743726372718811
+pca,classical monocyte,control MS4A6A,P20H,1,0.7366213202476501
+pca,classical monocyte,control MS4A6A,one_Ten,1,0.005234541371464729
+pca,classical monocyte,control IER2,C2P01H,1,0.7834898829460144
+pca,classical monocyte,control IER2,C2P05F,0,0.4085264503955841
+pca,classical monocyte,control IER2,C2P07H,0,0.49647271633148193
+pca,classical monocyte,control IER2,C2P10H,0,0.3203989565372467
+pca,classical monocyte,control IER2,C2P13F,0,0.26896780729293823
+pca,classical monocyte,control IER2,C2P15H,1,0.5758102536201477
+pca,classical monocyte,control IER2,C2P16H,0,0.32762354612350464
+pca,classical monocyte,control IER2,C2P19H,1,0.6975173950195312
+pca,classical monocyte,control IER2,Five,0,0.43636831641197205
+pca,classical monocyte,control IER2,P02H,1,0.7359145879745483
+pca,classical monocyte,control IER2,P04H,1,0.7248584032058716
+pca,classical monocyte,control IER2,P06F,1,0.7583713531494141
+pca,classical monocyte,control IER2,P07H,1,0.7128481268882751
+pca,classical monocyte,control IER2,P08H,1,0.758525550365448
+pca,classical monocyte,control IER2,P09H,1,0.7643327713012695
+pca,classical monocyte,control IER2,P13H,1,0.7035765051841736
+pca,classical monocyte,control IER2,P15F,1,0.6815432906150818
+pca,classical monocyte,control IER2,P17H,1,0.781354546546936
+pca,classical monocyte,control IER2,P18F,1,0.7319462895393372
+pca,classical monocyte,control IER2,P20H,1,0.7298251986503601
+pca,classical monocyte,control IER2,one_Ten,1,0.004974490962922573
+pca,classical monocyte,control BLVRB,C2P01H,1,0.7807530164718628
+pca,classical monocyte,control BLVRB,C2P05F,0,0.39998820424079895
+pca,classical monocyte,control BLVRB,C2P07H,0,0.49591705203056335
+pca,classical monocyte,control BLVRB,C2P10H,0,0.3172733187675476
+pca,classical monocyte,control BLVRB,C2P13F,0,0.2647518813610077
+pca,classical monocyte,control BLVRB,C2P15H,1,0.5793957114219666
+pca,classical monocyte,control BLVRB,C2P16H,0,0.3232419490814209
+pca,classical monocyte,control BLVRB,C2P19H,1,0.6970028281211853
+pca,classical monocyte,control BLVRB,Five,0,0.4456530809402466
+pca,classical monocyte,control BLVRB,P02H,1,0.7354731559753418
+pca,classical monocyte,control BLVRB,P04H,1,0.7293167114257812
+pca,classical monocyte,control BLVRB,P06F,1,0.7587741017341614
+pca,classical monocyte,control BLVRB,P07H,1,0.7130532264709473
+pca,classical monocyte,control BLVRB,P08H,1,0.7613124847412109
+pca,classical monocyte,control BLVRB,P09H,1,0.7648905515670776
+pca,classical monocyte,control BLVRB,P13H,1,0.7049019932746887
+pca,classical monocyte,control BLVRB,P15F,1,0.6823794841766357
+pca,classical monocyte,control BLVRB,P17H,1,0.7853877544403076
+pca,classical monocyte,control BLVRB,P18F,1,0.7444512844085693
+pca,classical monocyte,control BLVRB,P20H,1,0.7370935082435608
+pca,classical monocyte,control BLVRB,one_Ten,1,0.0052895862609148026
+pca,naive CD4 T cell,none,C2P01H,1,0.5510375499725342
+pca,naive CD4 T cell,none,C2P07H,0,0.9007124900817871
+pca,naive CD4 T cell,none,C2P10H,0,0.49964460730552673
+pca,naive CD4 T cell,none,C2P16H,0,0.38939327001571655
+pca,naive CD4 T cell,none,C2P19H,1,0.8362069725990295
+pca,naive CD4 T cell,none,Five,0,0.97971111536026
+pca,naive CD4 T cell,none,P02H,1,0.8838897943496704
+pca,naive CD4 T cell,none,P09H,1,0.8853279948234558
+pca,naive CD4 T cell,none,P18F,1,0.44031545519828796
+pca,naive CD4 T cell,none,P20H,1,0.3552500307559967
+pca,naive CD4 T cell,none,one_Ten,1,0.0009257806232199073
+pca,naive CD4 T cell,HLA-DRB5,C2P01H,1,0.5489388108253479
+pca,naive CD4 T cell,HLA-DRB5,C2P07H,0,0.901608943939209
+pca,naive CD4 T cell,HLA-DRB5,C2P10H,0,0.5033199191093445
+pca,naive CD4 T cell,HLA-DRB5,C2P16H,0,0.39352330565452576
+pca,naive CD4 T cell,HLA-DRB5,C2P19H,1,0.8348342776298523
+pca,naive CD4 T cell,HLA-DRB5,Five,0,0.9799454808235168
+pca,naive CD4 T cell,HLA-DRB5,P02H,1,0.8817668557167053
+pca,naive CD4 T cell,HLA-DRB5,P09H,1,0.8844430446624756
+pca,naive CD4 T cell,HLA-DRB5,P18F,1,0.42985203862190247
+pca,naive CD4 T cell,HLA-DRB5,P20H,1,0.355166494846344
+pca,naive CD4 T cell,HLA-DRB5,one_Ten,1,0.0009112013503909111
+pca,naive CD4 T cell,all HLA,C2P01H,1,0.5521920323371887
+pca,naive CD4 T cell,all HLA,C2P07H,0,0.9033138155937195
+pca,naive CD4 T cell,all HLA,C2P10H,0,0.5116509795188904
+pca,naive CD4 T cell,all HLA,C2P16H,0,0.3926805853843689
+pca,naive CD4 T cell,all HLA,C2P19H,1,0.8318049907684326
+pca,naive CD4 T cell,all HLA,Five,0,0.9796766042709351
+pca,naive CD4 T cell,all HLA,P02H,1,0.8693805932998657
+pca,naive CD4 T cell,all HLA,P09H,1,0.8739062547683716
+pca,naive CD4 T cell,all HLA,P18F,1,0.4379666745662689
+pca,naive CD4 T cell,all HLA,P20H,1,0.35708916187286377
+pca,naive CD4 T cell,all HLA,one_Ten,1,0.001426573027856648
+pca,naive CD4 T cell,control EFHD2,C2P01H,1,0.5512714385986328
+pca,naive CD4 T cell,control EFHD2,C2P07H,0,0.9015782475471497
+pca,naive CD4 T cell,control EFHD2,C2P10H,0,0.4981935918331146
+pca,naive CD4 T cell,control EFHD2,C2P16H,0,0.38883858919143677
+pca,naive CD4 T cell,control EFHD2,C2P19H,1,0.8361986875534058
+pca,naive CD4 T cell,control EFHD2,Five,0,0.979658842086792
+pca,naive CD4 T cell,control EFHD2,P02H,1,0.8838721513748169
+pca,naive CD4 T cell,control EFHD2,P09H,1,0.8853426575660706
+pca,naive CD4 T cell,control EFHD2,P18F,1,0.43994054198265076
+pca,naive CD4 T cell,control EFHD2,P20H,1,0.35484203696250916
+pca,naive CD4 T cell,control EFHD2,one_Ten,1,0.0009264288237318397
+pca,naive CD4 T cell,control CSF3R,C2P01H,1,0.5508731603622437
+pca,naive CD4 T cell,control CSF3R,C2P07H,0,0.8995620608329773
+pca,naive CD4 T cell,control CSF3R,C2P10H,0,0.4995938241481781
+pca,naive CD4 T cell,control CSF3R,C2P16H,0,0.38936570286750793
+pca,naive CD4 T cell,control CSF3R,C2P19H,1,0.8362902402877808
+pca,naive CD4 T cell,control CSF3R,Five,0,0.9797741770744324
+pca,naive CD4 T cell,control CSF3R,P02H,1,0.8841986060142517
+pca,naive CD4 T cell,control CSF3R,P09H,1,0.8855934143066406
+pca,naive CD4 T cell,control CSF3R,P18F,1,0.4402626156806946
+pca,naive CD4 T cell,control CSF3R,P20H,1,0.3563413918018341
+pca,naive CD4 T cell,control CSF3R,one_Ten,1,0.0009280266240239143
+pca,naive CD4 T cell,control CAPG,C2P01H,1,0.5509614944458008
+pca,naive CD4 T cell,control CAPG,C2P07H,0,0.9015697836875916
+pca,naive CD4 T cell,control CAPG,C2P10H,0,0.5000158548355103
+pca,naive CD4 T cell,control CAPG,C2P16H,0,0.3899434506893158
+pca,naive CD4 T cell,control CAPG,C2P19H,1,0.8356990814208984
+pca,naive CD4 T cell,control CAPG,Five,0,0.9797399640083313
+pca,naive CD4 T cell,control CAPG,P02H,1,0.8833112716674805
+pca,naive CD4 T cell,control CAPG,P09H,1,0.8859536051750183
+pca,naive CD4 T cell,control CAPG,P18F,1,0.4408530592918396
+pca,naive CD4 T cell,control CAPG,P20H,1,0.3555678427219391
+pca,naive CD4 T cell,control CAPG,one_Ten,1,0.0009248796268366277
+pca,naive CD4 T cell,control ZEB2,C2P01H,1,0.551814079284668
+pca,naive CD4 T cell,control ZEB2,C2P07H,0,0.9002296924591064
+pca,naive CD4 T cell,control ZEB2,C2P10H,0,0.49927273392677307
+pca,naive CD4 T cell,control ZEB2,C2P16H,0,0.38953766226768494
+pca,naive CD4 T cell,control ZEB2,C2P19H,1,0.8363765478134155
+pca,naive CD4 T cell,control ZEB2,Five,0,0.9796626567840576
+pca,naive CD4 T cell,control ZEB2,P02H,1,0.8838238716125488
+pca,naive CD4 T cell,control ZEB2,P09H,1,0.8849102258682251
+pca,naive CD4 T cell,control ZEB2,P18F,1,0.44051581621170044
+pca,naive CD4 T cell,control ZEB2,P20H,1,0.3556431829929352
+pca,naive CD4 T cell,control ZEB2,one_Ten,1,0.0009468228672631085
+pca,naive CD4 T cell,control TIMP1,C2P01H,1,0.5508416891098022
+pca,naive CD4 T cell,control TIMP1,C2P07H,0,0.8989480137825012
+pca,naive CD4 T cell,control TIMP1,C2P10H,0,0.4988517463207245
+pca,naive CD4 T cell,control TIMP1,C2P16H,0,0.3898971378803253
+pca,naive CD4 T cell,control TIMP1,C2P19H,1,0.836093008518219
+pca,naive CD4 T cell,control TIMP1,Five,0,0.9796593189239502
+pca,naive CD4 T cell,control TIMP1,P02H,1,0.8836700320243835
+pca,naive CD4 T cell,control TIMP1,P09H,1,0.8864286541938782
+pca,naive CD4 T cell,control TIMP1,P18F,1,0.4378174841403961
+pca,naive CD4 T cell,control TIMP1,P20H,1,0.3577325940132141
+pca,naive CD4 T cell,control TIMP1,one_Ten,1,0.0008717785240150988
+pca,naive CD4 T cell,control CFP,C2P01H,1,0.5515167713165283
+pca,naive CD4 T cell,control CFP,C2P07H,0,0.9015380144119263
+pca,naive CD4 T cell,control CFP,C2P10H,0,0.4971792697906494
+pca,naive CD4 T cell,control CFP,C2P16H,0,0.3883724808692932
+pca,naive CD4 T cell,control CFP,C2P19H,1,0.8366177082061768
+pca,naive CD4 T cell,control CFP,Five,0,0.97965008020401
+pca,naive CD4 T cell,control CFP,P02H,1,0.8848010301589966
+pca,naive CD4 T cell,control CFP,P09H,1,0.8854666948318481
+pca,naive CD4 T cell,control CFP,P18F,1,0.43955370783805847
+pca,naive CD4 T cell,control CFP,P20H,1,0.35483524203300476
+pca,naive CD4 T cell,control CFP,one_Ten,1,0.0008942208951339126
+pca,naive CD4 T cell,control NUP214,C2P01H,1,0.5512202978134155
+pca,naive CD4 T cell,control NUP214,C2P07H,0,0.8978985548019409
+pca,naive CD4 T cell,control NUP214,C2P10H,0,0.49784523248672485
+pca,naive CD4 T cell,control NUP214,C2P16H,0,0.3899632692337036
+pca,naive CD4 T cell,control NUP214,C2P19H,1,0.835780918598175
+pca,naive CD4 T cell,control NUP214,Five,0,0.9790605902671814
+pca,naive CD4 T cell,control NUP214,P02H,1,0.8844548463821411
+pca,naive CD4 T cell,control NUP214,P09H,1,0.8851255774497986
+pca,naive CD4 T cell,control NUP214,P18F,1,0.4367620050907135
+pca,naive CD4 T cell,control NUP214,P20H,1,0.35548415780067444
+pca,naive CD4 T cell,control NUP214,one_Ten,1,0.000917564844712615
+pca,naive CD4 T cell,control MS4A6A,C2P01H,1,0.5512357354164124
+pca,naive CD4 T cell,control MS4A6A,C2P07H,0,0.9000921845436096
+pca,naive CD4 T cell,control MS4A6A,C2P10H,0,0.4983852207660675
+pca,naive CD4 T cell,control MS4A6A,C2P16H,0,0.38884758949279785
+pca,naive CD4 T cell,control MS4A6A,C2P19H,1,0.8364475965499878
+pca,naive CD4 T cell,control MS4A6A,Five,0,0.9796724319458008
+pca,naive CD4 T cell,control MS4A6A,P02H,1,0.8837752342224121
+pca,naive CD4 T cell,control MS4A6A,P09H,1,0.8857911825180054
+pca,naive CD4 T cell,control MS4A6A,P18F,1,0.44112932682037354
+pca,naive CD4 T cell,control MS4A6A,P20H,1,0.35497161746025085
+pca,naive CD4 T cell,control MS4A6A,one_Ten,1,0.0009115352295339108
+pca,naive CD4 T cell,control IER2,C2P01H,1,0.5499990582466125
+pca,naive CD4 T cell,control IER2,C2P07H,0,0.9019536375999451
+pca,naive CD4 T cell,control IER2,C2P10H,0,0.5058567523956299
+pca,naive CD4 T cell,control IER2,C2P16H,0,0.3913227319717407
+pca,naive CD4 T cell,control IER2,C2P19H,1,0.8380759954452515
+pca,naive CD4 T cell,control IER2,Five,0,0.9781790375709534
+pca,naive CD4 T cell,control IER2,P02H,1,0.8841558694839478
+pca,naive CD4 T cell,control IER2,P09H,1,0.8844429850578308
+pca,naive CD4 T cell,control IER2,P18F,1,0.43417662382125854
+pca,naive CD4 T cell,control IER2,P20H,1,0.35203635692596436
+pca,naive CD4 T cell,control IER2,one_Ten,1,0.0006949271773919463
+pca,naive CD4 T cell,control BLVRB,C2P01H,1,0.5510460138320923
+pca,naive CD4 T cell,control BLVRB,C2P07H,0,0.8995171189308167
+pca,naive CD4 T cell,control BLVRB,C2P10H,0,0.4987451136112213
+pca,naive CD4 T cell,control BLVRB,C2P16H,0,0.3898049592971802
+pca,naive CD4 T cell,control BLVRB,C2P19H,1,0.8359935879707336
+pca,naive CD4 T cell,control BLVRB,Five,0,0.9796066284179688
+pca,naive CD4 T cell,control BLVRB,P02H,1,0.8838340044021606
+pca,naive CD4 T cell,control BLVRB,P09H,1,0.8852390050888062
+pca,naive CD4 T cell,control BLVRB,P18F,1,0.44033968448638916
+pca,naive CD4 T cell,control BLVRB,P20H,1,0.35556331276893616
+pca,naive CD4 T cell,control BLVRB,one_Ten,1,0.0009133620769716799
