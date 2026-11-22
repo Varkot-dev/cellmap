@@ -55,12 +55,14 @@ def knockout_effects(
     counts: sp.spmatrix,
     genes: np.ndarray,
     base: np.ndarray | None = None,
+    on_moved: Callable[[int, np.ndarray, np.ndarray], None] | None = None,
 ) -> np.ndarray:
     """effect[i, j] = 1 - cos(h_j, h_j with gene genes[i] knocked out), shape (genes, cells).
 
     Only the cells that express a gene are embedded again; for the others the input is
     unchanged, so their effect is exactly 0. `base` is the embedding of `counts` if already
-    computed.
+    computed. `on_moved(i, rows, moved)`, if given, receives the new embeddings of the cells
+    that moved for gene i, for example to check whether their predicted label changed.
     """
     csr = sp.csr_matrix(counts)
     base = embed_fn(csr) if base is None else base
@@ -73,6 +75,8 @@ def knockout_effects(
             continue
         moved = embed_fn(knockout(csr[rows], gene))
         effects[i, rows] = cosine_distance(base[rows], moved)
+        if on_moved is not None:
+            on_moved(i, rows, moved)
     return effects
 
 

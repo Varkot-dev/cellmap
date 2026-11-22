@@ -35,13 +35,17 @@ def test_knockout_effects_only_move_cells_that_express_the_gene():
         calls.append(x.shape[0])
         return x.toarray()
 
-    effects = knockout_effects(embed_fn, counts, np.array([0, 2]))
+    seen = []
+    effects = knockout_effects(
+        embed_fn, counts, np.array([0, 2]), on_moved=lambda i, rows, m: seen.append((i, list(rows)))
+    )
     assert effects.shape == (2, 3)
     assert effects[0, 0] == pytest.approx(1 - 1 / np.sqrt(2))
     assert effects[0, 1] == 0.0
     assert effects[0, 2] == pytest.approx(1.0)  # the cell's only gene is gone
     assert effects[1].tolist() == pytest.approx([0.0, 1 - 1 / np.sqrt(2), 0.0])
     assert calls == [3, 2, 1]  # base, then only the expressing cells
+    assert seen == [(0, [0, 2]), (1, [1])]
 
 
 def test_overlap_at_k():
