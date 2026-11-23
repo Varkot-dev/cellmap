@@ -279,5 +279,120 @@
     "pca/classical monocyte/HLA-DRB5": 1.0,
     "pca/naive CD4 T cell/none": 0.6667,
     "pca/naive CD4 T cell/HLA-DRB5": 0.6667
+  },
+  "S1": {
+    "claim": "The chosen SAE explains at least 0.90 of the variance on validation cells.",
+    "l1": 0.1,
+    "explained_variance": 0.963,
+    "mean_l0": 16.4993,
+    "verdict": "supported"
+  },
+  "S2": {
+    "claim": "At least 6 of the 8 coarse types have a type feature.",
+    "types_with_a_feature": [
+      "B cell",
+      "CD4 T cell",
+      "CD8 T cell",
+      "NK cell",
+      "dendritic cell",
+      "monocyte",
+      "other T cell",
+      "plasmablast",
+      "platelet",
+      "unresolved lymphocyte"
+    ],
+    "n_type_features": 46,
+    "verdict": "supported"
+  },
+  "S3": {
+    "claim": "Some feature separates C2 from other 10x v2 donors within training classical monocytes with AUROC at least 0.80 (either direction).",
+    "best_feature": 824,
+    "best_auroc": 0.68,
+    "best_top_genes": "CSTA GPX1 TYROBP FTL MNDA LYZ LGALS2 FTH1",
+    "verdict": "not supported"
+  },
+  "S4": {
+    "claim": "Removing the 10 batch features raises test iLISI by at least 0.03, by more than the mean random removal, and lowers fine macro F1 by less than 0.069.",
+    "ilisi_change": 0.003,
+    "mean_random_ilisi_change": 0.0022,
+    "f1_change": -0.0097,
+    "mean_random_f1_change": -0.0053,
+    "verdict": "not supported"
+  },
+  "sae_summary": {
+    "live_features": 251,
+    "dead_features": 773,
+    "top_batch_features": [
+      {
+        "feature": 485,
+        "batch_score": 0.0974,
+        "cell_type_eta2": 0.0332,
+        "frequency_train": 0.0744,
+        "top_genes": "RPS27 S100A8 RPS29 CRIP1 GPX1 LST1 TMSB4X FTL"
+      },
+      {
+        "feature": 799,
+        "batch_score": 0.0832,
+        "cell_type_eta2": 0.0895,
+        "frequency_train": 0.063,
+        "top_genes": "RPS29 RPS27 RPS18 LTB IL32 KRT1 CD3D GPR183"
+      },
+      {
+        "feature": 852,
+        "batch_score": 0.0727,
+        "cell_type_eta2": 0.0791,
+        "frequency_train": 0.0593,
+        "top_genes": "NCF2 KLF4 TGFBI VCAN RHOB CPVL PLBD1 TNFAIP2"
+      },
+      {
+        "feature": 688,
+        "batch_score": 0.0707,
+        "cell_type_eta2": 0.0517,
+        "frequency_train": 0.0688,
+        "top_genes": "RPS27 RPS29 RPS18 IFITM1 CD8B RPL3 CMC1 XCL2"
+      },
+      {
+        "feature": 509,
+        "batch_score": 0.0704,
+        "cell_type_eta2": 0.1825,
+        "frequency_train": 0.0456,
+        "top_genes": "TCF7L2 CDKN1C MAFB HES4 MS4A7 FCGR3A RHOB HMOX1"
+      },
+      {
+        "feature": 787,
+        "batch_score": 0.068,
+        "cell_type_eta2": 0.0725,
+        "frequency_train": 0.0611,
+        "top_genes": "KLF4 IL1B NCF2 CXCL8 TNFAIP2 NAMPT ALDH2 CPVL"
+      },
+      {
+        "feature": 764,
+        "batch_score": 0.0678,
+        "cell_type_eta2": 0.0864,
+        "frequency_train": 0.0728,
+        "top_genes": "TRAC CD3D RPS18 CD3E RPL3 LEF1 B2M LTB"
+      },
+      {
+        "feature": 215,
+        "batch_score": 0.0676,
+        "cell_type_eta2": 0.0747,
+        "frequency_train": 0.0567,
+        "top_genes": "KLF4 NCF2 PLBD1 VCAN TGFBI TNFAIP2 DUSP1 RHOB"
+      },
+      {
+        "feature": 506,
+        "batch_score": 0.0672,
+        "cell_type_eta2": 0.0672,
+        "frequency_train": 0.0604,
+        "top_genes": "KLF4 IL1B NCF2 CPVL TNFAIP2 TGFBI DUSP1 ALDH2"
+      },
+      {
+        "feature": 252,
+        "batch_score": 0.066,
+        "cell_type_eta2": 0.0682,
+        "frequency_train": 0.0595,
+        "top_genes": "CPVL NCF2 KLF4 TGFBI TNFAIP2 ALDH2 VCAN CD36"
+      }
+    ]
   }
 }
