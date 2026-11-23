@@ -118,6 +118,68 @@ def genotype(probe: pd.DataFrame) -> dict:
     return out
 
 
+def sae(res: Path) -> dict:
+    grid = pd.read_csv(res / "sae_grid.csv")
+    feats = pd.read_csv(res / "sae_features.csv")
+    inter = pd.read_csv(res / "sae_intervention.csv").set_index("removal")
+    chosen = grid[grid["chosen"]].iloc[0]
+    live = feats[feats["live"]]
+    typed = sorted(set(live["type_feature_for"].dropna()) - {""})
+    auroc = live["auroc_c2_vs_other_v2_classical_monocyte"]
+    strength = (auroc - 0.5).abs() + 0.5
+    best = live.loc[strength.idxmax()]
+    base, edit = inter.loc["none"], inter.loc["batch features"]
+    controls = inter[inter.index.str.startswith("random ")]
+    d_ilisi = edit["scib_ilisi"] - base["scib_ilisi"]
+    d_f1 = edit["knn_macro_f1_fine"] - base["knn_macro_f1_fine"]
+    control_ilisi = (controls["scib_ilisi"] - base["scib_ilisi"]).mean()
+    s4 = d_ilisi >= 0.03 and d_ilisi > control_ilisi and -d_f1 < 0.069
+    top_batch = live.sort_values("batch_score", ascending=False).head(10)
+    return {
+        "S1": {
+            "claim": "The chosen SAE explains at least 0.90 of the variance on validation cells.",
+            "l1": float(chosen["l1"]),
+            "explained_variance": r(chosen["val_explained_variance"]),
+            "mean_l0": r(chosen["val_mean_l0"]),
+            "verdict": "supported" if chosen["val_explained_variance"] >= 0.9 else "not supported",
+        },
+        "S2": {
+            "claim": "At least 6 of the 8 coarse types have a type feature.",
+            "types_with_a_feature": typed,
+            "n_type_features": int((live["type_feature_for"].fillna("") != "").sum()),
+            "verdict": "supported" if len(typed) >= 6 else "not supported",
+        },
+        "S3": {
+            "claim": "Some feature separates C2 from other 10x v2 donors within training "
+            "classical monocytes with AUROC at least 0.80 (either direction).",
+            "best_feature": int(best["feature"]),
+            "best_auroc": r(best["auroc_c2_vs_other_v2_classical_monocyte"]),
+            "best_top_genes": best["top_genes"],
+            "verdict": "supported" if strength.max() >= 0.8 else "not supported",
+        },
+        "S4": {
+            "claim": "Removing the 10 batch features raises test iLISI by at least 0.03, by more "
+            "than the mean random removal, and lowers fine macro F1 by less than 0.069.",
+            "ilisi_change": r(d_ilisi),
+            "mean_random_ilisi_change": r(control_ilisi),
+            "f1_change": r(d_f1),
+            "mean_random_f1_change": r(
+                (controls["knn_macro_f1_fine"] - base["knn_macro_f1_fine"]).mean()
+            ),  # fmt: skip
+            "verdict": "supported" if s4 else "not supported",
+        },
+        "sae_summary": {
+            "live_features": int(len(live)),
+            "dead_features": int((~feats["live"]).sum()),
+            "top_batch_features": top_batch[
+                ["feature", "batch_score", "cell_type_eta2", "frequency_train", "top_genes"]
+            ]
+            .round(4)
+            .to_dict("records"),  # fmt: skip
+        },
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--name", default="pbmc")
@@ -131,6 +193,8 @@ def main() -> None:
         report["not_predicted"] = off_marker_groups(pd.read_csv(res / "knockout.csv"))
     if (res / "genotype_probe.csv").exists():
         report |= genotype(pd.read_csv(res / "genotype_probe.csv"))
+    if (res / "sae_intervention.csv").exists():
+        report |= sae(res)
     (res / "predictions.json").write_text(json.dumps(report, indent=2) + "\n")
     for key, value in report.items():
         if isinstance(value, dict) and "verdict" in value:
