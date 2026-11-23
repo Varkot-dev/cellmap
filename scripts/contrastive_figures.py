@@ -9,6 +9,9 @@ Writes:
     assets/audit_pbmc.png        left: a gene's knockout effect against its expression;
                                  right: each donor's HLA-DRB5 carrier score from monocyte
                                  embeddings, by cohort and chemistry
+    assets/audit_sae_pbmc.png    left: every live SAE feature, how much it follows cell type
+                                 against how much it follows batch; right: what removing the
+                                 top batch features, or random ones, does to iLISI and F1
 Reads results/contrastive/, results/m1/ to results/m5/ and results/audit/.
 """
 
@@ -24,7 +27,7 @@ import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
-from cellmap.plotting import ACCENT, ACCENT_2, INK, MUTED, apply, figure_caption, title  # noqa: E402
+from cellmap.plotting import ACCENT, ACCENT_2, GRID, INK, MUTED, apply, figure_caption, title  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 logging.getLogger("matplotlib.font_manager").setLevel(logging.ERROR)
@@ -137,6 +140,58 @@ def audit(name: str) -> None:
     plt.close(fig)
 
 
+def sae(name: str) -> None:
+    res = ROOT / "results" / "audit" / name
+    feats = pd.read_csv(res / "sae_features.csv")
+    live = feats[feats["live"]]
+    inter = pd.read_csv(res / "sae_intervention.csv").set_index("removal")
+    removed = set(map(int, inter.loc["batch features", "features"].split()))
+    typed = live["type_feature_for"].fillna("") != ""
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5.2), gridspec_kw={"wspace": 0.35})
+    rest = live[~typed & ~live["feature"].isin(removed)]
+    ax1.scatter(rest["cell_type_eta2"], rest["batch_score"], s=12, color=MUTED, alpha=0.6,
+                linewidths=0, label="other live features")  # fmt: skip
+    t = live[typed]
+    ax1.scatter(t["cell_type_eta2"], t["batch_score"], s=16, color=ACCENT_2, linewidths=0,
+                label="cell-type features")  # fmt: skip
+    b = live[live["feature"].isin(removed)]
+    ax1.scatter(b["cell_type_eta2"], b["batch_score"], s=26, color=ACCENT, linewidths=0,
+                label="the 10 removed (highest batch score)")  # fmt: skip
+    ax1.set_xlabel("share of the feature's variance explained by cell type")
+    ax1.set_ylabel("share explained by batch, within cell types")
+    ax1.set_ylim(0, max(0.2, live["batch_score"].max() * 1.1))
+    ax1.legend(loc="upper right")
+    title(ax1, "Features follow cell type more than batch; none is a batch feature",
+          f"{len(live)} live features of 1,024; batch never explains more than "
+          f"{live['batch_score'].max():.2f} of one")  # fmt: skip
+
+    base = inter.loc["none"]
+    d = inter.drop(index="none")
+    dx = d["scib_ilisi"] - base["scib_ilisi"]
+    dy = d["knn_macro_f1_fine"] - base["knn_macro_f1_fine"]
+    rnd = d.index.str.startswith("random")
+    ax2.scatter(dx[rnd], dy[rnd], s=34, color=MUTED, label="10 random features (10 draws)")
+    ax2.scatter(dx[~rnd], dy[~rnd], s=60, color=ACCENT, label="the 10 batch features")
+    ax2.axvline(0.03, color=MUTED, linewidth=0.9, linestyle=(0, (3, 3)))
+    ax2.text(0.031, 0.0, "predicted iLISI gain", fontsize=8.5, color=MUTED, va="bottom")
+    ax2.axhline(0, color=GRID, linewidth=0.8)
+    ax2.axvline(0, color=GRID, linewidth=0.8)
+    ax2.set_xlim(-0.01, 0.04)
+    ax2.set_xlabel("change in donor mixing (iLISI), test donors")
+    ax2.set_ylabel("change in fine macro F1")
+    ax2.legend(loc="lower right")
+    title(ax2, "Removing them mixes donors no more than random removals",
+          "Split 0; the unedited embedding scores F1 "
+          f"{base['knn_macro_f1_fine']:.3f}, iLISI {base['scib_ilisi']:.3f}")  # fmt: skip
+    figure_caption(fig, "A sparse autoencoder (1,024 features, 16.5 active per cell, 0.963 of "
+                   "the variance explained on validation cells) on the contrastive "
+                   "transformer's embedding. Batch: C2 cohort, other 10x v2, 10x v3.",
+                   y=-0.04)  # fmt: skip
+    fig.savefig(ROOT / "assets" / f"audit_sae_{name}.png")
+    plt.close(fig)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--name", default="pbmc")
@@ -144,6 +199,7 @@ def main() -> None:
     apply()
     contrastive(args.name)
     audit(args.name)
+    sae(args.name)
 
 
 if __name__ == "__main__":
