@@ -730,8 +730,12 @@ Same genes, PCA, folds and scoring as the baseline and six-lab runs (`results/m8
 | G2 HLA-DRB5 knockout drop larger than any control | Supported, tiny | 0.022 vs 0.000 |
 | G3 lower on naive CD4 T cells | Supported | 0.321 |
 | G4 PCA at least 0.80 | Supported | 0.933 (0.822 without any HLA gene) |
+| S1 SAE explains at least 0.90 of the variance | Supported | 0.963, 16.5 active features per cell |
+| S2 cell-type features for at least 6 coarse types | Supported | all 10 |
+| S3 a feature separates cohorts within monocytes (AUROC 0.80) | Not supported | best 0.68 |
+| S4 deleting batch features mixes donors (iLISI +0.03) | Not supported | +0.003, same as random |
 
-**Reading:** the transformer's reliance tracks abundance (Spearman 0.72), not specificity (0.10), and it is four times less sensitive to one missing gene than the masked-gene model. PCA reads HLA-DRB5; the transformer barely does, and its carrier scores sort by cohort and chemistry. The donor shortcut is batch, not genotype.
+**Reading:** the transformer's reliance tracks abundance (Spearman 0.72), not specificity (0.10), and it is four times less sensitive to one missing gene than the masked-gene model. PCA reads HLA-DRB5; the transformer barely does, and its carrier scores sort by cohort and chemistry. The donor shortcut is batch, not genotype. The sparse autoencoder finds clean cell-type features and no batch feature; the batch signal is spread out, so deleting features does not remove it.
 
 **Weakness:** one split; 21 donors; no genotypes; G2's bar was too low because controls moved by exactly zero; the HLA-DRB5 table was seen first.
 

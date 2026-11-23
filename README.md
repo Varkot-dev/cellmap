@@ -256,8 +256,8 @@ repeatable, so small single-split gaps (such as split 3) should be read with car
 ## What does the transformer rely on? (a model audit)
 
 Run on CPU from the saved split-0 weights (`scripts/audit_knockout.py`,
-`scripts/audit_genotype.py`); six predictions fixed first, checked by `scripts/audit_evaluate.py`
-(`results/audit/pbmc/predictions.json`). Two of six failed.
+`scripts/audit_genotype.py`); ten predictions fixed first, checked by `scripts/audit_evaluate.py`
+(`results/audit/pbmc/predictions.json`). Four of ten failed.
 
 ![Model audit](assets/audit_pbmc.png)
 
@@ -274,10 +274,17 @@ Run on CPU from the saved split-0 weights (`scripts/audit_knockout.py`,
   (predicted at least 0.80) and 0.933 for PCA. Knocking HLA-DRB5 out lowers PCA's to 0.911, and
   all HLA genes to 0.822; the transformer moves only to 0.733. The transformer's per-donor scores
   sort by sample cohort and chemistry instead, the confound flagged before the run.
+- **The batch signal is spread out, not stored in a few features.** A sparse autoencoder
+  (`src/cellmap/sae.py`, 1,024 features, 16.5 active per cell, 0.963 of the variance explained)
+  finds cell-type features for all 10 coarse types but no feature that separates the sample
+  cohorts (best AUROC 0.68, predicted at least 0.80). Removing the 10 most batch-linked features
+  changes donor mixing by +0.003, the same as removing random ones.
+
+![Sparse autoencoder](assets/audit_sae_pbmc.png)
 
 Weaknesses: one split; with 21 donors one pair of donors moves the AUROC by 0.011; the HLA-DRB5
 pattern had been seen before the predictions were written; single-gene knockout is a blunt tool
-for a model trained to ignore missing genes.
+for a model trained to ignore missing genes; 773 of the 1,024 SAE features never activate.
 
 ## leakaudit: the checks, as a reusable package
 

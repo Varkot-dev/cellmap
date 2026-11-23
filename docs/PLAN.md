@@ -384,3 +384,14 @@ Why: a sparse autoencoder (SAE) breaks each 128-number embedding into a sum of a
 - **S3:** at least one feature separates C2 donors from the other 10x v2 donors within training classical monocytes with cell-level AUROC at least 0.80 (either direction).
 - **S4:** removing the 10 batch features raises test iLISI by at least 0.03, by more than the mean of the random removals, and lowers fine macro F1 by less than 0.069 (the noise bar measured by the rerun).
 - Reported without a prediction: dead features, the top genes of the type and batch features, and the edited embedding's other metrics.
+
+**2026-11-23, audit part 3 results against the predictions** (`results/audit/pbmc/predictions.json`)
+
+| Prediction | Verdict | Numbers |
+|---|---|---|
+| S1 explained variance at least 0.90 (validation) | Supported | 0.963 at lambda 0.1, 16.5 active features per cell |
+| S2 at least 6 of 8 coarse types have a type feature | Supported | all 10 coarse types (46 features) |
+| S3 a feature separates C2 from other 10x v2 within monocytes, AUROC at least 0.80 | Not supported | best 0.68 |
+| S4 removing 10 batch features raises iLISI by 0.03, more than random, F1 down less than 0.069 | Not supported | iLISI +0.003 (random +0.002), F1 -0.010 |
+
+Correction to the design entry: there are 10 coarse types in this dataset, not 8; all 10 qualify, so the verdict is the same under either count. Only the largest lambda in the grid met the L0 limit, so the choice was at the edge of the grid. 773 of 1,024 features are dead. The unedited embedding scored F1 0.506 and iLISI 0.251 on CPU, matching the GPU run, which checks that the saved weights reproduce. Reading: the cohort and chemistry signal is diffuse, so post-hoc feature deletion does not remove it; the one-donor-per-batch training change did.
