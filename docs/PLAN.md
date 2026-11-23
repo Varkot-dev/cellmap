@@ -367,3 +367,20 @@ Contrastive main run: split seed 3 is in (contrastive 0.301, masked-gene 0.258),
 - **C1 supported:** contrastive beats the masked-gene transformer on fine macro F1 in 5 of 5 splits; mean 0.505 against 0.371. Gaps 0.139, 0.185, 0.126, 0.043, 0.174; the smallest is split 3, the chemistry hold-out.
 - **C2 supported:** 0 of 12 comparisons pass the rule; both variants are below both baselines on all six metrics in at least 4 of 5 splits.
 - Not changed by the result: the ablations continue as pre-registered on split seed 0.
+
+**2026-11-23, model audit part 3: a sparse autoencoder on the embedding. Design and predictions, fixed before any part 3 result**
+
+Seen before this entry: parts 1 and 2 above. Their reading (the donor signal is cohort and chemistry, not HLA-DRB5) is what part 3 tests from the inside.
+
+Why: a sparse autoencoder (SAE) breaks each 128-number embedding into a sum of a few "features" out of many, each ideally meaning one thing. If the transformer stores cohort or chemistry in a few features, removing those features should mix donors better without losing cell types. All on split seed 0, CPU, `scripts/audit_sae.py`, module `src/cellmap/sae.py`.
+
+- **Input:** the [CLS] embedding h of the contrastive split-0 model for every cell. Centred with the training-cell mean and divided by one number so that training cells have mean squared norm 1.
+- **SAE:** 1,024 features (8 times the 128 dimensions). f = ReLU(W_enc (x - b_dec) + b_enc), x_hat = W_dec f + b_dec, decoder columns kept at unit length; loss = mean squared error + lambda x sum of f. Adam, learning rate 1e-3, batch 256, 200 epochs, seed 0, training donors only.
+- **Choosing lambda:** grid 0.001, 0.003, 0.01, 0.03, 0.1. Pick the highest explained variance on validation donors among settings with mean active features per cell (L0) at most 20; if none qualifies, the lowest L0. Explained variance = 1 - sum of squared errors / sum of squared deviations from the mean.
+- **Labels for features** (training donors): a feature is a "type feature" for a coarse type if its mean activation there is at least 3 times its mean in every other coarse type and it is active in at least 20 percent of that type's cells. Batch groups: C2 cohort (10x v2), other 10x v2 donors, 10x v3 donors. A feature's batch score is the eta squared of its activation on batch group within each fine type with at least 50 training cells in two or more groups, averaged with cell weights. Each feature is also linked to the genes whose log expression correlates most with its activation.
+- **Intervention:** subtract the contribution of the 10 features with the highest batch score (chosen on training donors) from every cell's embedding, h' = h - sum over those features of f times its decoder column (rescaled back), and score h' with the usual harness on split seed 0. Control: 10 random sets of 10 live features (seeds 0 to 9).
+- **S1:** the chosen SAE explains at least 0.90 of the variance on validation cells.
+- **S2:** at least 6 of the 8 coarse types have a type feature.
+- **S3:** at least one feature separates C2 donors from the other 10x v2 donors within training classical monocytes with cell-level AUROC at least 0.80 (either direction).
+- **S4:** removing the 10 batch features raises test iLISI by at least 0.03, by more than the mean of the random removals, and lowers fine macro F1 by less than 0.069 (the noise bar measured by the rerun).
+- Reported without a prediction: dead features, the top genes of the type and batch features, and the edited embedding's other metrics.
