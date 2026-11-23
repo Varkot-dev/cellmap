@@ -1,4 +1,4 @@
-"""M2: sweep the KL weight of the hand-written VAE to show both failure modes.
+"""Sweep the KL weight of the hand-written VAE to show both failure modes.
 
 Usage:
     python scripts/m2_kl_sweep.py --name pbmc

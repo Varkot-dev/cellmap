@@ -1,4 +1,4 @@
-"""M4: every method on six blood datasets, under two split schemes.
+"""Every method on six blood datasets, under two split schemes.
 
 Usage:
     python scripts/m4_benchmark.py --name m4_blood                        # CPU methods

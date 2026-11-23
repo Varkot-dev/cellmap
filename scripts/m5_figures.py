@@ -1,4 +1,4 @@
-"""M5 figure: the transformer learned its training task, but its cell embedding is weak.
+"""Figure: the transformer learned its training task, but its cell embedding is weak.
 
 Usage:
     python scripts/m5_figures.py --name pbmc

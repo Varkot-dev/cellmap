@@ -1,0 +1,197 @@
+{
+  "C1": {
+    "claim": "transformer_contrastive beats the masked-gene transformer on fine macro F1 in at least 4 of 5 splits.",
+    "by_split": {
+      "0": {
+        "contrastive": 0.5055,
+        "masked_gene": 0.3663,
+        "gap": 0.1392
+      },
+      "1": {
+        "contrastive": 0.6344,
+        "masked_gene": 0.4491,
+        "gap": 0.1853
+      },
+      "2": {
+        "contrastive": 0.5264,
+        "masked_gene": 0.4001,
+        "gap": 0.1264
+      },
+      "3": {
+        "contrastive": 0.3008,
+        "masked_gene": 0.2581,
+        "gap": 0.0427
+      },
+      "4": {
+        "contrastive": 0.558,
+        "masked_gene": 0.3839,
+        "gap": 0.1741
+      }
+    },
+    "mean_gap": 0.1335,
+    "wins": "5 of 5",
+    "verdict": "supported"
+  },
+  "C2": {
+    "claim": "Neither contrastive variant passes the comparison rule against both baselines on any declared metric.",
+    "comparisons": 12,
+    "passes": [],
+    "worse_than_both": [
+      {
+        "method": "transformer_contrastive",
+        "metric": "scib_bio_mean"
+      },
+      {
+        "method": "transformer_contrastive_mgm",
+        "metric": "scib_bio_mean"
+      },
+      {
+        "method": "transformer_contrastive",
+        "metric": "scib_batch_mean"
+      },
+      {
+        "method": "transformer_contrastive_mgm",
+        "metric": "scib_batch_mean"
+      },
+      {
+        "method": "transformer_contrastive",
+        "metric": "knn_accuracy_fine"
+      },
+      {
+        "method": "transformer_contrastive_mgm",
+        "metric": "knn_accuracy_fine"
+      },
+      {
+        "method": "transformer_contrastive",
+        "metric": "knn_macro_f1_fine"
+      },
+      {
+        "method": "transformer_contrastive_mgm",
+        "metric": "knn_macro_f1_fine"
+      },
+      {
+        "method": "transformer_contrastive",
+        "metric": "knn_accuracy_coarse"
+      },
+      {
+        "method": "transformer_contrastive_mgm",
+        "metric": "knn_accuracy_coarse"
+      },
+      {
+        "method": "transformer_contrastive",
+        "metric": "knn_macro_f1_coarse"
+      },
+      {
+        "method": "transformer_contrastive_mgm",
+        "metric": "knn_macro_f1_coarse"
+      }
+    ],
+    "table": [
+      {
+        "method": "transformer_contrastive",
+        "metric": "scib_bio_mean",
+        "mean_minus_pca": -0.1366,
+        "mean_minus_harmony": -0.2027,
+        "folds_above_pca": 0,
+        "folds_above_harmony": 0
+      },
+      {
+        "method": "transformer_contrastive_mgm",
+        "metric": "scib_bio_mean",
+        "mean_minus_pca": -0.126,
+        "mean_minus_harmony": -0.1921,
+        "folds_above_pca": 0,
+        "folds_above_harmony": 0
+      },
+      {
+        "method": "transformer_contrastive",
+        "metric": "scib_batch_mean",
+        "mean_minus_pca": -0.0892,
+        "mean_minus_harmony": -0.1826,
+        "folds_above_pca": 0,
+        "folds_above_harmony": 0
+      },
+      {
+        "method": "transformer_contrastive_mgm",
+        "metric": "scib_batch_mean",
+        "mean_minus_pca": -0.084,
+        "mean_minus_harmony": -0.1773,
+        "folds_above_pca": 0,
+        "folds_above_harmony": 0
+      },
+      {
+        "method": "transformer_contrastive",
+        "metric": "knn_accuracy_fine",
+        "mean_minus_pca": -0.0767,
+        "mean_minus_harmony": -0.04,
+        "folds_above_pca": 0,
+        "folds_above_harmony": 1
+      },
+      {
+        "method": "transformer_contrastive_mgm",
+        "metric": "knn_accuracy_fine",
+        "mean_minus_pca": -0.0755,
+        "mean_minus_harmony": -0.0388,
+        "folds_above_pca": 0,
+        "folds_above_harmony": 1
+      },
+      {
+        "method": "transformer_contrastive",
+        "metric": "knn_macro_f1_fine",
+        "mean_minus_pca": -0.1592,
+        "mean_minus_harmony": -0.1522,
+        "folds_above_pca": 0,
+        "folds_above_harmony": 0
+      },
+      {
+        "method": "transformer_contrastive_mgm",
+        "metric": "knn_macro_f1_fine",
+        "mean_minus_pca": -0.1654,
+        "mean_minus_harmony": -0.1584,
+        "folds_above_pca": 0,
+        "folds_above_harmony": 0
+      },
+      {
+        "method": "transformer_contrastive",
+        "metric": "knn_accuracy_coarse",
+        "mean_minus_pca": -0.0503,
+        "mean_minus_harmony": -0.0469,
+        "folds_above_pca": 0,
+        "folds_above_harmony": 0
+      },
+      {
+        "method": "transformer_contrastive_mgm",
+        "metric": "knn_accuracy_coarse",
+        "mean_minus_pca": -0.0384,
+        "mean_minus_harmony": -0.0351,
+        "folds_above_pca": 0,
+        "folds_above_harmony": 0
+      },
+      {
+        "method": "transformer_contrastive",
+        "metric": "knn_macro_f1_coarse",
+        "mean_minus_pca": -0.1171,
+        "mean_minus_harmony": -0.127,
+        "folds_above_pca": 0,
+        "folds_above_harmony": 0
+      },
+      {
+        "method": "transformer_contrastive_mgm",
+        "metric": "knn_macro_f1_coarse",
+        "mean_minus_pca": -0.1162,
+        "mean_minus_harmony": -0.1261,
+        "folds_above_pca": 0,
+        "folds_above_harmony": 0
+      }
+    ],
+    "verdict": "supported"
+  },
+  "mean_fine_macro_f1": {
+    "pca": 0.6642,
+    "pca_harmony": 0.6572,
+    "transformer": 0.3715,
+    "transformer_contrastive": 0.505,
+    "transformer_contrastive_mgm": 0.4988
+  },
+  "commit": "b3553abd44cff37bddc003c2cce409fb350d4bff"
+}

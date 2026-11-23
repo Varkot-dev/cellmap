@@ -1,15 +1,15 @@
-"""M7: does keeping expression levels fix the hand-written transformer?
+"""Does keeping expression levels fix the hand-written transformer?
 
 Usage:
     python scripts/m7_transformer_levels.py --name pbmc
 
-The input probe (scripts/probe_inputs.py) showed the M5 transformer scores the same with only
+The input probe (scripts/probe_inputs.py) showed the masked-gene model scores the same with only
 "which genes are on" as with its real input: its per-cell rank binning put about 57 percent of
 tokens in bin 0, so the levels carried almost no information. This trains the same model with
 the depth-normalized "value" encoding instead (cellmap.transformer.fit_value_edges), on split
 seed 0 with every other setting unchanged, then scores it and reruns the probe.
 
-Compare with the "rank" model of M5 on the same split: results/m5/<name>/metrics_by_split.csv
+Compare with the "rank" model on the same split: results/m5/<name>/metrics_by_split.csv
 (split seed 0) and results/probe/<name>/probe_inputs.csv.
 
 Writes:

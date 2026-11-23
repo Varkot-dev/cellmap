@@ -279,4 +279,108 @@ Checked by `scripts/m9_evaluate.py` (`results/m9/hypotheses.json`). H1 supported
 - **H4 operational test chosen after a first look.** The plan named three types but no test. Before writing the test, one per-type table (linear probe, APS, all methods, with PCA sorted) had been seen. The test chosen compares the mean set size of every type that is the true type in a shared confusion with the other types, rather than a top-k cut, because CD56-bright NK has 5 test cells and regulatory T sits mid-table for PCA. Reported with this caveat.
 - **H3 and H5 strictness** was fixed when the evaluation script was written: "every case" for supported, otherwise "partly (k of n)".
 
+**2026-11-19, contrastive ablations: design and predictions, fixed before any ablation result**
+
+Seen before this entry: split seed 0 of the main contrastive run (both objectives, with input probes). No other split, and no ablation.
+
+Why: the main run asks whether the objective matters. The ablations ask why it works and where it is weak, one question per run. All on split seed 0, objective `contrastive`, every setting as in the main run except the one named (`scripts/contrastive_ablations.py`, results in `results/contrastive_ablations/pbmc/`).
+
+| Variant | Changed | Question |
+|---|---|---|
+| base | nothing (a rerun) | how much does a rerun move the numbers? |
+| tau_0.05, tau_0.2, tau_0.5 | temperature | how hard should the loss focus on the closest negatives? |
+| keep_strong, keep_weak | keep rate 0.3 to 0.6, or 0.8 to 1.0 | how much corruption teaches the right invariance? |
+| no_jitter | no level nudging | does level noise in the views matter? |
+| same_donor | every batch drawn from one donor | is donor identity a shortcut for telling cells apart? |
+| debiased | debiased loss (Chuang et al. 2020), tau+ = 0.1 | does correcting for same-type negatives help? |
+
+Every run is scored twice: on the [CLS] state h (the embedding used everywhere) and on the projection z. Alignment and uniformity (Wang and Isola 2020) are measured on validation cells.
+
+- **Noise rule:** a difference from base counts only if it exceeds both 0.01 and twice the gap between base and the main run's split seed 0 (fine macro F1 0.506).
+- **A1:** h beats z on fine macro F1 in at least 7 of the 9 variants (as SimCLR found for images).
+- **A2:** same_donor raises iLISI (donor mixing) over base by at least 0.03.
+- **A3:** keep_weak has lower fine macro F1 than base.
+- **A4:** tau_0.5 has the lowest fine macro F1 of the four temperatures.
+- **Reported without a prediction:** keep_strong, no_jitter, debiased, and alignment and uniformity.
+
 **Working principle (owner's decision, 2026-11-17): full speed, learn afterwards.** The owner chose to have all milestones built as fast as possible, with parallel agents, and to study the material at the end. This replaces "teach before you build" and the per-milestone quiz in `CLAUDE.md` for the build phase. What makes that safe: every decision is written down as it is made (this log and `docs/NOTES.md`), so the reasoning can be read and defended later. The honesty rules are unchanged: no number enters the README unless a script here produced it. Lessons and quizzes move to the end.
+
+**2026-11-20, contrastive ablations: how the predictions are scored (written after seeing only the base run)**
+
+Seen before this entry: the base ablation only (h fine macro F1 0.540, z 0.539, iLISI 0.244). The main run's split seed 0 gave 0.506 with the same seed, code and settings; the training losses differ from the fourth decimal in epoch 0, so the gap is GPU non-determinism, not a code difference. The noise bar is therefore max(0.01, 2 x 0.0345) = 0.069.
+
+The plan did not say how the noise rule meets each prediction. Fixed now, in `scripts/contrastive_ablations_evaluate.py`:
+- A3 is a difference from base, so it is supported only if keep_weak is below base by more than the bar; below but within the bar is reported as "direction only".
+- A4 compares temperatures with each other: supported only if tau_0.5 is lowest and below each other temperature by more than the bar; lowest but within the bar is "direction only".
+- A1 compares h and z inside one run, so the between-run noise rule does not apply; the count is reported as is, with each gap.
+- A2 keeps its own threshold (iLISI up by at least 0.03). For scale, the rerun moved iLISI by 0.007.
+
+Consequence, stated before the other results: with a bar of 0.069, only large effects can count on one split. Smaller differences will be reported as within noise, not as findings.
+
+**2026-11-22, model audit: what does the transformer rely on? Design and predictions, fixed before any audit result**
+
+Seen before this entry: the contrastive results above (split seeds 0 to 2, and three ablations), and one exploratory table of raw data, not of any model: mean HLA-DRB5 expression per donor in monocytes and B cells, where six donors (C2P05F, C2P07H, C2P10H, C2P13F, C2P16H, Five) are at 0.0 to 0.2 reads per 10,000 and the other 15 at 1.2 to 12.4. That on/off pattern is consistent with HLA-DRB5 copy-number variation between people; nobody here was genotyped, so the audit calls it "carrier status" and does not claim more. Five of the six low donors are in the C2 cohort, so cohort is a possible confound, and the design has a check for it.
+
+Why: the same_donor ablation showed the contrastive model partly tells cells apart by donor. The audit asks which genes the model relies on, whether they are the known markers, and whether it encodes something about the person rather than the cell. All on split seed 0, CPU only, with the saved weights (`results/contrastive/pbmc/model_contrastive_seed0.pt`, `model_contrastive_mgm_seed0.pt`, and the masked-gene transformer `results/m5/pbmc/model_seed0.pt`). "Knocking out" a gene means setting its count to zero in the model's input and embedding the cell again. It says what the model uses; it predicts nothing about a real cell.
+
+Part 1, gene knockout (`scripts/audit_knockout.py`):
+- Cells: split seed 0 test donors; fine types with at least 30 test cells; up to 100 cells per type (numpy seed 0).
+- Candidate genes for a type: detected in at least 20 percent of its sampled cells. Types with fewer than 40 candidates are left out.
+- Effect of a gene on a type: mean over the sampled cells of 1 - cos(h, h with the gene knocked out); a cell without the gene contributes 0.
+- Reference markers: Wilcoxon one-versus-rest on training cells (log of counts per 10,000, the 2,000 genes, scanpy `rank_genes_groups`), ranked among the type's candidates.
+- Baseline explanation: candidates ranked by mean log expression in the sampled cells ("the model just uses whatever is highest").
+- Score: overlap at 20, the share of a ranking's top 20 that is in the marker top 20.
+- **K1:** for the contrastive model, the knockout ranking overlaps the markers more than the expression ranking does, in at least two thirds of the types.
+- **K2:** mean knockout overlap over types is higher for the contrastive model than for the masked-gene transformer.
+- Reported without a prediction: how often a knockout changes the kNN label, and which highly ranked genes are not markers (HLA, ribosomal, mitochondrial, stress genes such as FOS and JUN, haemoglobin).
+
+Part 2, the HLA-DRB5 test (`scripts/audit_genotype.py`):
+- Carrier status per donor: mean of 10,000 x count / total count of HLA-DRB5 over the donor's monocytes and B cells; non-carrier below 0.5.
+- Cells: classical monocytes (high HLA class II) and, as a control, naive CD4 T cells (little class II); up to 300 cells per donor and type (numpy seed 0); all 21 donors. The carrier label was never used in training, but 13 donors' cells were, so this tests what the embedding holds, not generalisation.
+- Probe: logistic regression on standardised embeddings (C 1.0, balanced classes), leave one donor out; a donor's score is the mean predicted probability over its cells; AUROC over the 21 donors.
+- Interventions, each followed by embedding again and refitting the probe: none; HLA-DRB5 knocked out; each of 10 control genes knocked out on its own, drawn at random (seed 0) from the 50 non-HLA genes whose detection rate in carriers' classical monocytes is closest to HLA-DRB5's.
+- **G1:** on classical monocytes the contrastive embedding gives AUROC at least 0.80.
+- **G2:** knocking out HLA-DRB5 lowers that AUROC by more than the largest drop among the 10 control genes.
+- **G3:** on naive CD4 T cells the AUROC is lower than on classical monocytes.
+- **G4:** PCA (50 components, the project's usual baseline, the gene zeroed in its input) also gives AUROC at least 0.80 on classical monocytes: the information is in the data, not something only the transformer invents.
+- Reported without a prediction: the masked-gene and contrastive-plus-masked-gene transformers; knocking out all HLA genes at once; AUROC within the C2 cohort alone (8 donors), the cohort check.
+
+Part 3, a sparse autoencoder on the transformer's internal states, is designed after parts 1 and 2 and gets its own entry before it runs.
+
+**2026-11-22, model audit results against the predictions** (`scripts/audit_evaluate.py`, `results/audit/pbmc/predictions.json`)
+
+| Prediction | Verdict | Numbers |
+|---|---|---|
+| K1 knockout beats expression at matching markers, two thirds of types | Not supported | 6 of 14 (4 ties); overlap 0.336 vs 0.339 |
+| K2 contrastive overlaps markers more than masked-gene | Supported, negligible | 0.336 vs 0.325 (3 of 280 slots) |
+| G1 contrastive monocyte carrier AUROC at least 0.80 | Not supported | 0.756 |
+| G2 HLA-DRB5 knockout drop larger than any control | Supported, tiny | 0.022 drop (2 of 90 donor pairs); controls 0.000 |
+| G3 naive CD4 T cells lower than monocytes | Supported | 0.321 vs 0.756 |
+| G4 PCA at least 0.80 | Supported | 0.933; 0.822 with every HLA gene knocked out |
+
+Changed reading: the transformers' carrier scores sort mostly by cohort (C2 low) and chemistry (the two 10x v3 donors are the worst errors), so the probe mostly learned the confound that the design entry flagged. The donor shortcut seen in the one-donor-per-batch ablation is therefore attributed to cohort and chemistry, not to HLA-DRB5. Lesson for future pre-registrations: a causal knockout test needs a minimum effect size, not only "larger than the controls", because controls can move by exactly zero. Part 3 (sparse autoencoder) is not started; given part 1, single-unit tools on this model need care, and its design entry comes first.
+
+Contrastive main run: split seed 3 is in (contrastive 0.301, masked-gene 0.258), so C1 holds on 4 of 4 splits and is settled whatever split 4 shows. The full write-up waits for split 4.
+
+**2026-11-22, contrastive results against C1 and C2** (`scripts/contrastive_evaluate.py`, `results/contrastive/pbmc/hypotheses.json`)
+
+- **C1 supported:** contrastive beats the masked-gene transformer on fine macro F1 in 5 of 5 splits; mean 0.505 against 0.371. Gaps 0.139, 0.185, 0.126, 0.043, 0.174; the smallest is split 3, the chemistry hold-out.
+- **C2 supported:** 0 of 12 comparisons pass the rule; both variants are below both baselines on all six metrics in at least 4 of 5 splits.
+- Not changed by the result: the ablations continue as pre-registered on split seed 0.
+
+**2026-11-23, model audit part 3: a sparse autoencoder on the embedding. Design and predictions, fixed before any part 3 result**
+
+Seen before this entry: parts 1 and 2 above. Their reading (the donor signal is cohort and chemistry, not HLA-DRB5) is what part 3 tests from the inside.
+
+Why: a sparse autoencoder (SAE) breaks each 128-number embedding into a sum of a few "features" out of many, each ideally meaning one thing. If the transformer stores cohort or chemistry in a few features, removing those features should mix donors better without losing cell types. All on split seed 0, CPU, `scripts/audit_sae.py`, module `src/cellmap/sae.py`.
+
+- **Input:** the [CLS] embedding h of the contrastive split-0 model for every cell. Centred with the training-cell mean and divided by one number so that training cells have mean squared norm 1.
+- **SAE:** 1,024 features (8 times the 128 dimensions). f = ReLU(W_enc (x - b_dec) + b_enc), x_hat = W_dec f + b_dec, decoder columns kept at unit length; loss = mean squared error + lambda x sum of f. Adam, learning rate 1e-3, batch 256, 200 epochs, seed 0, training donors only.
+- **Choosing lambda:** grid 0.001, 0.003, 0.01, 0.03, 0.1. Pick the highest explained variance on validation donors among settings with mean active features per cell (L0) at most 20; if none qualifies, the lowest L0. Explained variance = 1 - sum of squared errors / sum of squared deviations from the mean.
+- **Labels for features** (training donors): a feature is a "type feature" for a coarse type if its mean activation there is at least 3 times its mean in every other coarse type and it is active in at least 20 percent of that type's cells. Batch groups: C2 cohort (10x v2), other 10x v2 donors, 10x v3 donors. A feature's batch score is the eta squared of its activation on batch group within each fine type with at least 50 training cells in two or more groups, averaged with cell weights. Each feature is also linked to the genes whose log expression correlates most with its activation.
+- **Intervention:** subtract the contribution of the 10 features with the highest batch score (chosen on training donors) from every cell's embedding, h' = h - sum over those features of f times its decoder column (rescaled back), and score h' with the usual harness on split seed 0. Control: 10 random sets of 10 live features (seeds 0 to 9).
+- **S1:** the chosen SAE explains at least 0.90 of the variance on validation cells.
+- **S2:** at least 6 of the 8 coarse types have a type feature.
+- **S3:** at least one feature separates C2 donors from the other 10x v2 donors within training classical monocytes with cell-level AUROC at least 0.80 (either direction).
+- **S4:** removing the 10 batch features raises test iLISI by at least 0.03, by more than the mean of the random removals, and lowers fine macro F1 by less than 0.069 (the noise bar measured by the rerun).
+- Reported without a prediction: dead features, the top genes of the type and batch features, and the edited embedding's other metrics.

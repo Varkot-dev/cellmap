@@ -1,4 +1,4 @@
-"""M0 figure: how the donor-level split divides cells and cell types.
+"""Figure: how the donor-level split divides cells and cell types.
 
 Usage:
     python scripts/m0_figures.py --name pbmc

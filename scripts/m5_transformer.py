@@ -1,4 +1,4 @@
-"""M5: the hand-written transformer, trained with masked gene modeling and scored like the rest.
+"""The hand-written transformer, trained with masked gene modeling and scored like the rest.
 
 Usage:
     python scripts/m5_transformer.py --name pbmc --device cuda     # on a GPU

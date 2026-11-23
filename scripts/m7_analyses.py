@@ -1,4 +1,4 @@
-"""M7: the biology analyses from section 4.4 of the plan, on the PBMC data, split seed 0.
+"""The biology analyses from section 4.4 of the plan, on the PBMC data, split seed 0.
 
 Usage:
     python scripts/m7_analyses.py --name pbmc

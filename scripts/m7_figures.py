@@ -1,4 +1,4 @@
-"""M7 figures: over-correction, shared confusions, and marker-gene directions.
+"""Figures: over-correction, shared confusions, and marker-gene directions.
 
 Usage:
     python scripts/m7_figures.py --name pbmc

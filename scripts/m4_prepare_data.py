@@ -1,4 +1,4 @@
-"""M4: download, quality-control and label six blood datasets for the multi-dataset benchmark.
+"""Download, quality-control and label six blood datasets for the multi-dataset benchmark.
 
 Usage:
     python scripts/m4_prepare_data.py --config configs/m4_blood.yaml

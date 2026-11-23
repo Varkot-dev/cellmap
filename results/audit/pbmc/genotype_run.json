@@ -1,0 +1,48 @@
+{
+  "name": "pbmc",
+  "split_seed": 0,
+  "commit": "64d8e820311a1a059a47e2649a083f8639101b5e",
+  "gene": "HLA-DRB5",
+  "carrier_threshold_per_10k": 0.5,
+  "cells_per_donor": 300,
+  "min_cells_per_donor": 20,
+  "types": {
+    "classical monocyte": "classical monocyte",
+    "naive CD4 T cell": "naive thymus-derived CD4-positive, alpha-beta T cell"
+  },
+  "controls": [
+    "EFHD2",
+    "CSF3R",
+    "CAPG",
+    "ZEB2",
+    "TIMP1",
+    "CFP",
+    "NUP214",
+    "MS4A6A",
+    "IER2",
+    "BLVRB"
+  ],
+  "hla_genes": [
+    "HLA-DRA",
+    "HLA-DRB5",
+    "HLA-DRB1",
+    "HLA-DQA1",
+    "HLA-DQB1",
+    "HLA-DQA2",
+    "HLA-DMB",
+    "HLA-DOA",
+    "HLA-DPA1",
+    "HLA-DPB1",
+    "HLA-DOB"
+  ],
+  "auroc_of_the_raw_level_itself": 1.0,
+  "models": {
+    "contrastive": "results/contrastive/{name}/model_contrastive_seed0.pt",
+    "contrastive_mgm": "results/contrastive/{name}/model_contrastive_mgm_seed0.pt",
+    "masked_gene": "results/m5/{name}/model_seed0.pt"
+  },
+  "versions": {
+    "torch": "2.15.0",
+    "scikit-learn": "1.9.1"
+  }
+}

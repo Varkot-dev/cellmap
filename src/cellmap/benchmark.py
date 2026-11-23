@@ -58,7 +58,7 @@ def score_embedding(
     """All headline metrics for one embedding and one donor split, as a flat dictionary.
 
     kNN: classifier fitted on training donors, scored on test donors, at each label level in
-    `levels` (name to obs column; default the M1 fine and coarse levels). scIB: computed on
+    `levels` (name to obs column; default the fine and coarse levels). scIB: computed on
     the test donors' cells only, with `scib_label` as the cell type, so every number in the
     row describes cells from donors the method was not fitted on (Harmony excepted, see
     `cellmap.baselines.harmony_correct`).

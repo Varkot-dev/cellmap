@@ -7,7 +7,7 @@ HVG + PCA + kNN, scored with cells split three ways:
     random cells   cells assigned to train / test at random, so the same person appears on both
                    sides (the leaky way)
     held-out people  whole donors held out (the project's standard)
-    held-out lab     a whole dataset held out (M4 data only)
+    held-out lab     a whole dataset held out (six-lab data only)
 
 The gap between "random cells" and the other two is how much a leaky split would have
 overstated the result. This is the single-cell version of the train-test leakage reported

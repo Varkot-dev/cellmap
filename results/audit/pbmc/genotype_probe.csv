@@ -1,0 +1,105 @@
+method,cell_type,knockout,n_genes_knocked,auroc,auroc_c2_only
+contrastive,classical monocyte,none,0,0.7555555555555556,0.6666666666666666
+contrastive,classical monocyte,HLA-DRB5,1,0.7333333333333334,0.6
+contrastive,classical monocyte,all HLA,11,0.7333333333333334,0.6
+contrastive,classical monocyte,control EFHD2,1,0.7555555555555556,0.7333333333333333
+contrastive,classical monocyte,control CSF3R,1,0.7555555555555556,0.6666666666666666
+contrastive,classical monocyte,control CAPG,1,0.7555555555555556,0.6666666666666666
+contrastive,classical monocyte,control ZEB2,1,0.7555555555555556,0.6666666666666666
+contrastive,classical monocyte,control TIMP1,1,0.7555555555555556,0.6666666666666666
+contrastive,classical monocyte,control CFP,1,0.7555555555555556,0.6666666666666666
+contrastive,classical monocyte,control NUP214,1,0.7555555555555556,0.6666666666666666
+contrastive,classical monocyte,control MS4A6A,1,0.7555555555555556,0.7333333333333333
+contrastive,classical monocyte,control IER2,1,0.7555555555555556,0.6666666666666666
+contrastive,classical monocyte,control BLVRB,1,0.7555555555555556,0.6666666666666666
+contrastive,naive CD4 T cell,none,0,0.3214285714285714,0.0
+contrastive,naive CD4 T cell,HLA-DRB5,1,0.3214285714285714,0.0
+contrastive,naive CD4 T cell,all HLA,11,0.3214285714285714,0.0
+contrastive,naive CD4 T cell,control EFHD2,1,0.3214285714285714,0.0
+contrastive,naive CD4 T cell,control CSF3R,1,0.3214285714285714,0.0
+contrastive,naive CD4 T cell,control CAPG,1,0.3214285714285714,0.0
+contrastive,naive CD4 T cell,control ZEB2,1,0.3214285714285714,0.0
+contrastive,naive CD4 T cell,control TIMP1,1,0.3214285714285714,0.0
+contrastive,naive CD4 T cell,control CFP,1,0.3214285714285714,0.0
+contrastive,naive CD4 T cell,control NUP214,1,0.3214285714285714,0.0
+contrastive,naive CD4 T cell,control MS4A6A,1,0.3214285714285714,0.0
+contrastive,naive CD4 T cell,control IER2,1,0.3214285714285714,0.0
+contrastive,naive CD4 T cell,control BLVRB,1,0.3214285714285714,0.0
+contrastive_mgm,classical monocyte,none,0,0.8,1.0
+contrastive_mgm,classical monocyte,HLA-DRB5,1,0.7666666666666668,0.8666666666666667
+contrastive_mgm,classical monocyte,all HLA,11,0.7666666666666668,0.8666666666666667
+contrastive_mgm,classical monocyte,control EFHD2,1,0.8,1.0
+contrastive_mgm,classical monocyte,control CSF3R,1,0.8,1.0
+contrastive_mgm,classical monocyte,control CAPG,1,0.8,1.0
+contrastive_mgm,classical monocyte,control ZEB2,1,0.8,1.0
+contrastive_mgm,classical monocyte,control TIMP1,1,0.8,1.0
+contrastive_mgm,classical monocyte,control CFP,1,0.8,1.0
+contrastive_mgm,classical monocyte,control NUP214,1,0.8,1.0
+contrastive_mgm,classical monocyte,control MS4A6A,1,0.8,1.0
+contrastive_mgm,classical monocyte,control IER2,1,0.8,1.0
+contrastive_mgm,classical monocyte,control BLVRB,1,0.8,1.0
+contrastive_mgm,naive CD4 T cell,none,0,0.3571428571428571,0.16666666666666669
+contrastive_mgm,naive CD4 T cell,HLA-DRB5,1,0.3571428571428571,0.0
+contrastive_mgm,naive CD4 T cell,all HLA,11,0.3571428571428571,0.0
+contrastive_mgm,naive CD4 T cell,control EFHD2,1,0.3571428571428571,0.16666666666666669
+contrastive_mgm,naive CD4 T cell,control CSF3R,1,0.3571428571428571,0.16666666666666669
+contrastive_mgm,naive CD4 T cell,control CAPG,1,0.3571428571428571,0.16666666666666669
+contrastive_mgm,naive CD4 T cell,control ZEB2,1,0.3571428571428571,0.0
+contrastive_mgm,naive CD4 T cell,control TIMP1,1,0.3571428571428571,0.16666666666666669
+contrastive_mgm,naive CD4 T cell,control CFP,1,0.3571428571428571,0.0
+contrastive_mgm,naive CD4 T cell,control NUP214,1,0.3571428571428571,0.16666666666666669
+contrastive_mgm,naive CD4 T cell,control MS4A6A,1,0.3571428571428571,0.16666666666666669
+contrastive_mgm,naive CD4 T cell,control IER2,1,0.3571428571428571,0.0
+contrastive_mgm,naive CD4 T cell,control BLVRB,1,0.3571428571428571,0.16666666666666669
+masked_gene,classical monocyte,none,0,0.7777777777777778,1.0
+masked_gene,classical monocyte,HLA-DRB5,1,0.7777777777777778,1.0
+masked_gene,classical monocyte,all HLA,11,0.7777777777777778,1.0
+masked_gene,classical monocyte,control EFHD2,1,0.7777777777777778,1.0
+masked_gene,classical monocyte,control CSF3R,1,0.7777777777777778,1.0
+masked_gene,classical monocyte,control CAPG,1,0.7777777777777778,1.0
+masked_gene,classical monocyte,control ZEB2,1,0.7777777777777778,1.0
+masked_gene,classical monocyte,control TIMP1,1,0.7777777777777778,1.0
+masked_gene,classical monocyte,control CFP,1,0.7777777777777778,1.0
+masked_gene,classical monocyte,control NUP214,1,0.7777777777777778,1.0
+masked_gene,classical monocyte,control MS4A6A,1,0.7777777777777778,1.0
+masked_gene,classical monocyte,control IER2,1,0.7777777777777778,1.0
+masked_gene,classical monocyte,control BLVRB,1,0.7777777777777778,1.0
+masked_gene,naive CD4 T cell,none,0,0.3571428571428571,0.6666666666666667
+masked_gene,naive CD4 T cell,HLA-DRB5,1,0.3571428571428571,0.6666666666666667
+masked_gene,naive CD4 T cell,all HLA,11,0.3571428571428571,0.6666666666666667
+masked_gene,naive CD4 T cell,control EFHD2,1,0.3571428571428571,0.6666666666666667
+masked_gene,naive CD4 T cell,control CSF3R,1,0.3571428571428571,0.6666666666666667
+masked_gene,naive CD4 T cell,control CAPG,1,0.3571428571428571,0.6666666666666667
+masked_gene,naive CD4 T cell,control ZEB2,1,0.3571428571428571,0.6666666666666667
+masked_gene,naive CD4 T cell,control TIMP1,1,0.3571428571428571,0.5
+masked_gene,naive CD4 T cell,control CFP,1,0.3571428571428571,0.5
+masked_gene,naive CD4 T cell,control NUP214,1,0.3571428571428571,0.6666666666666667
+masked_gene,naive CD4 T cell,control MS4A6A,1,0.3571428571428571,0.6666666666666667
+masked_gene,naive CD4 T cell,control IER2,1,0.3571428571428571,0.6666666666666667
+masked_gene,naive CD4 T cell,control BLVRB,1,0.3571428571428571,0.6666666666666667
+pca,classical monocyte,none,0,0.9333333333333333,1.0
+pca,classical monocyte,HLA-DRB5,1,0.9111111111111111,1.0
+pca,classical monocyte,all HLA,11,0.8222222222222222,1.0
+pca,classical monocyte,control EFHD2,1,0.9333333333333333,1.0
+pca,classical monocyte,control CSF3R,1,0.9333333333333333,1.0
+pca,classical monocyte,control CAPG,1,0.9333333333333333,1.0
+pca,classical monocyte,control ZEB2,1,0.9333333333333333,1.0
+pca,classical monocyte,control TIMP1,1,0.9333333333333333,1.0
+pca,classical monocyte,control CFP,1,0.9333333333333333,1.0
+pca,classical monocyte,control NUP214,1,0.9333333333333333,1.0
+pca,classical monocyte,control MS4A6A,1,0.9333333333333333,1.0
+pca,classical monocyte,control IER2,1,0.9333333333333333,1.0
+pca,classical monocyte,control BLVRB,1,0.9333333333333333,1.0
+pca,naive CD4 T cell,none,0,0.3214285714285714,0.6666666666666667
+pca,naive CD4 T cell,HLA-DRB5,1,0.3214285714285714,0.6666666666666667
+pca,naive CD4 T cell,all HLA,11,0.3214285714285714,0.6666666666666667
+pca,naive CD4 T cell,control EFHD2,1,0.3214285714285714,0.6666666666666667
+pca,naive CD4 T cell,control CSF3R,1,0.3214285714285714,0.6666666666666667
+pca,naive CD4 T cell,control CAPG,1,0.3214285714285714,0.6666666666666667
+pca,naive CD4 T cell,control ZEB2,1,0.3214285714285714,0.6666666666666667
+pca,naive CD4 T cell,control TIMP1,1,0.3214285714285714,0.6666666666666667
+pca,naive CD4 T cell,control CFP,1,0.3214285714285714,0.6666666666666667
+pca,naive CD4 T cell,control NUP214,1,0.3214285714285714,0.6666666666666667
+pca,naive CD4 T cell,control MS4A6A,1,0.3214285714285714,0.6666666666666667
+pca,naive CD4 T cell,control IER2,1,0.3214285714285714,0.6666666666666667
+pca,naive CD4 T cell,control BLVRB,1,0.3214285714285714,0.6666666666666667

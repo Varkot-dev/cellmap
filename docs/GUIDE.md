@@ -30,7 +30,7 @@ How this differs from the other documents:
 4. **The small transformer written by hand learned its training task but produced the weakest cell embedding of the project's own models.**
 5. **Different metrics disagree.** Harmony wins the integration scores and loses fine-grained cell-type accuracy. So "which method is best" depends on what you measure, and the project reports both.
 
-**Where things stand.** The benchmark, the follow-up analyses, the inductive Harmony comparison and an independent review of every claim are done and merged into `main`. Conformal prediction (section 2.12) is done: the coverage promise holds for new donors and erodes for a new lab (0.876, worst lab 0.829), and lab-level hierarchical calibration restores it at the cost of sets about twice as big. In progress: the transformer retrained with a contrastive objective on Colab; split 0 is in, the result waits for all five. Making the repository public is the owner's step (`docs/RELEASE.md`).
+**Where things stand.** The benchmark, the follow-up analyses, the inductive Harmony comparison and an independent review of every claim are done and merged into `main`. Conformal prediction (section 2.12) is done: the coverage promise holds for new donors and erodes for a new lab (0.876, worst lab 0.829), and lab-level hierarchical calibration restores it at the cost of sets about twice as big. The transformer retrained with a contrastive objective is done: fine macro F1 0.505 against 0.371 for the masked-gene objective, higher on 5 of 5 splits, and still below PCA (0.664) and Harmony on every declared metric (C1 and C2 supported; README, `assets/contrastive_pbmc.png`). In progress: six of nine ablations remain on Colab. The model audit (Part 4, "What does the transformer rely on?") is done: the transformer relies on genes roughly in order of how highly they are expressed, not on how specific they are, and its apparent knowledge of HLA-DRB5 carrier status is mostly a cohort difference, not the gene. Nine one-change ablations on split 0 (temperature, view strength, level noise, one donor per batch, a debiased loss, a rerun for noise) are built, with predictions A1 to A4 fixed in `docs/PLAN.md` before any ran (`scripts/contrastive_ablations.py`, `notebooks/contrastive_ablations_gpu.ipynb`). Making the repository public is the owner's step (`docs/RELEASE.md`).
 
 ---
 
@@ -402,6 +402,28 @@ Harmony was the only method that corrected the test cells together with the trai
 
 Details: `docs/NOTES.md`, section "Does Harmony need to see the test cells?".
 
+### What does the transformer rely on? (model audit)
+
+**Why:** the one-donor-per-batch ablation showed the contrastive model partly tells cells apart by donor. The audit asks which genes the model uses, and whether one specific gene, HLA-DRB5, works as a genetic "name tag" for the donor. Predictions K1, K2 and G1 to G4 were fixed in `docs/PLAN.md` first. Everything runs on CPU from the saved split-0 weights.
+
+**Part 1, knocking out genes** (`scripts/audit_knockout.py`). For 14 cell types, up to 100 test cells each, every common gene was set to zero in the input in turn and the cell embedded again. The genes that move a cell most were compared with the textbook markers (a Wilcoxon test on training cells) and with a plain "most highly expressed" list.
+- **K1, not supported.** The knockout list matched the markers better than the "most expressed" list in only 6 of 14 types (4 ties); mean overlap 0.336 against 0.339. The model's reliance tracks expression (Spearman 0.72 on average) and barely tracks how specific a gene is to the type (0.10).
+- **K2, supported by the letter only.** Contrastive 0.336 against masked-gene 0.325: three gene slots out of 280.
+- **Not predicted:** the contrastive models are about four times less sensitive to losing any one gene (mean effect 0.0053 against 0.0198; label changes 2.3 against 5.5 percent of cells). That is what training on views with random genes dropped should do. Ribosomal genes fill 34 of the 186 top-20 slots that are not markers.
+
+**Part 2, the HLA-DRB5 test** (`scripts/audit_genotype.py`). Six donors show essentially no HLA-DRB5, the other 15 do. A probe tried to tell carriers from non-carriers using monocyte embeddings, one donor held out at a time.
+- **G1, not supported:** contrastive AUROC 0.756, below the 0.80 predicted.
+- **G2, supported by the letter, but tiny:** removing HLA-DRB5 lowered it to 0.733 (2 of 90 donor pairs) while no control gene changed it at all. Removing every HLA gene gave the same 0.733.
+- **G3, supported:** naive CD4 T cells give 0.321, no signal (values below 0.5 are a known side effect of leave-one-out when there is nothing to find).
+- **G4, supported:** PCA gives 0.933, and removing every HLA gene drops it to 0.822. PCA really does read the gene; the transformers barely do.
+- **What the scores show:** the transformers' per-donor scores sort mostly by cohort (C2 donors low, the others high), and the two donors sequenced with the newer kit come out worst (a carrier at 0.04, a non-carrier at 0.95). Five of the six non-carriers are C2 donors, so the probe mostly learned the cohort. Within C2 alone the contrastive AUROC is 0.667.
+
+**Reading:** the donor shortcut is not HLA-DRB5. It is more likely cohort and chemistry, the technical differences between batches of samples. The transformer uses roughly the genes that are most expressed, and it shrugs off losing any single one, which is also why single-gene knockout is a weak tool for a model trained to ignore missing genes.
+
+**Weakness:** one split; 21 donors, so one donor pair moves AUROC by 0.011; nobody was genotyped; G2's test (a larger drop than any control) was too weak, because the controls moved by exactly zero; the HLA-DRB5 table had been looked at before the predictions.
+
+**What to say:** "I suspected the donor shortcut was a genetic marker, HLA-DRB5, so I tested it causally: knock the gene out and see whether the donor signal goes. In PCA it partly does. In the transformer it barely moves, and the remaining signal sorts by cohort and sequencing kit. So the shortcut is technical batch, not genotype, and I only know that because I checked."
+
 ### leakaudit, the reusable audit kit
 
 `audit/` is a separate package that turns this project's honesty checks into tools for any project (your cardiomyopathy and glioblastoma work included):
@@ -474,6 +496,8 @@ Kept here because "what went wrong and how you caught it" is often the best thin
 | Provenance stamps ignored untracked files, so `results/leakage/splits.csv` names a commit without its script | Independent review | Untracked files now count as dirty |
 | The VAE weight-transplant check was cited but only run as a scratch script | Independent review | Now a test in `tests/test_scvi_baseline.py` |
 | The five PBMC splits were treated as replicates; split 3 is in fact a chemistry hold-out and split 1 tests on a quarter of all cells | Hostile reviewer in the independent review | Recorded in `results/verify/pbmc_split_composition.csv` and read alongside every per-split claim |
+| A rerun of the contrastive transformer with the same seed, code and settings gave fine macro F1 0.540 against 0.506 in the main run | The `base` ablation, which exists to measure exactly this | Not a bug: the two runs' training losses already differ in the fourth decimal in epoch 0, which is GPU arithmetic that is not bit-for-bit repeatable, and the gap grows over 30 epochs. The pre-registered noise rule turns it into a bar of 0.069: an ablation must move macro F1 by more than that to count. Lesson: one run per setting cannot separate effects smaller than this |
+| The guess that HLA-DRB5 was the donor "name tag" behind the shortcut | The audit's knockout test, planned for exactly this | Removing the gene barely changed the transformer's carrier probe (0.756 to 0.733), and the scores sorted by cohort and kit. Recorded as not the main driver; the pre-registered G2 test was too weak because the controls moved by exactly zero |
 
 ---
 
@@ -555,6 +579,10 @@ Experiments worth doing next, if you continue:
 ---
 
 ## Update log
+- **2026-11-22 (later):** Contrastive main run finished (all five splits): C1 and C2 supported. README, notes, journal and two figures (`assets/contrastive_pbmc.png`, `assets/audit_pbmc.png`) added.
+- **2026-11-22:** Model audit done (gene knockout, HLA-DRB5 probe): K1 and G1 not supported, K2, G2, G3, G4 supported; the donor signal is mostly cohort, not the gene. Added to Part 4, Part 6 and the status line. Contrastive split 3 in; C1 settled.
+- **2026-11-20:** First ablation (a plain rerun) landed: macro F1 0.540 against 0.506 for the same seed, so the noise bar is 0.069. Added to Part 6; scoring script `scripts/contrastive_ablations_evaluate.py` written before the other variants.
+- **2026-11-19 (evening):** Contrastive ablations designed, predictions fixed, code and notebook added; status line updated.
 - **2026-11-19 (later):** Conformal results added to section 2.12 and the status line: five of seven hypotheses supported, two partly; new figure.
 - **2026-11-19:** Section 2.12 added: conformal prediction, from intuition to the hierarchical version, with three worked examples.
 - **2026-11-18 (late):** Transformer level-encoding result added (it did not help); the inductive Harmony section rewritten from the corrected rerun.

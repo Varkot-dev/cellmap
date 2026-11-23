@@ -1,4 +1,4 @@
-"""M1 figures: what Harmony changes relative to plain PCA.
+"""Figures: what Harmony changes relative to plain PCA.
 
 Usage:
     python scripts/m1_figures.py --name pbmc

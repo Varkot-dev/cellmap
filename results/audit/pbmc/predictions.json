@@ -1,0 +1,283 @@
+{
+  "K1": {
+    "claim": "For the contrastive model, the knockout ranking overlaps the marker top 20 more than the expression ranking does, in at least two thirds of the types.",
+    "knockout_higher_in": "6 of 14",
+    "ties": 4,
+    "mean_overlap": {
+      "knockout": 0.3357,
+      "expression": 0.3393
+    },
+    "verdict": "not supported"
+  },
+  "K2": {
+    "claim": "Mean knockout overlap with the markers is higher for the contrastive model than for the masked-gene transformer.",
+    "mean_overlap_by_model": {
+      "contrastive": 0.3357,
+      "contrastive_mgm": 0.3357,
+      "masked_gene": 0.325
+    },
+    "verdict": "supported"
+  },
+  "not_predicted": {
+    "mean_spearman_of_effect_over_types": {
+      "contrastive": {
+        "with_expression": 0.7155,
+        "with_marker_score": 0.1035
+      },
+      "contrastive_mgm": {
+        "with_expression": 0.7103,
+        "with_marker_score": 0.0993
+      },
+      "masked_gene": {
+        "with_expression": 0.8346,
+        "with_marker_score": 0.0852
+      }
+    },
+    "mean_effect_and_flip_rate": {
+      "contrastive": {
+        "mean_effect": 0.0053,
+        "flip_rate": 0.0229
+      },
+      "contrastive_mgm": {
+        "mean_effect": 0.0058,
+        "flip_rate": 0.0225
+      },
+      "masked_gene": {
+        "mean_effect": 0.0198,
+        "flip_rate": 0.055
+      }
+    },
+    "counts_of_top20_knockouts_not_in_marker_top20": {
+      "contrastive": {
+        "HLA": 3,
+        "other": 148,
+        "ribosomal": 34,
+        "stress (immediate early)": 1
+      },
+      "contrastive_mgm": {
+        "HLA": 3,
+        "other": 148,
+        "ribosomal": 34,
+        "stress (immediate early)": 1
+      },
+      "masked_gene": {
+        "HLA": 3,
+        "other": 145,
+        "ribosomal": 41,
+        "stress (immediate early)": 0
+      }
+    },
+    "genes": {
+      "contrastive/HLA": [
+        "HLA-DRA",
+        "HLA-DRB1"
+      ],
+      "contrastive/ribosomal": [
+        "RPL3",
+        "RPS18",
+        "RPS27",
+        "RPS29"
+      ],
+      "contrastive/stress (immediate early)": [
+        "IER2"
+      ],
+      "contrastive_mgm/HLA": [
+        "HLA-DRA",
+        "HLA-DRB1"
+      ],
+      "contrastive_mgm/ribosomal": [
+        "RPL3",
+        "RPS18",
+        "RPS27",
+        "RPS29"
+      ],
+      "contrastive_mgm/stress (immediate early)": [
+        "IER2"
+      ],
+      "masked_gene/HLA": [
+        "HLA-DPB1",
+        "HLA-DRA"
+      ],
+      "masked_gene/ribosomal": [
+        "RPL3",
+        "RPS18",
+        "RPS27",
+        "RPS29"
+      ]
+    }
+  },
+  "G1": {
+    "claim": "On classical monocytes the contrastive embedding gives AUROC >= 0.80.",
+    "auroc": 0.7556,
+    "verdict": "not supported"
+  },
+  "G2": {
+    "claim": "Knocking out HLA-DRB5 lowers that AUROC by more than the largest drop among the 10 control genes.",
+    "drop_hla_drb5": 0.0222,
+    "largest_control_drop": 0.0,
+    "control_drops": {
+      "control EFHD2": 0.0,
+      "control CSF3R": 0.0,
+      "control CAPG": 0.0,
+      "control ZEB2": 0.0,
+      "control TIMP1": 0.0,
+      "control CFP": 0.0,
+      "control NUP214": 0.0,
+      "control MS4A6A": 0.0,
+      "control IER2": 0.0,
+      "control BLVRB": 0.0
+    },
+    "verdict": "supported"
+  },
+  "G3": {
+    "claim": "On naive CD4 T cells the AUROC is lower than on classical monocytes.",
+    "auroc_naive_cd4": 0.3214,
+    "auroc_classical_monocyte": 0.7556,
+    "verdict": "supported"
+  },
+  "G4": {
+    "claim": "PCA also gives AUROC >= 0.80 on classical monocytes.",
+    "auroc": 0.9333,
+    "verdict": "supported"
+  },
+  "auroc_table": {
+    "contrastive/classical monocyte": {
+      "HLA-DRB5": 0.7333,
+      "all HLA": 0.7333,
+      "control BLVRB": 0.7556,
+      "control CAPG": 0.7556,
+      "control CFP": 0.7556,
+      "control CSF3R": 0.7556,
+      "control EFHD2": 0.7556,
+      "control IER2": 0.7556,
+      "control MS4A6A": 0.7556,
+      "control NUP214": 0.7556,
+      "control TIMP1": 0.7556,
+      "control ZEB2": 0.7556,
+      "none": 0.7556
+    },
+    "contrastive/naive CD4 T cell": {
+      "HLA-DRB5": 0.3214,
+      "all HLA": 0.3214,
+      "control BLVRB": 0.3214,
+      "control CAPG": 0.3214,
+      "control CFP": 0.3214,
+      "control CSF3R": 0.3214,
+      "control EFHD2": 0.3214,
+      "control IER2": 0.3214,
+      "control MS4A6A": 0.3214,
+      "control NUP214": 0.3214,
+      "control TIMP1": 0.3214,
+      "control ZEB2": 0.3214,
+      "none": 0.3214
+    },
+    "contrastive_mgm/classical monocyte": {
+      "HLA-DRB5": 0.7667,
+      "all HLA": 0.7667,
+      "control BLVRB": 0.8,
+      "control CAPG": 0.8,
+      "control CFP": 0.8,
+      "control CSF3R": 0.8,
+      "control EFHD2": 0.8,
+      "control IER2": 0.8,
+      "control MS4A6A": 0.8,
+      "control NUP214": 0.8,
+      "control TIMP1": 0.8,
+      "control ZEB2": 0.8,
+      "none": 0.8
+    },
+    "contrastive_mgm/naive CD4 T cell": {
+      "HLA-DRB5": 0.3571,
+      "all HLA": 0.3571,
+      "control BLVRB": 0.3571,
+      "control CAPG": 0.3571,
+      "control CFP": 0.3571,
+      "control CSF3R": 0.3571,
+      "control EFHD2": 0.3571,
+      "control IER2": 0.3571,
+      "control MS4A6A": 0.3571,
+      "control NUP214": 0.3571,
+      "control TIMP1": 0.3571,
+      "control ZEB2": 0.3571,
+      "none": 0.3571
+    },
+    "masked_gene/classical monocyte": {
+      "HLA-DRB5": 0.7778,
+      "all HLA": 0.7778,
+      "control BLVRB": 0.7778,
+      "control CAPG": 0.7778,
+      "control CFP": 0.7778,
+      "control CSF3R": 0.7778,
+      "control EFHD2": 0.7778,
+      "control IER2": 0.7778,
+      "control MS4A6A": 0.7778,
+      "control NUP214": 0.7778,
+      "control TIMP1": 0.7778,
+      "control ZEB2": 0.7778,
+      "none": 0.7778
+    },
+    "masked_gene/naive CD4 T cell": {
+      "HLA-DRB5": 0.3571,
+      "all HLA": 0.3571,
+      "control BLVRB": 0.3571,
+      "control CAPG": 0.3571,
+      "control CFP": 0.3571,
+      "control CSF3R": 0.3571,
+      "control EFHD2": 0.3571,
+      "control IER2": 0.3571,
+      "control MS4A6A": 0.3571,
+      "control NUP214": 0.3571,
+      "control TIMP1": 0.3571,
+      "control ZEB2": 0.3571,
+      "none": 0.3571
+    },
+    "pca/classical monocyte": {
+      "HLA-DRB5": 0.9111,
+      "all HLA": 0.8222,
+      "control BLVRB": 0.9333,
+      "control CAPG": 0.9333,
+      "control CFP": 0.9333,
+      "control CSF3R": 0.9333,
+      "control EFHD2": 0.9333,
+      "control IER2": 0.9333,
+      "control MS4A6A": 0.9333,
+      "control NUP214": 0.9333,
+      "control TIMP1": 0.9333,
+      "control ZEB2": 0.9333,
+      "none": 0.9333
+    },
+    "pca/naive CD4 T cell": {
+      "HLA-DRB5": 0.3214,
+      "all HLA": 0.3214,
+      "control BLVRB": 0.3214,
+      "control CAPG": 0.3214,
+      "control CFP": 0.3214,
+      "control CSF3R": 0.3214,
+      "control EFHD2": 0.3214,
+      "control IER2": 0.3214,
+      "control MS4A6A": 0.3214,
+      "control NUP214": 0.3214,
+      "control TIMP1": 0.3214,
+      "control ZEB2": 0.3214,
+      "none": 0.3214
+    }
+  },
+  "c2_cohort_only": {
+    "contrastive/classical monocyte/none": 0.6667,
+    "contrastive/classical monocyte/HLA-DRB5": 0.6,
+    "contrastive/naive CD4 T cell/none": 0.0,
+    "contrastive/naive CD4 T cell/HLA-DRB5": 0.0,
+    "contrastive_mgm/classical monocyte/none": 1.0,
+    "contrastive_mgm/classical monocyte/HLA-DRB5": 0.8667,
+    "contrastive_mgm/naive CD4 T cell/none": 0.1667,
+    "contrastive_mgm/naive CD4 T cell/HLA-DRB5": 0.0,
+    "masked_gene/classical monocyte/none": 1.0,
+    "masked_gene/classical monocyte/HLA-DRB5": 1.0,
+    "masked_gene/naive CD4 T cell/none": 0.6667,
+    "masked_gene/naive CD4 T cell/HLA-DRB5": 0.6667,
+    "pca/classical monocyte/none": 1.0,
+    "pca/classical monocyte/HLA-DRB5": 1.0,
+    "pca/naive CD4 T cell/none": 0.6667,
+    "pca/naive CD4 T cell/HLA-DRB5": 0.6667
+  }
+}

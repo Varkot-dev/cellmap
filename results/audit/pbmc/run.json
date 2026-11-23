@@ -1,0 +1,21 @@
+{
+  "name": "pbmc",
+  "split_seed": 0,
+  "commit": "5850f7a7397e19673311606f75e2cd5d127d10ed",
+  "models": {
+    "contrastive": "results/contrastive/pbmc/model_contrastive_seed0.pt",
+    "contrastive_mgm": "results/contrastive/pbmc/model_contrastive_mgm_seed0.pt",
+    "masked_gene": "results/m5/pbmc/model_seed0.pt"
+  },
+  "min_test_cells": 30,
+  "cells_per_type": 100,
+  "min_detection": 0.2,
+  "min_candidates": 40,
+  "top": 20,
+  "knn_neighbours": 15,
+  "versions": {
+    "torch": "2.15.0",
+    "scanpy": "1.13.0",
+    "scikit-learn": "1.9.1"
+  }
+}

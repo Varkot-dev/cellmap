@@ -1,0 +1,9 @@
+method,probe,knn_accuracy_fine,knn_macro_f1_fine
+transformer_contrastive,none,0.8957089552238806,0.5055058022754515
+transformer_contrastive,presence only,0.8720149253731343,0.47776754659022147
+transformer_contrastive,levels shuffled,0.8472014925373135,0.4192193697164766
+transformer_contrastive,genes relabelled,0.5962686567164179,0.13931855235176996
+transformer_contrastive_mgm,none,0.894589552238806,0.49239037033802874
+transformer_contrastive_mgm,presence only,0.8669776119402985,0.4483994209563913
+transformer_contrastive_mgm,levels shuffled,0.8514925373134329,0.40877648573434194
+transformer_contrastive_mgm,genes relabelled,0.5917910447761194,0.11497446562854853

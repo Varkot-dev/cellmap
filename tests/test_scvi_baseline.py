@@ -221,7 +221,7 @@ def test_bad_inputs_are_rejected(adata):
 
 
 def test_scvi_weights_in_the_hand_written_vae_give_the_same_embedding(adata, fitted):
-    """Weight transplant, the strongest of the three VAE parity checks (docs/NOTES.md, M3).
+    """Weight transplant, the strongest of the three VAE parity checks (docs/NOTES.md).
 
     Same architecture and forward pass means every layer of the scvi-tools model has a
     counterpart in cellmap.vae.VAE; copying the trained weights across must reproduce the
